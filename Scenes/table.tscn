@@ -1104,10 +1104,10 @@ editor_description = ""
 script = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "fade"
 libraries = {
 "": SubResource("AnimationLibrary_ahysq")
 }
+autoplay = "fade"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

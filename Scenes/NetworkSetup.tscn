@@ -30,16 +30,18 @@ expand_mode = 1
 metadata/_edit_lock_ = true
 
 [node name="Container" type="VBoxContainer" parent="."]
-visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -215.0
-offset_top = -39.0
-offset_right = 216.0
-offset_bottom = 88.0
+offset_left = -215.5
+offset_top = -77.0
+offset_right = 215.5
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Label" type="Label" parent="Container"]
 layout_mode = 2
@@ -67,6 +69,7 @@ layout_mode = 2
 text = "JOIN_SERVER"
 
 [node name="Lobby" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,14 +101,15 @@ hide_root = true
 scroll_horizontal_enabled = false
 scroll_vertical_enabled = false
 
-[node name="StartGame" type="Button" parent="Lobby"]
-layout_mode = 2
-text = "START_GAME"
-
 [node name="Ready" type="Button" parent="Lobby"]
 layout_mode = 2
 toggle_mode = true
-text = "READY"
+text = "NOT_READY"
+
+[node name="StartGame" type="Button" parent="Lobby"]
+visible = false
+layout_mode = 2
+text = "START_GAME"
 
 [node name="Cancel" type="Button" parent="."]
 layout_mode = 0

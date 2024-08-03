@@ -1,22 +1,16 @@
-<Project Sdk="Godot.NET.Sdk/4.1.1">
+<Project Sdk="Godot.NET.Sdk/4.2.2">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
   <PropertyGroup>
     <InterfaceLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=1374382602&single=true&output=csv]]></InterfaceLocalization>
     <CardsLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=885174373&single=true&output=csv]]></CardsLocalization>
     <BuildNumberPath>$(MSBuildProjectDirectory)\build.tres</BuildNumberPath>
     <CurrentBuildNumber>$([System.DateTime]::Now.ToString("ddMMyyyy"))</CurrentBuildNumber>
   </PropertyGroup>
-
   <Target Name="GenerateBuildNumber" BeforeTargets="BeforeBuild">
-    <Exec Command="echo | set /p=$(CurrentBuildNumber) > $(BuildNumberPath)&amp; exit /b 0" />
+    <Exec Command="echo | set /p=$(CurrentBuildNumber) &gt; $(BuildNumberPath)&amp; exit /b 0" />
   </Target>
-
   <Target Name="DownloadFilesBeforeBuild" BeforeTargets="Build">
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />

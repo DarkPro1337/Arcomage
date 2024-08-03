@@ -8,19 +8,19 @@ public partial class Boot : Node
 	public override void _Ready() 
 	{
 		var version = ProjectSettings.GetSetting("application/config/version");
-		Log($"Arcomage v.{version} loaded!");
-		Log($"Build number: {BuildNumber}");
-		Log("Boot loaded!");
-		Log($"IP address: {Network.IpAddress}");
+		Logger.Debug("Bootstrap loaded");
+		Logger.Debug($"Arcomage v.{version} loaded");
+		Logger.Debug($"Build number: {BuildNumber}");
+		Logger.Debug($"IP address: {Network.IpAddress}");
 
 		if (!Config.Settings.IntroSkip)
 		{
-			Log("Loading from Boot to Intro...");
-			GetTree().ChangeSceneToFile("res://Scenes/intro.tscn");
+			Logger.Debug("Loading from Boot to Intro...");
+			GetTree().ChangeSceneToFile("res://Scenes/Intro.tscn");
 		}
 		else
 		{
-			Log("Loading from Boot to Main menu...");
+			Logger.Debug("Loading from Boot to Main menu...");
 			GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
 		}
 	}

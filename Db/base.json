@@ -6,14 +6,7 @@
     "type": "brick",
     "cost": 0,
     "pic": "../Sprites/Cards/brick_shortage.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "bricks",
-        "quantity": 8
-      }
-    ]
+    "actions": "all:lose:bricks=8"
   },
   {
     "id": "lucky_cache",
@@ -23,20 +16,7 @@
     "cost": 0,
     "pic": "../Sprites/Cards/lucky_cache.png",
     "features": ["playAgain"],
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "bricks",
-        "quantity": 2
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:gain:bricks=2,self:gain:gems=2"
   },
   {
     "id": "friendly_terrain",
@@ -46,14 +26,7 @@
     "cost": 1,
     "pic": "../Sprites/Cards/friendly_terrain.png",
     "features": ["playAgain"],
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:wall=1"
   },
   {
     "id": "miners",
@@ -62,14 +35,7 @@
     "type": "brick",
     "cost": 3,
     "pic": "../Sprites/Cards/miners.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "quarry",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:quarry=1"
   },
   {
     "id": "mother_lode",
@@ -78,28 +44,7 @@
     "type": "brick",
     "cost": 4,
     "pic": "../Sprites/Cards/mother_lode.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "lessThan",
-          "resource": "quarry",
-          "compareTo": "opponentQuarry"
-        },
-        "then": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "quarry",
-          "quantity": 2
-        },
-        "else": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "quarry",
-          "quantity": 1
-        }
-      }
-    ]
+    "actions": "IF quarry LESS_THAN opponentQuarry THEN self:gain:quarry=2 ELSE self:gain:quarry=1"
   },
   {
     "id": "dwarven_miners",
@@ -108,20 +53,7 @@
     "type": "brick",
     "cost": 7,
     "pic": "../Sprites/Cards/dwarven_miners.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 4
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "quarry",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:wall=4,self:gain:quarry=1"
   },
   {
     "id": "work_overtime",
@@ -130,20 +62,7 @@
     "type": "brick",
     "cost": 2,
     "pic": "../Sprites/Cards/work_overtime.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:wall=5,self:lose:gems=6"
   },
   {
     "id": "copping_the_tech",
@@ -152,22 +71,7 @@
     "type": "brick",
     "cost": 5,
     "pic": "../Sprites/Cards/copping_the_tech.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "lessThan",
-          "resource": "quarry",
-          "compareTo": "opponentQuarry"
-        },
-        "then": {
-          "target": "self",
-          "effect": "set",
-          "resource": "quarry",
-          "value": "opponentQuarry"
-        }
-      }
-    ]
+    "actions": "IF quarry LESS_THAN opponentQuarry THEN self:set:quarry=opponentQuarry"
   },
   {
     "id": "basic_wall",
@@ -176,14 +80,7 @@
     "type": "brick",
     "cost": 2,
     "pic": "../Sprites/Cards/basic_wall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:wall=3"
   },
   {
     "id": "sturdy_wall",
@@ -192,14 +89,7 @@
     "type": "brick",
     "cost": 3,
     "pic": "../Sprites/Cards/sturdy_wall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 4
-      }
-    ]
+    "actions": "self:gain:wall=4"
   },
   {
     "id": "innovations",
@@ -208,20 +98,7 @@
     "type": "brick",
     "cost": 2,
     "pic": "../Sprites/Cards/innovations.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "gain",
-        "resource": "quarry",
-        "quantity": 3
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 4
-      }
-    ]
+    "actions": "all:gain:quarry=1,self:gain:gems=4"
   },
   {
     "id": "foundations",
@@ -230,28 +107,7 @@
     "type": "brick",
     "cost": 3,
     "pic": "../Sprites/Cards/foundations.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "equals",
-          "resource": "wall",
-          "compareTo": 0
-        },
-        "then": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "wall",
-          "quantity": 6
-        },
-        "else": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "wall",
-          "quantity": 3
-        }
-      }
-    ]
+    "actions": "IF wall EQUALS 0 THEN self:gain:wall=6 ELSE self:gain:wall=3"
   },
   {
     "id": "tremors",
@@ -261,14 +117,7 @@
     "cost": 7,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/tremors.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "wall",
-        "quantity": 5
-      }
-    ]
+    "actions": "all:damage=5"
   },
   {
     "id": "secret_room",
@@ -278,14 +127,7 @@
     "cost": 8,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/secret_room.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:magic=1"
   },
   {
     "id": "earthquake",
@@ -294,14 +136,7 @@
     "type": "brick",
     "cost": 0,
     "pic": "../Sprites/Cards/earthquake.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "quarry",
-        "quantity": 1
-      }
-    ]
+    "actions": "all:lose:quarry=1"
   },
   {
     "id": "big_wall",
@@ -310,14 +145,7 @@
     "type": "brick",
     "cost": 5,
     "pic": "../Sprites/Cards/big_wall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:wall=6"
   },
   {
     "id": "collapse",
@@ -326,14 +154,7 @@
     "type": "brick",
     "cost": 4,
     "pic": "../Sprites/Cards/collapse.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "quarry",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:lose:quarry=1"
   },
   {
     "id": "new_equipment",
@@ -342,14 +163,7 @@
     "type": "brick",
     "cost": 6,
     "pic": "../Sprites/Cards/new_equipment.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "quarry",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:gain:quarry=2"
   },
   {
     "id": "strip_mine",
@@ -358,26 +172,7 @@
     "type": "brick",
     "cost": 0,
     "pic": "../Sprites/Cards/strip_mine.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "quarry",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 10
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 5
-      }
-    ]
+    "actions": "self:lose:quarry=1,self:gain:wall=10,self:gain:gems=5"
   },
   {
     "id": "reinforced_wall",
@@ -386,14 +181,7 @@
     "type": "brick",
     "cost": 8,
     "pic": "../Sprites/Cards/reinforced_wall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 8
-      }
-    ]
+    "actions": "self:gain:wall=8"
   },
   {
     "id": "porticulus",
@@ -402,20 +190,7 @@
     "type": "brick",
     "cost": 9,
     "pic": "../Sprites/Cards/porticulus.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "dungeon",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:wall=5,self:gain:dungeon=1"
   },
   {
     "id": "crystal_rocks",
@@ -424,20 +199,7 @@
     "type": "brick",
     "cost": 9,
     "pic": "../Sprites/Cards/crystal_rocks.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 7
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 7
-      }
-    ]
+    "actions": "self:gain:wall=7,self:gain:gems=7"
   },
   {
     "id": "harmonic_ore",
@@ -446,20 +208,7 @@
     "type": "brick",
     "cost": 11,
     "pic": "../Sprites/Cards/harmonic_ore.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 6
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:wall=6,self:gain:tower=3"
   },
   {
     "id": "mondo_wall",
@@ -468,14 +217,7 @@
     "type": "brick",
     "cost": 13,
     "pic": "../Sprites/Cards/mondoWall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 12
-      }
-    ]
+    "actions": "self:gain:wall=12"
   },
   {
     "id": "focused_designs",
@@ -484,20 +226,7 @@
     "type": "brick",
     "cost": 15,
     "pic": "../Sprites/Cards/focusedDesigns.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 8
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 5
-      }
-    ]
+    "actions": "self:gain:wall=8,self:gain:tower=5"
   },
   {
     "id": "great_wall",
@@ -506,14 +235,7 @@
     "type": "brick",
     "cost": 16,
     "pic": "../Sprites/Cards/great_wall.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 15
-      }
-    ]
+    "actions": "self:gain:wall=15"
   },
   {
     "id": "rock_launcher",
@@ -522,19 +244,7 @@
     "type": "brick",
     "cost": 18,
     "pic": "../Sprites/Cards/rock_launcher.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 6
-      },
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 10
-      }
-    ]
+    "actions": "self:gain:wall=6,opponent:damage=10"
   },
   {
     "id": "dragons_heart",
@@ -543,20 +253,7 @@
     "type": "brick",
     "cost": 24,
     "pic": "../Sprites/Cards/dragons_heart.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 20
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 8
-      }
-    ]
+    "actions": "self:gain:wall=20,self:gain:tower=8"
   },
   {
     "id": "forced_labor",
@@ -565,20 +262,7 @@
     "type": "brick",
     "cost": 7,
     "pic": "../Sprites/Cards/forced_labor.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 9
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 5
-      }
-    ]
+    "actions": "self:gain:wall=9,self:lose:recruits=5"
   },
   {
     "id": "rock_garden",
@@ -587,26 +271,7 @@
     "type": "brick",
     "cost": 1,
     "pic": "../Sprites/Cards/rock_garden.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "recruits",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:gain:wall=1,self:gain:tower=1,self:gain:recruits=2"
   },
   {
     "id": "flood_water",
@@ -615,20 +280,7 @@
     "type": "brick",
     "cost": 6,
     "pic": "../Sprites/Cards/flood_water.png",
-    "actions": [
-      {
-        "target": "lowestWall",
-        "effect": "lose",
-        "resource": "dungeon",
-        "quantity": 1
-      },
-      {
-        "target": "lowestWall",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 2
-      }
-    ]
+    "actions": "lowestWall:lose:dungeon=1,lowestWall:lose:tower=2"
   },
   {
     "id": "barracks",
@@ -637,34 +289,7 @@
     "type": "brick",
     "cost": 10,
     "pic": "../Sprites/Cards/barracks.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "recruits",
-        "quantity": 6
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 6
-      },
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "lessThan",
-          "resource": "dungeon",
-          "compareTo": "opponentDungeon"
-        },
-        "then": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "dungeon",
-          "quantity": 1
-        }
-      }
-    ]
+    "actions": "self:gain:recruits=6,self:gain:wall=6,IF dungeon LESS_THAN opponentDungeon THEN self:gain:dungeon=1"
   },
   {
     "id": "battlements",
@@ -673,19 +298,7 @@
     "type": "brick",
     "cost": 14,
     "pic": "../Sprites/Cards/battlements.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 7
-      },
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:wall=7,opponent:damage=6"
   },
   {
     "id": "shift",
@@ -694,13 +307,7 @@
     "type": "brick",
     "cost": 17,
     "pic": "../Sprites/Cards/shift.png",
-    "actions": [
-      {
-        "type": "swap",
-        "resource": "wall",
-        "with": "opponentWall"
-      }
-    ]
+    "actions": "self:swap:wall=opponentWall"
   },
   {
     "id": "quartz",
@@ -710,14 +317,7 @@
     "cost": 1,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/quartz.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:tower=1"
   },
   {
     "id": "smoky_quartz",
@@ -727,14 +327,7 @@
     "cost": 2,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/smoky_quartz.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:lose:tower=1"
   },
   {
     "id": "amethyst",
@@ -743,14 +336,7 @@
     "type": "gem",
     "cost": 2,
     "pic": "../Sprites/Cards/amethyst.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:tower=3"
   },
   {
     "id": "spell_weavers",
@@ -759,14 +345,7 @@
     "type": "gem",
     "cost": 3,
     "pic": "../Sprites/Cards/spell_weavers.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:magic=1"
   },
   {
     "id": "prism",
@@ -785,14 +364,7 @@
     "cost": 5,
     "features": ["notDiscardable"],
     "pic": "../Sprites/Cards/lodestone.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:tower=3"
   },
   {
     "id": "solar_flare",
@@ -801,20 +373,7 @@
     "type": "gem",
     "cost": 4,
     "pic": "../Sprites/Cards/solar_flare.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 2
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:gain:tower=2,opponent:lose:tower=2"
   },
   {
     "id": "crystal_matrix",
@@ -823,26 +382,7 @@
     "type": "gem",
     "cost": 6,
     "pic": "../Sprites/Cards/crystal_matrix.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 3
-      },
-      {
-        "target": "opponent",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:magic=1,self:gain:tower=3,opponent:gain:tower=1"
   },
   {
     "id": "gemstone_flaw",
@@ -851,14 +391,7 @@
     "type": "gem",
     "cost": 2,
     "pic": "../Sprites/Cards/gemstone_flaw.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:lose:tower=3"
   },
   {
     "id": "ruby",
@@ -867,14 +400,7 @@
     "type": "gem",
     "cost": 3,
     "pic": "../Sprites/Cards/ruby.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 5
-      }
-    ]
+    "actions": "self:gain:tower=5"
   },
   {
     "id": "gem_spear",
@@ -883,14 +409,7 @@
     "type": "gem",
     "cost": 4,
     "pic": "../Sprites/Cards/gem_spear.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 5
-      }
-    ]
+    "actions": "opponent:lose:tower=5"
   },
   {
     "id": "power_burn",
@@ -899,20 +418,7 @@
     "type": "gem",
     "cost": 3,
     "pic": "../Sprites/Cards/power_burn.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:lose:tower=5,self:gain:magic=2"
   },
   {
     "id": "harmonic_vibe",
@@ -921,26 +427,7 @@
     "type": "gem",
     "cost": 7,
     "pic": "../Sprites/Cards/harmonic_vibe.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 3
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:magic=1,self:gain:tower=3,self:gain:wall=3"
   },
   {
     "id": "parity",
@@ -949,14 +436,7 @@
     "type": "gem",
     "cost": 7,
     "pic": "../Sprites/Cards/parity.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "set",
-        "resource": "magic",
-        "value": "highestMagic"
-      }
-    ]
+    "actions": "all:set:magic=highestMagic"
   },
   {
     "id": "emerald",
@@ -965,14 +445,7 @@
     "type": "gem",
     "cost": 6,
     "pic": "../Sprites/Cards/emerald.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 8
-      }
-    ]
+    "actions": "self:gain:tower=8"
   },
   {
     "id": "pearl_of_wisdom",
@@ -981,20 +454,7 @@
     "type": "gem",
     "cost": 9,
     "pic": "../Sprites/Cards/pearl_of_wisdom.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "magic",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:tower=5,self:gain:magic=1"
   },
   {
     "id": "shatterer",
@@ -1003,19 +463,7 @@
     "type": "gem",
     "cost": 8,
     "pic": "../Sprites/Cards/shatterer.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "magic",
-        "quantity": 1
-      },
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 9
-      }
-    ]
+    "actions": "self:lose:magic=1,opponent:lose:tower=9"
   },
   {
     "id": "crumblestone",
@@ -1024,20 +472,7 @@
     "type": "gem",
     "cost": 7,
     "pic": "../Sprites/Cards/crumblestone.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 5
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "bricks",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:tower=5,opponent:lose:bricks=6"
   },
   {
     "id": "sapphire",
@@ -1046,14 +481,7 @@
     "type": "gem",
     "cost": 10,
     "pic": "../Sprites/Cards/sapphire.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 11
-      }
-    ]
+    "actions": "self:gain:tower=11"
   },
   {
     "id": "discord",
@@ -1062,20 +490,7 @@
     "type": "gem",
     "cost": 5,
     "pic": "../Sprites/Cards/discord.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 7
-      },
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "magic",
-        "quantity": 1
-      }
-    ]
+    "actions": "all:lose:tower=7,all:lose:magic=1"
   },
   {
     "id": "fire_ruby",
@@ -1084,20 +499,7 @@
     "type": "gem",
     "cost": 13,
     "pic": "../Sprites/Cards/fire_ruby.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 6
-      },
-      {
-        "target": "allExceptSelf",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 4
-      }
-    ]
+    "actions": "self:gain:tower=6,allExceptSelf:lose:tower=4"
   },
   {
     "id": "quarrys_help",
@@ -1106,20 +508,7 @@
     "type": "gem",
     "cost": 4,
     "pic": "../Sprites/Cards/quarrys_help.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 7
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "bricks",
-        "quantity": 10
-      }
-    ]
+    "actions": "self:gain:tower=7,self:lose:bricks=10"
   },
   {
     "id": "crystal_shield",
@@ -1128,20 +517,7 @@
     "type": "gem",
     "cost": 12,
     "pic": "../Sprites/Cards/crystal_shield.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 8
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 3
-      }
-    ]
+    "actions": "self:gain:tower=8,self:gain:wall=3"
   },
   {
     "id": "empathy_gem",
@@ -1150,20 +526,7 @@
     "type": "gem",
     "cost": 14,
     "pic": "../Sprites/Cards/empathy_gem.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 8
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "dungeon",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:tower=8,self:gain:dungeon=1"
   },
   {
     "id": "diamond",
@@ -1172,14 +535,7 @@
     "type": "gem",
     "cost": 16,
     "pic": "../Sprites/Cards/diamond.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 15
-      }
-    ]
+    "actions": "self:gain:tower=15"
   },
   {
     "id": "sanctuary",
@@ -1188,26 +544,7 @@
     "type": "gem",
     "cost": 15,
     "pic": "../Sprites/Cards/sanctuary.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 10
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "recruits",
-        "quantity": 5
-      }
-    ]
+    "actions": "self:gain:tower=10,self:gain:wall=5,self:gain:recruits=5"
   },
   {
     "id": "lava_jewel",
@@ -1216,19 +553,7 @@
     "type": "gem",
     "cost": 17,
     "pic": "../Sprites/Cards/lava_jewel.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 12
-      },
-      {
-        "target": "allExceptSelf",
-        "effect": "damage",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:tower=12,allExceptSelf:damage=6"
   },
   {
     "id": "dragons_eye",
@@ -1237,14 +562,7 @@
     "type": "gem",
     "cost": 21,
     "pic": "../Sprites/Cards/dragons_eye.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 20
-      }
-    ]
+    "actions": "self:gain:tower=20"
   },
   {
     "id": "crystallize",
@@ -1253,20 +571,7 @@
     "type": "gem",
     "cost": 8,
     "pic": "../Sprites/Cards/crystallize.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 11
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "wall",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:tower=11,self:lose:wall=6"
   },
   {
     "id": "bag_of_baubles",
@@ -1275,28 +580,7 @@
     "type": "gem",
     "cost": 0,
     "pic": "../Sprites/Cards/bag_of_baubles.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "lessThan",
-          "resource": "tower",
-          "compareTo": "opponentTower"
-        },
-        "then": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "tower",
-          "quantity": 2
-        },
-        "else": {
-          "target": "self",
-          "effect": "gain",
-          "resource": "tower",
-          "quantity": 1
-        }
-      }
-    ]
+    "actions": "IF tower LESS_THAN opponentTower THEN self:gain:tower=2 ELSE self:gain:tower=1"
   },
   {
     "id": "rainbow",
@@ -1305,20 +589,7 @@
     "type": "gem",
     "cost": 0,
     "pic": "../Sprites/Cards/rainbow.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 3
-      }
-    ]
+    "actions": "all:gain:tower=1,self:gain:gems=3"
   },
   {
     "id": "apprentice",
@@ -1327,26 +598,7 @@
     "type": "gem",
     "cost": 5,
     "pic": "../Sprites/Cards/apprentice.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 4
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 3
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:gain:tower=4,self:lose:recruits=3,opponent:lose:tower=2"
   },
   {
     "id": "lightning_shard",
@@ -1355,27 +607,7 @@
     "type": "gem",
     "cost": 11,
     "pic": "../Sprites/Cards/lightning_shard.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "greaterThan",
-          "resource": "tower",
-          "compareTo": "opponentWall"
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "lose",
-          "resource": "tower",
-          "quantity": 8
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 8
-        }
-      }
-    ]
+    "actions": "IF tower GREATER_THAN opponentWall THEN opponent:lose:tower=8 ELSE opponent:damage=8"
   },
   {
     "id": "phase_jewel",
@@ -1384,26 +616,7 @@
     "type": "gem",
     "cost": 18,
     "pic": "../Sprites/Cards/phase_jewel.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 13
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "recruits",
-        "quantity": 6
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "bricks",
-        "quantity": 6
-      }
-    ]
+    "actions": "self:gain:tower=13,self:gain:recruits=6,self:gain:bricks=6"
   },
   {
     "id": "mad_cow_disease",
@@ -1412,14 +625,7 @@
     "type": "recruits",
     "cost": 0,
     "pic": "../Sprites/Cards/madCowDisease.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 6
-      }
-    ]
+    "actions": "all:lose:recruits=6"
   },
   {
     "id": "faerie",
@@ -1429,13 +635,7 @@
     "cost": 1,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/faerie.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 2
-      }
-    ]
+    "actions": "opponent:damage=2"
   },
   {
     "id": "moody_goblins",
@@ -1444,19 +644,7 @@
     "type": "recruits",
     "cost": 1,
     "pic": "../Sprites/Cards/moody_goblins.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 4
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=4,self:lose:gems=3"
   },
   {
     "id": "minotaur",
@@ -1465,14 +653,7 @@
     "type": "recruits",
     "cost": 3,
     "pic": "../Sprites/Cards/minotaur.png",
-    "actions": [
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "dungeon",
-        "quantity": 1
-      }
-    ]
+    "actions": "self:gain:dungeon=1"
   },
   {
     "id": "elven_scout",
@@ -1490,18 +671,7 @@
     "type": "recruits",
     "cost": 3,
     "pic": "../Sprites/Cards/goblin_mob.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 6
-      },
-      {
-        "target": "self",
-        "effect": "damage",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=6,self:damage=3"
   },
   {
     "id": "goblin_archers",
@@ -1510,19 +680,7 @@
     "type": "recruits",
     "cost": 4,
     "pic": "../Sprites/Cards/goblin_archers.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 3
-      },
-      {
-        "target": "self",
-        "effect": "damage",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:lose:tower=3,self:damage=1"
   },
   {
     "id": "shadow_faerie",
@@ -1532,14 +690,7 @@
     "cost": 6,
     "features": ["playAgain"],
     "pic": "../Sprites/Cards/shadow_faerie.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 2
-      }
-    ]
+    "actions": "opponent:lose:tower=2"
   },
   {
     "id": "orc",
@@ -1548,13 +699,7 @@
     "type": "recruits",
     "cost": 3,
     "pic": "../Sprites/Cards/orc.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 5
-      }
-    ]
+    "actions": "opponent:damage=5"
   },
   {
     "id": "dwarves",
@@ -1563,19 +708,7 @@
     "type": "recruits",
     "cost": 5,
     "pic": "../Sprites/Cards/dwarves.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 4
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=4,self:gain:wall=3"
   },
   {
     "id": "little_snakes",
@@ -1584,14 +717,7 @@
     "type": "recruits",
     "cost": 6,
     "pic": "../Sprites/Cards/little_snakes.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 4
-      }
-    ]
+    "actions": "opponent:lose:tower=4"
   },
   {
     "id": "troll_trainer",
@@ -1600,13 +726,7 @@
     "type": "recruits",
     "cost": 7,
     "pic": "../Sprites/Cards/troll_trainer.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 2
-      }
-    ]
+    "actions": "self:damage=2"
   },
   {
     "id": "tower_gremlin",
@@ -1615,25 +735,7 @@
     "type": "recruits",
     "cost": 8,
     "pic": "../Sprites/Cards/tower_gremlin.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 2
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 4
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "tower",
-        "quantity": 2
-      }
-    ]
+    "actions": "opponent:damage=2,self:gain:wall=4,self:gain:tower=2"
   },
   {
     "id": "full_moon",
@@ -1642,20 +744,7 @@
     "type": "recruits",
     "cost": 0,
     "pic": "../Sprites/Cards/full_moon.png",
-    "actions": [
-      {
-        "target": "all",
-        "effect": "gain",
-        "resource": "dungeon",
-        "quantity": 1
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "recruits",
-        "quantity": 3
-      }
-    ]
+    "actions": "all:gain:dungeon=1,self:gain:recruits=3"
   },
   {
     "id": "slasher",
@@ -1664,13 +753,7 @@
     "type": "recruits",
     "cost": 5,
     "pic": "../Sprites/Cards/slasher.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 6
-      }
-    ]
+    "actions": "opponent:damage=6"
   },
   {
     "id": "ogre",
@@ -1679,13 +762,7 @@
     "type": "recruits",
     "cost": 6,
     "pic": "../Sprites/Cards/ogre.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 7
-      }
-    ]
+    "actions": "opponent:damage=7"
   },
   {
     "id": "rabid_sheep",
@@ -1694,19 +771,7 @@
     "type": "recruits",
     "cost": 6,
     "pic": "../Sprites/Cards/rabid_sheep.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 6
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=6,opponent:lose:recruits=3"
   },
   {
     "id": "imp",
@@ -1715,31 +780,7 @@
     "type": "recruits",
     "cost": 5,
     "pic": "../Sprites/Cards/imp.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 6
-      },
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "bricks",
-        "quantity": 5
-      },
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 5
-      },
-      {
-        "target": "all",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 5
-      }
-    ]
+    "actions": "opponent:damage=6,all:lose:bricks=5,all:lose:gems=5,all:lose:recruits=5"
   },
   {
     "id": "spizzer",
@@ -1748,26 +789,7 @@
     "type": "recruits",
     "cost": 8,
     "pic": "../Sprites/Cards/spizzer.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "equals",
-          "resource": "opponentWall",
-          "compareTo": 0
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 10
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 6
-        }
-      }
-    ]
+    "actions": "IF opponentWall EQUALS 0 THEN opponent:damage=10 ELSE opponent:damage=6"
   },
   {
     "id": "werewolf",
@@ -1776,13 +798,7 @@
     "type": "recruits",
     "cost": 9,
     "pic": "../Sprites/Cards/warewolf.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 9
-      }
-    ]
+    "actions": "opponent:damage=9"
   },
   {
     "id": "corrosion_cloud",
@@ -1791,26 +807,7 @@
     "type": "recruits",
     "cost": 11,
     "pic": "../Sprites/Cards/corrosion_cloud.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "greaterThan",
-          "resource": "opponentWall",
-          "compareTo": 0
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 10
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 7
-        }
-      }
-    ]
+    "actions": "IF opponentWall GREATER_THAN 0 THEN opponent:damage=10 ELSE opponent:damage=7"
   },
   {
     "id": "unicorn",
@@ -1819,26 +816,7 @@
     "type": "recruits",
     "cost": 9,
     "pic": "../Sprites/Cards/unicorn.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "greaterThan",
-          "resource": "magic",
-          "compareTo": "opponentMagic"
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 12
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 8
-        }
-      }
-    ]
+    "actions": "IF magic GREATER_THAN opponentMagic THEN opponent:damage=12 ELSE opponent:damage=8"
   },
   {
     "id": "elven_archers",
@@ -1847,27 +825,7 @@
     "type": "recruits",
     "cost": 10,
     "pic": "../Sprites/Cards/elven_archers.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "greaterThan",
-          "resource": "wall",
-          "compareTo": "opponentWall"
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "lose",
-          "resource": "tower",
-          "quantity": 6
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 8
-        }
-      }
-    ]
+    "actions": "IF wall GREATER_THAN opponentWall THEN opponent:lose:tower=6 ELSE opponent:damage=8"
   },
   {
     "id": "succubus",
@@ -1876,20 +834,7 @@
     "type": "recruits",
     "cost": 14,
     "pic": "../Sprites/Cards/succubus.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 5
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 8
-      }
-    ]
+    "actions": "opponent:lose:tower=5,opponent:lose:recruits=8"
   },
   {
     "id": "rock_stompers",
@@ -1898,19 +843,7 @@
     "type": "recruits",
     "cost": 11,
     "pic": "../Sprites/Cards/rock_stompers.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 8
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "quarry",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:damage=8,opponent:lose:quarry=1"
   },
   {
     "id": "thief",
@@ -1919,32 +852,7 @@
     "type": "recruits",
     "cost": 12,
     "pic": "../Sprites/Cards/thief.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 10
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "bricks",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 5
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "bricks",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:lose:gems=10,opponent:lose:bricks=5,self:gain:gems=5,self:gain:bricks=3"
   },
   {
     "id": "stone_giant",
@@ -1953,19 +861,7 @@
     "type": "recruits",
     "cost": 15,
     "pic": "../Sprites/Cards/stone_giant.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 10
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "wall",
-        "quantity": 4
-      }
-    ]
+    "actions": "opponent:damage=10,self:gain:wall=4"
   },
   {
     "id": "vampire",
@@ -1974,25 +870,7 @@
     "type": "recruits",
     "cost": 17,
     "pic": "../Sprites/Cards/vampire.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 10
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "recruits",
-        "quantity": 5
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "dungeon",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:damage=10,opponent:lose:recruits=5,opponent:lose:dungeon=1"
   },
   {
     "id": "dragon",
@@ -2001,25 +879,7 @@
     "type": "recruits",
     "cost": 25,
     "pic": "../Sprites/Cards/dragon.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 20
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 10
-      },
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "dungeon",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:damage=20,opponent:lose:gems=10,opponent:lose:dungeon=1"
   },
   {
     "id": "spearman",
@@ -2028,26 +888,7 @@
     "type": "recruits",
     "cost": 2,
     "pic": "../Sprites/Cards/spearman.png",
-    "actions": [
-      {
-        "type": "conditional",
-        "condition": {
-          "type": "greaterThan",
-          "resource": "wall",
-          "compareTo": "opponentWall"
-        },
-        "then": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 3
-        },
-        "else": {
-          "target": "opponent",
-          "effect": "damage",
-          "quantity": 2
-        }
-      }
-    ]
+    "actions": "IF wall GREATER_THAN opponentWall THEN opponent:damage=3 ELSE opponent:damage=2"
   },
   {
     "id": "gnome",
@@ -2056,19 +897,7 @@
     "type": "recruits",
     "cost": 2,
     "pic": "../Sprites/Cards/gnome.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 3
-      },
-      {
-        "target": "self",
-        "effect": "gain",
-        "resource": "gems",
-        "quantity": 1
-      }
-    ]
+    "actions": "opponent:damage=3,self:gain:gems=1"
   },
   {
     "id": "berserker",
@@ -2077,19 +906,7 @@
     "type": "recruits",
     "cost": 4,
     "pic": "../Sprites/Cards/berserker.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 8
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=8,self:lose:tower=3"
   },
   {
     "id": "warlord",
@@ -2098,19 +915,7 @@
     "type": "recruits",
     "cost": 13,
     "pic": "../Sprites/Cards/warlord.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "damage",
-        "quantity": 13
-      },
-      {
-        "target": "self",
-        "effect": "lose",
-        "resource": "gems",
-        "quantity": 3
-      }
-    ]
+    "actions": "opponent:damage=13,self:lose:gems=3"
   },
   {
     "id": "pegasus_lancer",
@@ -2119,13 +924,6 @@
     "type": "recruits",
     "cost": 18,
     "pic": "../Sprites/Cards/pegasus_lancer.png",
-    "actions": [
-      {
-        "target": "opponent",
-        "effect": "lose",
-        "resource": "tower",
-        "quantity": 12
-      }
-    ]
+    "actions": "opponent:lose:tower=12"
   }
 ]

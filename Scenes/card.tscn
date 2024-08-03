@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://82184713u5ak"]
+[gd_scene load_steps=14 format=3 uid="uid://82184713u5ak"]
 
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1"]
 [ext_resource type="FontFile" uid="uid://cvd1t3a5j33fp" path="res://Fonts/Roboto-Black.ttf" id="2"]
@@ -7,6 +7,19 @@
 [ext_resource type="Script" path="res://Scripts/Card.cs" id="5"]
 [ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="6"]
 [ext_resource type="Texture2D" uid="uid://oe5u7ul54mpv" path="res://Sprites/card_back.png" id="7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pmem"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.870588, 0.870588, 0.870588, 1)
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3o16"]
 draw_center = false
@@ -63,6 +76,7 @@ visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4pmem")
 
 [node name="Layout" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(135, 180)

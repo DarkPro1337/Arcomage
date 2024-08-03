@@ -13,13 +13,13 @@ namespace Arcomage.Scripts
 
 		public override void _Ready()
 		{
-			Global.Log("Intro loaded...");
+			Logger.Debug("Intro loaded...");
 		}
 
 		private void OnAnimPlayerAnimationFinished(string animName)
 		{
 			if (animName != "StartUp") return;
-			Global.Log("Loading to the Main menu...");
+			Logger.Debug("Loading to the Main menu...");
 			GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
 		}
 			
@@ -27,7 +27,7 @@ namespace Arcomage.Scripts
 		{
 			base._Input(@event);
 			if (!Input.IsActionJustPressed("ui_cancel") && !Input.IsActionJustPressed("ui_select")) return;
-			Global.Log("Skipping Intro to the Main menu...");
+			Logger.Debug("Skipping Intro to the Main menu...");
 			GetTree().ChangeSceneToFile("res://scenes/MainMenu.tscn");
 		}
 	}

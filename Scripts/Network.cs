@@ -22,7 +22,7 @@ namespace Arcomage.Scripts
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                     return ip.ToString();
             
-            GD.PrintErr("No network adapters with an IPv4 address in the system!");
+            Logger.Error("No network adapters with an IPv4 address in the system!");
             return "0.0.0.0";
         }
     }

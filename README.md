@@ -1,3 +1,9 @@
+[![Godot Engine](https://img.shields.io/badge/GODOT-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
+![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
+![GitHub](https://img.shields.io/github/license/DarkPro1337/Arcomage?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/DarkPro1337/Arcomage?style=for-the-badge)
+
 # Arcomage fan-remake made on Godot Engine
 ![Arcomage Logo](Images/arcomage_logo.png)
 ## Description
@@ -31,14 +37,20 @@ At the beginning of each turn, the generators increase the amount of the player'
 
 As a rule, cards that require the same type of resources are similar in action. Gems - increase the tower, bricks - walls, animals - to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
 
-## Also avalible at
+## Also, available at
 * [**itch.io**](https://darkpro1337.itch.io/arcomage)
 * [**GameJolt**](https://gamejolt.com/games/arcomage/537808)
 
-## Requirements
-* **Vulkan 1.0** compatible hardware
+## Hardware requirements
+* **Recommended:** Vulkan 1.0 compatible hardware
+* **Minimal:** OpenGL 3.3 / OpenGL ES 3.0 compatible hardware
 
 ## Compilation and editing
-* [**Godot** v.4.1.1 stable mono](https://downloads.tuxfamily.org/godotengine/4.1.1/)
+* [**Godot** v.4.2.2 stable mono](https://downloads.tuxfamily.org/godotengine/4.2.2/)
 * [**.NET** SDK](https://dotnet.microsoft.com/download)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
+
+## Support project development
+[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-%23222222.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/darkpro1337)
+[![Ko-Fi](https://img.shields.io/badge/Ko--fi-%23323b43.svg?style=for-the-badge&logo=ko-fi)](https://ko-fi.com/darkpro1337)
+[![Patreon](https://img.shields.io/badge/Patreon-%23141519.svg?style=for-the-badge&logo=patreon)](https://www.patreon.com/darkpro1337)

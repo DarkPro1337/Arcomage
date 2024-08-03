@@ -9,6 +9,7 @@ namespace Arcomage.Scripts
     {
         public static Table Table { get; set; }
         public static Settings Settings { get; set; }
+        public static NetworkSetup NetworkSetup { get; set; }
         public static string BuildNumber { get; private set; }
 
         public override void _Ready()
@@ -16,9 +17,6 @@ namespace Arcomage.Scripts
             OS.LowProcessorUsageMode = true;
             BuildNumber = LoadBuildNumber();
         }
-
-        public static void Log(string text) => 
-            GD.Print($"[{GetTime()}] {text}");
         
         public static Dictionary<string, string> GetCommandLineArgs()
         {
@@ -29,8 +27,7 @@ namespace Arcomage.Scripts
                 .ToDictionary(parts => parts[0], parts => parts[1]));
         }
 
-        private static string GetTime() => 
-            DateTime.Now.ToString("HH:mm:ss");
+        private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
         private static string LoadBuildNumber()
         {
@@ -43,7 +40,7 @@ namespace Arcomage.Scripts
                 return content.Trim();
             }
 
-            GD.PrintErr("Build.tres file missing");
+            Logger.Error("Build.tres file missing");
             return "00000000";
         }
     }

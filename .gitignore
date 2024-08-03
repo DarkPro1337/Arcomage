@@ -24,3 +24,5 @@ build.tres
 .idea
 .vs
 .vscode
+*.tmp
+*.user

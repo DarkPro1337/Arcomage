@@ -12,20 +12,21 @@ config_version=5
 
 config/name="Arcomage"
 config/description="Open-source Arcomage fan-remake made on Godot Engine."
+config/version="0.3-alpha"
 run/main_scene="res://Scenes/Boot.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Arcoamge"
-config/features=PackedStringArray("4.1", "C#")
+config/features=PackedStringArray("4.2", "C#")
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://Sprites/empty_splash.png"
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
 config/windows_native_icon="res://icon.ico"
-config/version="0.3-alpha"
 
 [autoload]
 
+Logger="*res://Scripts/Logger.cs"
 Global="*res://Scripts/Global.cs"
 Config="*res://Scripts/Config.cs"
 Network="*res://Scripts/Network.cs"

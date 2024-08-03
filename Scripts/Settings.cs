@@ -136,6 +136,7 @@ public partial class Settings : Control
 		// Settings looks different if you will open them from in-game menu
 		if (GetParent().Name == "InGameMenu")
 		{
+			Logger.Debug("Settings loaded from InGameMenu");
 			StartingConditionsButton.Hide();
 			PlayConditionsButton.Hide();
 			VictoryConditionsButton.Hide();
@@ -145,14 +146,18 @@ public partial class Settings : Control
 			IntroSkip.Hide();
 			Reset.Hide();
 		}
-		else if (GetParent().Name != "MainMenu") Hide();
+		else if (GetParent().Name != "MainMenu")
+		{
+			Logger.Debug("Settings loaded from unknown source and not shown");
+			Hide();
+		}
 
 		Config.Settings = LoadSettings();
 		UpdateControls();
 		UpdateLocale();
 
-		WindowHeightEdit.Text = DisplayServer.WindowGetSize().X.ToString(_invariantCulture);
-		WindowHeightEdit.Text = DisplayServer.WindowGetSize().Y.ToString(_invariantCulture);
+		DisplayServer.WindowSetSize(new Vector2I(Config.Settings.WindowWidth, Config.Settings.WindowHeight));
+		DisplayServer.WindowSetPosition(DisplayServer.ScreenGetSize() / 2 - DisplayServer.WindowGetSize() / 2);
 	}
 
 	private async void OnClosePressed()
@@ -182,9 +187,7 @@ public partial class Settings : Control
 		}
 		catch (Exception ex)
 		{
-			Global.Log("Failed to save settings:");
-			Global.Log(ex.ToString());
-			Global.Log(ex.StackTrace);
+			Logger.Error(ex, "Failed to save settings.");
 		}
 	}
 
@@ -194,8 +197,7 @@ public partial class Settings : Control
 		{
 			if (!FileAccess.FileExists(ConfigPath))
 			{
-				var defaults =
-					JsonSerializer.Serialize(Config.Settings, new JsonSerializerOptions { WriteIndented = true });
+				var defaults = JsonSerializer.Serialize(Config.Settings, new JsonSerializerOptions { WriteIndented = true });
 				using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
 				file.StoreString(defaults);
 				file.Close();
@@ -210,8 +212,7 @@ public partial class Settings : Control
 		}
 		catch (Exception ex)
 		{
-			Global.Log("Failed to load settings. Fallback to defaults:");
-			Global.Log(ex.ToString());
+			Logger.Error(ex, "Failed to load settings. Fallback to defaults.");
 			return new GameSettings();
 		}
 	}
@@ -276,9 +277,11 @@ public partial class Settings : Control
 				TranslationServer.SetLocale("da");
 				break;
 			default:
+				Logger.Warn($"Unknown locale - {Config.Settings.CurrentLocale}. Fallback to English.");
 				TranslationServer.SetLocale("en");
 				break;
 		}
+		Logger.Debug("Loaded locale - " + Config.Settings.CurrentLocale);
 	}
 
 	private void OnWindowSettingsPressed() => Tab.CurrentTab = 0;
@@ -292,6 +295,7 @@ public partial class Settings : Control
 
 	private void OnFullscreenButtonToggled(bool toggle)
 	{
+		Config.Settings.Fullscreen = toggle;
 		if (toggle)
 		{
 			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
@@ -302,39 +306,86 @@ public partial class Settings : Control
 			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
 			WindowResolution.Show();
 		}
+		Logger.Debug("Fullscreen toggled to " + toggle);
 	}
 
 	private void OnBorderlessButtonToggled(bool toggle)
 	{
+		Config.Settings.Borderless = toggle;
 		DisplayServer.WindowSetFlag(DisplayServer.WindowFlags.Borderless, toggle);
 		if (toggle && FullscreenButton.ButtonPressed)
 			Fullscreen.Hide();
 		else
 			Fullscreen.Show();
+		
+		Logger.Debug("Borderless toggled to " + toggle);
 	}
 
 	private void OnWindowResolutionApplyPressed()
 	{
-		DisplayServer.WindowSetSize(new Vector2I(int.Parse(WindowWidthEdit.Text), int.Parse(WindowHeightEdit.Text)));
-		DisplayServer.WindowSetPosition(DisplayServer.ScreenGetSize() * (int)0.5 - DisplayServer.WindowGetSize() * (int)0.5);
+		if (WindowWidthEdit.Text == "" || WindowHeightEdit.Text == "")
+		{
+			Logger.Error("Window resolution can't be empty");
+			return;
+		}
+		
+		if (!int.TryParse(WindowWidthEdit.Text, out var width) || !int.TryParse(WindowHeightEdit.Text, out var height))
+		{
+			Logger.Error("Window resolution must be a number");
+			return;
+		}
+
+		if (DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Maximized) 
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+
+		Config.Settings.WindowWidth = width;
+		Config.Settings.WindowHeight = height;
+		var resolution = new Vector2I(width, height);
+		DisplayServer.WindowSetSize(resolution);
+		DisplayServer.WindowSetPosition(DisplayServer.ScreenGetSize() / 2 - DisplayServer.WindowGetSize() / 2);
+
+		if (resolution == DisplayServer.ScreenGetSize())
+		{
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
+			FullscreenButton.ButtonPressed = true;
+			Config.Settings.Fullscreen = true;
+		}
+		else
+			DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+		
+		Logger.Debug("Window resolution applied to " + WindowWidthEdit.Text + "x" + WindowHeightEdit.Text);
 	}
 
-	private static void OnVsyncButtonToggled(bool toggle) => 
+	private static void OnVsyncButtonToggled(bool toggle)
+	{
+		Config.Settings.Vsync = toggle;
 		DisplayServer.WindowSetVsyncMode(toggle ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);
+		Logger.Debug("Vsync toggled to " + toggle);
+	}
 
 	private static void OnIntroSkipButtonToggled(bool toggle) => Config.Settings.IntroSkip = toggle;
 
-	private static void OnMasterVolumeValueChanged(double value) =>
+	private static void OnMasterVolumeValueChanged(double value)
+	{
+		Config.Settings.MasterVolume = value;
 		AudioServer.SetBusVolumeDb(MasterBusId, (float)Mathf.LinearToDb(value));
-		
-	private static void OnMusicVolumeValueChanged(double value) => 
+	}
+
+	private static void OnMusicVolumeValueChanged(double value)
+	{
+		Config.Settings.MusicVolume = value;
 		AudioServer.SetBusVolumeDb(MusicBusId, (float)Mathf.LinearToDb(value));
-		
-	private static void OnSoundVolumeValueChanged(double value) => 
+	}
+
+	private static void OnSoundVolumeValueChanged(double value)
+	{
+		Config.Settings.SoundVolume = value;
 		AudioServer.SetBusVolumeDb(SoundsBusId, (float)Mathf.LinearToDb(value));
-		
+	}
+
 	private static void OnMuteSoundToggled(bool toggle)
 	{
+		Config.Settings.MuteSound = toggle;
 		AudioServer.SetBusMute(MasterBusId, toggle);
 		AudioServer.SetBusMute(MusicBusId, toggle);
 		AudioServer.SetBusMute(SoundsBusId, toggle);
