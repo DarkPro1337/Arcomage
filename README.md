@@ -1,8 +1,10 @@
-[![Godot Engine](https://img.shields.io/badge/GODOT-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
+[![Godot Engine](https://img.shields.io/badge/GODOT_4-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
-![.NET](https://img.shields.io/badge/.NET-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET_8-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![GitHub](https://img.shields.io/github/license/DarkPro1337/Arcomage?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/DarkPro1337/Arcomage?style=for-the-badge)
+![GitHub Repo stars](https://img.shields.io/github/stars/darkpro1337/arcomage?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/darkpro1337/arcomage?style=for-the-badge)
 
 # Arcomage fan-remake made on Godot Engine
 ![Arcomage Logo](Images/arcomage_logo.png)
@@ -38,8 +40,8 @@ At the beginning of each turn, the generators increase the amount of the player'
 As a rule, cards that require the same type of resources are similar in action. Gems - increase the tower, bricks - walls, animals - to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
 
 ## Also, available at
-* [**itch.io**](https://darkpro1337.itch.io/arcomage)
-* [**GameJolt**](https://gamejolt.com/games/arcomage/537808)
+[![itch.io game page](https://img.shields.io/badge/itch.io-%23FA5C5C.svg?style=for-the-badge&logo=itchdotio&logoColor=white)](https://darkpro1337.itch.io/arcomage)
+[![GameJolt game page](https://img.shields.io/badge/GameJolt-%23121015.svg?style=for-the-badge&logo=gamejolt)](https://gamejolt.com/games/arcomage/537808)
 
 ## Hardware requirements
 * **Recommended:** Vulkan 1.0 compatible hardware
