@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://ck57oh5lctgf0"]
+[gd_scene load_steps=13 format=3 uid="uid://ck57oh5lctgf0"]
 
 [ext_resource type="Script" path="res://Scripts/Settings.cs" id="1_8se8j"]
+[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_xsh22"]
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/Layout-edit_dark_blur.png" id="2_idday"]
 [ext_resource type="Texture2D" uid="uid://cdcud7it23lk8" path="res://Images/Icons/Flags/gb.png" id="3_qa8cm"]
 [ext_resource type="ButtonGroup" uid="uid://chi85n3rnukm8" path="res://Themes/GameplayModes.tres" id="3_s807r"]
@@ -8,6 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://bm0poeq6ucufi" path="res://Images/Icons/Flags/ua.png" id="5_jwrtd"]
 [ext_resource type="Texture2D" uid="uid://dkp5a4f1r3o3y" path="res://Images/Icons/Flags/pl.png" id="6_joof3"]
 [ext_resource type="Texture2D" uid="uid://cvsdectwsoylf" path="res://Images/Icons/Flags/dk.png" id="7_ivjg1"]
+
+[sub_resource type="Theme" id="Theme_t74ne"]
+default_font = ExtResource("1_xsh22")
+Button/font_sizes/font_size = 20
 
 [sub_resource type="Animation" id="4"]
 resource_name = "hide"
@@ -38,6 +43,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(-360, -64)
+theme = SubResource("Theme_t74ne")
 script = ExtResource("1_8se8j")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -105,7 +111,7 @@ text = "WINDOW_WIDTH"
 [node name="Width" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution"]
 layout_mode = 2
 text = "960"
-placeholder_text = "1280"
+placeholder_text = "960"
 max_length = 4
 clear_button_enabled = true
 
@@ -116,7 +122,7 @@ text = "WINDOW_HEIGHT"
 [node name="Height" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution"]
 layout_mode = 2
 text = "540"
-placeholder_text = "720"
+placeholder_text = "540"
 max_length = 4
 clear_button_enabled = true
 

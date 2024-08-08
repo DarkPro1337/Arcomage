@@ -344,8 +344,8 @@ public partial class Card : Control
     private TextureRect Layout => GetNode<TextureRect>("Layout");
     private Label Discarded => GetNode<Label>("Discarded");
 
-    private readonly RandomNumberGenerator _rng = new RandomNumberGenerator();
-    public readonly List<Cards> CardsList = new();
+    private readonly RandomNumberGenerator _rng = new();
+    public readonly List<Cards> CardsList = [];
 
     public int CardIdx = -1;
     public string CardId;

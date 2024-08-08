@@ -19,7 +19,7 @@ config/custom_user_dir_name="Arcoamge"
 config/features=PackedStringArray("4.2", "C#")
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="res://Sprites/empty_splash.png"
+boot_splash/show_image=false
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
 config/windows_native_icon="res://icon.ico"
@@ -31,12 +31,12 @@ Global="*res://Scripts/Global.cs"
 Config="*res://Scripts/Config.cs"
 Network="*res://Scripts/Network.cs"
 Settings="*res://Scenes/Settings.tscn"
-AudioStreamManager="*res://Scripts/audio_manager.gd"
 
 [display]
 
 window/size/viewport_width=960
 window/size/viewport_height=540
+window/size/initial_position_type=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation="sensor_landscape"

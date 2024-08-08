@@ -11,12 +11,24 @@ public class Player
     public bool Host { get; init; }
     public bool Ai { get; set; }
     public bool Ready { get; set; }
-}
     
+    public bool PlayAgain { get; set; } = false;
+    public bool Discarding { get; set; } = false;
+    public bool DrawCard { get; set; } = false;
+    
+    public int TowerHp { get; set; } = Config.Settings.TowerLevels;
+    public int WallHp { get; set; } = Config.Settings.WallLevels;
+    
+    public int Quarries { get; set; } = Config.Settings.QuarryLevels;
+    public int Bricks { get; set; } = Config.Settings.BrickQuantity;
+    public int Magic { get; set; } = Config.Settings.MagicLevels;
+    public int Gems { get; set; } = Config.Settings.GemQuantity;
+    public int Dungeons { get; set; } = Config.Settings.DungeonLevels;
+    public int Recruits { get; set; } = Config.Settings.RecruitQuantity;
+}
+
 public partial class Table : Control
 {
-    private readonly RandomNumberGenerator _rng = new();
-
     #region Controls
 
     private Control Particles => GetNode<Control>("Particles");
@@ -80,37 +92,11 @@ public partial class Table : Control
 
     #endregion
 
-    public List<Player> Players = new();
+    private readonly RandomNumberGenerator _rng = new();
+
+    public List<Player> Players = [];
     private int _turn;
     public bool AiReady = true;
-    public bool RedPlayAgain = false;
-    public bool BluePlayAgain = false;
-    public bool RedDiscarding = false;
-    public bool BlueDiscarding = false;
-    public bool RedDrawCard = false;
-    public bool BlueDrawCard = false;
-
-    // Default towers and wall hp setters
-    public int RedTowerHp = Config.Settings.TowerLevels;
-    public int RedWallHp = Config.Settings.WallLevels;
-
-    public int BlueTowerHp = Config.Settings.TowerLevels;
-    public int BlueWallHp = Config.Settings.WallLevels;
-
-    // Default resources setters
-    public int RedQuarries = Config.Settings.QuarryLevels;
-    public int RedBricks = Config.Settings.BrickQuantity;
-    public int RedMagic = Config.Settings.MagicLevels;
-    public int RedGems = Config.Settings.GemQuantity;
-    public int RedDungeons = Config.Settings.DungeonLevels;
-    public int RedRecruits = Config.Settings.RecruitQuantity;
-
-    public int BlueQuarries = Config.Settings.QuarryLevels;
-    public int BlueBricks = Config.Settings.BrickQuantity;
-    public int BlueMagic = Config.Settings.MagicLevels;
-    public int BlueGems = Config.Settings.GemQuantity;
-    public int BlueDungeons = Config.Settings.DungeonLevels;
-    public int BlueRecruits = Config.Settings.RecruitQuantity;
 
     public int Elapsed = 0;
     public string ElapsedString = "00:00";
@@ -142,12 +128,19 @@ public partial class Table : Control
         
         Logger.Debug("Table loaded");
         Global.Table = this;
-
+        
+        LocaleStatPanels();
+        
+        if (!Multiplayer.IsServer()) return;
+        
+        SpawnLocalPlayer();
+        
         if (Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer)
         {
             IsOffline = true;
-            RedNamePanel.Text = Config.Settings.Nickname;
-            BlueNamePanel.Text = Tr("COMPUTER");
+            Players.Add(new Player { Id = 2, Name = "COMPUTER", Host = false, Ai = true });
+            RedNamePanel.Text = Players[0].Name;
+            BlueNamePanel.Text = Tr(Players[1].Name);
         }
         else if (Multiplayer.MultiplayerPeer is not null)
         {
@@ -156,12 +149,6 @@ public partial class Table : Control
             RedNamePanel.Text = Players[0].Name;
             BlueNamePanel.Text = Players[1].Name;
         }
-        
-        LocaleStatPanels();
-        
-        if (!Multiplayer.IsServer()) return;
-        
-        SpawnLocalPlayer();
             
         Multiplayer.PeerConnected += AddPlayer;
         Multiplayer.PeerDisconnected += RemovePlayer;
@@ -244,22 +231,11 @@ public partial class Table : Control
     
     private void AddResources(int turn)
     {
-        if (turn == 0)
-        {
-            Logger.Debug("RB: " + RedBricks + " RG: " + RedGems + " RR: " + RedRecruits);
-            RedBricks += RedQuarries;
-            RedGems += RedMagic;
-            RedRecruits += RedDungeons;
-            Logger.Debug("RB: " + RedBricks + " RG: " + RedGems + " RR: " + RedRecruits);
-        }
-        else
-        {
-            Logger.Debug("BB: " + BlueBricks + " BG: " + BlueGems + " BR: " + BlueRecruits);
-            BlueBricks += BlueQuarries;
-            BlueGems += BlueMagic;
-            BlueRecruits += BlueDungeons;
-            Logger.Debug("BB: " + BlueBricks + " BG: " + BlueGems + " BR: " + BlueRecruits);
-        }
+        Logger.Debug($"Bricks of P{turn}: {Players[turn].Bricks}; Gems of P{turn}: {Players[turn].Gems}; Recruits of P{turn}: {Players[turn].Recruits}");
+        Players[turn].Bricks += Players[turn].Quarries;
+        Players[turn].Gems += Players[turn].Magic;
+        Players[turn].Recruits += Players[turn].Dungeons;
+        Logger.Debug($"Bricks of P{turn}: {Players[turn].Bricks}; Gems of P{turn}: {Players[turn].Gems}; Recruits of P{turn}: {Players[turn].Recruits}");
     }
 
     private void LocaleStatPanels() => 
@@ -303,41 +279,41 @@ public partial class Table : Control
 
     private void UpdateStatPanelUi()
     {
-        RedBricksPerTurn.Text = RedQuarries.ToString();
-        RedBricksAltPerTurn.Text = RedQuarries.ToString();
-        RedBricksTotal.Text = RedBricks.ToString();
-        RedBricksAltTotal.Text = RedBricks.ToString();
+        RedBricksPerTurn.Text = Players[0].Quarries.ToString();
+        RedBricksAltPerTurn.Text = Players[0].Quarries.ToString();
+        RedBricksTotal.Text = Players[0].Bricks.ToString();
+        RedBricksAltTotal.Text = Players[0].Bricks.ToString();
         
-        RedGemsPerTurn.Text = RedMagic.ToString();
-        RedGemsAltPerTurn.Text = RedMagic.ToString();
-        RedGemsTotal.Text = RedGems.ToString();
-        RedGemsAltTotal.Text = RedGems.ToString();
+        RedGemsPerTurn.Text = Players[0].Magic.ToString();
+        RedGemsAltPerTurn.Text = Players[0].Magic.ToString();
+        RedGemsTotal.Text = Players[0].Gems.ToString();
+        RedGemsAltTotal.Text = Players[0].Gems.ToString();
         
-        RedRecruitsPerTurn.Text = RedDungeons.ToString();
-        RedRecruitsAltPerTurn.Text = RedDungeons.ToString();
-        RedRecruitsTotal.Text = RedRecruits.ToString();
-        RedRecruitsAltTotal.Text = RedRecruits.ToString();
+        RedRecruitsPerTurn.Text = Players[0].Dungeons.ToString();
+        RedRecruitsAltPerTurn.Text = Players[0].Dungeons.ToString();
+        RedRecruitsTotal.Text = Players[0].Recruits.ToString();
+        RedRecruitsAltTotal.Text = Players[0].Recruits.ToString();
         
-        BlueBricksPerTurn.Text = BlueQuarries.ToString();
-        BlueBricksAltPerTurn.Text = BlueQuarries.ToString();
-        BlueBricksTotal.Text = BlueBricks.ToString();
-        BlueBricksAltTotal.Text = BlueBricks.ToString();
+        BlueBricksPerTurn.Text = Players[1].Quarries.ToString();
+        BlueBricksAltPerTurn.Text = Players[1].Quarries.ToString();
+        BlueBricksTotal.Text = Players[1].Bricks.ToString();
+        BlueBricksAltTotal.Text = Players[1].Bricks.ToString();
         
-        BlueGemsPerTurn.Text = BlueMagic.ToString();
-        BlueGemsAltPerTurn.Text = BlueMagic.ToString();
-        BlueGemsTotal.Text = BlueGems.ToString();
-        BlueGemsAltTotal.Text = BlueGems.ToString();
+        BlueGemsPerTurn.Text = Players[1].Magic.ToString();
+        BlueGemsAltPerTurn.Text = Players[1].Magic.ToString();
+        BlueGemsTotal.Text = Players[1].Gems.ToString();
+        BlueGemsAltTotal.Text = Players[1].Gems.ToString();
         
-        BlueRecruitsPerTurn.Text = BlueDungeons.ToString();
-        BlueRecruitsAltPerTurn.Text = BlueDungeons.ToString();
-        BlueRecruitsTotal.Text = BlueRecruits.ToString();
-        BlueRecruitsAltTotal.Text = BlueRecruits.ToString();
+        BlueRecruitsPerTurn.Text = Players[1].Dungeons.ToString();
+        BlueRecruitsAltPerTurn.Text = Players[1].Dungeons.ToString();
+        BlueRecruitsTotal.Text = Players[1].Recruits.ToString();
+        BlueRecruitsAltTotal.Text = Players[1].Recruits.ToString();
         
-        RedTowerHpPanel.Text = RedTowerHp.ToString();
-        RedWallHpPanel.Text = RedWallHp.ToString();
+        RedTowerHpPanel.Text = Players[1].TowerHp.ToString();
+        RedWallHpPanel.Text = Players[1].WallHp.ToString();
         
-        BlueTowerHpPanel.Text = BlueTowerHp.ToString();
-        BlueWallHpPanel.Text = BlueWallHp.ToString();
+        BlueTowerHpPanel.Text = Players[1].TowerHp.ToString();
+        BlueWallHpPanel.Text = Players[1].WallHp.ToString();
     }
     
     [Rpc]

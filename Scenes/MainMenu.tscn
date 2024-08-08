@@ -177,7 +177,7 @@ offset_left = 8.0
 offset_top = -38.0
 offset_right = 176.0
 grow_vertical = 0
-text = "Build: DDMMYYYY"
+text = "Build: UNKNOWN"
 vertical_alignment = 1
 clip_text = true
 
@@ -270,10 +270,10 @@ visible = false
 layout_mode = 1
 
 [node name="StartupAnim" type="AnimationPlayer" parent="."]
-autoplay = "start"
 libraries = {
 "": SubResource("AnimationLibrary_76yvq")
 }
+autoplay = "start"
 
 [node name="MenuAnim" type="AnimationPlayer" parent="."]
 process_priority = 1

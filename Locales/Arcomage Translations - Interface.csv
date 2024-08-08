@@ -49,7 +49,7 @@ RESOURCE_VICTORY,Resource Victory:,Собрать ресурсов:,Зібрат
 TAVERN,Tavern:,Таверна:,Таверна:,Tawerna:,Kro:
 NONE,None,Нет,Немає,Nie,Ingen:
 TAVERN_HARMONDALE,On the House (Harmondale),За счет заведения (Хармондейл),У будинку (Гармондейл),Na koszt zakładu (Harmondale),On the House (Harmondale)
-TAVERN_ERATHIA,Griffin's Rest (Erathia),Покой грифона (Эрафия),Покої грифона (Ерафіі),Kwatery Gryfów Śląski (Erathia),Griffin's Rest (Erathia)
+TAVERN_ERATHIA,Griffin's Rest (Erathia),Покой грифона (Эрафия),Покої грифона (Ерафіі),Odpoczynek Gryfona (Erathia),Griffin's Rest (Erathia)
 TAVERN_TULAREAN_FOREST,Emerald Inn (Tularean Forest),Изумрудный двор (Тулареанский лес),Смарагдовий двір (Тулареанскій ліс),Szmaragdowy dziedziniec (Tularean Forest),Emerald Inn (Tularean Forest)
 TAVERN_DEYJA,Snobbish Goblin (Deyja),Снобисткий гоблин (Дейя),Снобістський гоблін (Дейя),Goblin Snobistyczny (Deyja),Snobbish Goblin (Deyja)
 TAVERN_BRACADA_DESERT,Familiar Place (Bracada Desert),Знакомое местечко (Пустыня Бракада),Знайоме містечко (Пустеля Бракада),Znane miasteczko (Pustynia Bracada),Familiar Place (Bracada Desert)
@@ -98,11 +98,11 @@ ENTER_IP_ADDRESS,Enter IP Address,Введите IP адрес сервера,В
 IP_ADDRESS_NOT_FOUND,IP Address not found!,IP адрес не найден!,IP адрес не знайдений!,Nie znaleziono adresu IP!,IP Adresse ikke fundet!
 CANCEL,Cancel,Отмена,Відміна,Zniesienie,Afbryd
 MULTIPLAYER_GAME_TOOLTIP,Opens multiplayer game creation and connection screen.,Открывает экран создания и подключения многопользовательской игры.,Відкриває екран створення і підключення багатокористувацької гри.,Otwiera ekran tworzenia i łączenia gry wieloosobowej.,Åbner multiplayer oprettelses- og forbindelsesskærm
-READY,Ready,Готов,,,
-LOBBY,Lobby,Лобби,,,
-CONNECTION,Connection,Подключение,,,
-PLAYERS,Players,Игроки,,,
-STATUS,Status,Статус,,,
-READY,Ready,Готов,,,
-NOT_READY,Not Ready,Не готов,,,
-DEV_TOOLS,Developer Tools,Инструменты разработчика,,,
+READY,Ready,Готов,Готовий,Gotowy,Klar
+LOBBY,Lobby,Лобби,Лобі,Hol,Lobby
+CONNECTION,Connection,Подключение,Підключення,Połączenie,Forbindelse
+PLAYERS,Players,Игроки,Гравці,Gracze,Spillere
+STATUS,Status,Статус,Статус,Status,Status
+NOT_READY,Not Ready,Не готов,Не готовий,Niegotowy,Ikke klar
+DEV_TOOLS,Developer Tools,Инструменты разработчика,Інструменти розробника,Narzędzia deweloperskie,Udviklerværktøjer
+DEV_TOOLS_TOOLTIP,Open developer tools.,Открывает инструменты разработчика.,Відкриває інструменти розробника.,Otwiera narzędzia deweloperskie.,Åbner udviklerværktøjer.
