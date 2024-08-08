@@ -43,14 +43,24 @@ As a rule, cards that require the same type of resources are similar in action. 
 [![itch.io game page](https://img.shields.io/badge/itch.io-%23FA5C5C.svg?style=for-the-badge&logo=itchdotio&logoColor=white)](https://darkpro1337.itch.io/arcomage)
 [![GameJolt game page](https://img.shields.io/badge/GameJolt-%23121015.svg?style=for-the-badge&logo=gamejolt)](https://gamejolt.com/games/arcomage/537808)
 
-## Hardware requirements
-* **Recommended:** Vulkan 1.0 compatible hardware
-* **Minimal:** OpenGL 3.3 / OpenGL ES 3.0 compatible hardware
+## System requirements
+* Any **x86_64** CPU with SSE2.
+* Any GPU with full **Vulkan 1.0** support.
+* At least **450 MB** of free RAM.
+* At least **250 MB** of free storage.
 
-## Compilation and editing
-* [**Godot** v.4.2.2 stable mono](https://downloads.tuxfamily.org/godotengine/4.2.2/)
+## Building and editing
+### Prerequisites
+* [**Godot** v.4.2.2 stable mono](https://downloads.tuxfamily.org/godotengine/4.2.2/mono/)
 * [**.NET** SDK](https://dotnet.microsoft.com/download)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
+
+### How to run the project
+1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
+2. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.2.2/mono/)
+3. Press `F5` to run the project
+
+**Optional:** Export the project to your desired platform (Project -> Export...)
 
 ## Support project development
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-%23222222.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/darkpro1337)
