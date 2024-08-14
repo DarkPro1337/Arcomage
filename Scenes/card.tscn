@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://82184713u5ak"]
 
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1"]
+[ext_resource type="Script" path="res://Scripts/CardControl.cs" id="1_ha45m"]
 [ext_resource type="FontFile" uid="uid://cvd1t3a5j33fp" path="res://Fonts/Roboto-Black.ttf" id="2"]
 [ext_resource type="Texture2D" uid="uid://dilcsh2ooc5sf" path="res://Sprites/brick_shortage.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://besykgtt5lxq4" path="res://Sprites/red_card_layout_alt.png" id="4"]
-[ext_resource type="Script" path="res://Scripts/Card.cs" id="5"]
 [ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="6"]
 [ext_resource type="Texture2D" uid="uid://oe5u7ul54mpv" path="res://Sprites/card_back.png" id="7"]
 
@@ -64,7 +64,7 @@ anchor_bottom = 0.333333
 offset_bottom = 0.000183105
 size_flags_horizontal = 4
 size_flags_vertical = 4
-script = ExtResource("5")
+script = ExtResource("1_ha45m")
 
 [node name="CardShadow" type="Panel" parent="."]
 layout_mode = 0

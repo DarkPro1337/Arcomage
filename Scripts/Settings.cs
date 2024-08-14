@@ -46,38 +46,15 @@ public partial class Settings : Control
 
     private Button StartingConditionsButton => GetNode<Button>("Options/Grid/StartingConditions");
 
-    private CheckBox SingleplayerButton =>
-        GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/Singleplayer/Toggle");
-
-    private CheckBox MultiplayerButton =>
-        GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/Multiplayer/Toggle");
-
-    private CheckBox SingleClickButton =>
-        GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/SingleClick/Toggle");
-
-    private SpinBox TowerLevels =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels/Level");
-
-    private SpinBox WallLevels =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/WallLevels/Level");
-
-    private SpinBox QuarryLevels =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry/Level");
-
-    private SpinBox BrickQuantity =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks/Level");
-
-    private SpinBox MagicLevels =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic/Level");
-
-    private SpinBox GemQuantity =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems/Level");
-
-    private SpinBox DungeonLevels =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon/Level");
-
-    private SpinBox RecruitQuantity =>
-        GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits/Level");
+    private CheckBox SingleClickButton => GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/SingleClick/Toggle");
+    private SpinBox TowerLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels/Level");
+    private SpinBox WallLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/WallLevels/Level");
+    private SpinBox QuarryLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry/Level");
+    private SpinBox BrickQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks/Level");
+    private SpinBox MagicLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic/Level");
+    private SpinBox GemQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems/Level");
+    private SpinBox DungeonLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon/Level");
+    private SpinBox RecruitQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits/Level");
 
     private Button PlayConditionsButton => GetNode<Button>("Options/Grid/PlayConditions");
     private SpinBox AutoBricks => GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Bricks/Level");
@@ -130,8 +107,6 @@ public partial class Settings : Control
         SoundVolume.ValueChanged += OnSoundVolumeValueChanged;
         MuteSound.Toggled += OnMuteSoundToggled;
 
-        SingleplayerButton.Toggled += OnSingleplayerButtonToggled;
-        MultiplayerButton.Toggled += OnMultiplayerButtonToggled;
         SingleClickButton.Toggled += OnSingleClickButtonToggled;
         TowerLevels.ValueChanged += OnTowerLevelsValueChanged;
         WallLevels.ValueChanged += OnWallLevelsValueChanged;
@@ -154,12 +129,23 @@ public partial class Settings : Control
         TavernPreset.ItemSelected += OnTavernPresetChanged;
         Language.ItemSelected += OnLanguageChanged;
         Nickname.TextChanged += OnNicknameChanged;
+        
+        VisibilityChanged += SettingsVisibilityChanged;
     }
 
-    public override void _Ready()
+    private void SettingsVisibilityChanged()
     {
-        // Settings looks different if you will open them from in-game menu
-        if (GetParent().Name == "InGameMenu")
+        if (!Visible)
+            return;
+
+        var parentName = GetParent().Name.ToString();
+        if (string.IsNullOrEmpty(parentName))
+        {
+            Logger.Debug("Settings loaded from source with empty name");
+            return;
+        }
+        
+        if (parentName == "InGameMenu")
         {
             Logger.Debug("Settings loaded from InGameMenu");
             StartingConditionsButton.Hide();
@@ -171,12 +157,15 @@ public partial class Settings : Control
             IntroSkip.Hide();
             Reset.Hide();
         }
-        else if (GetParent().Name != "MainMenu")
+        else if (parentName != "MainMenu")
         {
             Logger.Debug("Settings loaded from unknown source and not shown");
             Hide();
         }
+    }
 
+    public override void _Ready()
+    {
         Config.Settings = LoadSettings();
         UpdateControls();
         UpdateLocale();
@@ -257,7 +246,6 @@ public partial class Settings : Control
         SoundVolume.Value = Config.Settings.SoundVolume;
         MuteSound.ButtonPressed = Config.Settings.MuteSound;
 
-        SingleplayerButton.ButtonPressed = Config.Settings.Singleplayer;
         SingleClickButton.ButtonPressed = Config.Settings.SingleClick;
         TowerLevels.Value = Config.Settings.TowerLevels;
         WallLevels.Value = Config.Settings.WallLevels;
@@ -303,12 +291,12 @@ public partial class Settings : Control
                 TranslationServer.SetLocale("da");
                 break;
             default:
-                Logger.Warn($"Unknown locale - {Config.Settings.CurrentLocale}. Fallback to English.");
+                Logger.Warn("Unknown locale - {Locale}. Fallback to English.", Config.Settings.CurrentLocale);
                 TranslationServer.SetLocale("en");
                 break;
         }
 
-        Logger.Debug("Loaded locale - " + Config.Settings.CurrentLocale);
+        Logger.Debug("Loaded locale - {Locale}", Config.Settings.CurrentLocale);
     }
 
     private void OnWindowSettingsPressed() => Tab.CurrentTab = 0;
@@ -323,7 +311,6 @@ public partial class Settings : Control
     private void OnFullscreenButtonToggled(bool toggle)
     {
         Config.Settings.Fullscreen = toggle;
-        var window = GetWindow();
         if (toggle)
         {
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
@@ -409,16 +396,6 @@ public partial class Settings : Control
         AudioServer.SetBusMute(MasterBusId, toggle);
         AudioServer.SetBusMute(MusicBusId, toggle);
         AudioServer.SetBusMute(SoundsBusId, toggle);
-    }
-
-    private static void OnSingleplayerButtonToggled(bool toggle)
-    {
-        // TODO: Subject of deletion, since it's no more needed
-    }
-
-    private static void OnMultiplayerButtonToggled(bool toggle)
-    {
-        // TODO: Subject of deletion, since it's no more needed
     }
 
     private static void OnSingleClickButtonToggled(bool toggle) => Config.Settings.SingleClick = toggle;

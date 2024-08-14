@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cqt4vepe6qmcn"]
+[gd_scene load_steps=32 format=3 uid="uid://cqt4vepe6qmcn"]
 
 [ext_resource type="PackedScene" uid="uid://dgp5mnwyrer0o" path="res://Scenes/EnemyTower.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://dyny48sww0vnw" path="res://Scenes/PlayerTower.tscn" id="3"]
@@ -65,6 +65,38 @@ tracks/1/keys = {
 _data = {
 "fade": SubResource("14")
 }
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhtno"]
+properties/0/path = NodePath("RedPanel/Name:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("BluePanel/Name:text")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("RedWall:size")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("BlueWall:size")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("RedTower:size")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("BlueTower:size")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("RedTowerPanel/Hp:text")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("RedWallPanel/Hp:text")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("BlueWallPanel/Hp:text")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("BlueTowerPanel/Hp:text")
+properties/9/spawn = true
+properties/9/replication_mode = 1
 
 [node name="Table" type="Control"]
 layout_mode = 3
@@ -1063,46 +1095,6 @@ offset_top = -192.0
 offset_right = 4.5
 color = Color(1, 1, 1, 0)
 
-[node name="DeckAnim" type="Tween" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 1
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
-script = null
-
-[node name="CardAnim" type="Tween" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 2
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
-script = null
-
-[node name="GraveyardAnim" type="Tween" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 1
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
-script = null
-
-[node name="NewCardAnim" type="Tween" parent="."]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 2
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
-script = null
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_ahysq")
@@ -1134,5 +1126,8 @@ layout_mode = 1
 [node name="MatchResult" parent="." instance=ExtResource("26_7y44j")]
 visible = false
 layout_mode = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qhtno")
 
 [connection signal="timeout" from="TimeElapsed" to="." method="_on_Time_Elapsed_timeout"]

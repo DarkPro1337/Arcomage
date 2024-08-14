@@ -346,4 +346,19 @@ public partial class Table : Control
         var isHost = id == 1;
         Players.Add(new Player { Id = id, Name = name, Host = isHost, Ai = false });
     }
+
+    public int GetValue(Player player, ResourceTypes resourceType)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void SetValue(Player self, ResourceTypes resource, int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Player GetTargetPlayer(Player self, TargetType target)
+    {
+        throw new System.NotImplementedException();
+    }
 }

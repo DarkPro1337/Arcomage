@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://ck57oh5lctgf0"]
+[gd_scene load_steps=12 format=3 uid="uid://ck57oh5lctgf0"]
 
 [ext_resource type="Script" path="res://Scripts/Settings.cs" id="1_8se8j"]
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_xsh22"]
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/Layout-edit_dark_blur.png" id="2_idday"]
 [ext_resource type="Texture2D" uid="uid://cdcud7it23lk8" path="res://Images/Icons/Flags/gb.png" id="3_qa8cm"]
-[ext_resource type="ButtonGroup" uid="uid://chi85n3rnukm8" path="res://Themes/GameplayModes.tres" id="3_s807r"]
 [ext_resource type="Texture2D" uid="uid://cge56yffs43nm" path="res://Images/Icons/Flags/ru.png" id="4_2tfki"]
 [ext_resource type="Texture2D" uid="uid://bm0poeq6ucufi" path="res://Images/Icons/Flags/ua.png" id="5_jwrtd"]
 [ext_resource type="Texture2D" uid="uid://dkp5a4f1r3o3y" path="res://Images/Icons/Flags/pl.png" id="6_joof3"]
@@ -73,9 +72,11 @@ offset_right = 434.0
 offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
+current_tab = 2
 tabs_visible = false
 
 [node name="Graphics" type="CenterContainer" parent="Tab"]
+visible = false
 layout_mode = 2
 
 [node name="Container" type="VBoxContainer" parent="Tab/Graphics"]
@@ -216,7 +217,6 @@ layout_mode = 2
 text = "MUTE_SOUND"
 
 [node name="StartingConditions" type="CenterContainer" parent="Tab"]
-visible = false
 layout_mode = 2
 
 [node name="Container" type="VBoxContainer" parent="Tab/StartingConditions"]
@@ -228,27 +228,6 @@ columns = 3
 
 [node name="Gameplay" type="VBoxContainer" parent="Tab/StartingConditions/Container/Main"]
 layout_mode = 2
-
-[node name="Singleplayer" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/Gameplay"]
-visible = false
-layout_mode = 2
-
-[node name="Toggle" type="CheckBox" parent="Tab/StartingConditions/Container/Main/Gameplay/Singleplayer"]
-layout_mode = 2
-disabled = true
-button_pressed = true
-button_group = ExtResource("3_s807r")
-text = "SINGLEPLAYER"
-
-[node name="Multiplayer" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/Gameplay"]
-visible = false
-layout_mode = 2
-
-[node name="Toggle" type="CheckBox" parent="Tab/StartingConditions/Container/Main/Gameplay/Multiplayer"]
-layout_mode = 2
-disabled = true
-button_group = ExtResource("3_s807r")
-text = "MULTIPLAYER"
 
 [node name="SingleClick" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/Gameplay"]
 layout_mode = 2

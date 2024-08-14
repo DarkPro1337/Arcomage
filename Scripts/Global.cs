@@ -1,47 +1,87 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using Godot;
-using Godot.Collections;
 
-namespace Arcomage.Scripts
+namespace Arcomage.Scripts;
+
+public partial class Global : Node
 {
-    public partial class Global : Node
+    public static Table Table { get; set; }
+    public static Settings Settings { get; set; }
+    public static NetworkSetup NetworkSetup { get; set; }
+    public static string BuildNumber { get; private set; }
+    public static List<Card> CardsList { get; } = [];
+
+    public override void _Ready()
     {
-        public static Table Table { get; set; }
-        public static Settings Settings { get; set; }
-        public static NetworkSetup NetworkSetup { get; set; }
-        public static string BuildNumber { get; private set; }
-
-        public override void _Ready()
-        {
-            OS.LowProcessorUsageMode = true;
-            BuildNumber = LoadBuildNumber();
-        }
+        OS.LowProcessorUsageMode = true;
+        BuildNumber = LoadBuildNumber();
+        LoadCardsFromFile("res://Db/base.json");
+    }
         
-        public static Dictionary<string, string> GetCommandLineArgs()
+    public static Dictionary<string, string> GetCommandLineArgs()
+    {
+        return new Dictionary<string, string>(OS.GetCmdlineArgs()
+            .Where(arg => arg.StartsWith("--"))
+            .Select(arg => arg[2..].Split("=", 2))
+            .Where(parts => parts.Length == 2)
+            .ToDictionary(parts => parts[0], parts => parts[1]));
+    }
+
+    private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
+
+    private static string LoadBuildNumber()
+    {
+        const string fileName = "res://build.tres";
+        if (FileAccess.FileExists(fileName))
         {
-            return new Dictionary<string, string>(OS.GetCmdlineArgs()
-                .Where(arg => arg.StartsWith("--"))
-                .Select(arg => arg[2..].Split("=", 2))
-                .Where(parts => parts.Length == 2)
-                .ToDictionary(parts => parts[0], parts => parts[1]));
+            using var file = FileAccess.Open(fileName, FileAccess.ModeFlags.Read);
+            var content = file.GetAsText();
+            file.Close();
+            return content.Trim();
         }
 
-        private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
-
-        private static string LoadBuildNumber()
+        Logger.Error("Build.tres file missing");
+        return "UNKNOWN";
+    }
+    
+    public static void LoadCardsFromFile(string filePath)
+    {
+        try
         {
-            const string fileName = "res://build.tres";
-            if (FileAccess.FileExists(fileName))
+            var jsonFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+            var json = jsonFile.GetAsText();
+            jsonFile.Close();
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+        
+            if (root.ValueKind != JsonValueKind.Array)
             {
-                using var file = FileAccess.Open(fileName, FileAccess.ModeFlags.Read);
-                var content = file.GetAsText();
-                file.Close();
-                return content.Trim();
+                Logger.Warn($"Root element in {filePath} is not an array.");
+                return;
             }
 
-            Logger.Error("Build.tres file missing");
-            return "00000000";
+            foreach (var cardElement in root.EnumerateArray())
+            {
+                try
+                {
+                    var newCard = new Card();
+                    newCard.Load(cardElement);
+                    CardsList.Add(newCard);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Warn(ex, "Failed to load a card from JSON. Skipping to the next card.");
+                }
+            }
+
+            Logger.Debug("Loaded {Count} cards from {Path}", CardsList.Count, filePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Unexpected error occurred while loading cards from file {Path}", filePath);
         }
     }
 }

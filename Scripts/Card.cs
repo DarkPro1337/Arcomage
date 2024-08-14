@@ -1,151 +1,22 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Godot;
 
 namespace Arcomage.Scripts;
 
-public enum CardType
+public partial class Card
 {
-    Brick,
-    Gem,
-    Recruits,
-    None
-}
-
-public enum CardsUse
-{
-    Attack,
-    Defence,
-    Resource
-}
-
-public enum CardFeature
-{
-    PlayAgain,
-    DrawDiscard,
-    NotDiscardable
-}
-
-public enum EffectType
-{
-    Gain,
-    Lose,
-    Set,
-    Damage,
-    Swap
-}
-
-public enum TargetType
-{
-    Self,
-    Opponent,
-    All,
-    AllExceptSelf,
-    LowestWall,
-    HighestWall,
-    LowestTower,
-    HighestTower
-}
-
-public enum ConditionType
-{
-    LessThan,
-    GreaterThan,
-    Equals,
-    NotEquals,
-    GreaterThanOrEqual,
-    LessThanOrEqual
-}
-
-public enum ResourceTypes
-{
-    Tower,
-    Wall,
-    Quarry,
-    Magic,
-    Dungeon,
-    Bricks,
-    Gems,
-    Recruits,
-    OpponentTower,
-    OpponentWall,
-    OpponentQuarry,
-    OpponentMagic,
-    OpponentDungeon,
-    OpponentBricks,
-    OpponentGems,
-    OpponentRecruits,
-    LowestWall,
-    HighestWall,
-    HighestTower,
-    LowestTower,
-    HighestQuarry,
-    HighestBricks,
-    HighestMagic,
-    HighestGems,
-    HighestDungeon,
-    HighestRecruits,
-    LowestQuarry,
-    LowestBricks,
-    LowestMagic,
-    LowestGems,
-    LowestDungeon,
-    LowestRecruits
-}
-
-public enum ActionType
-{
-    Default,
-    Conditional,
-    Swap,
-}
-
-public class CardAction
-{
-    public ActionType Type { get; set; }
-    public TargetType? Target { get; set; }
-    public EffectType? Effect { get; set; }
-    public ResourceTypes? Resource { get; set; }
-    public object Quantity { get; set; }
-    public CardCondition Condition { get; set; }
-    public CardAction Then { get; set; }
-    public CardAction Else { get; set; }
-
-    public override string ToString()
-    {
-        var props = GetType().GetProperties().Where(prop => prop.GetValue(this) != null).ToList();
-        return string.Join(", ", props.Select(prop => $"{prop.Name}: {prop.GetValue(this)}"));
-    }
-}
-
-public class CardCondition
-{
-    public object LeftOperand { get; set; }
-    public object Operator { get; set; }
-    public object RightOperand { get; set; }
-    public CardAction ThenAction { get; set; }
-    public CardAction ElseAction { get; set; }
-
-    public override string ToString()
-    {
-        var props = GetType().GetProperties().Where(prop => prop.GetValue(this) != null).ToList();
-        return string.Join(", ", props.Select(prop => $"{prop.Name}: {prop.GetValue(this)}"));
-    }
-}
-
-public class Cards
-{
+    private static readonly char[] Separator = [' '];
+    
     public string Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public CardType Type { get; set; }
     public int Cost { get; set; }
     public string Pic { get; set; }
-    public List<CardAction> Actions { get; set; }
+    public List<ICardAction> Actions { get; set; }
     public List<CardsUse> Uses { get; set; }
     public List<CardFeature> Features { get; set; }
 
@@ -164,327 +35,196 @@ public class Cards
         Cost = obj.GetProperty("cost").GetInt32();
         Pic = obj.GetProperty("pic").GetString();
 
-        DeserializeActions(obj);
-        DeserializeFeatures(obj);
+        Actions = DeserializeActions(obj);
+        Features = DeserializeFeatures(obj);
         Uses = GenerateUses();
     }
     
-    private void DeserializeActions(JsonElement obj)
+    private List<ICardAction> DeserializeActions(JsonElement obj)
     {
-        if (!obj.TryGetProperty("actions", out var actions)) return;
-        var actionStrings = actions.GetString()?.Split(',');
+        if (!obj.TryGetProperty("actions", out var actionsElement)) return [];
 
-        if (actionStrings == null) return;
-        Actions ??= new List<CardAction>();
-        foreach (var action in actionStrings)
-        {
-            if (action.Contains("IF", StringComparison.InvariantCultureIgnoreCase))
-            {
-                var conditionalAction = ParseConditionalAction(action.Trim());
-                if (conditionalAction != null)
-                    Actions.Add(conditionalAction);
-            }
-            else
-            {
-                var simpleAction = ParseSimpleAction(action.Trim());
-                if (simpleAction != null)
-                    Actions.Add(simpleAction);
-            }
-        }
-    }
-    
-    private CardAction ParseSimpleAction(string action)
-    {
-        var parts = action.Split(':');
-        if (parts.Length < 2)
-            throw new InvalidOperationException($"Parsing error: invalid action format in action string: {action} with ID: {Id}");
-
-        if (!Enum.TryParse<TargetType>(parts[0], true, out var target))
-            throw new InvalidOperationException($"Parsing error: invalid target type in action string: {action} with ID: {Id}");
-
-        var effectPart = parts[1].Split('=');
-        if (!Enum.TryParse<EffectType>(effectPart[0], true, out var effect))
-            throw new InvalidOperationException($"Parsing error: invalid effect type in action string {action} with ID: {Id}");
-
-        ResourceTypes? resourceType = null;
-        object quantity = null;
-
-        if (effectPart.Length > 1)
-        {
-            if (!TryParseOperand(effectPart[1], out quantity))
-                throw new InvalidOperationException($"Parsing error: invalid quantity in effect part: {effectPart[1]} with ID: {Id}");
-        }
-
-        if (parts.Length > 2)
-        {
-            var resourceQuantity = parts[2].Split('=');
-            if (!Enum.TryParse<ResourceTypes>(resourceQuantity[0], true, out var resource))
-                throw new InvalidOperationException($"Parsing error: invalid resource type in action string: {action} with ID: {Id}");
-
-            if (!TryParseOperand(resourceQuantity[1], out quantity))
-                throw new InvalidOperationException($"Parsing error: invalid quantity in action string: {action} with ID: {Id}");
-
-            resourceType = resource;
-        }
-
-        return new CardAction
-        {
-            Target = target,
-            Effect = effect,
-            Resource = resourceType,
-            Quantity = quantity
-        };
-    }
-
-
-    private CardAction ParseConditionalAction(string action)
-    {
-        var regex = new Regex(@"IF\s+(.+?)\s+THEN\s+(.+?)(?:\s+ELSE\s+(.+))?$", RegexOptions.IgnoreCase);
-        var match = regex.Match(action);
-
-        if (!match.Success)
-            throw new InvalidOperationException($"Parsing error: conditional action string format is invalid: {action}");
-
-        var conditionPart = match.Groups[1].Value.Trim();
-        var thenPart = match.Groups[2].Value.Trim();
-        var elsePart = match.Groups[3].Success ? match.Groups[3].Value.Trim() : null;
-
-        var conditionParts = conditionPart.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        if (conditionParts.Length != 3)
-            throw new InvalidOperationException($"Parsing error: condition format is invalid in conditional action string: {action}");
-
-        if (!TryParseOperand(conditionParts[0], out var leftOperand) ||
-            !Enum.TryParse<ConditionType>(conditionParts[1].Replace("_", ""), true, out var conditionType) ||
-            !TryParseOperand(conditionParts[2], out var rightOperand))
-        {
-            throw new InvalidOperationException($"Parsing error: failed to parse condition in conditional action string: {action}");
-        }
-
-        var thenAction = !string.IsNullOrEmpty(thenPart) ? ParseSimpleAction(thenPart) : null;
-        var elseAction = !string.IsNullOrEmpty(elsePart) ? ParseSimpleAction(elsePart) : null;
-
-        return new CardAction
-        {
-            Type = ActionType.Conditional,
-            Condition = new CardCondition
-            {
-                LeftOperand = leftOperand,
-                Operator = conditionType,
-                RightOperand = rightOperand
-            },
-            Then = thenAction,
-            Else = elseAction
-        };
-    }
-
-    private bool TryParseOperand(string operand, out object result)
-    {
-        if (int.TryParse(operand, out var intValue)) {
-            result = intValue;
-            return true;
-        }
-
-        if (Enum.TryParse<ResourceTypes>(operand, true, out var resourceType)) {
-            result = resourceType;
-            return true;
-        }
-
-        result = null;
-        return false;
-    }
-
-
-    private void DeserializeFeatures(JsonElement obj)
-    {
-        if (!obj.TryGetProperty("features", out var features)) return;
-
-        Features = features.EnumerateArray()
-            .Select(f => GetEnumValue<CardFeature>(f.GetString()))
+        var actionStrings = actionsElement.GetString()?.Split(',') ?? [];
+        return actionStrings
+            .Select(action => action.Trim())
+            .Select(ParseAction)
             .ToList();
     }
     
-    private TEnum GetEnumValue<TEnum>(string value, TEnum defaultValue = default) where TEnum : struct => 
-        Enum.TryParse<TEnum>(value, true, out var result) ? result : defaultValue;
+    private ICardAction ParseAction(string action)
+    {
+        return action.StartsWith("IF", StringComparison.InvariantCultureIgnoreCase) 
+            ? ParseConditionalAction(action) 
+            : ParseSimpleAction(action);
+    }
+    
+    private ICardAction ParseSimpleAction(string action)
+    {
+        var parts = action.Split(':');
+        if (parts.Length is < 2 or > 3)
+            throw new InvalidOperationException($"Invalid action format: {action}");
+
+        var target = ParseEnum<TargetType>(parts[0]);
+
+        if (parts.Length == 2 && parts[1].Contains('='))
+        {
+            var effectAndAmount = parts[1].Split('=');
+            if (effectAndAmount.Length != 2)
+                throw new InvalidOperationException($"Invalid effect/amount format: {parts[1]}");
+
+            var effect = ParseEnum<EffectType>(effectAndAmount[0]);
+
+            if (!int.TryParse(effectAndAmount[1], out var amount))
+                throw new InvalidOperationException($"Invalid amount: {effectAndAmount[1]}");
+
+            return effect switch
+            {
+                EffectType.Damage => new DamageAction(target, amount),
+                _ => throw new InvalidOperationException($"Effect type {effect} does not support non-resource actions")
+            };
+        }
+
+        if (parts.Length == 3)
+        {
+            var effect = ParseEnum<EffectType>(parts[1]);
+            var resourceAndAmount = parts[2].Split('=');
+            if (resourceAndAmount.Length != 2)
+                throw new InvalidOperationException($"Invalid resource/amount format: {parts[2]}");
+
+            var resource = ParseEnum<ResourceTypes>(resourceAndAmount[0]);
+
+            if (int.TryParse(resourceAndAmount[1], out var amount))
+            {
+                return effect switch
+                {
+                    EffectType.Gain => new GainAction(target, resource, amount),
+                    EffectType.Lose => new LoseAction(target, resource, amount),
+                    EffectType.Set => new SetAction(target, resource, amount),
+                    _ => throw new InvalidOperationException($"Unknown effect type: {effect}")
+                };
+            }
+
+            if (effect == EffectType.Swap && Enum.TryParse(resourceAndAmount[1], true, out ResourceTypes targetResource))
+                return new SwapAction(target, resource, targetResource);
+
+            if (effect == EffectType.Set && Enum.TryParse(resourceAndAmount[1], true, out targetResource))
+                return new SetAction(target, resource, targetResource);
+
+            throw new InvalidOperationException($"Invalid resource or amount: {resourceAndAmount[1]}");
+        }
+
+        throw new InvalidOperationException($"Invalid action format: {action}");
+    }
+
+    private ConditionalAction ParseConditionalAction(string action)
+    {
+        var match = CardActionRegex().Match(action);
+        if (!match.Success) throw new InvalidOperationException($"Invalid conditional action format: {action}");
+
+        var condition = ParseCondition(match.Groups[1].Value.Trim());
+        var thenAction = ParseAction(match.Groups[2].Value.Trim());
+        var elseAction = match.Groups[3].Success ? ParseAction(match.Groups[3].Value.Trim()) : null;
+
+        return new ConditionalAction(condition, thenAction, elseAction);
+    }
+
+    private Func<Player, Player, Table, bool> ParseCondition(string conditionPart)
+    {
+        var conditionParts = conditionPart.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+        if (conditionParts.Length != 3) throw new InvalidOperationException($"Invalid condition format: {conditionPart}");
+
+        var leftOperand = ParseOperand(conditionParts[0]);
+        var conditionType = ParseEnum<ConditionType>(conditionParts[1].Replace("_", ""));
+        var rightOperand = ParseOperand(conditionParts[2]);
+
+        return (self, opponent, context) =>
+        {
+            var leftValue = GetOperandValue(leftOperand, self, context);
+            var rightValue = GetOperandValue(rightOperand, opponent, context);
+
+            return CompareOperands(leftValue, rightValue, conditionType);
+        };
+    }
+    
+    private bool CompareOperands(int left, int right, ConditionType conditionType) => conditionType switch
+    {
+        ConditionType.LessThan => left < right,
+        ConditionType.GreaterThan => left > right,
+        ConditionType.Equals => left == right,
+        ConditionType.NotEquals => left != right,
+        ConditionType.GreaterThanOrEqual => left >= right,
+        ConditionType.LessThanOrEqual => left <= right,
+        _ => throw new InvalidOperationException($"Unknown condition type: {conditionType}")
+    };
+
+    private List<CardFeature> DeserializeFeatures(JsonElement obj) =>
+        !obj.TryGetProperty("features", out var featuresElement) 
+            ? new List<CardFeature>() 
+            : featuresElement.EnumerateArray().Select(f => ParseEnum<CardFeature>(f.GetString())).ToList();
+
+    private object ParseOperand(string operand)
+    {
+        if (Enum.TryParse(operand, true, out ResourceTypes resourceType))
+            return resourceType;
+
+        if (int.TryParse(operand, out var intValue))
+            return intValue;
+
+        throw new InvalidOperationException($"Invalid operand: {operand}");
+    }
+
+    private int GetOperandValue(object operand, Player player, Table context)
+    {
+        return operand switch
+        {
+            ResourceTypes resource => context.GetValue(player, resource),
+            int value => value,
+            _ => throw new InvalidOperationException($"Unknown operand type: {operand}")
+        };
+    }
+
+    private TEnum ParseEnum<TEnum>(string value) where TEnum : struct =>
+        Enum.TryParse(value, true, out TEnum result) ? result : throw new InvalidOperationException($"Invalid enum value: {value}");
 
     private List<CardsUse> GenerateUses()
     {
         var uses = new HashSet<CardsUse>();
-
         if (Actions != null)
         {
             foreach (var action in Actions)
             {
-                if (action.Effect is EffectType.Damage or EffectType.Lose || action.Target is TargetType.Opponent or TargetType.All)
+                if (action is GainAction gainAction)
+                {
+                    if (gainAction.Resource is ResourceTypes.Tower or ResourceTypes.Wall)
+                        uses.Add(CardsUse.Defence);
+                    
+                    else if (gainAction.Resource is ResourceTypes.Bricks or ResourceTypes.Gems or ResourceTypes.Recruits or ResourceTypes.Quarry or ResourceTypes.Magic or ResourceTypes.Dungeon) 
+                        uses.Add(CardsUse.Resource);
+                }
+                else if (action is LoseAction or DamageAction)
+                {
                     uses.Add(CardsUse.Attack);
-
-                if (action.Resource is ResourceTypes.Tower or ResourceTypes.Wall && action.Effect is EffectType.Set or EffectType.Gain)
-                    uses.Add(CardsUse.Defence);
-
-                if (action.Effect is EffectType.Gain && action.Resource is ResourceTypes.Bricks or ResourceTypes.Gems
-                        or ResourceTypes.Recruits or ResourceTypes.Quarry or ResourceTypes.Magic or ResourceTypes.Dungeon)
-                    uses.Add(CardsUse.Resource);
+                }
+                else if (action is SwapAction swapAction)
+                {
+                    if (swapAction.Resource is ResourceTypes.Wall || swapAction.ResourceToSwap is ResourceTypes.Wall)
+                        uses.Add(CardsUse.Defence);
+                    
+                    if (swapAction.Resource is ResourceTypes.OpponentWall or ResourceTypes.OpponentTower) 
+                        uses.Add(CardsUse.Attack);
+                }
             }
         }
+
+        if (Features == null) 
+            return uses.ToList();
         
-        if (Features != null)
-            uses.UnionWith(Features.Where(feature => feature is CardFeature.PlayAgain or CardFeature.DrawDiscard).Select(_ => CardsUse.Defence));
+        if (Features.Contains(CardFeature.PlayAgain) || Features.Contains(CardFeature.DrawDiscard)) 
+            uses.Add(CardsUse.Defence);
 
         return uses.ToList();
     }
-}
-    
-public partial class Card : Control
-{
-    private Panel Selector => GetNode<Panel>("Selector");
-    private TextureRect CardBack => GetNode<TextureRect>("CardBack");
-    private Label NameLabel => GetNode<Label>("Name");
-    private TextureRect Art => GetNode<TextureRect>("Art");
-    private Label Description =>  GetNode<Label>("Description");
-    private Label Cost => GetNode<Label>("Cost");
-    private TextureRect Layout => GetNode<TextureRect>("Layout");
-    private Label Discarded => GetNode<Label>("Discarded");
 
-    private readonly RandomNumberGenerator _rng = new();
-    public readonly List<Cards> CardsList = [];
-
-    public int CardIdx = -1;
-    public string CardId;
-    public string CardName;
-    public string CardDescription;
-    public int CardCost;
-    public CardType CardLayout;
-    public string CardArt;
-    public List<CardsUse> CardUses;
-    public List<CardFeature> CardFeatures;
-    public List<CardAction> CardActions;
-
-    public bool Preview = false;
-    public bool Discardable = true;
-    public bool Usable = true;
-    public bool BotUsable = true;
-    public bool Used = false;
-    public bool UiCardUppercaseText = false;
-
-    public override void _Ready()
-    {
-        GuiInput += OnGuiInput;
-        MouseEntered += OnMouseEntered;
-        MouseExited += OnMouseExited;
-        
-        _rng.Randomize();
-
-        var jsonFile = FileAccess.Open("res://Db/base.json", FileAccess.ModeFlags.Read);
-        var json = jsonFile.GetAsText();
-        jsonFile.Close();
-        
-        using (var document = JsonDocument.Parse(json)) 
-            LoadCards(document);
-        
-        var selectedCard = CardIdx != -1 && CardIdx >= 0 && CardIdx <= CardsList.Count
-            ? CardsList[CardIdx]
-            : CardsList[_rng.RandiRange(0, CardsList.Count)];
-            
-        CardId = selectedCard.Id;
-        CardName = selectedCard.Id.ToUpper();
-        CardArt = selectedCard.Pic.Replace("../", "res://");
-        CardDescription = $"{selectedCard.Id.ToUpper()}_DESC";
-        CardCost = selectedCard.Cost;
-        CardLayout = selectedCard.Type;
-        CardActions = selectedCard.Actions;
-        CardFeatures = selectedCard.Features;
-        CardUses = selectedCard.Uses;
-
-        NameLabel.Text = CardName;
-        Art.Texture = GD.Load<Texture2D>(CardArt);
-        Description.Text = CardDescription;
-        Cost.Text = CardCost.ToString();
-        NameLabel.Uppercase = UiCardUppercaseText;
-        Name = CardId;
-
-        if (CardFeatures != null && CardFeatures.Contains(CardFeature.NotDiscardable)) Discardable = false;
-
-        switch (CardLayout)
-        {
-            case CardType.Brick:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/red_card_layout_alt.png");
-                break;
-            case CardType.Gem:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/blue_card_layout_alt.png");
-                break;
-            case CardType.Recruits:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/green_card_layout_alt.png");
-                break;
-            case CardType.None:
-            default:
-                Logger.Error("CardLayout out of range");
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/null_card_layout_alt.png");
-                break;
-        }
-    }
-    
-    private void OnMouseEntered()
-    {
-        if (Usable)
-        {
-            Selector.SelfModulate = new Color(1, 1, 1);
-            Selector.Show();
-        }
-        else
-        {
-            Selector.SelfModulate = new Color(1, 0, 0);
-            Selector.Show();
-        }
-    }
-    
-    private void OnMouseExited()
-    {
-        Selector.Hide();
-        Selector.SelfModulate = new Color(1, 1, 1);
-    }
-
-    private void OnGuiInput(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton mouseButton && mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed)
-        {
-            if (Preview) 
-                PrintDebugInfo();
-            
-            // TODO: implement card usage
-        }
-        else if (@event is InputEventMouseButton mouseButton2 && mouseButton2.ButtonIndex == MouseButton.Right && mouseButton2.Pressed)
-        {
-            Logger.Debug($"RMB pressed on {Name}");
-            // TODO: implement card discarding
-        }
-    }
-
-    private void PrintDebugInfo()
-    {
-        Logger.Debug($"LMB pressed on {Name}");
-        var test = CardActions;
-        Debugger.Break();
-        if (CardActions is { Count: > 0 })
-            Logger.Debug("Card actions:\n" + string.Join("\n", CardsList[CardIdx].Actions.Select((x, idx) => $"{idx + 1}. {x}")));
-        if (CardFeatures is { Count: > 0 })
-            Logger.Debug("Card features:\n" + string.Join("\n", CardFeatures.Select(x => x.ToString())));
-        if (CardUses is { Count: > 0 })
-            Logger.Debug("Card uses:\n" + string.Join("\n", CardUses.Select(x => x.ToString())));
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-    }
-    
-    private void LoadCards(JsonDocument document)
-    {
-        var root = document.RootElement;
-        if(root.ValueKind != JsonValueKind.Array) return;
-        foreach (var card in root.EnumerateArray())
-        {
-            var newCard = new Cards();
-            newCard.Load(card);
-            CardsList.Add(newCard);
-        }
-    }
+    [GeneratedRegex(@"IF\s+(.+?)\s+THEN\s+(.+?)(?:\s+ELSE\s+(.+))?$", RegexOptions.IgnoreCase)]
+    private static partial Regex CardActionRegex();
 }

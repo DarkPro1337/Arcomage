@@ -239,6 +239,7 @@ mouse_default_cursor_shape = 2
 text = "CREDITS"
 
 [node name="DevTools" type="Button" parent="MenuGrid"]
+visible = false
 custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
 size_flags_horizontal = 7
