@@ -89,6 +89,7 @@ project/assembly_name="Arcomage"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=2
 shading/overrides/force_vertex_shading.mobile=false
 shading/overrides/force_lambert_over_burley.mobile=false
 anti_aliasing/screen_space_roughness_limiter/enabled=false
@@ -119,3 +120,4 @@ quality/lightmapping/use_bicubic_sampling=false
 quality/reflections/atlas_size=0
 quality/reflections/atlas_subdiv=0
 quality/depth/hdr=false
+environment/canvas_textures/default_texture_filter=2

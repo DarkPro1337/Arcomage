@@ -1,8 +1,8 @@
-[gd_scene load_steps=32 format=3 uid="uid://cqt4vepe6qmcn"]
+[gd_scene load_steps=33 format=3 uid="uid://cqt4vepe6qmcn"]
 
 [ext_resource type="PackedScene" uid="uid://dgp5mnwyrer0o" path="res://Scenes/EnemyTower.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://dyny48sww0vnw" path="res://Scenes/PlayerTower.tscn" id="3"]
-[ext_resource type="FontFile" uid="uid://b1s2nwtug8gkl" path="res://Fonts/RobotoCondensed-Regular.tres" id="4_6k12c"]
+[ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="4_6k12c"]
 [ext_resource type="PackedScene" uid="uid://c3lhbmvs8de0t" path="res://Scenes/PlayerWall.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://keod5nwm2dtr" path="res://Scenes/EnemyWall.tscn" id="6"]
 [ext_resource type="Texture2D" uid="uid://dwujmueb205yj" path="res://Sprites/tower_top_player.png" id="8"]
@@ -1058,6 +1058,8 @@ offset_top = -262.0
 offset_right = 134.0
 offset_bottom = -224.0
 text = "DISCARD A CARD!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BlueDeck" type="HBoxContainer" parent="."]
 visible = false

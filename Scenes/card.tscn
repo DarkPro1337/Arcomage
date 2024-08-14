@@ -38,8 +38,11 @@ line_spacing = 0.0
 font = ExtResource("1")
 font_size = 10
 font_color = Color(0, 0, 0, 1)
-outline_size = 6
+outline_size = 4
 outline_color = Color(0, 0, 0, 0.0784314)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.0784314)
+shadow_offset = Vector2(0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t661o"]
 line_spacing = 0.0
@@ -138,7 +141,7 @@ anchor_bottom = 0.872
 offset_left = 0.00500011
 offset_top = -0.0400009
 offset_right = -0.00500488
-offset_bottom = 0.0400085
+offset_bottom = 2.04001
 text = "Card Description"
 label_settings = SubResource("LabelSettings_1h2lf")
 horizontal_alignment = 1

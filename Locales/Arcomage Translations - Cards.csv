@@ -62,7 +62,7 @@ ROCK_GARDEN_DESC,"+1 Wall, +1 Tower, +2 Recruits","+1 к Стене, +1 к Ба�
 FLOOD_WATER,Flood Water,Наводнение,Паводкова вода,Powódź,Oversvømmelse
 FLOOD_WATER_DESC,Player(s) with lowest Wall are -1 Dungeon and 2 damage to Tower,Игрок с меньшей стеной получает -1 к темнице и 2 урона башне,Гравці з найнижчою стіною мають -1 підземелля і 2 до пошкодження вежі,Gracze z najniższym murem mają -1 loch i 2 obrażeń dla wieży,Spiller(e) med lavest Mur er -1 Hule og 2 skade til Tårn
 BARRACKS,Barracks,Казармы,Барак,Barak,Barakker
-BARRACKS_DESC,"+6 Recruits, +6 Wall, If dungeon < enemy dungeon then +1 dungeon","+6 зверей, '+6 к Стене, если темница < вражеской, +1 темница","+6 новобранців, +6 стіни, якщо підземелля < вороже підземелля, то +1 підземе","+6 rekrutów, +6 muru, jeśli loch < loch wroga, to +1 loch","+6 Rekrutter, +6 Mur, Hvis hule < modstander hule så +1 hule"
+BARRACKS_DESC,"+6 Recruits, +6 Wall, If dungeon < enemy dungeon then +1 dungeon","+6 зверей, +6 к Стене, если темница < вражеской, +1 темница","+6 новобранців, +6 стіни, якщо підземелля < вороже підземелля, то +1 підземе","+6 rekrutów, +6 muru, jeśli loch < loch wroga, to +1 loch","+6 Rekrutter, +6 Mur, Hvis hule < modstander hule så +1 hule"
 BATTLEMENTS,Battlements,Укрепления,Укріплювання,Ufortyfikowanie,Brystværner
 BATTLEMENTS_DESC,"+7 Wall, 6 damage to enemy","+7 к Стене, 6 урона врагу","+7 до Стіни, 6 ушкодження ворожій","+7 do Muru, 6 obrażeń dla wroga","+7 Mur, 6 skade til modstander"
 SHIFT,Shift,Сдвиг,Зміщення,Przesunięcie,Skift
@@ -90,7 +90,7 @@ RUBY_DESC,+5 Tower,+5 к Башне,+5 до Вежі,+5 do Wieży,+5 Tårn
 GEM_SPEAR,Gem Spear,Копье из самоцвета,Самоцвітний спис,Klejnotowa włócznia,Ædelstensspyd
 GEM_SPEAR_DESC,5 Damage to enemy tower,5 урона Башне врага,5 пошкодження ворожої Вежі,5 obrażeń wrogiej Wieży,5 Skade til modstander tårn
 POWER_BURN,Power Burn,Взрыв силы,Спалювання енергії,Spalanie energii,Magt Afbrænding
-POWER_BURN_DESC,"5 Damage to your tower, +2 Magic","5 урона собственной Башне, '+2 к Магии","5 збитків власної Вежі, +2 до Магії","5 obrażeń własnej Wieży, +2 do Magii","5 Skade til dit tårn, +2 Magi"
+POWER_BURN_DESC,"5 Damage to your tower, +2 Magic","5 урона собственной Башне, +2 к Магии","5 збитків власної Вежі, +2 до Магії","5 obrażeń własnej Wieży, +2 do Magii","5 Skade til dit tårn, +2 Magi"
 HARMONIC_VIBE,Harmonic Vibe,Гармония,Гармонія,Harmonia,Harmonisk Bølge
 HARMONIC_VIBE_DESC,"+1 Magic, +3 Tower, +3 Wall","+1 к Магии, +3 к Башне, +3 к Стене","+1 до Магії, +3 до Вежі, +3 до Стіни","+1 do Magii, +3 do Wieży, +3 do Muru","+1 Magi, +3 Tårn, +3 Mur"
 PARITY,Parity,Паритет,Рівність,Równość,Paritet
@@ -112,7 +112,7 @@ FIRE_RUBY_DESC,"+6 Tower, 4 Damage to all enemy towers","+6 к Башне, 4 у�
 QUARRYS_HELP,Quarry's Help,Помощь карьера,Допомога Кар'єру,Pomoc Kamieniołomu,Stenbruds Hjælp
 QUARRYS_HELP_DESC,"+7 Tower, Lose 10 bricks","+7 к Башне, Вы теряете 10 кирпичей","+7 до Вежі, Ви втрачаєте 10 цегли","+7 do Wieży, tracisz 10 cegieł","+7 Tårn, Mist 10 Byggesten"
 CRYSTAL_SHIELD,Crystal Shield,Кристальный щит,Кришталевий щит,Kryształowa tarcza,Krystalskjold
-CRYSTAL_SHIELD_DESC,"+8 Tower, +3 Wall","+8 к Башне, '+3 к Стене","+8 до Вежі, +3 до Стіни","+8 do Wieży, +3 do Muru","+8 Tårn, +3 Mur"
+CRYSTAL_SHIELD_DESC,"+8 Tower, +3 Wall","+8 к Башне, +3 к Стене","+8 до Вежі, +3 до Стіни","+8 do Wieży, +3 do Muru","+8 Tårn, +3 Mur"
 EMPATHY_GEM,Empathy Gem,Самоцвет эмпатии,Самоцвіт емпатії,Klejnot empatii,Empati Ædelsten
 EMPATHY_GEM_DESC,"+8 Tower, +1 Dungeon","+8 к Башне, +1 к Темнице","+8 до Вежі, +1 до В'язниці","+8 do Wieży, +1 do Lochu","+8 Tårn, +1 Hule"
 DIAMOND,Diamond,Алмаз,Алмаз,Diament,Diamant
