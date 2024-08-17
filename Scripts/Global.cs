@@ -34,7 +34,7 @@ public partial class Global : Node
 
     private static string LoadBuildNumber()
     {
-        const string fileName = "res://build.tres";
+        const string fileName = "res://build.txt";
         if (FileAccess.FileExists(fileName))
         {
             using var file = FileAccess.Open(fileName, FileAccess.ModeFlags.Read);

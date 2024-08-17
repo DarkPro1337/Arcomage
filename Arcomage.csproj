@@ -1,11 +1,11 @@
-<Project Sdk="Godot.NET.Sdk/4.2.2">
+<Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup>
     <InterfaceLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=1374382602&single=true&output=csv]]></InterfaceLocalization>
     <CardsLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=885174373&single=true&output=csv]]></CardsLocalization>
-    <BuildNumberPath>$(MSBuildProjectDirectory)\build.tres</BuildNumberPath>
+    <BuildNumberPath>$(MSBuildProjectDirectory)\build.txt</BuildNumberPath>
     <CurrentBuildNumber>$([System.DateTime]::Now.ToString("ddMMyyyy"))</CurrentBuildNumber>
   </PropertyGroup>
   <Target Name="GenerateBuildNumber" BeforeTargets="BeforeBuild">

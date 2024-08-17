@@ -159,7 +159,7 @@ public partial class Card
 
     private List<CardFeature> DeserializeFeatures(JsonElement obj) =>
         !obj.TryGetProperty("features", out var featuresElement) 
-            ? new List<CardFeature>() 
+            ? []
             : featuresElement.EnumerateArray().Select(f => ParseEnum<CardFeature>(f.GetString())).ToList();
 
     private object ParseOperand(string operand)

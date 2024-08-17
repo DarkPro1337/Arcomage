@@ -182,7 +182,8 @@ vertical_alignment = 1
 clip_text = true
 
 [node name="MenuGrid" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

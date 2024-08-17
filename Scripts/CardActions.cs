@@ -4,7 +4,7 @@ namespace Arcomage.Scripts;
 
 public interface ICardAction
 {
-    void Execute(Player self, Player opponent, Table table);
+    void Execute(Player player, Player opponent, Table table);
 }
 
 public class GainAction : ICardAction
@@ -20,10 +20,9 @@ public class GainAction : ICardAction
         Amount = amount;
     }
 
-    public void Execute(Player self, Player opponent, Table table)
+    public void Execute(Player player, Player opponent, Table table)
     {
-        var value = table.GetValue(self, Resource);
-        table.SetValue(self, Resource, value + Amount);
+        table.GainValue(player, Resource, Amount);
     }
 }
 
@@ -40,9 +39,9 @@ public class LoseAction : ICardAction
         Amount = amount;
     }
 
-    public void Execute(Player self, Player opponent, Table table)
+    public void Execute(Player player, Player opponent, Table table)
     {
-        table.GetValue(self, Resource);
+        table.GetValue(player, Resource);
     }
 }
 
@@ -66,9 +65,9 @@ public class SetAction : ICardAction
         TargetResource = targetResource;
     }
 
-    public void Execute(Player self, Player opponent, Table table)
+    public void Execute(Player player, Player opponent, Table table)
     {
-        // TODO: Implement execute
+        table.SetValue(player, Resource, Amount);
     }
 }
 
@@ -83,9 +82,11 @@ public class DamageAction : ICardAction
         Amount = amount;
     }
 
-    public void Execute(Player self, Player opponent, Table table)
+    public void Execute(Player player, Player opponent, Table table)
     {
-        var targetPlayer = table.GetTargetPlayer(self, Target);
+        var targetPlayers = table.GetTargetPlayer(player, Target);
+        foreach (var target in targetPlayers) 
+            table.Damage(target, Amount);
     }
 }
 
@@ -103,12 +104,12 @@ public class SwapAction : ICardAction
         ResourceToSwap = resourceToSwap;
     }
 
-    public void Execute(Player self, Player opponent, Table context)
+    public void Execute(Player player, Player opponent, Table context)
     {
-        var selfValue = context.GetValue(self, Resource);
+        var selfValue = context.GetValue(player, Resource);
         var opponentValue = context.GetValue(opponent, ResourceToSwap);
 
-        context.SetValue(self, Resource, opponentValue);
+        context.SetValue(player, Resource, opponentValue);
         context.SetValue(opponent, ResourceToSwap, selfValue);
     }
 }
@@ -128,11 +129,11 @@ public class ConditionalAction : ICardAction
         ElseAction = elseAction;
     }
 
-    public void Execute(Player self, Player opponent, Table context)
+    public void Execute(Player player, Player opponent, Table context)
     {
-        if (Condition(self, opponent, context))
-            ThenAction.Execute(self, opponent, context);
+        if (Condition(player, opponent, context))
+            ThenAction.Execute(player, opponent, context);
         else
-            ElseAction?.Execute(self, opponent, context);
+            ElseAction?.Execute(player, opponent, context);
     }
 }

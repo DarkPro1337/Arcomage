@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -349,16 +350,107 @@ public partial class Table : Control
 
     public int GetValue(Player player, ResourceTypes resourceType)
     {
-        throw new System.NotImplementedException();
+        return resourceType switch
+        {
+            ResourceTypes.Tower => player.TowerHp,
+            ResourceTypes.Wall => player.WallHp,
+            ResourceTypes.Quarry => player.Quarries,
+            ResourceTypes.Magic => player.Magic,
+            ResourceTypes.Dungeon => player.Dungeons,
+            ResourceTypes.Bricks => player.Bricks,
+            ResourceTypes.Gems => player.Gems,
+            ResourceTypes.Recruits => player.Recruits,
+            _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, "Invalid resource type")
+        };
     }
 
-    public void SetValue(Player self, ResourceTypes resource, int amount)
+    public void GainValue(Player targetPlayer, ResourceTypes resource, int amount)
     {
-        throw new System.NotImplementedException();
+        switch (resource)
+        {
+            case ResourceTypes.Tower:
+                targetPlayer.TowerHp += amount;
+                break;
+            case ResourceTypes.Wall:
+                targetPlayer.WallHp += amount;
+                break;
+            case ResourceTypes.Quarry:
+                targetPlayer.Quarries += amount;
+                break;
+            case ResourceTypes.Magic:
+                targetPlayer.Magic += amount;
+                break;
+            case ResourceTypes.Dungeon:
+                targetPlayer.Dungeons += amount;
+                break;
+            case ResourceTypes.Bricks:
+                targetPlayer.Bricks += amount;
+                break;
+            case ResourceTypes.Gems:
+                targetPlayer.Gems += amount;
+                break;
+            case ResourceTypes.Recruits:
+                targetPlayer.Recruits += amount;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
+        }
     }
 
-    public Player GetTargetPlayer(Player self, TargetType target)
+    public void SetValue(Player targetPlayer, ResourceTypes resource, int amount)
     {
-        throw new System.NotImplementedException();
+        switch (resource)
+        {
+            case ResourceTypes.Tower:
+                targetPlayer.TowerHp = amount;
+                break;
+            case ResourceTypes.Wall:
+                targetPlayer.WallHp = amount;
+                break;
+            case ResourceTypes.Quarry:
+                targetPlayer.Quarries = amount;
+                break;
+            case ResourceTypes.Magic:
+                targetPlayer.Magic = amount;
+                break;
+            case ResourceTypes.Dungeon:
+                targetPlayer.Dungeons = amount;
+                break;
+            case ResourceTypes.Bricks:
+                targetPlayer.Bricks = amount;
+                break;
+            case ResourceTypes.Gems:
+                targetPlayer.Gems = amount;
+                break;
+            case ResourceTypes.Recruits:
+                targetPlayer.Recruits = amount;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
+        }
+    }
+
+    public Player[] GetTargetPlayer(Player self, TargetType target)
+    {
+        return target switch
+        {
+            TargetType.Self => [self],
+            TargetType.Opponent => [Players.FirstOrDefault(player => player.Id != self.Id)],
+            TargetType.All => Players.ToArray(),
+            TargetType.AllExceptSelf => Players.Where(player => player.Id != self.Id).ToArray(),
+            TargetType.LowestWall => [Players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
+            TargetType.HighestWall => [Players.OrderByDescending(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
+            TargetType.LowestTower => [Players.OrderBy(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
+            TargetType.HighestTower => [Players.OrderByDescending(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
+            _ => throw new ArgumentOutOfRangeException(nameof(target), target, null)
+        };
+    }
+
+    public void Damage(Player target, int amount)
+    {
+        if (target.WallHp > 0)
+            target.WallHp -= amount;
+        else
+            target.TowerHp -= amount;
     }
 }

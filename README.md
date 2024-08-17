@@ -51,13 +51,13 @@ As a rule, cards that require the same type of resources are similar in action. 
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.2.2 stable mono](https://downloads.tuxfamily.org/godotengine/4.2.2/mono/)
+* [**Godot** v.4.3 stable mono](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
 * [**.NET** SDK](https://dotnet.microsoft.com/download)
-* Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
+* Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/4.3/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
-2. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.2.2/mono/)
+2. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
 3. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)

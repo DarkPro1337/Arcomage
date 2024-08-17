@@ -78,6 +78,7 @@ tabs_visible = false
 [node name="Graphics" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Container" type="VBoxContainer" parent="Tab/Graphics"]
 layout_mode = 2
@@ -159,6 +160,7 @@ layout_mode = 2
 [node name="Sound" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [node name="Container" type="VBoxContainer" parent="Tab/Sound"]
 layout_mode = 2
@@ -218,6 +220,7 @@ text = "MUTE_SOUND"
 
 [node name="StartingConditions" type="CenterContainer" parent="Tab"]
 layout_mode = 2
+metadata/_tab_index = 2
 
 [node name="Container" type="VBoxContainer" parent="Tab/StartingConditions"]
 layout_mode = 2
@@ -378,6 +381,7 @@ rounded = true
 [node name="PlayConditions" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="Container" type="VBoxContainer" parent="Tab/PlayConditions"]
 layout_mode = 2
@@ -458,10 +462,9 @@ text = "AI_LEVEL"
 [node name="Mode" type="OptionButton" parent="Tab/PlayConditions/Container/Other/Ai"]
 custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
-item_count = 4
 selected = 0
+item_count = 4
 popup/item_0/text = "AI_AUTO"
-popup/item_0/id = 0
 popup/item_1/text = "AI_ATTACK"
 popup/item_1/id = 1
 popup/item_2/text = "AI_DEFENCE"
@@ -472,6 +475,7 @@ popup/item_3/id = 3
 [node name="VictoryConditions" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 4
 
 [node name="Container" type="VBoxContainer" parent="Tab/VictoryConditions"]
 layout_mode = 2
@@ -509,6 +513,7 @@ rounded = true
 [node name="TavernPresets" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 5
 
 [node name="Container" type="VBoxContainer" parent="Tab/TavernPresets"]
 layout_mode = 2
@@ -524,10 +529,9 @@ text = "TAVERN"
 [node name="Option" type="OptionButton" parent="Tab/TavernPresets/Container/Preset"]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
-item_count = 14
 selected = 0
+item_count = 14
 popup/item_0/text = "NONE"
-popup/item_0/id = 0
 popup/item_1/text = "TAVERN_HARMONDALE"
 popup/item_1/id = 1
 popup/item_2/text = "TAVERN_ERATHIA"
@@ -558,6 +562,7 @@ popup/item_13/id = 13
 [node name="LanguageSettings" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 6
 
 [node name="Container" type="VBoxContainer" parent="Tab/LanguageSettings"]
 custom_minimum_size = Vector2(0, 78)
@@ -574,11 +579,10 @@ text = "LANGUAGE"
 [node name="Option" type="OptionButton" parent="Tab/LanguageSettings/Container/Language"]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
-item_count = 5
 selected = 0
+item_count = 5
 popup/item_0/text = "English"
 popup/item_0/icon = ExtResource("3_qa8cm")
-popup/item_0/id = 0
 popup/item_1/text = "Русский"
 popup/item_1/icon = ExtResource("4_2tfki")
 popup/item_1/id = 1
@@ -602,6 +606,7 @@ vertical_alignment = 1
 [node name="PlayerSettings" type="CenterContainer" parent="Tab"]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 7
 
 [node name="Container" type="VBoxContainer" parent="Tab/PlayerSettings"]
 layout_mode = 2

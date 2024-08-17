@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://82184713u5ak"]
+[gd_scene load_steps=15 format=3 uid="uid://82184713u5ak"]
 
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1"]
 [ext_resource type="Script" path="res://Scripts/CardControl.cs" id="1_ha45m"]
@@ -7,6 +7,15 @@
 [ext_resource type="Texture2D" uid="uid://besykgtt5lxq4" path="res://Sprites/red_card_layout_alt.png" id="4"]
 [ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="6"]
 [ext_resource type="Texture2D" uid="uid://oe5u7ul54mpv" path="res://Sprites/card_back.png" id="7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohmah"]
+draw_center = false
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+shadow_color = Color(0, 0, 0, 0.298039)
+shadow_size = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4pmem"]
 bg_color = Color(1, 1, 1, 1)
@@ -32,6 +41,7 @@ font_size = 12
 font_color = Color(0, 0, 0, 1)
 outline_size = 6
 outline_color = Color(0, 0, 0, 0.0784314)
+shadow_offset = Vector2(0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1h2lf"]
 line_spacing = 0.0
@@ -39,7 +49,7 @@ font = ExtResource("1")
 font_size = 10
 font_color = Color(0, 0, 0, 1)
 outline_size = 4
-outline_color = Color(0, 0, 0, 0.0784314)
+outline_color = Color(0, 0, 0, 0.117647)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.0784314)
 shadow_offset = Vector2(0, 0)
@@ -65,7 +75,6 @@ layout_mode = 3
 anchor_right = 0.140625
 anchor_bottom = 0.333333
 offset_bottom = 0.000183105
-size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_ha45m")
 
@@ -73,6 +82,7 @@ script = ExtResource("1_ha45m")
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ohmah")
 
 [node name="Selector" type="Panel" parent="."]
 visible = false
@@ -83,9 +93,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4pmem")
 
 [node name="Layout" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(135, 180)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("4")
 expand_mode = 1
 
@@ -116,13 +129,13 @@ expand_mode = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.037
-anchor_top = 0.033
+anchor_top = 0.028
 anchor_right = 0.963
-anchor_bottom = 0.128
+anchor_bottom = 0.133
 offset_left = 0.00500011
-offset_top = 0.0599999
+offset_top = -0.04
 offset_right = -0.00500488
-offset_bottom = -0.0400009
+offset_bottom = 0.0599995
 size_flags_horizontal = 4
 text = "Card Name"
 label_settings = SubResource("LabelSettings_1br1x")
@@ -137,11 +150,11 @@ anchors_preset = -1
 anchor_left = 0.037
 anchor_top = 0.578
 anchor_right = 0.963
-anchor_bottom = 0.872
+anchor_bottom = 0.883
 offset_left = 0.00500011
 offset_top = -0.0400009
 offset_right = -0.00500488
-offset_bottom = 2.04001
+offset_bottom = 0.0599976
 text = "Card Description"
 label_settings = SubResource("LabelSettings_1h2lf")
 horizontal_alignment = 1
@@ -177,11 +190,18 @@ expand_mode = 1
 
 [node name="Discarded" type="Label" parent="."]
 visible = false
-layout_mode = 0
-offset_left = 18.0
-offset_top = 20.0
-offset_right = 183.0
-offset_bottom = 46.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -49.5
+offset_top = -70.0
+offset_right = 115.5
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 2
 rotation = 0.785398
 text = "DISCARDED"
 label_settings = SubResource("LabelSettings_xvv0o")
