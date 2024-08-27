@@ -34,7 +34,9 @@ public enum Locale
     Ru,
     Uk,
     Pl,
-    Da
+    Da,
+    De,
+    Fr
 }
 
 public class GameSettings

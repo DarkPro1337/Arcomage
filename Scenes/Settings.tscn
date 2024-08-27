@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ck57oh5lctgf0"]
+[gd_scene load_steps=14 format=3 uid="uid://ck57oh5lctgf0"]
 
 [ext_resource type="Script" path="res://Scripts/Settings.cs" id="1_8se8j"]
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_xsh22"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bm0poeq6ucufi" path="res://Images/Icons/Flags/ua.png" id="5_jwrtd"]
 [ext_resource type="Texture2D" uid="uid://dkp5a4f1r3o3y" path="res://Images/Icons/Flags/pl.png" id="6_joof3"]
 [ext_resource type="Texture2D" uid="uid://cvsdectwsoylf" path="res://Images/Icons/Flags/dk.png" id="7_ivjg1"]
+[ext_resource type="Texture2D" uid="uid://bifv2jpwach65" path="res://Images/Icons/Flags/de.png" id="9_dwbfe"]
+[ext_resource type="Texture2D" uid="uid://c26b567iksh6x" path="res://Images/Icons/Flags/fr.png" id="10_oxuib"]
 
 [sub_resource type="Theme" id="Theme_t74ne"]
 default_font = ExtResource("1_xsh22")
@@ -72,11 +74,10 @@ offset_right = 434.0
 offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 2
+current_tab = 0
 tabs_visible = false
 
 [node name="Graphics" type="CenterContainer" parent="Tab"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -219,6 +220,7 @@ layout_mode = 2
 text = "MUTE_SOUND"
 
 [node name="StartingConditions" type="CenterContainer" parent="Tab"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -580,7 +582,7 @@ text = "LANGUAGE"
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 selected = 0
-item_count = 5
+item_count = 7
 popup/item_0/text = "English"
 popup/item_0/icon = ExtResource("3_qa8cm")
 popup/item_1/text = "Русский"
@@ -595,6 +597,12 @@ popup/item_3/id = 3
 popup/item_4/text = "Dansk"
 popup/item_4/icon = ExtResource("7_ivjg1")
 popup/item_4/id = 4
+popup/item_5/text = "Deutsch"
+popup/item_5/icon = ExtResource("9_dwbfe")
+popup/item_5/id = 5
+popup/item_6/text = "français"
+popup/item_6/icon = ExtResource("10_oxuib")
+popup/item_6/id = 6
 
 [node name="TranslationErrors" type="Label" parent="Tab/LanguageSettings/Container"]
 visible = false

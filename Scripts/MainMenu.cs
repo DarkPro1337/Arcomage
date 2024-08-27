@@ -46,7 +46,7 @@ public partial class MainMenu : Control
 
     public override void _Ready()
     {
-        Version.Text = $"v. {ProjectSettings.GetSetting("application/config/version")}";
+        Version.Text = $"{ProjectSettings.GetSetting("application/config/version")}";
         BuildNumber.Text = $"Build: {Global.BuildNumber}";
         if (OS.IsDebugBuild()) 
             BuildNumber.Text += "-dev";

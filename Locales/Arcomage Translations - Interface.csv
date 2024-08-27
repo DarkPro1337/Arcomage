@@ -1,108 +1,108 @@
-id,en,ru,uk,pl,da
-START_GAME,Start Game,Начать игру,Почати гру,Rozpocząć grę,Nyt Spil
-SETTINGS,Settings,Настройки,Налаштування,Konfiguracja,Indstillinger
-LEADERBOARD,Leaderboard,Таблица лидеров,Таблиця лідерів,Tabela Liderów,Point Tavle
-CREDITS,Credits,Титры,Титр,Napis,Credits
-EXIT,Exit,Выход,Вихід,Wyjście,Afslut
-BRICKS,bricks,кирпичи,цегла,cegły,Byggesten
-GEMS,gems,самоцветы,самоцвіти,klejnoty,Ædelstene
-RECRUITS,recruits,звери,звірі,rekrutów,Rekrutter
-COMPUTER,COMPUTER,ИИ,Штучний інтелект,Sztuczna inteligencja,Computer
-WINDOW_SETTINGS,Window Settings,Настройки окна,Налаштування вікна,Ustawienia Okna,Vindue Indstillinger
-SOUND_SETTINGS,Sound Settings,Настройки звука,Налаштування звуку,Ustawienia Dźwięku,Lyd Indstillinger
-STARTING_CONDITIONS,Starting Conditions,Стартовые настройки,Початкові налаштування,Ustawienia początkowe,Begyndelses Vilkår
-PLAY_CONDITIONS,Play Conditions,Игровые настройки,Ігрові налаштування,Ustawienia gry,Spilleregler
-VICTORY_CONDITIONS,Victory Conditions,Условия победы,Умови перемоги,Warunki zwycięstwa,Sejr Vilkår
-TAVERN_PRESETS,Tavern Presets,Выбор таверны,Вибір таверни,Wybór tawerny,Kro Indstillinger
-FULLSCREEN,Fullscreen:,Полноэкранный:,Повноекранний:,Pelnoekranowy:,Fuld Skærm:
-BORDERLESS,Borderless:,Безрамочный:,Безрамковий:,Bezramkowy:,Ingen Border:
-WINDOW_WIDTH,Window Width:,Ширина окна:,Ширина вікна:,Szerokość okna:,Vinduesbredde:
-WINDOW_HEIGHT,Height:,Высота:,Висота:,Wysokość:,Vindueshøjde:
-VSYNC,VSync:,VSync:,VSync:,VSync:,VSync:
-INTRO_SKIP,Intro skip:,Пропуск интро:,Пропуск інтро:,Intro skip:,Intro Skip:
-MASTER,Master:,Общий:,Загальний:,Generał:,Master:
-MUSIC,Music:,Музыка:,Музика:,Muzyka:,Musik:
-SOUNDS,Sounds:,Звуки:,Звуки:,Dźwięk:,Lyd:
-MUTE_SOUND,Mute Sound,Заглушить звук,Заглушити звук,Zagłuszyć dźwięk,Lydløs
-SINGLEPLAYER,Single Player,Одиночная игра,Одиночна гра,Gra pojedyncza,Singleplayer
-MULTIPLAYER,Multi Player,Сетевая игра,Багатокористувацька,Multiplayer,Multiplayer
-SINGLE_CLICK_MODE,Single Click Mode,Одиночный клик,Режим одиночного клацання,Tryb Pojedynczego Kliknięcia,Enkelt Klik Instilling
-TOWER_LEVELS,Tower Levels:,Высота башни,Висота вежі:,Wysokość wieży:,Tårn Niveau:
-WALL_LEVELS,Wall Levels:,Высота стены,Висота стіни:,Wysokość ściany:,Mur Niveau:
-QUARRY_LEVELS,Quarry Levels:,Карьеры,Рівні кар’єру:,Poziomy kariery:,Stenbrud Niveau:
-MAGIC_LEVELS,Magic Levels:,Магия,Рівні магії:,Poziomy magii:,Magi Niveau:
-DUNGEON_LEVELS,Dungeon Levels:,Темницы,Рівні підземелля:,Poziomy lochów:,Hule Niveau:
-BRICK_QUANTITIES,Brick Quantities:,Кирпичи,Кількість цегли:,Ilość cegieł:,Byggesten Mængde:
-GEM_QUANTITIES,Gem Quantities:,Самоцветы,Кількість самоцвітів:,Ilość klejnotów:,Ædelsten Mængde:
-RECRUIT_QUANTITIES,Recruit Quantities:,Звери,Кількість звірів:,Liczba rekrutów:,Rekrut Mængde:
-AUTOGET_BRICKS,Auto Get Number of Bricks:,Авто получение кирпичей:,Автоматично отримати кількість цегли:,Automatycznie uzyskaj liczbę cegieł:,Auto Skaf Antal af Byggesten:
-AUTOGET_GEMS,Auto Get Number of Gems:,Авто получение самоцветов:,Автоматично отримати кількість самоцвітів:,Automatycznie uzyskaj liczbę klejnotów:,Auto Skaf Antal af Ædelstene:
-AUTOGET_RECRUITS,Auto Get Number of Recruits:,Авто получение зверей:,Автоматично отримати кількість звірів:,Automatycznie uzyskać Ilość rekrutów:,Auto Skaf Antal af Rekrutter:
-CARDS_IN_HAND,Number of Cards in Hand:,Количество карт в руке,Кількість карт в руці:,Liczba kart w ręku:,Antal Kort i Hånden:
-AI_LEVEL,Computer AI to play Against:,Стиль игры компьютера,Стиль гри комп'ютера:,Styl gry komputerowej:,Antal Computer AI modstandere:
-AI_AUTO,Auto,Автоматический,Автоматичний,Automatyczny,Auto
-AI_ATTACK,Attack,Атака,Напад,Atak,Angreb
-AI_DEFENCE,Defence,Защита,Оборона,obronność,Forsvar
-AI_RANDOM,Random,Случайный,Випадковий,Przypadkowy,Random
-TOWER_VICTORY,Tower Victory:,Выстроить башню:,Перемога вежі:,Zwycięstwo wieży:,Tårn Sejr:
-RESOURCE_VICTORY,Resource Victory:,Собрать ресурсов:,Зібрати ресурсів:,Zbierz zasoby:,Ressource Sejr:
-TAVERN,Tavern:,Таверна:,Таверна:,Tawerna:,Kro:
-NONE,None,Нет,Немає,Nie,Ingen:
-TAVERN_HARMONDALE,On the House (Harmondale),За счет заведения (Хармондейл),У будинку (Гармондейл),Na koszt zakładu (Harmondale),On the House (Harmondale)
-TAVERN_ERATHIA,Griffin's Rest (Erathia),Покой грифона (Эрафия),Покої грифона (Ерафіі),Odpoczynek Gryfona (Erathia),Griffin's Rest (Erathia)
-TAVERN_TULAREAN_FOREST,Emerald Inn (Tularean Forest),Изумрудный двор (Тулареанский лес),Смарагдовий двір (Тулареанскій ліс),Szmaragdowy dziedziniec (Tularean Forest),Emerald Inn (Tularean Forest)
-TAVERN_DEYJA,Snobbish Goblin (Deyja),Снобисткий гоблин (Дейя),Снобістський гоблін (Дейя),Goblin Snobistyczny (Deyja),Snobbish Goblin (Deyja)
-TAVERN_BRACADA_DESERT,Familiar Place (Bracada Desert),Знакомое местечко (Пустыня Бракада),Знайоме містечко (Пустеля Бракада),Znane miasteczko (Pustynia Bracada),Familiar Place (Bracada Desert)
-TAVERN_CELESTE,The Blessed Brew (Celeste),Благословённое варево (Небеса),Благословенне вариво (Небеса),Cudowny napar (Niebo),The Blessed Brew (Celeste)
-TAVERN_PIT,The Vamyre Lounge (The Pit),Бар Вампира (Бездна),Бар Вампіра (Безодня),Bar Wampirów (Czeluść),The Vamyre Lounge (The Pit)
-TAVERN_EVERMORN_ISLAND,The Laughing Monk (Evermorn Island),Смеющийся монах (Остров Эвенморн),Сміюся монах (Острів Евенморн),Roześmiany mnich (Wyspa Evenmorn),The Laughing Monk (Evermorn Island)
-TAVERN_NIGHON,Fortune's Folly (Nighon),Причуды фортуны (Нигон),Примхи фортуни (Нігон),Dziwactwa fortuny (Nigon),Fortune's Folly (Nighon)
-TAVERN_BARROW_DOWNS,Miner's Only (Barrow Downs),Шахтерская (Курганы),Шахтарська (Кургани),Górniczy (Kopiec),Miner's Only (Barrow Downs)
-TAVERN_TIDEWATER,The Loyal Mercenary (Tidewater),Лояльный наёмник (Таталия),Лояльний найманець (Таталія),Lojalny najemnik (Tidewater),The Loyal Mercenary (Tidewater)
-TAVERN_AVLEE,The Potted Pixie (Avlee),Пьяные пикси (АвЛи),Піксі в горщиках (Авлі),Pixie w doniczkach(Avlee),The Potted Pixie (Avlee)
-TAVERN_STONE_CITY,Grogg's Grog (Stone City),Грог Грогга (Каменный город),Грог грогі (Кам'яне місто),Grogg's Grog (Kamienne miasto),Grogg's Grog (Stone City)
-RESTORE_DEFAULTS,Reset to defaults,Сбросить настройки,Повернути стандартні значення,Zwróć standardowe wartości,Nulstil Alt
-SAVE_AND_CLOSE,Save and Close,Сохранить и закрыть,Зберегти та закрити,Zapisz i zamknij,Gem og Luk
-WINNER_IS,THE WINNER IS:,ПОБЕДИЛ:,ПЕРЕМОЖЕЦЬ:,ZWYCIĘZCA:,VINDEREN ER:
-TOWER_VICTORY_MSG,BY A TOWER BUILDING VICTORY!!!,СТРОИТЕЛЬСТВОМ БАШНИ,ПЕРЕМОГА БУДІВНИЦТВА ВЕЖИ !!!,WYGRAJ BUDOWĘ WIEŻY!!!,VIA TÅRN BYGGESEJR!!!
-TOWER_DESTROY_MSG,BY A TOWER DESTRUCTION VICTORY!!!,УНИЧТОЖЕНИЕМ БАШНИ,ПЕРЕМОГА ЗНИЩЕННЯ БАШТИ !!!,ZWYCIĘSTWO ZNISZCZENIA WIEŻY!!!,VIA TÅRN NEDLÆGNINGSSEJR!!!
-RESOURCE_VICTORY_MSG,BY A RESOURCE VICTORY!!!,СБОРОМ РЕСУРСОВ,РЕСУРСНА ПЕРЕМОГА!!!,ZWYCIĘSTWO ZASOBÓW!!!,VIA RESSOURCESEJR!!!
-ORIGINAL_GAMEDEVS,ORIGINAL GAME DEVELOPERS:,РАЗРАБОТЧИКИ ОРИГИНАЛЬНОЙ ИГРЫ:,ОРИГІНАЛЬНІ РОЗРОБНИКИ ГРИ:,ORYGINALNI TWÓRCY GRY:,OPRINDELIGE SPILUDVIKLERE:
-REMAKE_DEV,REMAKE DEVELOPED BY:,РАЗРАБОТЧИК РЕМЕЙКА:,"РЕМЕЙК, РОЗРОБЛЕНИЙ:",REMAKE OPRACOWANY PRZEZ:,REMAKE UDVIKLET AF:
-TESTING,TESTING:,ТЕСТИРОВАНИЕ:,ТЕСТУВАННЯ:,TESTOWANIE:,TESTER:
-WARNING_TEXT,This is fan remake and not connected or affiliated with New World Computing or it's copyright holders (3DO or Ubisoft).,Это фанатский ремейк и он никак не связан или аффилирован с New World Computing или с их правообладателями (3DO или Ubisoft),Це фанатський ремейк і він ніяк не пов'язаний або афілійований з New World Computing або з їх правовласниками (3DO або Ubisoft),Jest to remake fanów i nie jest w żaden sposób powiązany z New World Computing ani z ich posiadaczami praw (3DO lub Ubisoft),Detter er en fan remake og er ikke forbundet eller associeret med New World Computing eller deres copyright indehavere (3DO eller Ubisoft).
-NEXT,Next,Далее,Далі,Dalej,Næste
-LANGUAGE_SETTINGS,Language Settings,Настройки языка,Налаштування мови,Ustawienia języka,Sprog Instillinger
-LANGUAGE,Language:,Язык:,Мова:,Język:,Sprog:
-APPLY,Apply,Применить,Використати,Zastosować,Tilføj
-TIME,TIME:,ВРЕМЯ:,ЧАС:,CZAS:,TID:
-START_GAME_TOOLTIP,Starts a new game with the current settings.,Начинает новую игру с текущими настройками.,Начинає нову гру з актуальними настройками.,Rozpoczyna nową grę z bieżącymi ustawieniami.,Start nyt spil med nuværende indstillinger.
-SETTINGS_TOOLTIP,Allows you to customize the rules of the game.,Позволяет настроить правила игры.,Дозволяє настроїти правила гри.,Pozwala ustalać zasady gry.,Tillader dig at rette på spillets regler.
-LEADERBOARD_TOOLTIP,Opens the leaderboard.,Открывает доску лидеров.,Відкриває дошку лідерів.,Otwiera tablicę liderów.,Åbner point tavle
-CREDITS_TOOLTIP,Opens credits.,Открывает титры.,Відкриває титри.,Otwiera kredyty.,Åbner credits.
-EXIT_TOOLTIP,Quit the game.,Выйти из игры.,Вийти з гри.,Wyjdź z gry.,Afslutter spillet.
-WORK_IN_PROGRESS,Work in progress...,Работа в процессе...,Робота в процесі...,Praca w toku...,Under udvikling...
-SETTINGS_WARNING,Some settings may not be avalible or not working correctly for now.,Некоторые настройки сейчас могут быть недоступны или работать некорректно.,Деякі установки зараз можуть бути недоступні або працювати некоректно.,Niektóre ustawienia mogą być teraz niedostępne lub działać poprawnie.,Nogle indstillinger er muligvis ikke tilgængelig eller virker ikke ordenligt lige nu.
-TRANSLATION_MAY_CONTAIN_ERRORS,Translation may contain errors.,Перевод может содержать ошибки.,Переклад може містити помилки.,Tłumaczenie może zawierać błędy.,Oversættelse kan indeholde fejl.
-DISCARDED,DISCARDED,СБРОШЕНА,СКИНУТА,RESETOWANIE,Kasseret
-THANKS_FOR_TRANSLATION,Thanks for translation:,Спасибо за перевод:,Дякую за переклад:,Dzięki za tłumaczenie:,Tak for oversættelsen:
-PLAYER_SETTINGS,Player Settings,Настройки игрока,Налаштування гравця,Ustawienia odtwarzacza,Spiller Instillinger:
-NICKNAME,Nickname:,Никнейм:,Псевдонім:,Przezwisko:,Kaldenavn:
-GAME_IS_PAUSED,Game is paused,Игра на паузе,Гра на паузі,Wstrzymaj grę,Spillet er på pause
-RESUME,Resume,Продолжить,Продовжити,Przystępować,Fortsæt
-STATS,Stats,Статистика,Статистика,Statystyka,Statistikker
-MULTIPLAYER_GAME,Multiplayer Game,Мультиплеер,Мультіплеєр,Gra Wieloosobowa,Multiplayer Spil
-CREATE_SERVER,Create Server,Создать сервер,Створити сервер,Utwórz serwer,Lav Server
-JOIN_SERVER,Join Server,Присоединиться,Приєднатися,Przystąp,Deltag Server
-ENTER_IP_ADDRESS,Enter IP Address,Введите IP адрес сервера,Введіть IP-адресу сервера,Wpisz adres IP serwera,Indtast IP Adresse
-IP_ADDRESS_NOT_FOUND,IP Address not found!,IP адрес не найден!,IP адрес не знайдений!,Nie znaleziono adresu IP!,IP Adresse ikke fundet!
-CANCEL,Cancel,Отмена,Відміна,Zniesienie,Afbryd
-MULTIPLAYER_GAME_TOOLTIP,Opens multiplayer game creation and connection screen.,Открывает экран создания и подключения многопользовательской игры.,Відкриває екран створення і підключення багатокористувацької гри.,Otwiera ekran tworzenia i łączenia gry wieloosobowej.,Åbner multiplayer oprettelses- og forbindelsesskærm
-READY,Ready,Готов,Готовий,Gotowy,Klar
-LOBBY,Lobby,Лобби,Лобі,Hol,Lobby
-CONNECTION,Connection,Подключение,Підключення,Połączenie,Forbindelse
-PLAYERS,Players,Игроки,Гравці,Gracze,Spillere
-STATUS,Status,Статус,Статус,Status,Status
-NOT_READY,Not Ready,Не готов,Не готовий,Niegotowy,Ikke klar
-DEV_TOOLS,Developer Tools,Инструменты разработчика,Інструменти розробника,Narzędzia deweloperskie,Udviklerværktøjer
-DEV_TOOLS_TOOLTIP,Open developer tools.,Открывает инструменты разработчика.,Відкриває інструменти розробника.,Otwiera narzędzia deweloperskie.,Åbner udviklerværktøjer.
+id,en,ru,uk,pl,da,de,fr
+START_GAME,Start Game,Начать игру,Почати гру,Rozpocząć grę,Nyt Spil,Spiel starten,Démarrer le jeu
+SETTINGS,Settings,Настройки,Налаштування,Konfiguracja,Indstillinger,Einstellungen,Paramètres
+LEADERBOARD,Leaderboard,Таблица лидеров,Таблиця лідерів,Tabela Liderów,Point Tavle,Bestenliste,Classement
+CREDITS,Credits,Титры,Титр,Napis,Credits,Impressum,Crédits
+EXIT,Exit,Выход,Вихід,Wyjście,Afslut,Beenden,Quitter
+BRICKS,bricks,кирпичи,цегла,cegły,Byggesten,Ziegel,Briques
+GEMS,gems,самоцветы,самоцвіти,klejnoty,Ædelstene,Edelsteine,Gemmes
+RECRUITS,recruits,звери,звірі,rekrutów,Rekrutter,Rekruten,Recrues
+COMPUTER,COMPUTER,ИИ,Штучний інтелект,Sztuczna inteligencja,Computer,COMPUTER,ORDINATEUR
+WINDOW_SETTINGS,Window Settings,Настройки окна,Налаштування вікна,Ustawienia Okna,Vindue Indstillinger,Fenstereinstellungen,Paramètres de la fenêtre
+SOUND_SETTINGS,Sound Settings,Настройки звука,Налаштування звуку,Ustawienia Dźwięku,Lyd Indstillinger,Toneinstellungen,Paramètres audio
+STARTING_CONDITIONS,Starting Conditions,Стартовые настройки,Початкові налаштування,Ustawienia początkowe,Begyndelses Vilkår,Startbedingungen,Conditions de départ
+PLAY_CONDITIONS,Play Conditions,Игровые настройки,Ігрові налаштування,Ustawienia gry,Spilleregler,Spielbedingungen,Conditions de jeu
+VICTORY_CONDITIONS,Victory Conditions,Условия победы,Умови перемоги,Warunki zwycięstwa,Sejr Vilkår,Siegbedingungen,Conditions de victoire
+TAVERN_PRESETS,Tavern Presets,Выбор таверны,Вибір таверни,Wybór tawerny,Kro Indstillinger,Taverne-Voreinstellungen,Préréglages de la taverne
+FULLSCREEN,Fullscreen:,Полноэкранный:,Повноекранний:,Pelnoekranowy:,Fuld Skærm:,Vollbild:,Plein écran :
+BORDERLESS,Borderless:,Безрамочный:,Безрамковий:,Bezramkowy:,Ingen Border:,Randlos:,Sans bordure :
+WINDOW_WIDTH,Window Width:,Ширина окна:,Ширина вікна:,Szerokość okna:,Vinduesbredde:,Fensterbreite:,Largeur de la fenêtre :
+WINDOW_HEIGHT,Height:,Высота:,Висота:,Wysokość:,Vindueshøjde:,Höhe:,Hauteur :
+VSYNC,VSync:,VSync:,VSync:,VSync:,VSync:,VSync:,VSync :
+INTRO_SKIP,Intro skip:,Пропуск интро:,Пропуск інтро:,Intro skip:,Intro Skip:,Intro überspringen:,Passer l'intro :
+MASTER,Master:,Общий:,Загальний:,Generał:,Master:,Haupt:,Principal :
+MUSIC,Music:,Музыка:,Музика:,Muzyka:,Musik:,Musik:,Musique :
+SOUNDS,Sounds:,Звуки:,Звуки:,Dźwięk:,Lyd:,Geräusche:,Sons :
+MUTE_SOUND,Mute Sound,Заглушить звук,Заглушити звук,Zagłuszyć dźwięk,Lydløs,Stummschalten,Muet
+SINGLEPLAYER,Single Player,Одиночная игра,Одиночна гра,Gra pojedyncza,Singleplayer,Einzelspieler,Joueur unique
+MULTIPLAYER,Multi Player,Сетевая игра,Багатокористувацька,Multiplayer,Multiplayer,Mehrspieler,Multijoueur
+SINGLE_CLICK_MODE,Single Click Mode,Одиночный клик,Режим одиночного клацання,Tryb Pojedynczego Kliknięcia,Enkelt Klik Instilling,Ein-Klick-Modus,Mode à un clic
+TOWER_LEVELS,Tower Levels:,Высота башни,Висота вежі:,Wysokość wieży:,Tårn Niveau:,Turmebenen:,Niveaux de la tour :
+WALL_LEVELS,Wall Levels:,Высота стены,Висота стіни:,Wysokość ściany:,Mur Niveau:,Wandstufen:,Niveaux des murs :
+QUARRY_LEVELS,Quarry Levels:,Карьеры,Рівні кар’єру:,Poziomy kariery:,Stenbrud Niveau:,Steinbruchstufen:,Niveaux de la carrière :
+MAGIC_LEVELS,Magic Levels:,Магия,Рівні магії:,Poziomy magii:,Magi Niveau:,Magie-Ebenen:,Niveaux de magie :
+DUNGEON_LEVELS,Dungeon Levels:,Темницы,Рівні підземелля:,Poziomy lochów:,Hule Niveau:,Verliesstufen:,Niveaux du donjon :
+BRICK_QUANTITIES,Brick Quantities:,Кирпичи,Кількість цегли:,Ilość cegieł:,Byggesten Mængde:,Ziegelmengen:,Quantités de briques :
+GEM_QUANTITIES,Gem Quantities:,Самоцветы,Кількість самоцвітів:,Ilość klejnotów:,Ædelsten Mængde:,Edelsteinmengen:,Quantités de gemmes :
+RECRUIT_QUANTITIES,Recruit Quantities:,Звери,Кількість звірів:,Liczba rekrutów:,Rekrut Mængde:,Rekrutenzahlen:,Quantités de recrues :
+AUTOGET_BRICKS,Auto Get Number of Bricks:,Авто получение кирпичей:,Автоматично отримати кількість цегли:,Automatycznie uzyskaj liczbę cegieł:,Auto Skaf Antal af Byggesten:,Automatisch Anzahl Ziegel erhalten:,Obtenir automatiquement le nombre de briques :
+AUTOGET_GEMS,Auto Get Number of Gems:,Авто получение самоцветов:,Автоматично отримати кількість самоцвітів:,Automatycznie uzyskaj liczbę klejnotów:,Auto Skaf Antal af Ædelstene:,Automatisch Anzahl Edelsteine erhalten:,Obtenir automatiquement le nombre de gemmes :
+AUTOGET_RECRUITS,Auto Get Number of Recruits:,Авто получение зверей:,Автоматично отримати кількість звірів:,Automatycznie uzyskać Ilość rekrutów:,Auto Skaf Antal af Rekrutter:,Automatisch Anzahl Rekruten erhalten:,Obtenir automatiquement le nombre de recrues :
+CARDS_IN_HAND,Number of Cards in Hand:,Количество карт в руке,Кількість карт в руці:,Liczba kart w ręku:,Antal Kort i Hånden:,Anzahl der Karten in der Hand:,Nombre de cartes en main :
+AI_LEVEL,Computer AI to play Against:,Стиль игры компьютера,Стиль гри комп'ютера:,Styl gry komputerowej:,Antal Computer AI modstandere:,Computer-KI zum Spielen:,IA à affronter :
+AI_AUTO,Auto,Автоматический,Автоматичний,Automatyczny,Auto,Auto,Auto
+AI_ATTACK,Attack,Атака,Напад,Atak,Angreb,Angriff,Attaque
+AI_DEFENCE,Defence,Защита,Оборона,obronność,Forsvar,Verteidigung,Défense
+AI_RANDOM,Random,Случайный,Випадковий,Przypadkowy,Random,Zufällig,Aléatoire
+TOWER_VICTORY,Tower Victory:,Выстроить башню:,Перемога вежі:,Zwycięstwo wieży:,Tårn Sejr:,Turmsieg:,Victoire de la tour :
+RESOURCE_VICTORY,Resource Victory:,Собрать ресурсов:,Зібрати ресурсів:,Zbierz zasoby:,Ressource Sejr:,Ressourcensieg:,Victoire des ressources :
+TAVERN,Tavern:,Таверна:,Таверна:,Tawerna:,Kro:,Taverne:,Taverne :
+NONE,None,Нет,Немає,Nie,Ingen:,Keine,Aucune
+TAVERN_HARMONDALE,On the House (Harmondale),За счет заведения (Хармондейл),У будинку (Гармондейл),Na koszt zakładu (Harmondale),On the House (Harmondale),Auf dem Haus (Harmondale),Sur la maison (Harmondale)
+TAVERN_ERATHIA,Griffin's Rest (Erathia),Покой грифона (Эрафия),Покої грифона (Ерафіі),Odpoczynek Gryfona (Erathia),Griffin's Rest (Erathia),Griffins Ruhestätte (Erathia),Repos du Griffon (Erathia)
+TAVERN_TULAREAN_FOREST,Emerald Inn (Tularean Forest),Изумрудный двор (Тулареанский лес),Смарагдовий двір (Тулареанскій ліс),Szmaragdowy dziedziniec (Tularean Forest),Emerald Inn (Tularean Forest),Smaragdgaststätte (Tularean Wald),Auberge d'Émeraude (Forêt Tularean)
+TAVERN_DEYJA,Snobbish Goblin (Deyja),Снобисткий гоблин (Дейя),Снобістський гоблін (Дейя),Goblin Snobistyczny (Deyja),Snobbish Goblin (Deyja),Snobistischer Goblin (Deyja),Gobelin Snob (Deyja)
+TAVERN_BRACADA_DESERT,Familiar Place (Bracada Desert),Знакомое местечко (Пустыня Бракада),Знайоме містечко (Пустеля Бракада),Znane miasteczko (Pustynia Bracada),Familiar Place (Bracada Desert),Vertrauter Ort (Bracada Wüste),Lieu familier (Désert de Bracada)
+TAVERN_CELESTE,The Blessed Brew (Celeste),Благословённое варево (Небеса),Благословенне вариво (Небеса),Cudowny napar (Niebo),The Blessed Brew (Celeste),Der gesegnete Trunk (Celeste),La bière bénie (Celeste)
+TAVERN_PIT,The Vamyre Lounge (The Pit),Бар Вампира (Бездна),Бар Вампіра (Безодня),Bar Wampirów (Czeluść),The Vamyre Lounge (The Pit),Die Vamyre Lounge (Die Grube),Le salon Vamyre (Le Fosse)
+TAVERN_EVERMORN_ISLAND,The Laughing Monk (Evermorn Island),Смеющийся монах (Остров Эвенморн),Сміюся монах (Острів Евенморн),Roześmiany mnich (Wyspa Evenmorn),The Laughing Monk (Evermorn Island),Der lachende Mönch (Evermorn-Insel),Le Moine Rieur (Île d'Evermorn)
+TAVERN_NIGHON,Fortune's Folly (Nighon),Причуды фортуны (Нигон),Примхи фортуни (Нігон),Dziwactwa fortuny (Nigon),Fortune's Folly (Nighon),Das Schicksalsspiel (Nighon),La Folie de la Fortune (Nighon)
+TAVERN_BARROW_DOWNS,Miner's Only (Barrow Downs),Шахтерская (Курганы),Шахтарська (Кургани),Górniczy (Kopiec),Miner's Only (Barrow Downs),Nur für Bergleute (Barrow Downs),Réservé aux Mineurs (Barrow Downs)
+TAVERN_TIDEWATER,The Loyal Mercenary (Tidewater),Лояльный наёмник (Таталия),Лояльний найманець (Таталія),Lojalny najemnik (Tidewater),The Loyal Mercenary (Tidewater),Der loyale Söldner (Tidewater),Le Mercenaire Loyal (Tidewater)
+TAVERN_AVLEE,The Potted Pixie (Avlee),Пьяные пикси (АвЛи),Піксі в горщиках (Авлі),Pixie w doniczkach(Avlee),The Potted Pixie (Avlee),Die eingetopfte Fee (Avlee),La Fée en Pot (Avlee)
+TAVERN_STONE_CITY,Grogg's Grog (Stone City),Грог Грогга (Каменный город),Грог грогі (Кам'яне місто),Grogg's Grog (Kamienne miasto),Grogg's Grog (Stone City),Groggs Grog (Steinstadt),Le Grog de Grogg (Cité de Pierre)
+RESTORE_DEFAULTS,Reset to defaults,Сбросить настройки,Повернути стандартні значення,Zwróć standardowe wartości,Nulstil Alt,Auf Standardeinstellungen zurücksetzen,Réinitialiser aux valeurs par défaut
+SAVE_AND_CLOSE,Save and Close,Сохранить и закрыть,Зберегти та закрити,Zapisz i zamknij,Gem og Luk,Speichern und schließen,Enregistrer et fermer
+WINNER_IS,THE WINNER IS:,ПОБЕДИЛ:,ПЕРЕМОЖЕЦЬ:,ZWYCIĘZCA:,VINDEREN ER:,DER GEWINNER IST:,LE GAGNANT EST :
+TOWER_VICTORY_MSG,BY A TOWER BUILDING VICTORY!!!,СТРОИТЕЛЬСТВОМ БАШНИ,ПЕРЕМОГА БУДІВНИЦТВА ВЕЖИ !!!,WYGRAJ BUDOWĘ WIEŻY!!!,VIA TÅRN BYGGESEJR!!!,DURCH EINEN TURMBAU-SIEG!!!,PAR UNE VICTOIRE DE CONSTRUCTION DE TOUR !!!
+TOWER_DESTROY_MSG,BY A TOWER DESTRUCTION VICTORY!!!,УНИЧТОЖЕНИЕМ БАШНИ,ПЕРЕМОГА ЗНИЩЕННЯ БАШТИ !!!,ZWYCIĘSTWO ZNISZCZENIA WIEŻY!!!,VIA TÅRN NEDLÆGNINGSSEJR!!!,DURCH EINEN TURMZERSTÖRUNGS-SIEG!!!,PAR UNE VICTOIRE DE DESTRUCTION DE TOUR !!!
+RESOURCE_VICTORY_MSG,BY A RESOURCE VICTORY!!!,СБОРОМ РЕСУРСОВ,РЕСУРСНА ПЕРЕМОГА!!!,ZWYCIĘSTWO ZASOBÓW!!!,VIA RESSOURCESEJR!!!,DURCH EINEN RESSOURCEN-SIEG!!!,PAR UNE VICTOIRE DES RESSOURCES !!!
+ORIGINAL_GAMEDEVS,ORIGINAL GAME DEVELOPERS:,РАЗРАБОТЧИКИ ОРИГИНАЛЬНОЙ ИГРЫ:,ОРИГІНАЛЬНІ РОЗРОБНИКИ ГРИ:,ORYGINALNI TWÓRCY GRY:,OPRINDELIGE SPILUDVIKLERE:,ORIGINALE SPIELENTWICKLER:,DÉVELOPPEURS DU JEU ORIGINAL :
+REMAKE_DEV,REMAKE DEVELOPED BY:,РАЗРАБОТЧИК РЕМЕЙКА:,"РЕМЕЙК, РОЗРОБЛЕНИЙ:",REMAKE OPRACOWANY PRZEZ:,REMAKE UDVIKLET AF:,REMAKE ENTWICKELT VON:,REMIX DÉVELOPPÉ PAR :
+TESTING,TESTING:,ТЕСТИРОВАНИЕ:,ТЕСТУВАННЯ:,TESTOWANIE:,TESTER:,TESTEN:,TEST :
+WARNING_TEXT,This is fan remake and not connected or affiliated with New World Computing or it's copyright holders (3DO or Ubisoft).,Это фанатский ремейк и он никак не связан или аффилирован с New World Computing или с их правообладателями (3DO или Ubisoft),Це фанатський ремейк і він ніяк не пов'язаний або афілійований з New World Computing або з їх правовласниками (3DO або Ubisoft),Jest to remake fanów i nie jest w żaden sposób powiązany z New World Computing ani z ich posiadaczami praw (3DO lub Ubisoft),Detter er en fan remake og er ikke forbundet eller associeret med New World Computing eller deres copyright indehavere (3DO eller Ubisoft).,Dies ist ein Fan-Remake und nicht mit New World Computing oder deren Rechteinhabern (3DO oder Ubisoft) verbunden.,Ceci est un remake de fan et n'est pas connecté ou affilié à New World Computing ou à ses détenteurs de droits d'auteur (3DO ou Ubisoft).
+NEXT,Next,Далее,Далі,Dalej,Næste,Weiter,Suivant
+LANGUAGE_SETTINGS,Language Settings,Настройки языка,Налаштування мови,Ustawienia języka,Sprog Instillinger,Spracheneinstellungen,Paramètres de langue
+LANGUAGE,Language:,Язык:,Мова:,Język:,Sprog:,Sprache:,Langue :
+APPLY,Apply,Применить,Використати,Zastosować,Tilføj,Anwenden,Appliquer
+TIME,TIME:,ВРЕМЯ:,ЧАС:,CZAS:,TID:,ZEIT:,TEMPS :
+START_GAME_TOOLTIP,Starts a new game with the current settings.,Начинает новую игру с текущими настройками.,Начинає нову гру з актуальними настройками.,Rozpoczyna nową grę z bieżącymi ustawieniami.,Start nyt spil med nuværende indstillinger.,Startet ein neues Spiel mit den aktuellen Einstellungen.,Commence un nouveau jeu avec les paramètres actuels.
+SETTINGS_TOOLTIP,Allows you to customize the rules of the game.,Позволяет настроить правила игры.,Дозволяє настроїти правила гри.,Pozwala ustalać zasady gry.,Tillader dig at rette på spillets regler.,Ermöglicht es Ihnen,die Regeln des Spiels anzupassen.
+LEADERBOARD_TOOLTIP,Opens the leaderboard.,Открывает доску лидеров.,Відкриває дошку лідерів.,Otwiera tablicę liderów.,Åbner point tavle,Öffnet die Bestenliste.,Ouvre le classement.
+CREDITS_TOOLTIP,Opens credits.,Открывает титры.,Відкриває титри.,Otwiera kredyty.,Åbner credits.,Öffnet das Impressum.,Ouvre les crédits.
+EXIT_TOOLTIP,Quit the game.,Выйти из игры.,Вийти з гри.,Wyjdź z gry.,Afslutter spillet.,Spiel beenden.,Quitter le jeu.
+WORK_IN_PROGRESS,Work in progress...,Работа в процессе...,Робота в процесі...,Praca w toku...,Under udvikling...,Arbeit in Bearbeitung...,Travail en cours...
+SETTINGS_WARNING,Some settings may not be avalible or not working correctly for now.,Некоторые настройки сейчас могут быть недоступны или работать некорректно.,Деякі установки зараз можуть бути недоступні або працювати некоректно.,Niektóre ustawienia mogą być teraz niedostępne lub działać poprawnie.,Nogle indstillinger er muligvis ikke tilgængelig eller virker ikke ordenligt lige nu.,Einige Einstellungen sind möglicherweise derzeit nicht verfügbar oder funktionieren nicht korrekt.,Certaines options peuvent ne pas être disponibles ou ne pas fonctionner correctement pour le moment.
+TRANSLATION_MAY_CONTAIN_ERRORS,Translation may contain errors.,Перевод может содержать ошибки.,Переклад може містити помилки.,Tłumaczenie może zawierać błędy.,Oversættelse kan indeholde fejl.,Übersetzung kann Fehler enthalten.,La traduction peut contenir des erreurs.
+DISCARDED,DISCARDED,СБРОШЕНА,СКИНУТА,RESETOWANIE,Kasseret,VERWORFEN,REJETÉ
+THANKS_FOR_TRANSLATION,Thanks for translation:,Спасибо за перевод:,Дякую за переклад:,Dzięki za tłumaczenie:,Tak for oversættelsen:,Danke für die Übersetzung:,Merci pour la traduction :
+PLAYER_SETTINGS,Player Settings,Настройки игрока,Налаштування гравця,Ustawienia odtwarzacza,Spiller Instillinger:,Spielereinstellungen,Paramètres du joueur
+NICKNAME,Nickname:,Никнейм:,Псевдонім:,Przezwisko:,Kaldenavn:,Spitzname:,Surnom :
+GAME_IS_PAUSED,Game is paused,Игра на паузе,Гра на паузі,Wstrzymaj grę,Spillet er på pause,Spiel ist pausiert,Le jeu est en pause
+RESUME,Resume,Продолжить,Продовжити,Przystępować,Fortsæt,Fortsetzen,Reprendre
+STATS,Stats,Статистика,Статистика,Statystyka,Statistikker,Statistiken,Statistiques
+MULTIPLAYER_GAME,Multiplayer Game,Мультиплеер,Мультіплеєр,Gra Wieloosobowa,Multiplayer Spil,Mehrspieler-Spiel,Jeu multijoueur
+CREATE_SERVER,Create Server,Создать сервер,Створити сервер,Utwórz serwer,Lav Server,Server erstellen,Créer un serveur
+JOIN_SERVER,Join Server,Присоединиться,Приєднатися,Przystąp,Deltag Server,Server beitreten,Rejoindre le serveur
+ENTER_IP_ADDRESS,Enter IP Address,Введите IP адрес сервера,Введіть IP-адресу сервера,Wpisz adres IP serwera,Indtast IP Adresse,IP-Adresse eingeben,Entrez l'adresse IP
+IP_ADDRESS_NOT_FOUND,IP Address not found!,IP адрес не найден!,IP адрес не знайдений!,Nie znaleziono adresu IP!,IP Adresse ikke fundet!,IP-Adresse nicht gefunden!,Adresse IP introuvable !
+CANCEL,Cancel,Отмена,Відміна,Zniesienie,Afbryd,Abbrechen,Annuler
+MULTIPLAYER_GAME_TOOLTIP,Opens multiplayer game creation and connection screen.,Открывает экран создания и подключения многопользовательской игры.,Відкриває екран створення і підключення багатокористувацької гри.,Otwiera ekran tworzenia i łączenia gry wieloosobowej.,Åbner multiplayer oprettelses- og forbindelsesskærm,Öffnet den Bildschirm zur Erstellung und Verbindung von Mehrspieler-Spielen.,Ouvre l'écran de création et de connexion de jeu multijoueur.
+READY,Ready,Готов,Готовий,Gotowy,Klar,Bereit,Prêt
+LOBBY,Lobby,Лобби,Лобі,Hol,Lobby,Vorraum,Salon
+CONNECTION,Connection,Подключение,Підключення,Połączenie,Forbindelse,Verbindung,Connexion
+PLAYERS,Players,Игроки,Гравці,Gracze,Spillere,Spieler,Joueurs
+STATUS,Status,Статус,Статус,Status,Status,Status,Statut
+NOT_READY,Not Ready,Не готов,Не готовий,Niegotowy,Ikke klar,Nicht bereit,Pas prêt
+DEV_TOOLS,Developer Tools,Инструменты разработчика,Інструменти розробника,Narzędzia deweloperskie,Udviklerværktøjer,Entwicklerwerkzeuge,Outils développeur
+DEV_TOOLS_TOOLTIP,Open developer tools.,Открывает инструменты разработчика.,Відкриває інструменти розробника.,Otwiera narzędzia deweloperskie.,Åbner udviklerværktøjer.,Entwicklerwerkzeuge öffnen.,Ouvrir les outils de développement.

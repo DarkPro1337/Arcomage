@@ -142,7 +142,8 @@ label_settings = SubResource("LabelSettings_1br1x")
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
-text_overrun_behavior = 1
+text_overrun_behavior = 3
+ellipsis_char = "_"
 
 [node name="Description" type="Label" parent="."]
 layout_mode = 1

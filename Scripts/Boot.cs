@@ -7,11 +7,11 @@ public partial class Boot : Node
 {
     public override void _Ready()
     {
-        var version = ProjectSettings.GetSetting("application/config/version");
+        var version = ProjectSettings.GetSetting("application/config/version").ToString();
         Logger.Debug("Bootstrap loaded");
-        Logger.Debug($"Arcomage v.{version} loaded");
-        Logger.Debug($"Build number: {BuildNumber}");
-        Logger.Debug($"IP address: {Network.IpAddress}");
+        Logger.Debug("Arcomage {Version} loaded", version);
+        Logger.Debug("Build number: {BuildNumber}", BuildNumber);
+        Logger.Debug("IP address: {IPv4}", Network.IpAddress);
 
         if (!Config.Settings.IntroSkip)
         {

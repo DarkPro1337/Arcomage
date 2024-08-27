@@ -290,6 +290,12 @@ public partial class Settings : Control
             case Locale.Da:
                 TranslationServer.SetLocale("da");
                 break;
+            case Locale.De:
+                TranslationServer.SetLocale("de");
+                break;
+            case Locale.Fr:
+                TranslationServer.SetLocale("fr");
+                break;
             default:
                 Logger.Warn("Unknown locale - {Locale}. Fallback to English.", Config.Settings.CurrentLocale);
                 TranslationServer.SetLocale("en");
@@ -442,6 +448,14 @@ public partial class Settings : Control
                 break;
             case Locale.Da:
                 TranslationServer.SetLocale("da");
+                TranslationErrors.Show();
+                break;
+            case Locale.De:
+                TranslationServer.SetLocale("de");
+                TranslationErrors.Show();
+                break;
+            case Locale.Fr:
+                TranslationServer.SetLocale("fr");
                 TranslationErrors.Show();
                 break;
             default:

@@ -1,205 +1,205 @@
-id,en,ru,uk,pl,da
-BRICK_SHORTAGE,Brick Shortage,Дефицит кирпича,Нехватка цегли,Niedobór cegieł,Byggesten Mangel
-BRICK_SHORTAGE_DESC,All players lose 8 bricks,Все игроки теряют по 8 кирпичей,Усі гравці втрачають по 8 цеглин,Wszyscy gracze tracą po 8 cegieł,Alle spillere mister 8 byggesten
-LUCKY_CACHE,Lucky Cache,Удачная находка,Вдала знахідка,Szczęśliwe znalezisko,Heldigt Forråd
-LUCKY_CACHE_DESC,"+2 Bricks, +2 Gems, Play again","+2 Кирпича, +2 Самоцвета, Играем снова","+2 Цегли, +2 Самоцвіту, Граємо знову","+2 cegły, +2 klejnoty, zagraj ponownie","+2 Byggesten, +2 Ædelstene, Spil igen"
-FRIENDLY_TERRAIN,Friendly Terrain,Благотатная почва,Благодатний ґрунт,Urodzajna gleba,Venligt Terræn
-FRIENDLY_TERRAIN_DESC,"+1 Wall, Play again","+1 к Стене, Играем снова","+1 до Стіни, Граємо знову","+1 do Muru, zagraj ponownie","+1 Mur, Spil igen"
-MINERS,Miners,Шахтёры,Шахтарі,Górnicy,Minearbejdere
-MINERS_DESC,+1 Quarry,+1 к Карьеру,+1 до Кар'єру,+1 do Kamieniołomu,+1 Stenbrud
-MOTHER_LODE,Mother Lode,Большая жила,Велика жила,Wielka żyła,Hovedåre
-MOTHER_LODE_DESC,"If quarry < enemy quarry, +2 quarry. Else, +1 quarry","Если карьер < чем у врага, то карьер +2. Иначе +1 Карьер","Якщо кар'єр ніж у ворога, то кар'єр +2. Інакше +1","Jeśli kamieniołom jest niższy niż u przeciwnika, to kamieniołom +2. W przeciwnym razie +1","Hvis stenbrud < modstander stenbrud, +2 stenbrud. Ellers, +1 stenbrud"
-DWARVEN_MINERS,Dwarven Miners,Гномы-Шахтёры,Гноми-Шахтарі,Górnicy Krasnoludów,Dværg Minearbejdere
-DWARVEN_MINERS_DESC,"+4 Wall, +1 Quarry","+4 к Стене, +1 к карьеру","+4 до Стіни, +1 до кар'єру","+4 do Muru, +1 do kamieniołomu","+4 Mur, +1 Stenbrud"
-WORK_OVERTIME,Work Overtime,Сверхурочные,Понаднормові,Nadgodziny,Arbejd Overtid
-WORK_OVERTIME_DESC,"+5 Wall, You lose 6 gems","+5 к Стене, вы теряете 5 самоцветов","+5 до Стіни, ви втрачаєте 5 самоцвітів","+5 do Muru, tracisz 5 klejnotów","+5 Mur, Du mister 6 ædelstene"
-COPPING_THE_TECH,Copping the Tech,Чужая технология,Чужа технологія,Obca technologia,Hug Teknologien
-COPPING_THE_TECH_DESC,"If quarry < enemy quarry, quarry = enemy quarry","Если карьер < чем у врага, то карьер становится = вражескому","Якщо кар'єр < ніж у ворога, то кар'єр стає ворожим","Jeśli kamieniołom < niż u przeciwnika, to kamieniołom staje się wrogi","Hvis stenbrud < modstander stenbrud, stenbrud = modstander stenbrud"
-BASIC_WALL,Basic Wall,Обычная стена,Звичайна стіна,Zwykły mur,Almindelig Mur
-BASIC_WALL_DESC,+3 Wall,+3 к Стене,+3 до Стіни,+3 do Muru,+3 Mur
-STURDY_WALL,Sturdy Wall,Крепкая стена,Міцна стіна,Solidny mur,Hårdført Mur
-STURDY_WALL_DESC,+4 Wall,+4 к Стене,+4 до Стіни,+4 do Muru,+4 Mur
-INNOVATIONS,Innovations,Новшества,Нововведення,Innowacja,Innovationer
-INNOVATIONS_DESC,"+1 To all player's quarrys, you gain 4 gems","+1 к карьерам всех игроков, вы получаете 4 самоцвета","+1 до кар'єрів всіх гравців, ви отримуєте 4 самоцвіти","+1 do kamieniołomów wszystkich graczy, otrzymujesz 4 klejnoty","+1 Til alle spillers stenbrud, du modtager 4 ædelstene"
-FOUNDATIONS,Foundations,Фундамент,Фундамент,Fundament,Fundament
-FOUNDATIONS_DESC,"If wall = 0, +6 wall, else +3 wall","Если стена = 0, то +5 к Стене, иначе +3 к Стене","Якщо стіна = 0, то +5 до стіни, інакше +3 до стіни","Jeśli mur = 0, to +5 do muru, w przeciwnym razie +3 do muru","Hvis mur = 0, +6 mur, ellers +3 mur"
-TREMORS,Tremors,Толчки,Поштовхи,Wstrząsy,Rystelser
-TREMORS_DESC,All walls take 5 damage. Play again,"Все стены получают по 5 повреждений, играем снова","Усі стіни отримують по 5 пошкоджень, граємо знову","Wszystkie mury otrzymują po 5 obrażeń, zagraj ponownie","Alle murer tager 5 skade, Spil igen"
-SECRET_ROOM,Secret Room,Секретный зал,Таємна зала,Tajemna sala,Hemmeligt Rum
-SECRET_ROOM_DESC,"+1 Magic, Play Again","+1 Магия, Играем снова","+1 Магія, Граємо знову","+1 Magia, zagraj ponownie","+1 Magi, Spil Igen"
-EARTHQUAKE,Earthquake,Землетрясение,Землетрус,Trzęsienie ziemi,Jordskælv
-EARTHQUAKE_DESC,-1 To all player's quarrys,-1 Карьеры всех игроков,-1 Кар'єри всіх гравців,-1 Kamieniołomy wszystkich graczy,-1 Til alle spillers stenbrud
-BIG_WALL,Big Wall,Большая стена,Велика стіна,Wielki mur,Stor Mur
-BIG_WALL_DESC,+6 Wall,+6 к Стене,+6 до Стіни,+6 do Muru,+6 Mur
-COLLAPSE,Collapse!,Обвал!,Обвалення!,Zawał!,Bryd Sammen!
-COLLAPSE_DESC,-1 Enemy quarry,-1 Карьер врага,-1 Ворожий кар'єр,-1 Wrogi kamieniołom,-1 Modstander Stenbrud
-NEW_EQUIPMENT,New Equipment,Новое оборудование,Нове устаткування,Nowe wyposażenie,Nyt Udstyr
-NEW_EQUIPMENT_DESC,+2 Quarry,+2 Карьера,+2 Кар'єра,+2 Kamieniołomu,+2 Stenbrud
-STRIP_MINE,Strip Mine,Рудник обвалился,Розчистити шахту,Oczyszczenie kopalni,Stribe Mine
-STRIP_MINE_DESC,"-1 Quarry, +10 Wall, You gain 5 gems","-1 Карьер, +10 к Стене, вы получаете 5 самоцветов","-1 Кар'єр, +10 до Стіни, Ви отримуєте 5 дорогоцінних каменів","-1 Kamieniołom, +10 do Muru, Otrzymujesz 5 klejnotów","-1 Stenbrud, +11 Mur, Du modtager 5 ædelstene"
-REINFORCED_WALL,Reinforced Wall,Усиленная стена,Армована стіна,Wzmocniony mur,Forstærket Mur
-REINFORCED_WALL_DESC,+8 Wall,+8 к Стене,+ 8 до Стіни,+8 do Muru,+8 Mur
-PORTICULUS,Porticulus,Решётка,Ґрати,Kraty,Faldgitter
-PORTICULUS_DESC,"+5 Wall, +1 Dungeons","+5 к Стене, +1 к Темнице","+5 до Стіни, +1 Підземелля","+5 do Muru, +1 Loch","+5 Mur, +1 Hule"
-CRYSTAL_ROCKS,Crystal Rocks,Кристальная жила,Кристалічні породи,Kryształowe skały,Krystal Sten
-CRYSTAL_ROCKS_DESC,"+7 Wall, gain 7 gems","+7 к Стене, вы получаете 7 самоцветов","+7 до Стіни, отримати 7 дорогоцінних каменів","+7 do Muru, otrzymaj 7 klejnotów","+7 Mur, modtag 7 ædelstene"
-HARMONIC_ORE,Harmonic Ore,Поющая руда,Співуча руда,Śpiewająca ruda,Harmonisk Malm
-HARMONIC_ORE_DESC,"+6 Wall, +3 Tower","+6 к Стене, +3 к Башне","+6 до Стіни, +3 Вежі","+6 do Muru, +3 do Wieży","+6 Mur, +3 Tårn"
-MONDO_WALL,Mondo Wall,Бастион,Світова стіна,Światowy mur,Mondo Mur
-MONDO_WALL_DESC,+12 Wall,+12 к Стене,+12 до Стіни,+12 do Muru,+12 Mur
-FOCUSED_DESIGNS,Focused Designs,Новые успехи,Орієнтовані проекти,Skierowane projekty,Fokuseret Design
-FOCUSED_DESIGNS_DESC,"+8 Wall, +5 Tower","+8 к Стене, +5 к Башне","+8 до Стіни, +5 Вежі","+8 do Muru, +5 do Wieży","+8 Mur, +5 Tårn"
-GREAT_WALL,Great Wall,Великая стена,Велетенська стіна,Gigantyczny mur,Enorm Mur
-GREAT_WALL_DESC,+15 Wall,+15 к Стене,+15 до Стіни,+15 do Muru,+15 Mur
-ROCK_LAUNCHER,Rock Launcher,Камнемёт,Камнеметатель,Kamieniomiot,Sten Slynge
-ROCK_LAUNCHER_DESC,"+6 Wall, 10 Damage to enemy","+6 к Стене, 10 урона","+6 до Стіни, 10 Пошкодження ворогу","+6 do Muru, 10 Obrażeń przeciwnikowi","+6 Mur, 10 Skade til modstander"
-DRAGONS_HEART,Dragon's Heart,Драконье сердце,Серце Дракона,Serce Smoka,Drages Hjerte
-DRAGONS_HEART_DESC,"+20 Wall, +8 Tower","+20 к Стене, +8 к Башне","+20 до Стіна, +8 до Вежі","+20 do Muru, +8 do Wieży","+20 Mur, +8 Tårn"
-FORCED_LABOR,Forced Labor,Каторга,Примусова праця,Przymusowa praca,Tvunget Arbejde
-FORCED_LABOR_DESC,"+9 Wall, Lose 5 Recruits","+9 к Стене, вы теряете 5 зверей","+9 до Стіни, втратити 5 новобранців","+9 do Muru, stracisz 5 rekrutów","+9 Mur, Mist 5 Rekrutter"
-ROCK_GARDEN,Rock Garden,Каменный сад,Кам'яний сад,Kamienny ogród,Sten Have
-ROCK_GARDEN_DESC,"+1 Wall, +1 Tower, +2 Recruits","+1 к Стене, +1 к Башне, +2 зверя","+1 Стіни, +1 Вежі, +2 Новобранця","+1 Mur, +1 Wieża, +2 Rekruci","+1 Mur, +1 Tårn, +2 Rekrutter"
-FLOOD_WATER,Flood Water,Наводнение,Паводкова вода,Powódź,Oversvømmelse
-FLOOD_WATER_DESC,Player(s) with lowest Wall are -1 Dungeon and 2 damage to Tower,Игрок с меньшей стеной получает -1 к темнице и 2 урона башне,Гравці з найнижчою стіною мають -1 підземелля і 2 до пошкодження вежі,Gracze z najniższym murem mają -1 loch i 2 obrażeń dla wieży,Spiller(e) med lavest Mur er -1 Hule og 2 skade til Tårn
-BARRACKS,Barracks,Казармы,Барак,Barak,Barakker
-BARRACKS_DESC,"+6 Recruits, +6 Wall, If dungeon < enemy dungeon then +1 dungeon","+6 зверей, +6 к Стене, если темница < вражеской, +1 темница","+6 новобранців, +6 стіни, якщо підземелля < вороже підземелля, то +1 підземе","+6 rekrutów, +6 muru, jeśli loch < loch wroga, to +1 loch","+6 Rekrutter, +6 Mur, Hvis hule < modstander hule så +1 hule"
-BATTLEMENTS,Battlements,Укрепления,Укріплювання,Ufortyfikowanie,Brystværner
-BATTLEMENTS_DESC,"+7 Wall, 6 damage to enemy","+7 к Стене, 6 урона врагу","+7 до Стіни, 6 ушкодження ворожій","+7 do Muru, 6 obrażeń dla wroga","+7 Mur, 6 skade til modstander"
-SHIFT,Shift,Сдвиг,Зміщення,Przesunięcie,Skift
-SHIFT_DESC,Switch your Wall with enemy Wall,Ваша и вражеская стена меняются местами,Змініть свою стіну на ворожу,Zamień swój mur na wrogi,Byt din Mur med modstander Mur
-QUARTZ,Quartz,Кварц,Кварц,Kwarc,Kvarts
-QUARTZ_DESC,"+1 Tower, Play again","+1 к Башне, Играем снова","+1 до Вежі, Граємо знову","+1 do Wieży, zagraj ponownie","+1 Tårn, Spil igen"
-SMOKY_QUARTZ,Smoky Quartz,Дымчатый кварц,Димчастий кварц,Dymny kwarc,Røg Kvarts
-SMOKY_QUARTZ_DESC,"1 Damage to enemy tower, Play again","1 урона Башне врага, Играем снова","1 Пошкодження ворожої вежі, Грайте знову","1 Obrażenie wrogiej wieży, zagraj ponownie","1 Skade til modstander tårn, Spil igen"
-AMETHYST,Amethyst,Аметист,Аметист,Ametyst,Ametyst
-AMETHYST_DESC,+3 Tower,+3 к Башне,+3 до Вежі,+3 do Wieży,+3 Tårn
-SPELL_WEAVERS,Spell Weavers,Ткачи заклинаний,Ткачі заклинань,Tkacze zaklęć,Besværgelsesvæver
-SPELL_WEAVERS_DESC,+1 Magic,+1 к Магии,+1 до Магії,+1 do Magii,+1 Magi
-PRISM,Prism,Призма,Призма,Pryzmat,Prisme
-PRISM_DESC,"Draw 1 card, Discard 1 card, Play again","Взять 1 карту, Сбросить 1 карту, Играем снова","Взяти 1 карту, Скинути 1 карту, Граємо знову","Weź 1 kartę, odrzuć 1 kartę, zagraj ponownie","Træk 1 kort, Kasser 1 kort, Spil igen"
-LODESTONE,Lodestone,Магнетит,Магнетит,Magnetyt,Ledesten
-LODESTONE_DESC,"+3 Tower, This card can't be discarded without playing it","+3 к Башне, Эта карта не может быть сброшена","+3 до Вежі, Ця карта не може бути скинута","+3 do Wieży, ta karta nie może być odrzucona","+3 Tårn, Dette kort kan ikke kasseres uden at blive spillet"
-SOLAR_FLARE,Solar Flare,Вспышка солнца,Сонячний спалах,Rozbłysk słoneczny,Soludbrud
-SOLAR_FLARE_DESC,"+2 Tower, 2 Damage to enemy tower","+2 к Башне, 2 урона башне врага","+2 до Вежі, 2 шкоди башти ворога","+2 do Wieży, 2 obrażenia dla wieży wroga","+2 Tårn, 2 Skade til modstander tårn"
-CRYSTAL_MATRIX,Crystal Matrix,Матрица,Кришталева матриця,Kryształowa matryca,Krystal Matrix
-CRYSTAL_MATRIX_DESC,"+1 Magic, +3 Tower, +1 Enemy tower","+1 к Магии, +3 к Башне, +1 к Башне врага","+1 до Магії, +3 до Вежі, +1 до Вежі ворога","+1 do Magii, +3 do Wieży, +1 do Wieży wroga","+1 Magi, +3 Tårn, +1 Modstander tårn"
-GEMSTONE_FLAW,Gemstone Flaw,Трещина,Хиба цінного каменю,Błąd klejnotu,Ædelstensfejl
-GEMSTONE_FLAW_DESC,3 Damage to enemy tower,3 урона Башне врага,3 пошкодження ворожої Вежі,3 obrażenia wrogiej Wieży,3 Skade til modstander tårn
-RUBY,Ruby,Рубин,Рубін,Rubin,Rubin
-RUBY_DESC,+5 Tower,+5 к Башне,+5 до Вежі,+5 do Wieży,+5 Tårn
-GEM_SPEAR,Gem Spear,Копье из самоцвета,Самоцвітний спис,Klejnotowa włócznia,Ædelstensspyd
-GEM_SPEAR_DESC,5 Damage to enemy tower,5 урона Башне врага,5 пошкодження ворожої Вежі,5 obrażeń wrogiej Wieży,5 Skade til modstander tårn
-POWER_BURN,Power Burn,Взрыв силы,Спалювання енергії,Spalanie energii,Magt Afbrænding
-POWER_BURN_DESC,"5 Damage to your tower, +2 Magic","5 урона собственной Башне, +2 к Магии","5 збитків власної Вежі, +2 до Магії","5 obrażeń własnej Wieży, +2 do Magii","5 Skade til dit tårn, +2 Magi"
-HARMONIC_VIBE,Harmonic Vibe,Гармония,Гармонія,Harmonia,Harmonisk Bølge
-HARMONIC_VIBE_DESC,"+1 Magic, +3 Tower, +3 Wall","+1 к Магии, +3 к Башне, +3 к Стене","+1 до Магії, +3 до Вежі, +3 до Стіни","+1 do Magii, +3 do Wieży, +3 do Muru","+1 Magi, +3 Tårn, +3 Mur"
-PARITY,Parity,Паритет,Рівність,Równość,Paritet
-PARITY_DESC,All player's magic equals the highest player's magic,Магия всех игроков становится равна магии сильнейшего,Магія всіх гравців стає рівна магії найсильнішого,Magia wszystkich graczy staje się równa najsilniejszej magii,Alle spillers magi er ens med den højeste spillers magi
-EMERALD,Emerald,Изумруд,Смарагд,Szmaragd,Smaragd
-EMERALD_DESC,+8 Tower,+8 к Башне,+8 до Вежі,+8 do Wieży,+8 Tårn
-PEARL_OF_WISDOM,Pearl of Wisdom,Жемчуг мудрости,Перлина мудрості,Perła mądrości,Visdomsperle
-PEARL_OF_WISDOM_DESC,"+5 Tower, +1 Magic","+5 к Башне, +1 к Магии","+5 до Вежі, +1 до Магії","+5 do Wieży, +1 do Magii","+5 Tårn, +1 Magi"
-SHATTERER,Shatterer,Разрушитель,Руйнівник,Niszczyciel,Knuser
-SHATTERER_DESC,"-1 Magic, 9 Damage to enemy tower","-1 к Магии, 9 урона Башне врага","-1 до Магії, 9 втрати Вежі ворога","-1 do Magii, 9 obrażeń dla wrogiej Wieży","-1 Magi, 9 Skade til modstander tårn"
-CRUMBLESTONE,Crumblestone,Хрупкий камень,Крихкий камінь,Kruchy kamień,Smuldresten
-CRUMBLESTONE_DESC,"+5 Tower, Enemy loses 6 bricks","+5 к Башне, враг теряет 6 кирпичей","+5 до Вежі, ворог втрачає 6 цеглин","+5 do Wieży, wróg traci 6 cegieł","+5 Tårn, Modstander mister 6 byggesten"
-SAPPHIRE,Sapphire,Сапфир,Сапфір,Szafir,Safir
-SAPPHIRE_DESC,+11 Tower,+11 к Башне,+11 до Вежі,+11 do Wieży,+11 Tårn
-DISCORD,Discord,Раздор,Розлад,Rozpad,Dissonans
-DISCORD_DESC,"7 Damage to all towers, all player's magic -1","7 урона всем Башням, -1 к Магии всех игроков","7 збитків усім Вежам, -1 до Магії всіх гравців","7 obrażeń dla wszystkich Wież, -1 do Magii wszystkich graczy","7 Skade til alle tårne, alle spillers magi -1"
-FIRE_RUBY,Fire Ruby,Огненный рубин,Вогненний рубін,Ognisty rubin,Ild Rubin
-FIRE_RUBY_DESC,"+6 Tower, 4 Damage to all enemy towers","+6 к Башне, 4 урона Башням врагов","+6 до Вежі, 4 шкоди Вежам ворогів","+6 do Wieży, 4 obrażenia dla Wież wrogów","+6 Tårn, 4 Skade til alle modstander tårne"
-QUARRYS_HELP,Quarry's Help,Помощь карьера,Допомога Кар'єру,Pomoc Kamieniołomu,Stenbruds Hjælp
-QUARRYS_HELP_DESC,"+7 Tower, Lose 10 bricks","+7 к Башне, Вы теряете 10 кирпичей","+7 до Вежі, Ви втрачаєте 10 цегли","+7 do Wieży, tracisz 10 cegieł","+7 Tårn, Mist 10 Byggesten"
-CRYSTAL_SHIELD,Crystal Shield,Кристальный щит,Кришталевий щит,Kryształowa tarcza,Krystalskjold
-CRYSTAL_SHIELD_DESC,"+8 Tower, +3 Wall","+8 к Башне, +3 к Стене","+8 до Вежі, +3 до Стіни","+8 do Wieży, +3 do Muru","+8 Tårn, +3 Mur"
-EMPATHY_GEM,Empathy Gem,Самоцвет эмпатии,Самоцвіт емпатії,Klejnot empatii,Empati Ædelsten
-EMPATHY_GEM_DESC,"+8 Tower, +1 Dungeon","+8 к Башне, +1 к Темнице","+8 до Вежі, +1 до В'язниці","+8 do Wieży, +1 do Lochu","+8 Tårn, +1 Hule"
-DIAMOND,Diamond,Алмаз,Алмаз,Diament,Diamant
-DIAMOND_DESC,+15 Tower,+15 к Башне,+15 до Вежі,+15 do Wieży,+15 Tårn
-SANCTUARY,Sanctuary,Святилище,Святиня,Świątynia,Fristed
-SANCTUARY_DESC,"+10 Tower, +5 Wall, Gain 5 recruits","+10 к Башне, +5 к Стене, Вы получаете пять зверей","+10 до Вежі, +5 до Стіни, Ви отримуєте п'ять звірів","+10 do Wieży, +5 do Muru, otrzymujesz pięć zwierząt","+10 Tårn, +5 Mur, Modtag 5 rekrutter"
-LAVA_JEWEL,Lava Jewel,Лавовый камень,Лавовий камінь,Kamień lawowy,Lava Juvel
-LAVA_JEWEL_DESC,"+12 Tower, 6 Damage to all enemies","+12 к Башне, 6 урона всем врагам","+12 до Вежі, 6 втрат усім ворогам","+12 do Wieży, 6 obrażeń wszystkim wrogom","+12 Tårn, 6 Skade til alle modstandere"
-DRAGONS_EYE,Dragon's Eye,Глаз дракона,Око дракона,Oko smoka,Drages Øje
-DRAGONS_EYE_DESC,+20 Tower,+20 к Башне,+20 до Вежі,+20 do Wieży,+20 Tårn
-CRYSTALLIZE,Crystallize,Кристализация,Кристалізація,Krystalizacja,Krystallisere
-CRYSTALLIZE_DESC,"+11 Tower, -6 Wall","+11 к Башне, -6 к Стене","+11 до Вежі, -6 до Стіни","+11 do Wieży, -6 do Muru","+11 Tårn, -6 Mur"
-BAG_OF_BAUBLES,Bag of Baubles,Мешок безделушек,Мішок дрібничок,Torba błyskotek,Smykker Pose
-BAG_OF_BAUBLES_DESC,"If Tower < enemy Tower than +2 Tower, Else +1 Tower","Если Башня < вражеской, то +2 к Башне, Иначе +1 к Башне","Якщо Вежа < ворожою, то +2 до Вежі, Інакше +1 до Вежі","Jeśli Wieża < wroga, to +2 do Wieży, w przeciwnym razie +1 do Wieży","Hvis Tårn < modstander Tårn, +2 Tårn, ellers +1 Tårn"
-RAINBOW,Rainbow,Радуга,Веселка,Tęcza,Regnbue
-RAINBOW_DESC,+1 Tower to all players. You gain 3 gems,"+1 ко всем Башням, Вы получаете 3 самоцвета","+1 до всіх Веж, Ви отримуєте 3 самоцвіти","+1 do wszystkich Wież, otrzymujesz 3 klejnoty",+1 Tårn til alle spillere. Du modtager 3 ædelstene
-APPRENTICE,Apprentice,Ученик,Учень,Uczeń,Lærling
-APPRENTICE_DESC,"+4 Tower, you lose 3 recruits, 2 Damage to enemy Tower","+4 к Башне, вы теряете 3 зверя, 2 урона Башне врага","+4 до Вежі, ви втрачаєте 3 звіра, 2 шкоди Вежі ворога","+4 do Wieży, tracisz 3 zwierzęta, 2 obrażenia dla wrogiej Wieży","+4 Tårn, du mister 3 rekrutter, 2 Skade til modstander tårn"
-LIGHTNING_SHARD,Lightning Shard,Осколок молнии,Осколок блискавки,Odłamek błyskawicy,Lynskår
-LIGHTNING_SHARD_DESC,"If Tower > enemy Wall then 8 damage to enemy Tower, else 8 damage","Если ваша Башня > Стены врага, то 8 урона Башне врага, Иначе 8 урона","Якщо ваша Вежа > Стіни ворога, то 8 збитків Вежі ворога, Інакше 8 збитків","Jeśli twoja Wieża > Mur wroga, to 8 obrażeń dla wrogiej Wieży, w przeciwnym razie 8 obrażeń","Hvis Tårn > modstander mur, 8 skade til modstander Tårn, ellers 8 skade"
-PHASE_JEWEL,Phase Jewel,Фазовый самоцвет,Фазовий самоцвіт,Fazowy klejnot,Fase Juvel
-PHASE_JEWEL_DESC,"+13 Tower, +6 Recruits, +6 Bricks","+13 к Башне, +6 Зверей, +6 Кирпичей","+13 до Вежі, +6 Звірів, +6 Цегли","+13 do Wieży, +6 Zwierząt, +6 Cegieł","+13 Tårn, +6 Rekrutter, +6 Byggesten"
-MAD_COW_DISEASE,Mad Cow Disease,Коровье безумие,Коров'яче божевілля,Krowie szaleństwo,Kogalskab
-MAD_COW_DISEASE_DESC,All players lose 6 recruits.,Все игроки теряют по 6 зверей.,Усі гравці втрачають по 6 звірів.,Wszyscy gracze tracą po 6 zwierząt,Alle spillere mister 6 rekrutter
-FAERIE,Faerie,Фея,Фея,Wróżka,Fe
-FAERIE_DESC,"2 Damage, Play again","2 урона, Играем снова","2 Пошкодження, грайте знову","2 Obrażenia, zagraj ponownie","2 Skade, Spil igen"
-MOODY_GOBLINS,Moody Goblins,Угрюмые гоблины,Похмурі гобліни,Ponure gobliny,Mutte Gobliner
-MOODY_GOBLINS_DESC,"4 Damage, You lose 3 gems","4 урона, Вы теряете 3 самоцвета","4 шкоди, Ви втрачаєте 3 самоцвіти","4 obrażenia, tracisz 3 klejnoty","4 Skade, Du mister 3 ædelstene"
-MINOTAUR,Minotaur,Минотавр,Мінотавр,Minotaur,Minotaur
-MINOTAUR_DESC,+1 Dungeon,+1 к Темнице,+1 до Темниці,+1 do Lochu,+1 Hule
-ELVEN_SCOUT,Elven Scout,Эльфы-Скауты,Ельфи-Скаути,Elfowie Zwiadowcy,Elver Spejder
-ELVEN_SCOUT_DESC,"Draw 1 card, Discard 1 card, Play again","Взять 1 карту, Сбросить 1 карту, Играем снова","Взяти 1 карту, Скинути 1 карту, Граємо знову","Weź 1 kartę, odrzuć 1 kartę, zagraj ponownie","Træk 1 kort, Kasser 1 kort, Spil igen"
-GOBLIN_MOB,Goblin Mob,Толпа гоблинов,Натовп гоблінів,Tłum goblinów,Goblin Hob
-GOBLIN_MOB_DESC,"6 Damage, You take 3 damage","6 урона, Вы получаете 3 урона","6 шкоди, Ви отримуєте 3 шкоди","6 obrażeń, otrzymujesz 3 obrażenia","6 Skade, Du tage 3 skade"
-GOBLIN_ARCHERS,Goblin Archers,Гоблины-Лучники,Гобліни-Лучники,Gobliny Łucznicy,Goblin Byeskyttere
-GOBLIN_ARCHERS_DESC,"3 Damage to enemy tower, You take 1 damage","3 урона Башне врага, Вы получаете 1 урон","3 шкоди вежі ворога, ви отримуєте 1 шкоди","3 obrażenia wrogiej wieży, otrzymujesz 1 obrażenie","3 Skade til modstander tårn, Du tager 1 skade"
-SHADOW_FAERIE,Shadow Faerie,Призрачная фея,Примарна фея,Widmowa wróżka,Skygge Fe
-SHADOW_FAERIE_DESC,"2 Damage to enemy tower, Play again","2 урона Башне врага, Играем снова","2 утрати вежі ворога, граємо знову","2 obrażenia wrogiej wieży, zagraj ponownie","2 Skade til modstander tårn, Spil igen"
-ORC,Orc,Орк,Орк,Ork,Ork
-ORC_DESC,5 Damage,5 урона,5 шкоди,5 obrażeń,5 Skade
-DWARVES,Dwarves,Дворфы,Дворфи,Krasnoludy,Dværge
-DWARVES_DESC,"4 Damage, +3 Wall","4 урона, +3 к Стене","4 шкоди, +3 до стіни","4 obrażenia, +3 do muru","4 Skade, +3 Mur"
-LITTLE_SNAKES,Little Snakes,Змеёныши,Маленькі Змійки,Małe Węże,Små Slanger
-LITTLE_SNAKES_DESC,4 Damage to enemy tower,4 урона Башне врага,4 шкоди вежі ворога,4 obrażenia wrogiej wieży,4 Skade til modstander tårn
-TROLL_TRAINER,Troll Trainer,Тренер троллей,Тренер тролей,Trener trolli,Troldetræner
-TROLL_TRAINER_DESC,+2 Dungeon,+2 Темницы,+2 темниці,+2 do lochu,+2 Hule
-TOWER_GREMLIN,Tower Gremlin,Башня гремлинов,Вежа Гремлінів,Wieża Gremlinów,Tårn Gremlin
-TOWER_GREMLIN_DESC,"2 Damage, +4 Wall, +2 Tower","2 урона, +4 к Стене, +2 к Башне","2 шкоди, + 4 до стіни, +2 до вежі","2 obrażenia, +4 do muru, +2 do wieży","2 Skade, +4 Mur, +2 Tårn"
-FULL_MOON,Full Moon,Полнолуние,Повний місяць,Pełnia księżyca,Fuldmåne
-FULL_MOON_DESC,"+1 to all player's Dungeon, You gain 3 recruits","+1 к Темницам всех игроков, Вы получаете 3 зверя","+1 до темниць всіх гравців, ви отримуєте 3 звіра","+1 do lochów wszystkich graczy, otrzymujesz 3 zwierzęta","+1 til alle spillers Hule, Du modtager 3 rekrutter"
-SLASHER,Slasher,Слэшер,Слешер,Cięciwa,Skærer
-SLASHER_DESC,6 Damage,6 урона,6 шкоди,6 obrażeń,6 Skade
-OGRE,Ogre,Огр,Огр,Ogr,Ogre
-OGRE_DESC,7 Damage,7 урона,7 урона,7 obrażeń,7 Skade
-RABID_SHEEP,Rabid Sheep,Бешеная оцва,Шалена вівця,Szalejąca owca,Gale Får
-RABID_SHEEP_DESC,"6 Damage, Enemy loses 3 recruits","6 урона, Враг теряет 3 зверя","6 шкоди, ворог втрачає 3 звіра","6 obrażeń, wróg traci 3 zwierzęta","6 Skade, Modstander mister 3 rekrutter"
-IMP,Imp,Бес,Бісеня,Diabełek,Imp
-IMP_DESC,"6 Damage. All players lose 5 bricks, gems and recruits","6 урона, Все игроки теряют по 5 кирпичей, зверей и самоцветов","6 шкоди, всі гравці втрачають по 5 цеглин, звірів і самоцвітів","6 obrażeń, wszyscy gracze tracą po 5 cegieł, zwierząt i klejnotów","6 Skade. Alle spillere mister 5 byggesten, ædelstene og rekrutter"
-SPIZZER,Spizzer,Жучара,Шпіцер,Niszczyciel,Spizzer
-SPIZZER_DESC,"If enemy wall = 0 then 10 damage, Else 6 damage","Если стена врага = 0, то 10 урона, Иначе 6 урона","Якщо стіна ворога = 0, то 10 шкоди, інакше 6 шкоди","Jeśli mur wroga = 0, to 10 obrażeń, w przeciwnym razie 6 obrażeń","Hvis modstander mur = 0, 10 skade, Ellers 6 skade"
-WEREWOLF,Werewolf,Оборотень,Перевертень,Wilkołak,Varulv
-WEREWOLF_DESC,9 Damage,9 урона,9 шкоди,9 obrażeń,9 Skade
-CORROSION_CLOUD,Corrosion Cloud,Едкое облако,Хмара корозії,Chmura korozji,Korroderende Sky
-CORROSION_CLOUD_DESC,"If enemy wall > 0 then 10 damage, Else 7 Damage","Если стена врага > 0, то 10 урона, Иначе 7 урона","Якщо стіна ворога > 0, то 10 шкоди, інакше 7 шкоди","Jeśli mur wroga > 0, to 10 obrażeń, w przeciwnym razie 7 obrażeń","Hvis modstander mur > 0, 10 skade, ellers 7 skade"
-UNICORN,Unicorn,Единорог,Єдиноріг,Jednorożec,Enhjørning
-UNICORN_DESC,"If magic > enemy magic then 12 Damage, Else 8 Damage","Если Магия > Магии врага, то 12 урона, Иначе 8 урона","Якщо Магія > магії ворога, то 12 шкоди, інакше 8 шкоди","Jeśli Magia > magii wroga, to 12 obrażeń, w przeciwnym razie 8 obrażeń","Hvis magi > modstander magi, 12 Skade, ellers 8 Skade"
-ELVEN_ARCHERS,Elven Archers,Эльфы-Лучники,Ельфійські лучники,Elfowie łucznicy,Elver Byeskyttere
-ELVEN_ARCHERS_DESC,"If wall > enemy wall then 6 Damage to enemy Tower, Else 8 Damage","Если Стена > Стены врага, то 6 урона Башне врага, Иначе 6 урона","Якщо стіна > стіни ворога, то 6 шкоди вежі ворога, інакше 6 шкоди","Jeśli mur > muru wroga, to 6 obrażeń wrogiej wieży, w przeciwnym razie 6 obrażeń","Hvis mur > modstander mur, 6 Skade til modstander Tårn, ellers 6 Skade"
-SUCCUBUS,Succubus,Суккубы,Суккуб,Sukkub,Succubus
-SUCCUBUS_DESC,"5 Damage to enemy tower, enemy loses 8 recruits.","5 урона Башне врага, враг теряет 8 зверей","5 шкоди вежі ворога, ворог втрачає 8 звірів","5 obrażeń wrogiej wieży, wróg traci 8 zwierząt","5 Skade til modstander tårn, modstander mister 8 rekrutter"
-ROCK_STOMPERS,Rock Stompers,Камнееды,Кам'яні топтуни,Kamienne tancerze,Sten Trampere
-ROCK_STOMPERS_DESC,"8 Damage, -1 Enemy quarry","8 урона, -1 карьер врага","8 шкоди, -1 кар'єр ворога","8 obrażeń, -1 kamieniołom wroga","8 Skade, -1 Modstander stenbrud"
-THIEF,Thief,Вор,Крадій,Złodziej,Tyv
-THIEF_DESC,"Enemy loses 10 gems, 5 bricks, you gain 1/2 amt. round up","Враг теряет 10 самоцветов, 5 кирпичей, Вы получаете половину от этого","Ворог втрачає 10 самоцвітів, 5 цегли, Ви отримуєте половину від цього","Wróg traci 10 klejnotów, 5 cegieł, otrzymujesz połowę z tego","Modstander mister 10 ædelstene, 5 byggesten, du modtager 1/2 mængde rundet op"
-STONE_GIANT,Stone Giant,Каменный гигант,Кам'яний гігант,Kamienny gigant,Stor Kæmpe
-STONE_GIANT_DESC,"10 Damage, +4 Wall","10 урона, +4 к Стене","10 шкоди, +4 до стіни","10 obrażeń, +4 do muru","10 Skade, +4 Mur"
-VAMPIRE,Vampire,Вампир,Вампір,Wampir,Vampyr
-VAMPIRE_DESC,"10 Damage, Enemy loses 5 recruits, -1 enemy Dungeon","10 урона, враг теряет 5 зверей, -1 к его Темнице","10 шкоди , ворог втрачає 5 звірів, -1 до його темниці","10 obrażeń, wróg traci 5 zwierząt, -1 do jego lochu","10 Skade, Modstander mister 5 rekrutter, -1 modstander Hule"
-DRAGON,Dragon,Дракон,Дракон,Smok,Drage
-DRAGON_DESC,"20 Damage, Enemy loses 10 gems, -1 enemy Dungeon","20 урона, враг теряет 10 самоцветов, -1 к его Темнице","20 шкоди , ворог втрачає 10 звірів, -1 до його темниці","20 obrażeń, wróg traci 10 zwierząt, -1 do jego lochu","20 Skade, Modstander mister 10 ædelstene, -1 modstander hule"
-SPEARMAN,Spearman,Копейщик,Списоносець,Włócznik,Spydmand
-SPEARMAN_DESC,"If wall > enemy Wall do 3 Damage, Else do 2 Damage","Если Стена > Стены врага, то 3 урона, Иначе 2 урона","Якщо стіна > стіни ворога, то 3 шкоди, інакше 2 шкоди","Jeśli mur > muru wroga, to 3 obrażenia, w przeciwnym razie 2 obrażenia","Hvis mur > modstander mur, gør 3 Skade, ellers gør 2 Skade"
-GNOME,Gnome,Гном,Гном,Krasnolud,Gnom
-GNOME_DESC,"3 Damage, +1 Gem","3 урона, +1 самоцвет","3 шкоди, +1 самоцвіт","3 obrażenia, +1 klejnot","3 Skade, +1 Ædelsten"
-BERSERKER,Berserker,Берсеркер,Берсерк,Berserker,Berserker
-BERSERKER_DESC,"8 Damage, 3 Damage to your Tower","8 урона, 3 урона вашей Башне","8 шкоди, 3 шкоди вашій вежі","8 obrażeń, 3 obrażenia twojej wieży","8 Skade, 3 Skade til dit Tårn"
-WARLORD,Warlord,Военачальник,Воєначальник,Wojownik,Krigsherre
-WARLORD_DESC,"13 Damage, You lose 3 gems","13 урона, Вы теряете 3 самоцвета","13 шкоди, ви втрачаєте 3 самоцвіту","13 obrażeń, tracisz 3 klejnoty","13 Skade, Du mister 3 Ædelstene"
-PEGASUS_LANCER,Pegasus Lancer,Наездник на пегасе,Наїзник на пегасі,Jeździec na pegazie,Pegasus Lansener
-PEGASUS_LANCER_DESC,12 Damage to enemy tower,12 урона Башне врага,12 шкоди вежі ворога,12 obrażeń wrogiej wieży,12 Skade til modstander tårn
+id,en,ru,uk,pl,da,de,fr
+BRICK_SHORTAGE,Brick Shortage,Дефицит кирпича,Нехватка цегли,Niedobór cegieł,Byggesten Mangel,Ziegelknappheit,Pénurie de briques
+BRICK_SHORTAGE_DESC,All players lose 8 bricks,Все игроки теряют по 8 кирпичей,Усі гравці втрачають по 8 цеглин,Wszyscy gracze tracą po 8 cegieł,Alle spillere mister 8 byggesten,Alle Spieler verlieren 8 Ziegel,Tous les joueurs perdent 8 briques
+LUCKY_CACHE,Lucky Cache,Удачная находка,Вдала знахідка,Szczęśliwe znalezisko,Heldigt Forråd,Glücklicher Fund,Cachette chanceuse
+LUCKY_CACHE_DESC,"+2 Bricks, +2 Gems, Play again","+2 Кирпича, +2 Самоцвета, Играем снова","+2 Цегли, +2 Самоцвіту, Граємо знову","+2 cegły, +2 klejnoty, zagraj ponownie","+2 Byggesten, +2 Ædelstene, Spil igen","+2 Ziegel, +2 Edelsteine, Noch einmal spielen","+2 Briques, +2 Gemmes, Jouez à nouveau"
+FRIENDLY_TERRAIN,Friendly Terrain,Благотатная почва,Благодатний ґрунт,Urodzajna gleba,Venligt Terræn,Freundliches Terrain,Terrain amical
+FRIENDLY_TERRAIN_DESC,"+1 Wall, Play again","+1 к Стене, Играем снова","+1 до Стіни, Граємо знову","+1 do Muru, zagraj ponownie","+1 Mur, Spil igen","+1 Mauer, Noch einmal spielen","+1 Mur, Jouez à nouveau"
+MINERS,Miners,Шахтёры,Шахтарі,Górnicy,Minearbejdere,Bergleute,Mineurs
+MINERS_DESC,+1 Quarry,+1 к Карьеру,+1 до Кар'єру,+1 do Kamieniołomu,+1 Stenbrud,+1 Steinbruch,+1 Carrière
+MOTHER_LODE,Mother Lode,Большая жила,Велика жила,Wielka żyła,Hovedåre,Mutterlode,Filon de Mère
+MOTHER_LODE_DESC,"If quarry < enemy quarry, +2 quarry. Else, +1 quarry","Если карьер < чем у врага, то карьер +2. Иначе +1 Карьер","Якщо кар'єр ніж у ворога, то кар'єр +2. Інакше +1","Jeśli kamieniołom jest niższy niż u przeciwnika, to kamieniołom +2. W przeciwnym razie +1","Hvis stenbrud < modstander stenbrud, +2 stenbrud. Ellers, +1 stenbrud","Wenn Steinbruch < feindlicher Steinbruch, +2 Steinbruch. Sonst, +1 Steinbruch","Si carrière < carrière de l'ennemi, +2 carrière. Sinon, +1 carrière"
+DWARVEN_MINERS,Dwarven Miners,Гномы-Шахтёры,Гноми-Шахтарі,Górnicy Krasnoludów,Dværg Minearbejdere,Zwergenbergleute,Mineurs nains
+DWARVEN_MINERS_DESC,"+4 Wall, +1 Quarry","+4 к Стене, +1 к карьеру","+4 до Стіни, +1 до кар'єру","+4 do Muru, +1 do kamieniołomu","+4 Mur, +1 Stenbrud","+4 Mauer, +1 Steinbruch","+4 Mur, +1 Carrière"
+WORK_OVERTIME,Work Overtime,Сверхурочные,Понаднормові,Nadgodziny,Arbejd Overtid,Überstunden,Heures supplémentaires
+WORK_OVERTIME_DESC,"+5 Wall, You lose 6 gems","+5 к Стене, вы теряете 5 самоцветов","+5 до Стіни, ви втрачаєте 5 самоцвітів","+5 do Muru, tracisz 5 klejnotów","+5 Mur, Du mister 6 ædelstene","+5 Mauer, Du verlierst 6 Edelsteine","+5 Mur, Vous perdez 6 gemmes"
+COPPING_THE_TECH,Copping the Tech,Чужая технология,Чужа технологія,Obca technologia,Hug Teknologien,Technik übernehmen,Copie de technologie
+COPPING_THE_TECH_DESC,"If quarry < enemy quarry, quarry = enemy quarry","Если карьер < чем у врага, то карьер становится = вражескому","Якщо кар'єр < ніж у ворога, то кар'єр стає ворожим","Jeśli kamieniołom < niż u przeciwnika, to kamieniołom staje się wrogi","Hvis stenbrud < modstander stenbrud, stenbrud = modstander stenbrud","Wenn Steinbruch < feindlicher Steinbruch, Steinbruch = feindlicher Steinbruch","Si carrière < carrière de l'ennemi, carrière = carrière de l'ennemi"
+BASIC_WALL,Basic Wall,Обычная стена,Звичайна стіна,Zwykły mur,Almindelig Mur,Grundmauer,Mur basique
+BASIC_WALL_DESC,+3 Wall,+3 к Стене,+3 до Стіни,+3 do Muru,+3 Mur,+3 Mauer,+3 Mur
+STURDY_WALL,Sturdy Wall,Крепкая стена,Міцна стіна,Solidny mur,Hårdført Mur,Stabile Mauer,Mur solide
+STURDY_WALL_DESC,+4 Wall,+4 к Стене,+4 до Стіни,+4 do Muru,+4 Mur,+4 Mauer,+4 Mur
+INNOVATIONS,Innovations,Новшества,Нововведення,Innowacja,Innovationer,Innovationen,Innovations
+INNOVATIONS_DESC,"+1 To all player's quarrys, you gain 4 gems","+1 к карьерам всех игроков, вы получаете 4 самоцвета","+1 до кар'єрів всіх гравців, ви отримуєте 4 самоцвіти","+1 do kamieniołomów wszystkich graczy, otrzymujesz 4 klejnoty","+1 Til alle spillers stenbrud, du modtager 4 ædelstene","+1 zu allen Steinbrüchen der Spieler, du erhältst 4 Edelsteine","+1 À toutes les carrières des joueurs, vous gagnez 4 gemmes"
+FOUNDATIONS,Foundations,Фундамент,Фундамент,Fundament,Fundament,Fundamente,Fondations
+FOUNDATIONS_DESC,"If wall = 0, +6 wall, else +3 wall","Если стена = 0, то +5 к Стене, иначе +3 к Стене","Якщо стіна = 0, то +5 до стіни, інакше +3 до стіни","Jeśli mur = 0, to +5 do muru, w przeciwnym razie +3 do muru","Hvis mur = 0, +6 mur, ellers +3 mur","Wenn Mauer = 0, +6 Mauer, sonst +3 Mauer","Si mur = 0, +6 mur, sinon +3 mur"
+TREMORS,Tremors,Толчки,Поштовхи,Wstrząsy,Rystelser,Erschütterungen,Tremblements
+TREMORS_DESC,All walls take 5 damage. Play again,"Все стены получают по 5 повреждений, играем снова","Усі стіни отримують по 5 пошкоджень, граємо знову","Wszystkie mury otrzymują po 5 obrażeń, zagraj ponownie","Alle murer tager 5 skade, Spil igen",Alle Mauern erleiden 5 Schaden. Noch einmal spielen,Tous les murs subissent 5 dégâts. Jouez à nouveau
+SECRET_ROOM,Secret Room,Секретный зал,Таємна зала,Tajemna sala,Hemmeligt Rum,Geheimer Raum,Salle secrète
+SECRET_ROOM_DESC,"+1 Magic, Play Again","+1 Магия, Играем снова","+1 Магія, Граємо знову","+1 Magia, zagraj ponownie","+1 Magi, Spil Igen","+1 Magie, Noch einmal spielen","+1 Magie, Jouez à nouveau"
+EARTHQUAKE,Earthquake,Землетрясение,Землетрус,Trzęsienie ziemi,Jordskælv,Erdbeben,Tremblement de terre
+EARTHQUAKE_DESC,-1 To all player's quarrys,-1 Карьеры всех игроков,-1 Кар'єри всіх гравців,-1 Kamieniołomy wszystkich graczy,-1 Til alle spillers stenbrud,-1 zu allen Steinbrüchen der Spieler,-1 À toutes les carrières des joueurs
+BIG_WALL,Big Wall,Большая стена,Велика стіна,Wielki mur,Stor Mur,Große Mauer,Grand mur
+BIG_WALL_DESC,+6 Wall,+6 к Стене,+6 до Стіни,+6 do Muru,+6 Mur,+6 Mauer,+6 Mur
+COLLAPSE,Collapse!,Обвал!,Обвалення!,Zawał!,Bryd Sammen!,Einsturz!,Effondrement !
+COLLAPSE_DESC,-1 Enemy quarry,-1 Карьер врага,-1 Ворожий кар'єр,-1 Wrogi kamieniołom,-1 Modstander Stenbrud,-1 feindlicher Steinbruch,-1 Carrière ennemie
+NEW_EQUIPMENT,New Equipment,Новое оборудование,Нове устаткування,Nowe wyposażenie,Nyt Udstyr,Neue Ausrüstung,Nouveau matériel
+NEW_EQUIPMENT_DESC,+2 Quarry,+2 Карьера,+2 Кар'єра,+2 Kamieniołomu,+2 Stenbrud,+2 Steinbruch,+2 Carrière
+STRIP_MINE,Strip Mine,Рудник обвалился,Розчистити шахту,Oczyszczenie kopalni,Stribe Mine,Tagebau,Mine à ciel ouvert
+STRIP_MINE_DESC,"-1 Quarry, +10 Wall, You gain 5 gems","-1 Карьер, +10 к Стене, вы получаете 5 самоцветов","-1 Кар'єр, +10 до Стіни, Ви отримуєте 5 дорогоцінних каменів","-1 Kamieniołom, +10 do Muru, Otrzymujesz 5 klejnotów","-1 Stenbrud, +11 Mur, Du modtager 5 ædelstene","-1 Steinbruch, +10 Mauer, du erhältst 5 Edelsteine","-1 Carrière, +10 Mur, Vous gagnez 5 gemmes"
+REINFORCED_WALL,Reinforced Wall,Усиленная стена,Армована стіна,Wzmocniony mur,Forstærket Mur,Verstärkte Mauer,Mur renforcé
+REINFORCED_WALL_DESC,+8 Wall,+8 к Стене,+ 8 до Стіни,+8 do Muru,+8 Mur,+8 Mauer,+8 Mur
+PORTICULUS,Porticulus,Решётка,Ґрати,Kraty,Faldgitter,Fallgitter,Herse
+PORTICULUS_DESC,"+5 Wall, +1 Dungeons","+5 к Стене, +1 к Темнице","+5 до Стіни, +1 Підземелля","+5 do Muru, +1 Loch","+5 Mur, +1 Hule","+5 Mauer, +1 Verlies","+5 Mur, +1 Donjon"
+CRYSTAL_ROCKS,Crystal Rocks,Кристальная жила,Кристалічні породи,Kryształowe skały,Krystal Sten,Kristallfelsen,Roches cristallines
+CRYSTAL_ROCKS_DESC,"+7 Wall, gain 7 gems","+7 к Стене, вы получаете 7 самоцветов","+7 до Стіни, отримати 7 дорогоцінних каменів","+7 do Muru, otrzymaj 7 klejnotów","+7 Mur, modtag 7 ædelstene","+7 Mauer, du erhältst 7 Edelsteine","+7 Mur, gagnez 7 gemmes"
+HARMONIC_ORE,Harmonic Ore,Поющая руда,Співуча руда,Śpiewająca ruda,Harmonisk Malm,Harmonisches Erz,Minerai harmonique
+HARMONIC_ORE_DESC,"+6 Wall, +3 Tower","+6 к Стене, +3 к Башне","+6 до Стіни, +3 Вежі","+6 do Muru, +3 do Wieży","+6 Mur, +3 Tårn","+6 Mauer, +3 Turm","+6 Mur, +3 Tour"
+MONDO_WALL,Mondo Wall,Бастион,Світова стіна,Światowy mur,Mondo Mur,Mondo Mauer,Mur monumental
+MONDO_WALL_DESC,+12 Wall,+12 к Стене,+12 до Стіни,+12 do Muru,+12 Mur,+12 Mauer,+12 Mur
+FOCUSED_DESIGNS,Focused Designs,Новые успехи,Орієнтовані проекти,Skierowane projekty,Fokuseret Design,Konzentrierte Designs,Conceptions ciblées
+FOCUSED_DESIGNS_DESC,"+8 Wall, +5 Tower","+8 к Стене, +5 к Башне","+8 до Стіни, +5 Вежі","+8 do Muru, +5 do Wieży","+8 Mur, +5 Tårn","+8 Mauer, +5 Turm","+8 Mur, +5 Tour"
+GREAT_WALL,Great Wall,Великая стена,Велетенська стіна,Gigantyczny mur,Enorm Mur,Große Mauer,Grande Muraille
+GREAT_WALL_DESC,+15 Wall,+15 к Стене,+15 до Стіни,+15 do Muru,+15 Mur,+15 Mauer,+15 Mur
+ROCK_LAUNCHER,Rock Launcher,Камнемёт,Камнеметатель,Kamieniomiot,Sten Slynge,Felsenwerfer,Lance-rochers
+ROCK_LAUNCHER_DESC,"+6 Wall, 10 Damage to enemy","+6 к Стене, 10 урона","+6 до Стіни, 10 Пошкодження ворогу","+6 do Muru, 10 Obrażeń przeciwnikowi","+6 Mur, 10 Skade til modstander","+6 Mauer, 10 Schaden für den Feind","+6 Mur, 10 Dégâts à l'ennemi"
+DRAGONS_HEART,Dragon's Heart,Драконье сердце,Серце Дракона,Serce Smoka,Drages Hjerte,Drachenherz,Cœur de dragon
+DRAGONS_HEART_DESC,"+20 Wall, +8 Tower","+20 к Стене, +8 к Башне","+20 до Стіна, +8 до Вежі","+20 do Muru, +8 do Wieży","+20 Mur, +8 Tårn","+20 Mauer, +8 Turm","+20 Mur, +8 Tour"
+FORCED_LABOR,Forced Labor,Каторга,Примусова праця,Przymusowa praca,Tvunget Arbejde,Zwangsarbeit,Travail forcé
+FORCED_LABOR_DESC,"+9 Wall, Lose 5 Recruits","+9 к Стене, вы теряете 5 зверей","+9 до Стіни, втратити 5 новобранців","+9 do Muru, stracisz 5 rekrutów","+9 Mur, Mist 5 Rekrutter","+9 Mauer, Du verlierst 5 Rekruten","+9 Mur, Perdez 5 recrues"
+ROCK_GARDEN,Rock Garden,Каменный сад,Кам'яний сад,Kamienny ogród,Sten Have,Steingarten,Jardin de pierres
+ROCK_GARDEN_DESC,"+1 Wall, +1 Tower, +2 Recruits","+1 к Стене, +1 к Башне, +2 зверя","+1 Стіни, +1 Вежі, +2 Новобранця","+1 Mur, +1 Wieża, +2 Rekruci","+1 Mur, +1 Tårn, +2 Rekrutter","+1 Mauer, +1 Turm, +2 Rekruten","+1 Mur, +1 Tour, +2 Recrues"
+FLOOD_WATER,Flood Water,Наводнение,Паводкова вода,Powódź,Oversvømmelse,Hochwasser,Eaux de crue
+FLOOD_WATER_DESC,Player(s) with lowest Wall are -1 Dungeon and 2 damage to Tower,Игрок с меньшей стеной получает -1 к темнице и 2 урона башне,Гравці з найнижчою стіною мають -1 підземелля і 2 до пошкодження вежі,Gracze z najniższym murem mają -1 loch i 2 obrażeń dla wieży,Spiller(e) med lavest Mur er -1 Hule og 2 skade til Tårn,Spieler mit der niedrigsten Mauer verlieren -1 Verlies und 2 Schaden am Turm,Joueur(s) avec le plus bas mur -1 Donjon et 2 dégâts à la tour
+BARRACKS,Barracks,Казармы,Барак,Barak,Barakker,Kaserne,Caserne
+BARRACKS_DESC,"+6 Recruits, +6 Wall, If dungeon < enemy dungeon then +1 dungeon","+6 зверей, +6 к Стене, если темница < вражеской, +1 темница","+6 новобранців, +6 стіни, якщо підземелля < вороже підземелля, то +1 підземе","+6 rekrutów, +6 muru, jeśli loch < loch wroga, to +1 loch","+6 Rekrutter, +6 Mur, Hvis hule < modstander hule så +1 hule","+6 Rekruten, +6 Mauer, Wenn Verlies < feindliches Verlies, dann +1 Verlies","+6 Recrues, +6 Mur, Si donjon < donjon de l'ennemi alors +1 donjon"
+BATTLEMENTS,Battlements,Укрепления,Укріплювання,Ufortyfikowanie,Brystværner,Wehrmauern,Créneaux
+BATTLEMENTS_DESC,"+7 Wall, 6 damage to enemy","+7 к Стене, 6 урона врагу","+7 до Стіни, 6 ушкодження ворожій","+7 do Muru, 6 obrażeń dla wroga","+7 Mur, 6 skade til modstander","+7 Mauer, 6 Schaden für den Feind","+7 Mur, 6 dégâts à l'ennemi"
+SHIFT,Shift,Сдвиг,Зміщення,Przesunięcie,Skift,Tausch,Échange
+SHIFT_DESC,Switch your Wall with enemy Wall,Ваша и вражеская стена меняются местами,Змініть свою стіну на ворожу,Zamień swój mur na wrogi,Byt din Mur med modstander Mur,Wechsle deine Mauer mit der feindlichen Mauer,Échangez votre mur avec le mur de l'ennemi
+QUARTZ,Quartz,Кварц,Кварц,Kwarc,Kvarts,Quarz,Quartz
+QUARTZ_DESC,"+1 Tower, Play again","+1 к Башне, Играем снова","+1 до Вежі, Граємо знову","+1 do Wieży, zagraj ponownie","+1 Tårn, Spil igen","+1 Turm, Noch einmal spielen","+1 Tour, Jouez à nouveau"
+SMOKY_QUARTZ,Smoky Quartz,Дымчатый кварц,Димчастий кварц,Dymny kwarc,Røg Kvarts,Rauchquarz,Quartz fumé
+SMOKY_QUARTZ_DESC,"1 Damage to enemy tower, Play again","1 урона Башне врага, Играем снова","1 Пошкодження ворожої вежі, Грайте знову","1 Obrażenie wrogiej wieży, zagraj ponownie","1 Skade til modstander tårn, Spil igen","1 Schaden am feindlichen Turm, Noch einmal spielen","1 Dégât à la tour ennemie, Jouez à nouveau"
+AMETHYST,Amethyst,Аметист,Аметист,Ametyst,Ametyst,Amethyst,Améthyste
+AMETHYST_DESC,+3 Tower,+3 к Башне,+3 до Вежі,+3 do Wieży,+3 Tårn,+3 Turm,+3 Tour
+SPELL_WEAVERS,Spell Weavers,Ткачи заклинаний,Ткачі заклинань,Tkacze zaklęć,Besværgelsesvæver,Zauberweber,Tisseurs de sorts
+SPELL_WEAVERS_DESC,+1 Magic,+1 к Магии,+1 до Магії,+1 do Magii,+1 Magi,+1 Magie,+1 Magie
+PRISM,Prism,Призма,Призма,Pryzmat,Prisme,Prisma,Prisme
+PRISM_DESC,"Draw 1 card, Discard 1 card, Play again","Взять 1 карту, Сбросить 1 карту, Играем снова","Взяти 1 карту, Скинути 1 карту, Граємо знову","Weź 1 kartę, odrzuć 1 kartę, zagraj ponownie","Træk 1 kort, Kasser 1 kort, Spil igen","Ziehe 1 Karte, wirf 1 Karte ab, Noch einmal spielen","Piochez 1 carte, Défaussez 1 carte, Jouez à nouveau"
+LODESTONE,Lodestone,Магнетит,Магнетит,Magnetyt,Ledesten,Magnetstein,Magnétite
+LODESTONE_DESC,"+3 Tower, This card can't be discarded without playing it","+3 к Башне, Эта карта не может быть сброшена","+3 до Вежі, Ця карта не може бути скинута","+3 do Wieży, ta karta nie może być odrzucona","+3 Tårn, Dette kort kan ikke kasseres uden at blive spillet","+3 Turm, Diese Karte kann nicht abgeworfen werden, ohne sie zu spielen","+3 Tour, Cette carte ne peut pas être défaussée sans être jouée"
+SOLAR_FLARE,Solar Flare,Вспышка солнца,Сонячний спалах,Rozbłysk słoneczny,Soludbrud,Sonnenflare,Éruption solaire
+SOLAR_FLARE_DESC,"+2 Tower, 2 Damage to enemy tower","+2 к Башне, 2 урона башне врага","+2 до Вежі, 2 шкоди башти ворога","+2 do Wieży, 2 obrażenia dla wieży wroga","+2 Tårn, 2 Skade til modstander tårn","+2 Turm, 2 Schaden am feindlichen Turm","+2 Tour, 2 Dégâts à la tour ennemie"
+CRYSTAL_MATRIX,Crystal Matrix,Матрица,Кришталева матриця,Kryształowa matryca,Krystal Matrix,Kristallmatrix,Matrice cristalline
+CRYSTAL_MATRIX_DESC,"+1 Magic, +3 Tower, +1 Enemy tower","+1 к Магии, +3 к Башне, +1 к Башне врага","+1 до Магії, +3 до Вежі, +1 до Вежі ворога","+1 do Magii, +3 do Wieży, +1 do Wieży wroga","+1 Magi, +3 Tårn, +1 Modstander tårn","+1 Magie, +3 Turm, +1 feindlicher Turm","+1 Magie, +3 Tour, +1 Tour ennemie"
+GEMSTONE_FLAW,Gemstone Flaw,Трещина,Хиба цінного каменю,Błąd klejnotu,Ædelstensfejl,Edelsteinfehler,Défaut de gemme
+GEMSTONE_FLAW_DESC,3 Damage to enemy tower,3 урона Башне врага,3 пошкодження ворожої Вежі,3 obrażenia wrogiej Wieży,3 Skade til modstander tårn,3 Schaden am feindlichen Turm,3 Dégâts à la tour ennemie
+RUBY,Ruby,Рубин,Рубін,Rubin,Rubin,Rubin,Rubis
+RUBY_DESC,+5 Tower,+5 к Башне,+5 до Вежі,+5 do Wieży,+5 Tårn,+5 Turm,+5 Tour
+GEM_SPEAR,Gem Spear,Копье из самоцвета,Самоцвітний спис,Klejnotowa włócznia,Ædelstensspyd,Edelsteinspeer,Lance de gemme
+GEM_SPEAR_DESC,5 Damage to enemy tower,5 урона Башне врага,5 пошкодження ворожої Вежі,5 obrażeń wrogiej Wieży,5 Skade til modstander tårn,5 Schaden am feindlichen Turm,5 Dégâts à la tour ennemie
+POWER_BURN,Power Burn,Взрыв силы,Спалювання енергії,Spalanie energii,Magt Afbrænding,Machtverzehrung,Brûlure de puissance
+POWER_BURN_DESC,"5 Damage to your tower, +2 Magic","5 урона собственной Башне, +2 к Магии","5 збитків власної Вежі, +2 до Магії","5 obrażeń własnej Wieży, +2 do Magii","5 Skade til dit tårn, +2 Magi","5 Schaden an deinem Turm, +2 Magie","5 Dégâts à votre tour, +2 Magie"
+HARMONIC_VIBE,Harmonic Vibe,Гармония,Гармонія,Harmonia,Harmonisk Bølge,Harmonische Schwingung,Vibration harmonique
+HARMONIC_VIBE_DESC,"+1 Magic, +3 Tower, +3 Wall","+1 к Магии, +3 к Башне, +3 к Стене","+1 до Магії, +3 до Вежі, +3 до Стіни","+1 do Magii, +3 do Wieży, +3 do Muru","+1 Magi, +3 Tårn, +3 Mur","+1 Magie, +3 Turm, +3 Mauer","+1 Magie, +3 Tour, +3 Mur"
+PARITY,Parity,Паритет,Рівність,Równość,Paritet,Parität,Parité
+PARITY_DESC,All player's magic equals the highest player's magic,Магия всех игроков становится равна магии сильнейшего,Магія всіх гравців стає рівна магії найсильнішого,Magia wszystkich graczy staje się równa najsilniejszej magii,Alle spillers magi er ens med den højeste spillers magi,Alle Spieler haben so viel Magie wie der Spieler mit der höchsten Magie,Toute la magie des joueurs égale celle du joueur ayant le plus de magie
+EMERALD,Emerald,Изумруд,Смарагд,Szmaragd,Smaragd,Smaragd,Émeraude
+EMERALD_DESC,+8 Tower,+8 к Башне,+8 до Вежі,+8 do Wieży,+8 Tårn,+8 Turm,+8 Tour
+PEARL_OF_WISDOM,Pearl of Wisdom,Жемчуг мудрости,Перлина мудрості,Perła mądrości,Visdomsperle,Perle der Weisheit,Perle de sagesse
+PEARL_OF_WISDOM_DESC,"+5 Tower, +1 Magic","+5 к Башне, +1 к Магии","+5 до Вежі, +1 до Магії","+5 do Wieży, +1 do Magii","+5 Tårn, +1 Magi","+5 Turm, +1 Magie","+5 Tour, +1 Magie"
+SHATTERER,Shatterer,Разрушитель,Руйнівник,Niszczyciel,Knuser,Zertrümmerer,Briseur
+SHATTERER_DESC,"-1 Magic, 9 Damage to enemy tower","-1 к Магии, 9 урона Башне врага","-1 до Магії, 9 втрати Вежі ворога","-1 do Magii, 9 obrażeń dla wrogiej Wieży","-1 Magi, 9 Skade til modstander tårn","-1 Magie, 9 Schaden am feindlichen Turm","-1 Magie, 9 Dégâts à la tour ennemie"
+CRUMBLESTONE,Crumblestone,Хрупкий камень,Крихкий камінь,Kruchy kamień,Smuldresten,Bröckelstein,Pierre friable
+CRUMBLESTONE_DESC,"+5 Tower, Enemy loses 6 bricks","+5 к Башне, враг теряет 6 кирпичей","+5 до Вежі, ворог втрачає 6 цеглин","+5 do Wieży, wróg traci 6 cegieł","+5 Tårn, Modstander mister 6 byggesten","+5 Turm, Feind verliert 6 Ziegel","+5 Tour, L'ennemi perd 6 briques"
+SAPPHIRE,Sapphire,Сапфир,Сапфір,Szafir,Safir,Saphir,Saphir
+SAPPHIRE_DESC,+11 Tower,+11 к Башне,+11 до Вежі,+11 do Wieży,+11 Tårn,+11 Turm,+11 Tour
+DISCORD,Discord,Раздор,Розлад,Rozpad,Dissonans,Unordnung,Discorde
+DISCORD_DESC,"7 Damage to all towers, all player's magic -1","7 урона всем Башням, -1 к Магии всех игроков","7 збитків усім Вежам, -1 до Магії всіх гравців","7 obrażeń dla wszystkich Wież, -1 do Magii wszystkich graczy","7 Skade til alle tårne, alle spillers magi -1","7 Schaden an allen Türmen, alle Spieler verlieren -1 Magie","7 Dégâts à toutes les tours, la magie de tous les joueurs -1"
+FIRE_RUBY,Fire Ruby,Огненный рубин,Вогненний рубін,Ognisty rubin,Ild Rubin,Feuerrubin,Rubis de feu
+FIRE_RUBY_DESC,"+6 Tower, 4 Damage to all enemy towers","+6 к Башне, 4 урона Башням врагов","+6 до Вежі, 4 шкоди Вежам ворогів","+6 do Wieży, 4 obrażenia dla Wież wrogów","+6 Tårn, 4 Skade til alle modstander tårne","+6 Turm, 4 Schaden an allen feindlichen Türmen","+6 Tour, 4 Dégâts à toutes les tours ennemies"
+QUARRYS_HELP,Quarry's Help,Помощь карьера,Допомога Кар'єру,Pomoc Kamieniołomu,Stenbruds Hjælp,Steinbruchhilfe,Aide de la carrière
+QUARRYS_HELP_DESC,"+7 Tower, Lose 10 bricks","+7 к Башне, Вы теряете 10 кирпичей","+7 до Вежі, Ви втрачаєте 10 цегли","+7 do Wieży, tracisz 10 cegieł","+7 Tårn, Mist 10 Byggesten","+7 Turm, Du verlierst 10 Ziegel","+7 Tour, Perdez 10 briques"
+CRYSTAL_SHIELD,Crystal Shield,Кристальный щит,Кришталевий щит,Kryształowa tarcza,Krystalskjold,Kristallschild,Bouclier de cristal
+CRYSTAL_SHIELD_DESC,"+8 Tower, +3 Wall","+8 к Башне, +3 к Стене","+8 до Вежі, +3 до Стіни","+8 do Wieży, +3 do Muru","+8 Tårn, +3 Mur","+8 Turm, +3 Mauer","+8 Tour, +3 Mur"
+EMPATHY_GEM,Empathy Gem,Самоцвет эмпатии,Самоцвіт емпатії,Klejnot empatii,Empati Ædelsten,Empathie-Edelstein,Gemme de l'empathie
+EMPATHY_GEM_DESC,"+8 Tower, +1 Dungeon","+8 к Башне, +1 к Темнице","+8 до Вежі, +1 до В'язниці","+8 do Wieży, +1 do Lochu","+8 Tårn, +1 Hule","+8 Turm, +1 Verlies","+8 Tour, +1 Donjon"
+DIAMOND,Diamond,Алмаз,Алмаз,Diament,Diamant,Diamant,Diamant
+DIAMOND_DESC,+15 Tower,+15 к Башне,+15 до Вежі,+15 do Wieży,+15 Tårn,+15 Turm,+15 Tour
+SANCTUARY,Sanctuary,Святилище,Святиня,Świątynia,Fristed,Zufluchtsort,Sanctuaire
+SANCTUARY_DESC,"+10 Tower, +5 Wall, Gain 5 recruits","+10 к Башне, +5 к Стене, Вы получаете пять зверей","+10 до Вежі, +5 до Стіни, Ви отримуєте п'ять звірів","+10 do Wieży, +5 do Muru, otrzymujesz pięć zwierząt","+10 Tårn, +5 Mur, Modtag 5 rekrutter","+10 Turm, +5 Mauer, Du erhältst 5 Rekruten","+10 Tour, +5 Mur, Gagnez 5 recrues"
+LAVA_JEWEL,Lava Jewel,Лавовый камень,Лавовий камінь,Kamień lawowy,Lava Juvel,Lava-Edelstein,Bijou de lave
+LAVA_JEWEL_DESC,"+12 Tower, 6 Damage to all enemies","+12 к Башне, 6 урона всем врагам","+12 до Вежі, 6 втрат усім ворогам","+12 do Wieży, 6 obrażeń wszystkim wrogom","+12 Tårn, 6 Skade til alle modstandere","+12 Turm, 6 Schaden an allen Feinden","+12 Tour, 6 Dégâts à tous les ennemis"
+DRAGONS_EYE,Dragon's Eye,Глаз дракона,Око дракона,Oko smoka,Drages Øje,Drachenauge,Œil de dragon
+DRAGONS_EYE_DESC,+20 Tower,+20 к Башне,+20 до Вежі,+20 do Wieży,+20 Tårn,+20 Turm,+20 Tour
+CRYSTALLIZE,Crystallize,Кристализация,Кристалізація,Krystalizacja,Krystallisere,Kristallisieren,Cristalliser
+CRYSTALLIZE_DESC,"+11 Tower, -6 Wall","+11 к Башне, -6 к Стене","+11 до Вежі, -6 до Стіни","+11 do Wieży, -6 do Muru","+11 Tårn, -6 Mur","+11 Turm, -6 Mauer","+11 Tour, -6 Mur"
+BAG_OF_BAUBLES,Bag of Baubles,Мешок безделушек,Мішок дрібничок,Torba błyskotek,Smykker Pose,Beutel mit Schmuckstücken,Sac de babioles
+BAG_OF_BAUBLES_DESC,"If Tower < enemy Tower than +2 Tower, Else +1 Tower","Если Башня < вражеской, то +2 к Башне, Иначе +1 к Башне","Якщо Вежа < ворожою, то +2 до Вежі, Інакше +1 до Вежі","Jeśli Wieża < wroga, to +2 do Wieży, w przeciwnym razie +1 do Wieży","Hvis Tårn < modstander Tårn, +2 Tårn, ellers +1 Tårn","Wenn Turm < feindlicher Turm, dann +2 Turm, sonst +1 Turm","Si Tour < Tour ennemie alors +2 Tour, Sinon +1 Tour"
+RAINBOW,Rainbow,Радуга,Веселка,Tęcza,Regnbue,Regenbogen,Arc-en-ciel
+RAINBOW_DESC,+1 Tower to all players. You gain 3 gems,"+1 ко всем Башням, Вы получаете 3 самоцвета","+1 до всіх Веж, Ви отримуєте 3 самоцвіти","+1 do wszystkich Wież, otrzymujesz 3 klejnoty",+1 Tårn til alle spillere. Du modtager 3 ædelstene,+1 Turm für alle Spieler. Du erhältst 3 Edelsteine,+1 Tour pour tous les joueurs. Vous gagnez 3 gemmes
+APPRENTICE,Apprentice,Ученик,Учень,Uczeń,Lærling,Lehrling,Apprenti
+APPRENTICE_DESC,"+4 Tower, you lose 3 recruits, 2 Damage to enemy Tower","+4 к Башне, вы теряете 3 зверя, 2 урона Башне врага","+4 до Вежі, ви втрачаєте 3 звіра, 2 шкоди Вежі ворога","+4 do Wieży, tracisz 3 zwierzęta, 2 obrażenia dla wrogiej Wieży","+4 Tårn, du mister 3 rekrutter, 2 Skade til modstander tårn","+4 Turm, du verlierst 3 Rekruten, 2 Schaden am feindlichen Turm","+4 Tour, vous perdez 3 recrues, 2 Dégâts à la tour ennemie"
+LIGHTNING_SHARD,Lightning Shard,Осколок молнии,Осколок блискавки,Odłamek błyskawicy,Lynskår,Blitzsplitter,Éclat de foudre
+LIGHTNING_SHARD_DESC,"If Tower > enemy Wall then 8 damage to enemy Tower, else 8 damage","Если ваша Башня > Стены врага, то 8 урона Башне врага, Иначе 8 урона","Якщо ваша Вежа > Стіни ворога, то 8 збитків Вежі ворога, Інакше 8 збитків","Jeśli twoja Wieża > Mur wroga, to 8 obrażeń dla wrogiej Wieży, w przeciwnym razie 8 obrażeń","Hvis Tårn > modstander mur, 8 skade til modstander Tårn, ellers 8 skade","Wenn Turm > feindliche Mauer, dann 8 Schaden am feindlichen Turm, sonst 8 Schaden","Si Tour > Mur ennemi alors 8 dégâts à la tour ennemie, sinon 8 dégâts"
+PHASE_JEWEL,Phase Jewel,Фазовый самоцвет,Фазовий самоцвіт,Fazowy klejnot,Fase Juvel,Phasen-Edelstein,Jewel de phase
+PHASE_JEWEL_DESC,"+13 Tower, +6 Recruits, +6 Bricks","+13 к Башне, +6 Зверей, +6 Кирпичей","+13 до Вежі, +6 Звірів, +6 Цегли","+13 do Wieży, +6 Zwierząt, +6 Cegieł","+13 Tårn, +6 Rekrutter, +6 Byggesten","+13 Turm, +6 Rekruten, +6 Ziegel","+13 Tour, +6 Recrues, +6 Briques"
+MAD_COW_DISEASE,Mad Cow Disease,Коровье безумие,Коров'яче божевілля,Krowie szaleństwo,Kogalskab,Rinderwahnsinn,Maladie de la vache folle
+MAD_COW_DISEASE_DESC,All players lose 6 recruits.,Все игроки теряют по 6 зверей.,Усі гравці втрачають по 6 звірів.,Wszyscy gracze tracą po 6 zwierząt,Alle spillere mister 6 rekrutter,Alle Spieler verlieren 6 Rekruten.,Tous les joueurs perdent 6 recrues
+FAERIE,Faerie,Фея,Фея,Wróżka,Fe,Fee,Fée
+FAERIE_DESC,"2 Damage, Play again","2 урона, Играем снова","2 Пошкодження, грайте знову","2 Obrażenia, zagraj ponownie","2 Skade, Spil igen","2 Schaden, Noch einmal spielen","2 Dégâts, Jouez à nouveau"
+MOODY_GOBLINS,Moody Goblins,Угрюмые гоблины,Похмурі гобліни,Ponure gobliny,Mutte Gobliner,Launische Kobolde,Gobelins lunatiques
+MOODY_GOBLINS_DESC,"4 Damage, You lose 3 gems","4 урона, Вы теряете 3 самоцвета","4 шкоди, Ви втрачаєте 3 самоцвіти","4 obrażenia, tracisz 3 klejnoty","4 Skade, Du mister 3 ædelstene","4 Schaden, Du verlierst 3 Edelsteine","4 Dégâts, Vous perdez 3 gemmes"
+MINOTAUR,Minotaur,Минотавр,Мінотавр,Minotaur,Minotaur,Minotaurus,Minotaure
+MINOTAUR_DESC,+1 Dungeon,+1 к Темнице,+1 до Темниці,+1 do Lochu,+1 Hule,+1 Verlies,+1 Donjon
+ELVEN_SCOUT,Elven Scout,Эльфы-Скауты,Ельфи-Скаути,Elfowie Zwiadowcy,Elver Spejder,Elbenscout,Éclaireur elfe
+ELVEN_SCOUT_DESC,"Draw 1 card, Discard 1 card, Play again","Взять 1 карту, Сбросить 1 карту, Играем снова","Взяти 1 карту, Скинути 1 карту, Граємо знову","Weź 1 kartę, odrzuć 1 kartę, zagraj ponownie","Træk 1 kort, Kasser 1 kort, Spil igen","Ziehe 1 Karte, wirf 1 Karte ab, Noch einmal spielen","Piochez 1 carte, Défaussez 1 carte, Jouez à nouveau"
+GOBLIN_MOB,Goblin Mob,Толпа гоблинов,Натовп гоблінів,Tłum goblinów,Goblin Hob,Koboldhorde,Foule de gobelins
+GOBLIN_MOB_DESC,"6 Damage, You take 3 damage","6 урона, Вы получаете 3 урона","6 шкоди, Ви отримуєте 3 шкоди","6 obrażeń, otrzymujesz 3 obrażenia","6 Skade, Du tage 3 skade","6 Schaden, Du erleidest 3 Schaden","6 Dégâts, Vous subissez 3 dégâts"
+GOBLIN_ARCHERS,Goblin Archers,Гоблины-Лучники,Гобліни-Лучники,Gobliny Łucznicy,Goblin Byeskyttere,Koboldbogenschützen,Archers gobelins
+GOBLIN_ARCHERS_DESC,"3 Damage to enemy tower, You take 1 damage","3 урона Башне врага, Вы получаете 1 урон","3 шкоди вежі ворога, ви отримуєте 1 шкоди","3 obrażenia wrogiej wieży, otrzymujesz 1 obrażenie","3 Skade til modstander tårn, Du tager 1 skade","3 Schaden am feindlichen Turm, Du erleidest 1 Schaden","3 Dégâts à la tour ennemie, Vous subissez 1 dégât"
+SHADOW_FAERIE,Shadow Faerie,Призрачная фея,Примарна фея,Widmowa wróżka,Skygge Fe,Schattenfee,Fée de l'ombre
+SHADOW_FAERIE_DESC,"2 Damage to enemy tower, Play again","2 урона Башне врага, Играем снова","2 утрати вежі ворога, граємо знову","2 obrażenia wrogiej wieży, zagraj ponownie","2 Skade til modstander tårn, Spil igen","2 Schaden am feindlichen Turm, Noch einmal spielen","2 Dégâts à la tour ennemie, Jouez à nouveau"
+ORC,Orc,Орк,Орк,Ork,Ork,Ork,Orc
+ORC_DESC,5 Damage,5 урона,5 шкоди,5 obrażeń,5 Skade,5 Schaden,5 Dégâts
+DWARVES,Dwarves,Дворфы,Дворфи,Krasnoludy,Dværge,Zwerge,Nains
+DWARVES_DESC,"4 Damage, +3 Wall","4 урона, +3 к Стене","4 шкоди, +3 до стіни","4 obrażenia, +3 do muru","4 Skade, +3 Mur","4 Schaden, +3 Mauer","4 Dégâts, +3 Mur"
+LITTLE_SNAKES,Little Snakes,Змеёныши,Маленькі Змійки,Małe Węże,Små Slanger,Kleine Schlangen,Petits serpents
+LITTLE_SNAKES_DESC,4 Damage to enemy tower,4 урона Башне врага,4 шкоди вежі ворога,4 obrażenia wrogiej wieży,4 Skade til modstander tårn,4 Schaden am feindlichen Turm,4 Dégâts à la tour ennemie
+TROLL_TRAINER,Troll Trainer,Тренер троллей,Тренер тролей,Trener trolli,Troldetræner,Trolltrainer,Entraîneur de trolls
+TROLL_TRAINER_DESC,+2 Dungeon,+2 Темницы,+2 темниці,+2 do lochu,+2 Hule,+2 Verlies,+2 Donjon
+TOWER_GREMLIN,Tower Gremlin,Башня гремлинов,Вежа Гремлінів,Wieża Gremlinów,Tårn Gremlin,Turmgrimmlin,Gremlin de la tour
+TOWER_GREMLIN_DESC,"2 Damage, +4 Wall, +2 Tower","2 урона, +4 к Стене, +2 к Башне","2 шкоди, + 4 до стіни, +2 до вежі","2 obrażenia, +4 do muru, +2 do wieży","2 Skade, +4 Mur, +2 Tårn","2 Schaden, +4 Mauer, +2 Turm","2 Dégâts, +4 Mur, +2 Tour"
+FULL_MOON,Full Moon,Полнолуние,Повний місяць,Pełnia księżyca,Fuldmåne,Vollmond,Pleine lune
+FULL_MOON_DESC,"+1 to all player's Dungeon, You gain 3 recruits","+1 к Темницам всех игроков, Вы получаете 3 зверя","+1 до темниць всіх гравців, ви отримуєте 3 звіра","+1 do lochów wszystkich graczy, otrzymujesz 3 zwierzęta","+1 til alle spillers Hule, Du modtager 3 rekrutter","+1 zu allen Verliesen der Spieler, du erhältst 3 Rekruten","+1 au donjon de tous les joueurs, Vous gagnez 3 recrues"
+SLASHER,Slasher,Слэшер,Слешер,Cięciwa,Skærer,Schlächter,Balafreur
+SLASHER_DESC,6 Damage,6 урона,6 шкоди,6 obrażeń,6 Skade,6 Schaden,6 Dégâts
+OGRE,Ogre,Огр,Огр,Ogr,Ogre,Oger,Ogre
+OGRE_DESC,7 Damage,7 урона,7 урона,7 obrażeń,7 Skade,7 Schaden,7 Dégâts
+RABID_SHEEP,Rabid Sheep,Бешеная оцва,Шалена вівця,Szalejąca owca,Gale Får,Tollwütige Schafe,Moutons enragés
+RABID_SHEEP_DESC,"6 Damage, Enemy loses 3 recruits","6 урона, Враг теряет 3 зверя","6 шкоди, ворог втрачає 3 звіра","6 obrażeń, wróg traci 3 zwierzęta","6 Skade, Modstander mister 3 rekrutter","6 Schaden, Feind verliert 3 Rekruten","6 Dégâts, L'ennemi perd 3 recrues"
+IMP,Imp,Бес,Бісеня,Diabełek,Imp,Kobold,Diablotin
+IMP_DESC,"6 Damage. All players lose 5 bricks, gems and recruits","6 урона, Все игроки теряют по 5 кирпичей, зверей и самоцветов","6 шкоди, всі гравці втрачають по 5 цеглин, звірів і самоцвітів","6 obrażeń, wszyscy gracze tracą po 5 cegieł, zwierząt i klejnotów","6 Skade. Alle spillere mister 5 byggesten, ædelstene og rekrutter","6 Schaden. Alle Spieler verlieren 5 Ziegel, Edelsteine und Rekruten","6 Dégâts. Tous les joueurs perdent 5 briques, gemmes et recrues"
+SPIZZER,Spizzer,Жучара,Шпіцер,Niszczyciel,Spizzer,Spizzer,Spizzer
+SPIZZER_DESC,"If enemy wall = 0 then 10 damage, Else 6 damage","Если стена врага = 0, то 10 урона, Иначе 6 урона","Якщо стіна ворога = 0, то 10 шкоди, інакше 6 шкоди","Jeśli mur wroga = 0, to 10 obrażeń, w przeciwnym razie 6 obrażeń","Hvis modstander mur = 0, 10 skade, Ellers 6 skade","Wenn feindliche Mauer = 0, dann 10 Schaden, sonst 6 Schaden","Si mur ennemi = 0 alors 10 dégâts, Sinon 6 dégâts"
+WEREWOLF,Werewolf,Оборотень,Перевертень,Wilkołak,Varulv,Werwolf,Loup-garou
+WEREWOLF_DESC,9 Damage,9 урона,9 шкоди,9 obrażeń,9 Skade,9 Schaden,9 Dégâts
+CORROSION_CLOUD,Corrosion Cloud,Едкое облако,Хмара корозії,Chmura korozji,Korroderende Sky,Korrosionswolke,Nuage de corrosion
+CORROSION_CLOUD_DESC,"If enemy wall > 0 then 10 damage, Else 7 Damage","Если стена врага > 0, то 10 урона, Иначе 7 урона","Якщо стіна ворога > 0, то 10 шкоди, інакше 7 шкоди","Jeśli mur wroga > 0, to 10 obrażeń, w przeciwnym razie 7 obrażeń","Hvis modstander mur > 0, 10 skade, ellers 7 skade","Wenn feindliche Mauer > 0, dann 10 Schaden, sonst 7 Schaden","Si mur ennemi > 0 alors 10 dégâts, Sinon 7 Dégâts"
+UNICORN,Unicorn,Единорог,Єдиноріг,Jednorożec,Enhjørning,Einhorn,Licorne
+UNICORN_DESC,"If magic > enemy magic then 12 Damage, Else 8 Damage","Если Магия > Магии врага, то 12 урона, Иначе 8 урона","Якщо Магія > магії ворога, то 12 шкоди, інакше 8 шкоди","Jeśli Magia > magii wroga, to 12 obrażeń, w przeciwnym razie 8 obrażeń","Hvis magi > modstander magi, 12 Skade, ellers 8 Skade","Wenn Magie > feindliche Magie, dann 12 Schaden, sonst 8 Schaden","Si magie > magie ennemie alors 12 Dégâts, Sinon 8 Dégâts"
+ELVEN_ARCHERS,Elven Archers,Эльфы-Лучники,Ельфійські лучники,Elfowie łucznicy,Elver Byeskyttere,Elbenbogenschützen,Archers elfes
+ELVEN_ARCHERS_DESC,"If wall > enemy wall then 6 Damage to enemy Tower, Else 8 Damage","Если Стена > Стены врага, то 6 урона Башне врага, Иначе 6 урона","Якщо стіна > стіни ворога, то 6 шкоди вежі ворога, інакше 6 шкоди","Jeśli mur > muru wroga, to 6 obrażeń wrogiej wieży, w przeciwnym razie 6 obrażeń","Hvis mur > modstander mur, 6 Skade til modstander Tårn, ellers 6 Skade","Wenn Mauer > feindliche Mauer, dann 6 Schaden am feindlichen Turm, sonst 8 Schaden","Si mur > mur ennemi alors 6 Dégâts à la tour ennemie, Sinon 8 Dégâts"
+SUCCUBUS,Succubus,Суккубы,Суккуб,Sukkub,Succubus,Sukkubus,Succube
+SUCCUBUS_DESC,"5 Damage to enemy tower, enemy loses 8 recruits.","5 урона Башне врага, враг теряет 8 зверей","5 шкоди вежі ворога, ворог втрачає 8 звірів","5 obrażeń wrogiej wieży, wróg traci 8 zwierząt","5 Skade til modstander tårn, modstander mister 8 rekrutter","5 Schaden am feindlichen Turm, Feind verliert 8 Rekruten.","5 Dégâts à la tour ennemie, l'ennemi perd 8 recrues"
+ROCK_STOMPERS,Rock Stompers,Камнееды,Кам'яні топтуни,Kamienne tancerze,Sten Trampere,Felsenstampfer,Écrase-rochers
+ROCK_STOMPERS_DESC,"8 Damage, -1 Enemy quarry","8 урона, -1 карьер врага","8 шкоди, -1 кар'єр ворога","8 obrażeń, -1 kamieniołom wroga","8 Skade, -1 Modstander stenbrud","8 Schaden, -1 feindlicher Steinbruch","8 Dégâts, -1 Carrière ennemie"
+THIEF,Thief,Вор,Крадій,Złodziej,Tyv,Dieb,Voleur
+THIEF_DESC,"Enemy loses 10 gems, 5 bricks, you gain 1/2 amt. round up","Враг теряет 10 самоцветов, 5 кирпичей, Вы получаете половину от этого","Ворог втрачає 10 самоцвітів, 5 цегли, Ви отримуєте половину від цього","Wróg traci 10 klejnotów, 5 cegieł, otrzymujesz połowę z tego","Modstander mister 10 ædelstene, 5 byggesten, du modtager 1/2 mængde rundet op","Feind verliert 10 Edelsteine, 5 Ziegel, du erhältst 1/2 Menge, aufgerundet","L'ennemi perd 10 gemmes, 5 briques, vous gagnez 1/2 quantité arrondie"
+STONE_GIANT,Stone Giant,Каменный гигант,Кам'яний гігант,Kamienny gigant,Stor Kæmpe,Steinriese,Géant de pierre
+STONE_GIANT_DESC,"10 Damage, +4 Wall","10 урона, +4 к Стене","10 шкоди, +4 до стіни","10 obrażeń, +4 do muru","10 Skade, +4 Mur","10 Schaden, +4 Mauer","10 Dégâts, +4 Mur"
+VAMPIRE,Vampire,Вампир,Вампір,Wampir,Vampyr,Vampir,Vampire
+VAMPIRE_DESC,"10 Damage, Enemy loses 5 recruits, -1 enemy Dungeon","10 урона, враг теряет 5 зверей, -1 к его Темнице","10 шкоди , ворог втрачає 5 звірів, -1 до його темниці","10 obrażeń, wróg traci 5 zwierząt, -1 do jego lochu","10 Skade, Modstander mister 5 rekrutter, -1 modstander Hule","10 Schaden, Feind verliert 5 Rekruten, -1 feindliches Verlies","10 Dégâts, L'ennemi perd 5 recrues, -1 Donjon ennemi"
+DRAGON,Dragon,Дракон,Дракон,Smok,Drage,Drache,Dragon
+DRAGON_DESC,"20 Damage, Enemy loses 10 gems, -1 enemy Dungeon","20 урона, враг теряет 10 самоцветов, -1 к его Темнице","20 шкоди , ворог втрачає 10 звірів, -1 до його темниці","20 obrażeń, wróg traci 10 zwierząt, -1 do jego lochu","20 Skade, Modstander mister 10 ædelstene, -1 modstander hule","20 Schaden, Feind verliert 10 Edelsteine, -1 feindliches Verlies","20 Dégâts, L'ennemi perd 10 gemmes, -1 Donjon ennemi"
+SPEARMAN,Spearman,Копейщик,Списоносець,Włócznik,Spydmand,Speerträger,Lancier Pégase
+SPEARMAN_DESC,"If wall > enemy Wall do 3 Damage, Else do 2 Damage","Если Стена > Стены врага, то 3 урона, Иначе 2 урона","Якщо стіна > стіни ворога, то 3 шкоди, інакше 2 шкоди","Jeśli mur > muru wroga, to 3 obrażenia, w przeciwnym razie 2 obrażenia","Hvis mur > modstander mur, gør 3 Skade, ellers gør 2 Skade","Wenn Mauer > feindliche Mauer, dann 3 Schaden, sonst 2 Schaden","Si mur > mur ennemi infligez 3 Dégâts, Sinon infligez 2 Dégâts"
+GNOME,Gnome,Гном,Гном,Krasnolud,Gnom,Gnom,Gnome
+GNOME_DESC,"3 Damage, +1 Gem","3 урона, +1 самоцвет","3 шкоди, +1 самоцвіт","3 obrażenia, +1 klejnot","3 Skade, +1 Ædelsten","3 Schaden, +1 Edelstein","3 Dégâts, +1 Gemme"
+BERSERKER,Berserker,Берсеркер,Берсерк,Berserker,Berserker,Berserker,Berserker
+BERSERKER_DESC,"8 Damage, 3 Damage to your Tower","8 урона, 3 урона вашей Башне","8 шкоди, 3 шкоди вашій вежі","8 obrażeń, 3 obrażenia twojej wieży","8 Skade, 3 Skade til dit Tårn","8 Schaden, 3 Schaden an deinem Turm","8 Dégâts, 3 Dégâts à votre Tour"
+WARLORD,Warlord,Военачальник,Воєначальник,Wojownik,Krigsherre,Kriegsherr,Seigneur de guerre
+WARLORD_DESC,"13 Damage, You lose 3 gems","13 урона, Вы теряете 3 самоцвета","13 шкоди, ви втрачаєте 3 самоцвіту","13 obrażeń, tracisz 3 klejnoty","13 Skade, Du mister 3 Ædelstene","13 Schaden, Du verlierst 3 Edelsteine","13 Dégâts, Vous perdez 3 gemmes"
+PEGASUS_LANCER,Pegasus Lancer,Наездник на пегасе,Наїзник на пегасі,Jeździec na pegazie,Pegasus Lansener,Pegasuslanze,Lancier Pégase
+PEGASUS_LANCER_DESC,12 Damage to enemy tower,12 урона Башне врага,12 шкоди вежі ворога,12 obrażeń wrogiej wieży,12 Skade til modstander tårn,12 Schaden am feindlichen Turm,12 Dégâts à la tour ennemie

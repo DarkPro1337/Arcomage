@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Arcomage"
 config/description="Open-source Arcomage fan-remake made on Godot Engine."
-config/version="0.3-alpha"
+config/version="1.0.0"
 run/main_scene="res://Scenes/Boot.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Arcoamge"
@@ -45,6 +45,13 @@ window/handheld/orientation="sensor_landscape"
 
 project/assembly_name="Arcomage"
 
+[editor]
+
+naming/default_signal_callback_name="On{NodeName}{SignalName}"
+naming/default_signal_callback_to_self_name="On{SignalName}"
+naming/scene_name_casing=1
+naming/script_name_casing=1
+
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
@@ -70,54 +77,27 @@ ui_reset={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Locales/Arcomage Translations - Cards.da.translation", "res://Locales/Arcomage Translations - Cards.en.translation", "res://Locales/Arcomage Translations - Cards.pl.translation", "res://Locales/Arcomage Translations - Cards.ru.translation", "res://Locales/Arcomage Translations - Cards.uk.translation", "res://Locales/Arcomage Translations - Interface.da.translation", "res://Locales/Arcomage Translations - Interface.en.translation", "res://Locales/Arcomage Translations - Interface.pl.translation", "res://Locales/Arcomage Translations - Interface.ru.translation", "res://Locales/Arcomage Translations - Interface.uk.translation")
-
-[locale]
-
-translations=PackedStringArray("res://Arcomage Translations - Interface.en.translation", "res://Arcomage Translations - Interface.ru.translation", "res://Arcomage Translations - Interface.uk.translation", "res://Arcomage Translations - Interface.pl.translation", "res://Arcomage Translations - Interface.da.translation", "res://Arcomage Translations - Cards.da.translation", "res://Arcomage Translations - Cards.en.translation", "res://Arcomage Translations - Cards.ru.translation", "res://Arcomage Translations - Cards.uk.translation")
-locale_filter=[1, ["da", "en", "pl", "ru", "uk"]]
-translation_remaps={}
-
-[logging]
-
-file_logging/enable_file_logging=true
-file_logging/log_path="user://logs/session.log"
-
-[mono]
-
-project/assembly_name="Arcomage"
+locale/translations=PackedStringArray("res://Locales/Arcomage Translations - Cards.da.translation", "res://Locales/Arcomage Translations - Cards.en.translation", "res://Locales/Arcomage Translations - Cards.pl.translation", "res://Locales/Arcomage Translations - Cards.ru.translation", "res://Locales/Arcomage Translations - Cards.uk.translation", "res://Locales/Arcomage Translations - Interface.da.translation", "res://Locales/Arcomage Translations - Interface.en.translation", "res://Locales/Arcomage Translations - Interface.pl.translation", "res://Locales/Arcomage Translations - Interface.ru.translation", "res://Locales/Arcomage Translations - Interface.uk.translation", "res://Locales/Arcomage Translations - Cards.de.translation", "res://Locales/Arcomage Translations - Cards.fr.translation", "res://Locales/Arcomage Translations - Interface.de.translation", "res://Locales/Arcomage Translations - Interface.fr.translation")
+rendering/text_driver="ICU / HarfBuzz / Graphite (Built-in)"
 
 [rendering]
 
 textures/canvas_textures/default_texture_filter=2
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
+lights_and_shadows/directional_shadow/16_bits=false
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=0
 shading/overrides/force_vertex_shading.mobile=false
 shading/overrides/force_lambert_over_burley.mobile=false
 anti_aliasing/screen_space_roughness_limiter/enabled=false
 anti_aliasing/screen_space_roughness_limiter/amount=0.01
 anti_aliasing/screen_space_roughness_limiter/limit=0.01
+lights_and_shadows/tighter_shadow_caster_culling=false
+lights_and_shadows/positional_shadow/atlas_size=256
+lights_and_shadows/positional_shadow/atlas_size.mobile=256
+lights_and_shadows/positional_shadow/atlas_16_bits=false
+lights_and_shadows/positional_shadow/atlas_quadrant_0_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_1_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_2_subdiv=0
+lights_and_shadows/positional_shadow/atlas_quadrant_3_subdiv=0
 environment/defaults/default_environment="res://default_env.tres"
-quality/intended_usage/framebuffer_allocation=0
-quality/intended_usage/framebuffer_allocation.mobile=1
-vram_compression/import_etc=true
-quality/directional_shadow/size=256
-quality/directional_shadow/size.mobile=256
-lights_and_shadows/shadow_atlas/size=256
-lights_and_shadows/shadow_atlas/size.mobile=256
-lights_and_shadows/shadow_atlas/quadrant_0_subdiv=0
-lights_and_shadows/shadow_atlas/quadrant_1_subdiv=0
-lights_and_shadows/shadow_atlas/quadrant_2_subdiv=0
-lights_and_shadows/shadow_atlas/quadrant_3_subdiv=0
-quality/shadows/filter_mode=0
-quality/reflections/texture_array_reflections=false
-quality/reflections/high_quality_ggx=false
-quality/reflections/irradiance_max_size=32
-shading/overrides/force_blinn_over_ggx.mobile=false
-quality/filters/anisotropic_filter_level=1
-quality/skinning/software_skinning_fallback=false
-quality/spatial_partitioning/use_bvh=false
-quality/spatial_partitioning/bvh_collision_margin=0.0
-quality/lightmapping/use_bicubic_sampling=false
-quality/reflections/atlas_size=0
-quality/reflections/atlas_subdiv=0
-quality/depth/hdr=false
 environment/canvas_textures/default_texture_filter=2
