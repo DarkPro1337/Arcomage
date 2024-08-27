@@ -39,6 +39,16 @@ At the beginning of each turn, the generators increase the amount of the player'
 
 As a rule, cards that require the same type of resources are similar in action. Gems - increase the tower, bricks - walls, animals - to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
 
+## Localizations
+![GB](Images/Icons/Flags/gb.png) English, ![RU](Images/Icons/Flags/ru.png) Русский, ![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski, ![DK](Images/Icons/Flags/dk.png) Dansk, ![DE](Images/Icons/Flags/de.png) Deutsch, ![FR](Images/Icons/Flags/fr.png) français  
+
+### Contributors
+Thanks to the following people for their help in translating the game
+* **Zmeonysh** (![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski)
+* **TimawaViking** (![DK](Images/Icons/Flags/dk.png) Dansk)  
+
+If you want to help with the translation, please [contact me](https://darkpro1337.github.io/), I will be very grateful for your help.
+
 ## Also, available at
 [![itch.io game page](https://img.shields.io/badge/itch.io-%23FA5C5C.svg?style=for-the-badge&logo=itchdotio&logoColor=white)](https://darkpro1337.itch.io/arcomage)
 [![GameJolt game page](https://img.shields.io/badge/GameJolt-%23121015.svg?style=for-the-badge&logo=gamejolt)](https://gamejolt.com/games/arcomage/537808)
