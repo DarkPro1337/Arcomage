@@ -734,7 +734,7 @@ cards:
     description: Draw 1 card, Discard 1 card, Play again
     type: recruit
     cost: 2
-    pic: ../Sprites/Cards/elven_scouts.png
+    pic: ../Sprites/Cards/elven_scout.png
     features:
       - playAgain
       - drawDiscard

@@ -99,16 +99,12 @@ public static class ActionParser
         .Select(ids => ids.ToList())
         .Then(idList =>
         {
-            if (idList.Count >= 2)
-            {
-                var receiver = string.Join(".", idList.Take(idList.Count - 1));
-                var method = idList.Last();
-                return Parse.Return((Receiver: receiver, Method: method));
-            }
-            else
-            {
+            if (idList.Count < 2)
                 return Fail<(string Receiver, string Method)>("Expected at least two identifiers for method call");
-            }
+            var receiver = string.Join(".", idList.Take(idList.Count - 1));
+            var method = idList.Last();
+            return Parse.Return((Receiver: receiver, Method: method));
+
         });
 
     // Parser for method calls (e.g., self.Tower.Gain(10))
@@ -138,13 +134,13 @@ public static class ActionParser
         {
             Condition = condition,
             ThenActions = thenActions,
-            ElseActions = elseActions.GetOrElse(new List<ActionBase>())
+            ElseActions = elseActions.GetOrElse([])
         };
 
     // Parser for a single action
     public static readonly Parser<ActionBase> Action =
-        Conditional.Select(a => (ActionBase)a)
-        .Or(MethodCall.Select(a => (ActionBase)a));
+        Conditional.Select(ActionBase (a) => a)
+        .Or(MethodCall.Select(ActionBase (a) => a));
 
     // Parser for a list of actions
     private static readonly Parser<List<ActionBase>> ActionList =
