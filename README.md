@@ -44,8 +44,8 @@ As a rule, cards that require the same type of resources are similar in action. 
 
 ### Contributors
 Thanks to the following people for their help in translating the game
-* **Zmeonysh** (![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski)
-* **TimawaViking** (![DK](Images/Icons/Flags/dk.png) Dansk)  
+* **[Zmeonysh](https://www.youtube.com/@Zmeonysh)** (![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski)
+* **[TimawaViking](https://www.reddit.com/user/TimawaViking/)** (![DK](Images/Icons/Flags/dk.png) Dansk)  
 
 If you want to help with the translation, please [contact me](https://darkpro1337.github.io/), I will be very grateful for your help.
 
