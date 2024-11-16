@@ -4,7 +4,7 @@ public enum CardType
 {
     Brick,
     Gem,
-    Recruits,
+    Recruit,
     None
 }
 

@@ -1,139 +1,66 @@
-using System;
+using System.Collections.Generic;
 
 namespace Arcomage.Scripts;
 
-public interface ICardAction
+public abstract class ActionBase
 {
-    void Execute(Player player, Player opponent, Table table);
+    public abstract void Execute(Table gameState);
 }
 
-public class GainAction : ICardAction
+public class MethodCallAction : ActionBase
 {
-    public readonly TargetType Target;
-    public readonly ResourceTypes Resource;
-    public readonly int Amount;
+    public string Receiver { get; set; }
+    public string Method { get; set; }
+    public List<Expression> Arguments { get; set; } = [];
 
-    public GainAction(TargetType target, ResourceTypes resource, int amount)
+    public override void Execute(Table gameState)
     {
-        Target = target;
-        Resource = resource;
-        Amount = amount;
-    }
-
-    public void Execute(Player player, Player opponent, Table table)
-    {
-        table.GainValue(player, Resource, Amount);
+        // TODO: Implementation for executing the action
     }
 }
 
-public class LoseAction : ICardAction
+public class ConditionalAction : ActionBase
 {
-    public readonly TargetType Target;
-    public readonly ResourceTypes Resource;
-    public readonly int Amount;
+    public Expression Condition { get; set; }
+    public List<ActionBase> ThenActions { get; set; } = [];
+    public List<ActionBase> ElseActions { get; set; } = [];
 
-    public LoseAction(TargetType result, ResourceTypes resource, int amount)
+    public override void Execute(Table gameState)
     {
-        Target = result;
-        Resource = resource;
-        Amount = amount;
-    }
-
-    public void Execute(Player player, Player opponent, Table table)
-    {
-        table.GetValue(player, Resource);
+        // TODO: Implementation for executing the action
     }
 }
 
-public class SetAction : ICardAction
+public abstract class Expression
 {
-    public readonly ResourceTypes Resource;
-    public readonly int Amount;
-    public readonly TargetType Target;
-    public readonly ResourceTypes TargetResource;
+    public abstract int Evaluate(Table gameState);
+}
 
-    public SetAction(TargetType result, ResourceTypes resource, int amount)
-    {
-        Resource = resource;
-        Amount = amount;
-    }
+public class NumberExpression : Expression
+{
+    public int Value { get; set; }
 
-    public SetAction(TargetType target, ResourceTypes resource, ResourceTypes targetResource)
-    {
-        Target = target;
-        Resource = resource;
-        TargetResource = targetResource;
-    }
+    public override int Evaluate(Table gameState) => Value;
+}
 
-    public void Execute(Player player, Player opponent, Table table)
+public class VariableExpression : Expression
+{
+    public string VariableName { get; set; }
+
+    public override int Evaluate(Table gameState)
     {
-        table.SetValue(player, Resource, Amount);
+        return 0; // TODO: Implementation for evaluating the variable
     }
 }
 
-public class DamageAction : ICardAction
+public class BinaryExpression : Expression
 {
-    public TargetType Target;
-    public int Amount;
+    public Expression Left { get; set; }
+    public Expression Right { get; set; }
+    public string Operator { get; set; }
 
-    public DamageAction(TargetType target, int amount)
+    public override int Evaluate(Table gameState)
     {
-        Target = target;
-        Amount = amount;
-    }
-
-    public void Execute(Player player, Player opponent, Table table)
-    {
-        var targetPlayers = table.GetTargetPlayer(player, Target);
-        foreach (var target in targetPlayers) 
-            table.Damage(target, Amount);
-    }
-}
-
-public class SwapAction : ICardAction
-{
-    private readonly TargetType _target;
-    
-    public readonly ResourceTypes Resource;
-    public readonly ResourceTypes ResourceToSwap;
-
-    public SwapAction(TargetType target, ResourceTypes resource, ResourceTypes resourceToSwap)
-    {
-        _target = target;
-        Resource = resource;
-        ResourceToSwap = resourceToSwap;
-    }
-
-    public void Execute(Player player, Player opponent, Table context)
-    {
-        var selfValue = context.GetValue(player, Resource);
-        var opponentValue = context.GetValue(opponent, ResourceToSwap);
-
-        context.SetValue(player, Resource, opponentValue);
-        context.SetValue(opponent, ResourceToSwap, selfValue);
-    }
-}
-
-public class ConditionalAction : ICardAction
-{
-    public readonly Func<Player, Player, Table, bool> Condition;
-    public readonly ICardAction ThenAction;
-    public readonly ICardAction ElseAction;
-
-    public ConditionalAction(Func<Player, Player, Table, bool> condition,
-        ICardAction thenAction,
-        ICardAction elseAction = null)
-    {
-        Condition = condition;
-        ThenAction = thenAction;
-        ElseAction = elseAction;
-    }
-
-    public void Execute(Player player, Player opponent, Table context)
-    {
-        if (Condition(player, opponent, context))
-            ThenAction.Execute(player, opponent, context);
-        else
-            ElseAction?.Execute(player, opponent, context);
+        return 0; // TODO: Implementation for evaluating the binary expression
     }
 }

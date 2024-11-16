@@ -27,7 +27,7 @@ public partial class CardControl : Control
     public string CardArt;
     public List<CardsUse> CardUses;
     public List<CardFeature> CardFeatures;
-    public List<ICardAction> CardActions;
+    public List<ActionBase> CardActions;
 
     public bool Preview = false;
     public bool Discardable = true;
@@ -76,7 +76,7 @@ public partial class CardControl : Control
             case CardType.Gem:
                 Layout.Texture = GD.Load<Texture2D>("res://Sprites/blue_card_layout_alt.png");
                 break;
-            case CardType.Recruits:
+            case CardType.Recruit:
                 Layout.Texture = GD.Load<Texture2D>("res://Sprites/green_card_layout_alt.png");
                 break;
             case CardType.None:

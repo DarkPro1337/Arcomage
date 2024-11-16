@@ -1,0 +1,1046 @@
+name: M&M8 Deck
+description: Original Might & Magic 8 Deck.
+cards:
+  - id: brick_shortage
+    name: Brick Shortage
+    description: All players lose 8 bricks
+    type: brick
+    cost: 0
+    pic: ../Sprites/Cards/brick_shortage.png
+    actions:
+      - all.Bricks.Lose(8)
+  
+  - id: lucky_cache
+    name: Lucky Cache
+    description: +2 Bricks, +2 Gems, Play again
+    type: brick
+    cost: 0
+    pic: ../Sprites/Cards/lucky_cache.png
+    features:
+      - playAgain
+    actions:
+      - self.Bricks.Gain(2)
+      - self.Gems.Gain(2)
+  
+  - id: friendly_terrain
+    name: Friendly Terrain
+    description: +1 Wall, Play again
+    type: brick
+    cost: 1
+    pic: ../Sprites/Cards/friendly_terrain.png
+    features:
+      - playAgain
+    actions:
+      - self.Wall.Gain(1)
+  
+  - id: miners
+    name: Miners
+    description: +1 Quarry
+    type: brick
+    cost: 3
+    pic: ../Sprites/Cards/miners.png
+    actions:
+      - self.Quarry.Gain(1)
+  
+  - id: mother_lode
+    name: Mother Lode
+    description: If quarry < enemy quarry, +2 quarry. Else, +1 quarry
+    type: brick
+    cost: 4
+    pic: ../Sprites/Cards/mother_lode.png
+    actions:
+      - if: self.Quarry < opponent.Quarry
+        then:
+          - self.Quarry.Gain(2)
+        else:
+          - self.Quarry.Gain(1)
+  
+  - id: dwarven_miners
+    name: Dwarven Miners
+    description: +4 Wall, +1 Quarry
+    type: brick
+    cost: 7
+    pic: ../Sprites/Cards/dwarven_miners.png
+    actions:
+      - self.Wall.Gain(4)
+      - self.Quarry.Gain(1)
+  
+  - id: work_overtime
+    name: Work Overtime
+    description: +5 Wall, You lose 6 gems
+    type: brick
+    cost: 2
+    pic: ../Sprites/Cards/work_overtime.png
+    actions:
+      - self.Wall.Gain(5)
+      - self.Gems.Lose(6)
+  
+  - id: copping_the_tech
+    name: Copping the Tech
+    description: If quarry < enemy quarry, quarry = enemy quarry
+    type: brick
+    cost: 5
+    pic: ../Sprites/Cards/copping_the_tech.png
+    actions:
+      - if: self.Quarry < opponent.Quarry
+        then:
+          - self.Quarry.Set(opponent.Quarry)
+  
+  - id: basic_wall
+    name: Basic Wall
+    description: +3 Wall
+    type: brick
+    cost: 2
+    pic: ../Sprites/Cards/basic_wall.png
+    actions:
+      - self.Wall.Gain(3)
+  
+  - id: sturdy_wall
+    name: Sturdy Wall
+    description: +4 Wall
+    type: brick
+    cost: 3
+    pic: ../Sprites/Cards/sturdy_wall.png
+    actions:
+      - self.Wall.Gain(4)
+  
+  - id: innovations
+    name: Innovations
+    description: +1 To all player's quarrys, you gain 4 gems
+    type: brick
+    cost: 2
+    pic: ../Sprites/Cards/innovations.png
+    actions:
+      - all.Quarry.Gain(1)
+      - self.Gems.Gain(4)
+  
+  - id: foundations
+    name: Foundations
+    description: If wall = 0, +6 wall, else +3 wall
+    type: brick
+    cost: 3
+    pic: ../Sprites/Cards/foundations.png
+    actions:
+      - if: self.Wall == 0
+        then:
+          - self.Wall.Gain(6)
+        else:
+          - self.Wall.Gain(3)
+  
+  - id: tremors
+    name: Tremors
+    description: All walls take 5 damage. Play again
+    type: brick
+    cost: 7
+    pic: ../Sprites/Cards/tremors.png
+    features:
+      - playAgain
+    actions:
+      - all.Wall.Lose(5)
+  
+  - id: secret_room
+    name: Secret Room
+    description: +1 Magic, Play Again
+    type: brick
+    cost: 8
+    pic: ../Sprites/Cards/secret_room.png
+    features:
+      - playAgain
+    actions:
+      - self.Magic.Gain(1)
+  
+  - id: earthquake
+    name: Earthquake
+    description: -1 To all player's quarrys
+    type: brick
+    cost: 0
+    pic: ../Sprites/Cards/earthquake.png
+    actions:
+      - all.Quarry.Lose(1)
+  
+  - id: big_wall
+    name: Big Wall
+    description: +6 Wall
+    type: brick
+    cost: 5
+    pic: ../Sprites/Cards/big_wall.png
+    actions:
+      - self.Wall.Gain(6)
+  
+  - id: collapse
+    name: Collapse!
+    description: -1 Enemy quarry
+    type: brick
+    cost: 4
+    pic: ../Sprites/Cards/collapse.png
+    actions:
+      - opponent.Quarry.Lose(1)
+  
+  - id: new_equipment
+    name: New Equipment
+    description: +2 Quarry
+    type: brick
+    cost: 6
+    pic: ../Sprites/Cards/new_equipment.png
+    actions:
+      - self.Quarry.Gain(2)
+  
+  - id: strip_mine
+    name: Strip Mine
+    description: -1 Quarry, +10 Wall, You gain 5 gems
+    type: brick
+    cost: 0
+    pic: ../Sprites/Cards/strip_mine.png
+    actions:
+      - self.Quarry.Lose(1)
+      - self.Wall.Gain(10)
+      - self.Gems.Gain(5)
+  
+  - id: reinforced_wall
+    name: Reinforced Wall
+    description: +8 Wall
+    type: brick
+    cost: 8
+    pic: ../Sprites/Cards/reinforced_wall.png
+    actions:
+      - self.Wall.Gain(8)
+  
+  - id: porticulus
+    name: Porticulus
+    description: +5 Wall, +1 Dungeons
+    type: brick
+    cost: 9
+    pic: ../Sprites/Cards/porticulus.png
+    actions:
+      - self.Wall.Gain(5)
+      - self.Dungeons.Gain(1)
+  
+  - id: crystal_rocks
+    name: Crystal Rocks
+    description: +7 Wall, gain 7 gems
+    type: brick
+    cost: 9
+    pic: ../Sprites/Cards/crystal_rocks.png
+    actions:
+      - self.Wall.Gain(7)
+      - self.Gems.Gain(7)
+  
+  - id: harmonic_ore
+    name: Harmonic Ore
+    description: +6 Wall, +3 Tower
+    type: brick
+    cost: 11
+    pic: ../Sprites/Cards/harmonic_ore.png
+    actions:
+      - self.Wall.Gain(6)
+      - self.Tower.Gain(3)
+  
+  - id: mondo_wall
+    name: Mondo Wall
+    description: +12 Wall
+    type: brick
+    cost: 13
+    pic: ../Sprites/Cards/mondoWall.png
+    actions:
+      - self.Wall.Gain(12)
+  
+  - id: focused_designs
+    name: Focused Designs
+    description: +8 Wall, +5 Tower
+    type: brick
+    cost: 15
+    pic: ../Sprites/Cards/focusedDesigns.png
+    actions:
+      - self.Wall.Gain(4)
+      - self.Tower.Gain(4)
+  
+  - id: great_wall
+    name: Great Wall
+    description: +15 Wall
+    type: brick
+    cost: 16
+    pic: ../Sprites/Cards/great_wall.png
+    actions:
+      - self.Wall.Gain(15)
+  
+  - id: rock_launcher
+    name: Rock Launcher
+    description: +6 Wall, 10 Damage to enemy
+    type: brick
+    cost: 18
+    pic: ../Sprites/Cards/rock_launcher.png
+    actions:
+      - self.Wall.Gain(6)
+      - opponent.Damage(10)
+  
+  - id: dragons_heart
+    name: Dragon's Heart
+    description: +20 Wall, +8 Tower
+    type: brick
+    cost: 24
+    pic: ../Sprites/Cards/dragons_heart.png
+    actions:
+      - self.Wall.Gain(20)
+      - self.Tower.Gain(8)
+  
+  - id: forced_labor
+    name: Forced Labor
+    description: +9 Wall, Lose 5 Recruits
+    type: brick
+    cost: 7
+    pic: ../Sprites/Cards/forced_labor.png
+    actions:
+      - self.Wall.Gain(9)
+      - self.Recruits.Lose(5)
+  
+  - id: rock_garden
+    name: Rock Garden
+    description: +1 Wall, +1 Tower, +2 Recruits
+    type: brick
+    cost: 1
+    pic: ../Sprites/Cards/rock_garden.png
+    actions:
+      - self.Wall.Gain(1)
+      - self.Tower.Gain(1)
+      - self.Recruits.Gain(2)
+  
+  - id: flood_water
+    name: Flood Water
+    description: Player(s) with lowest Wall are -1 Dungeon and 2 damage to Tower
+    type: brick
+    cost: 6
+    pic: ../Sprites/Cards/flood_water.png
+    actions:
+      - lowestWall.Dungeons.Lose(1)
+      - lowestWall.Tower.Lose(2)
+  
+  - id: barracks
+    name: Barracks
+    description: +6 Recruits, +6 Wall, If dungeon < enemy dungeon then +1 dungeon
+    type: brick
+    cost: 10
+    pic: ../Sprites/Cards/barracks.png
+    actions:
+      - self.Recruits.Gain(6)
+      - self.Wall.Gain(6)
+      - if: self.Dungeons < opponent.Dungeons
+        then:
+          - self.Dungeons.Gain(1)
+  
+  - id: battlements
+    name: Battlements
+    description: +7 Wall, 6 damage to enemy
+    type: brick
+    cost: 14
+    pic: ../Sprites/Cards/battlements.png
+    actions:
+      - self.Wall.Gain(7)
+      - opponent.Damage(6)
+  
+  - id: shift
+    name: Shift
+    description: Switch your Wall with enemy Wall
+    type: brick
+    cost: 17
+    pic: ../Sprites/Cards/shift.png
+    actions:
+      - self.Wall.Swap(opponent.Wall)
+  
+  - id: quartz
+    name: Quartz
+    description: +1 Tower, Play again
+    type: gem
+    cost: 1
+    pic: ../Sprites/Cards/quartz.png
+    features:
+      - playAgain
+    actions:
+      - self.Tower.Gain(1)
+  
+  - id: smoky_quartz
+    name: Smoky Quartz
+    description: 1 Damage to enemy tower, Play again
+    type: gem
+    cost: 2
+    pic: ../Sprites/Cards/smoky_quartz.png
+    features:
+      - playAgain
+    actions:
+      - opponent.Damage(1)
+  
+  - id: amethyst
+    name: Amethyst
+    description: +3 Tower
+    type: gem
+    cost: 2
+    pic: ../Sprites/Cards/amethyst.png
+    actions:
+      - self.Tower.Gain(3)
+  
+  - id: spell_weavers
+    name: Spell Weavers
+    description: +1 Magic
+    type: gem
+    cost: 3
+    pic: ../Sprites/Cards/spell_weavers.png
+    actions:
+      - self.Magic.Gain(1)
+  
+  - id: prism
+    name: Prism
+    description: Draw 1 card, Discard 1 card, Play again
+    type: gem
+    cost: 4
+    pic: ../Sprites/Cards/prism.png
+    features:
+      - playAgain
+      - drawDiscard
+  
+  - id: lodestone
+    name: Lodestone
+    description: +3 Tower, This card can't be discarded without playing it
+    type: gem
+    cost: 5
+    pic: ../Sprites/Cards/lodestone.png
+    features:
+      - notDiscardable
+    actions:
+      - self.Tower.Gain(3)
+  
+  - id: solar_flare
+    name: Solar Flare
+    description: +2 Tower, 2 Damage to enemy tower
+    type: gem
+    cost: 4
+    pic: ../Sprites/Cards/solar_flare.png
+    actions:
+      - self.Tower.Gain(2)
+      - opponent.Tower.Lose(2)
+  
+  - id: crystal_matrix
+    name: Crystal Matrix
+    description: +1 Magic, +3 Tower, +1 Enemy tower
+    type: gem
+    cost: 6
+    pic: ../Sprites/Cards/crystal_matrix.png
+    actions:
+      - self.Magic.Gain(1)
+      - self.Tower.Gain(3)
+      - opponent.Tower.Gain(1)
+  
+  - id: gemstone_flaw
+    name: Gemstone Flaw
+    description: 3 Damage to enemy tower
+    type: gem
+    cost: 2
+    pic: ../Sprites/Cards/gemstone_flaw.png
+    actions:
+      - opponent.Tower.Lose(3)
+  
+  - id: ruby
+    name: Ruby
+    description: +5 Tower
+    type: gem
+    cost: 3
+    pic: ../Sprites/Cards/ruby.png
+    actions:
+      - self.Tower.Gain(5)
+  
+  - id: gem_spear
+    name: Gem Spear
+    description: 5 Damage to enemy tower
+    type: gem
+    cost: 4
+    pic: ../Sprites/Cards/gem_spear.png
+    actions:
+      - opponent.Tower.Lose(5)
+  
+  - id: power_burn
+    name: Power Burn
+    description: 5 Damage to your tower, +2 Magic
+    type: gem
+    cost: 3
+    pic: ../Sprites/Cards/power_burn.png
+    actions:
+      - self.Tower.Lose(5)
+      - self.Magic.Gain(2)
+  
+  - id: harmonic_vibe
+    name: Harmonic Vibe
+    description: +1 Magic, +3 Tower, +3 Wall
+    type: gem
+    cost: 7
+    pic: ../Sprites/Cards/harmonic_vibe.png
+    actions:
+      - self.Magic.Gain(1)
+      - self.Tower.Gain(3)
+      - self.Wall.Gain(3)
+  
+  - id: parity
+    name: Parity
+    description: All player's magic equals the highest player's magic
+    type: gem
+    cost: 7
+    pic: ../Sprites/Cards/parity.png
+    actions:
+      - all.Magic.Set(highestMagic)
+  
+  - id: emerald
+    name: Emerald
+    description: +8 Tower
+    type: gem
+    cost: 6
+    pic: ../Sprites/Cards/emerald.png
+    actions:
+      - self.Tower.Gain(8)
+  
+  - id: pearl_of_wisdom
+    name: Pearl of Wisdom
+    description: +5 Tower, +1 Magic
+    type: gem
+    cost: 9
+    pic: ../Sprites/Cards/pearl_of_wisdom.png
+    actions:
+      - self.Tower.Gain(5)
+      - self.Magic.Gain(1)
+  
+  - id: shatterer
+    name: Shatterer
+    description: -1 Magic, 9 Damage to enemy tower
+    type: gem
+    cost: 8
+    pic: ../Sprites/Cards/shatterer.png
+    actions:
+      - self.Magic.Lose(1)
+      - opponent.Tower.Lose(9)
+  
+  - id: crumblestone
+    name: Crumblestone
+    description: +5 Tower, Enemy loses 6 bricks
+    type: gem
+    cost: 7
+    pic: ../Sprites/Cards/crumblestone.png
+    actions:
+      - self.Tower.Gain(5)
+      - opponent.Bricks.Lose(6)
+  
+  - id: sapphire
+    name: Sapphire
+    description: +11 Tower
+    type: gem
+    cost: 10
+    pic: ../Sprites/Cards/sapphire.png
+    actions:
+      - self.Tower.Gain(11)
+  
+  - id: discord
+    name: Discord
+    description: 7 Damage to all towers, all player's magic -1
+    type: gem
+    cost: 5
+    pic: ../Sprites/Cards/discord.png
+    actions:
+      - all.Tower.Lose(7)
+      - all.Magic.Lose(1)
+  
+  - id: fire_ruby
+    name: Fire Ruby
+    description: +6 Tower, 4 Damage to all enemy towers
+    type: gem
+    cost: 13
+    pic: ../Sprites/Cards/fire_ruby.png
+    actions:
+      - self.Tower.Gain(6)
+      - all.Tower.Lose(4)
+  
+  - id: quarrys_help
+    name: Quarry's Help
+    description: +7 Tower, Lose 10 bricks
+    type: gem
+    cost: 4
+    pic: ../Sprites/Cards/quarrys_help.png
+    actions:
+      - self.Tower.Gain(7)
+      - self.Bricks.Lose(10)
+  
+  - id: crystal_shield
+    name: Crystal Shield
+    description: +8 Tower, +3 Wall
+    type: gem
+    cost: 12
+    pic: ../Sprites/Cards/crystal_shield.png
+    actions:
+      - self.Tower.Gain(8)
+      - self.Wall.Gain(3)
+  
+  - id: empathy_gem
+    name: Empathy Gem
+    description: +8 Tower, +1 Dungeon
+    type: gem
+    cost: 14
+    pic: ../Sprites/Cards/empathy_gem.png
+    actions:
+      - self.Tower.Gain(8)
+      - self.Dungeons.Gain(1)
+  
+  - id: diamond
+    name: Diamond
+    description: +15 Tower
+    type: gem
+    cost: 16
+    pic: ../Sprites/Cards/diamond.png
+    actions:
+      - self.Tower.Gain(15)
+  
+  - id: sanctuary
+    name: Sanctuary
+    description: +10 Tower, +5 Wall, Gain 5 recruits
+    type: gem
+    cost: 15
+    pic: ../Sprites/Cards/sanctuary.png
+    actions:
+      - self.Tower.Gain(10)
+      - self.Wall.Gain(5)
+      - self.Recruits.Gain(5)
+  
+  - id: lava_jewel
+    name: Lava Jewel
+    description: +12 Tower, 6 Damage to all enemies
+    type: gem
+    cost: 17
+    pic: ../Sprites/Cards/lava_jewel.png
+    actions:
+      - self.Tower.Gain(12)
+      - all.Damage(6)
+  
+  - id: dragons_eye
+    name: Dragon's Eye
+    description: +20 Tower
+    type: gem
+    cost: 21
+    pic: ../Sprites/Cards/dragons_eye.png
+    actions:
+      - self.Tower.Gain(20)
+  
+  - id: crystallize
+    name: Crystallize
+    description: +11 Tower, -6 Wall
+    type: gem
+    cost: 8
+    pic: ../Sprites/Cards/crystallize.png
+    actions:
+      - self.Tower.Gain(11)
+      - self.Wall.Lose(6)
+  
+  - id: bag_of_baubles
+    name: Bag of Baubles
+    description: If Tower < enemy Tower than +2 Tower, Else +1 Tower
+    type: gem
+    cost: 0
+    pic: ../Sprites/Cards/bag_of_baubles.png
+    actions:
+      - if: self.Tower < opponent.Tower
+        then:
+          - self.Tower.Gain(2)
+        else:
+          - self.Tower.Gain(1)
+  
+  - id: rainbow
+    name: Rainbow
+    description: +1 Tower to all players. You gain 3 gems
+    type: gem
+    cost: 0
+    pic: ../Sprites/Cards/rainbow.png
+    actions:
+      - all.Tower.Gain(1)
+      - self.Gems.Gain(3)
+  
+  - id: apprentice
+    name: Apprentice
+    description: +4 Tower, you lose 3 recruits, 2 Damage to enemy Tower
+    type: gem
+    cost: 5
+    pic: ../Sprites/Cards/apprentice.png
+    actions:
+      - self.Tower.Gain(4)
+      - self.Recruits.Lose(3)
+      - opponent.Tower.Lose(2)
+  
+  - id: lightning_shard
+    name: Lightning Shard
+    description: If Tower > enemy Wall then 8 damage to enemy Tower, else 8 damage
+    type: gem
+    cost: 11
+    pic: ../Sprites/Cards/lightning_shard.png
+    actions:
+      - if: self.Tower > opponent.Wall
+        then:
+          - opponent.Tower.Lose(8)
+        else:
+          - opponent.Damage(8)
+  
+  - id: phase_jewel
+    name: Phase Jewel
+    description: +13 Tower, +6 Recruits, +6 Bricks
+    type: gem
+    cost: 18
+    pic: ../Sprites/Cards/phase_jewel.png
+    actions:
+      - self.Tower.Gain(13)
+      - self.Recruits.Gain(6)
+      - self.Bricks.Gain(6)
+  
+  - id: mad_cow_disease
+    name: Mad Cow Disease
+    description: All players lose 6 recruits.
+    type: recruit
+    cost: 0
+    pic: ../Sprites/Cards/madCowDisease.png
+    actions:
+      - all.Recruits.Lose(6)
+  
+  - id: faerie
+    name: Faerie
+    description: 2 Damage, Play again
+    type: recruit
+    cost: 1
+    pic: ../Sprites/Cards/faerie.png
+    features:
+      - playAgain
+    actions:
+      - opponent.Damage(2)
+  
+  - id: moody_goblins
+    name: Moody Goblins
+    description: 4 Damage, You lose 3 gems
+    type: recruit
+    cost: 1
+    pic: ../Sprites/Cards/moody_goblins.png
+    actions:
+      - opponent.Damage(4)
+      - self.Gems.Lose(3)
+  
+  - id: minotaur
+    name: Minotaur
+    description: +1 Dungeon
+    type: recruit
+    cost: 3
+    pic: ../Sprites/Cards/minotaur.png
+    actions:
+      - self.Dungeons.Gain(1)
+  
+  - id: elven_scout
+    name: Elven Scouts
+    description: Draw 1 card, Discard 1 card, Play again
+    type: recruit
+    cost: 2
+    pic: ../Sprites/Cards/elven_scouts.png
+    features:
+      - playAgain
+      - drawDiscard
+  
+  - id: goblin_mob
+    name: Goblin Mob
+    description: 6 Damage, You take 3 damage
+    type: recruit
+    cost: 3
+    pic: ../Sprites/Cards/goblin_mob.png
+    actions:
+      - opponent.Damage(6)
+      - self.Damage(3)
+  
+  - id: goblin_archers
+    name: Goblin Archers
+    description: 3 Damage to enemy tower, You take 1 damage
+    type: recruit
+    cost: 4
+    pic: ../Sprites/Cards/goblin_archers.png
+    actions:
+      - opponent.Tower.Lose(3)
+      - self.Damage(1)
+  
+  - id: shadow_faerie
+    name: Shadow Faerie
+    description: 2 Damage to enemy tower, Play again
+    type: recruit
+    cost: 6
+    pic: ../Sprites/Cards/shadow_faerie.png
+    features:
+      - playAgain
+    actions:
+      - opponent.Tower.Lose(2)
+  
+  - id: orc
+    name: Orc
+    description: 5 Damage
+    type: recruit
+    cost: 3
+    pic: ../Sprites/Cards/orc.png
+    actions:
+      - opponent.Damage(5)
+  
+  - id: dwarves
+    name: Dwarves
+    description: 4 Damage, +3 Wall
+    type: recruit
+    cost: 5
+    pic: ../Sprites/Cards/dwarves.png
+    actions:
+      - opponent.Damage(4)
+      - self.Wall.Gain(3)
+  
+  - id: little_snakes
+    name: Little Snakes
+    description: 4 Damage to enemy tower
+    type: recruit
+    cost: 6
+    pic: ../Sprites/Cards/little_snakes.png
+    actions:
+      - opponent.Tower.Lose(4)
+  
+  - id: troll_trainer
+    name: Troll Trainer
+    description: +2 Damage
+    type: recruit
+    cost: 7
+    pic: ../Sprites/Cards/troll_trainer.png
+    actions:
+      - self.Damage(2)
+  
+  - id: tower_gremlin
+    name: Tower Gremlin
+    description: 2 Damage, +4 Wall, +2 Tower
+    type: recruit
+    cost: 8
+    pic: ../Sprites/Cards/tower_gremlin.png
+    actions:
+      - opponent.Damage(2)
+      - self.Wall.Gain(4)
+      - self.Tower.Gain(2)
+  
+  - id: full_moon
+    name: Full Moon
+    description: +1 to all player's Dungeon, You gain 3 recruits
+    type: recruit
+    cost: 0
+    pic: ../Sprites/Cards/full_moon.png
+    actions:
+      - all.Dungeons.Gain(1)
+      - self.Recruits.Gain(3)
+  
+  - id: slasher
+    name: Slasher
+    description: 6 Damage
+    type: recruit
+    cost: 5
+    pic: ../Sprites/Cards/slasher.png
+    actions:
+      - opponent.Damage(6)
+  
+  - id: ogre
+    name: Ogre
+    description: 7 Damage
+    type: recruit
+    cost: 6
+    pic: ../Sprites/Cards/ogre.png
+    actions:
+      - opponent.Damage(7)
+  
+  - id: rabid_sheep
+    name: Rabid Sheep
+    description: 6 Damage, Enemy loses 3 recruits
+    type: recruit
+    cost: 6
+    pic: ../Sprites/Cards/rabid_sheep.png
+    actions:
+      - opponent.Damage(6)
+      - opponent.Recruits.Lose(3)
+  
+  - id: imp
+    name: Imp
+    description: 6 Damage. All players lose 5 bricks, gems and recruits
+    type: recruit
+    cost: 5
+    pic: ../Sprites/Cards/imp.png
+    actions:
+      - opponent.Damage(6)
+      - all.Bricks.Lose(5)
+      - all.Gems.Lose(5)
+      - all.Recruits.Lose(5)
+  
+  - id: spizzer
+    name: Spizzer
+    description: If enemy wall = 0 then 10 damage, Else 6 damage
+    type: recruit
+    cost: 8
+    pic: ../Sprites/Cards/spizzer.png
+    actions:
+      - if: opponent.Wall == 0
+        then:
+          - opponent.Damage(10)
+        else:
+          - opponent.Damage(6)
+  
+  - id: werewolf
+    name: Werewolf
+    description: 9 Damage
+    type: recruit
+    cost: 9
+    pic: ../Sprites/Cards/werewolf.png
+    actions:
+      - opponent.Damage(9)
+  
+  - id: corrosion_cloud
+    name: Corrosion Cloud
+    description: If enemy wall > 0 then 10 damage, Else 7 Damage
+    type: recruit
+    cost: 11
+    pic: ../Sprites/Cards/corrosion_cloud.png
+    actions:
+      - if: opponent.Wall > 0
+        then:
+          - opponent.Damage(10)
+        else:
+          - opponent.Damage(7)
+  
+  - id: unicorn
+    name: Unicorn
+    description: If magic > enemy magic then 12 Damage, Else 8 Damage
+    type: recruit
+    cost: 9
+    pic: ../Sprites/Cards/unicorn.png
+    actions:
+      - if: self.Magic > opponent.Magic
+        then:
+          - opponent.Damage(12)
+        else:
+          - opponent.Damage(8)
+  
+  - id: elven_archers
+    name: Elven Archers
+    description: If wall > enemy wall then 6 Damage to enemy Tower, Else 8 Damage
+    type: recruit
+    cost: 10
+    pic: ../Sprites/Cards/elven_archers.png
+    actions:
+      - if: self.Wall > opponent.Wall
+        then:
+          - opponent.Tower.Lose(6)
+        else:
+          - opponent.Damage(8)
+  
+  - id: succubus
+    name: Succubus
+    description: 5 Damage to enemy tower, enemy loses 8 recruits.
+    type: recruit
+    cost: 14
+    pic: ../Sprites/Cards/succubus.png
+    actions:
+      - opponent.Tower.Lose(5)
+      - opponent.Recruits.Lose(8)
+  
+  - id: rock_stompers
+    name: Rock Stompers
+    description: 8 Damage, -1 Enemy quarry
+    type: recruit
+    cost: 11
+    pic: ../Sprites/Cards/rock_stompers.png
+    actions:
+      - opponent.Damage(8)
+      - opponent.Quarry.Lose(1)
+  
+  - id: thief
+    name: Thief
+    description: Enemy loses 10 gems, 5 bricks, you gain 1/2 amt. round up
+    type: recruit
+    cost: 12
+    pic: ../Sprites/Cards/thief.png
+    actions:
+      - opponent.Gems.Lose(10)
+      - opponent.Bricks.Lose(5)
+      - self.Gems.Gain(5)
+      - self.Bricks.Gain(3)
+  
+  - id: stone_giant
+    name: Stone Giant
+    description: 10 Damage, +4 Wall
+    type: recruit
+    cost: 15
+    pic: ../Sprites/Cards/stone_giant.png
+    actions:
+      - opponent.Damage(10)
+      - self.Wall.Gain(4)
+  
+  - id: vampire
+    name: Vampire
+    description: 10 Damage, Enemy loses 5 recruits, -1 enemy Dungeon
+    type: recruit
+    cost: 17
+    pic: ../Sprites/Cards/vampire.png
+    actions:
+      - opponent.Damage(10)
+      - opponent.Recruits.Lose(5)
+      - opponent.Dungeons.Lose(1)
+  
+  - id: dragon
+    name: Dragon
+    description: 20 Damage, Enemy loses 10 gems, -1 enemy Dungeon
+    type: recruit
+    cost: 25
+    pic: ../Sprites/Cards/dragon.png
+    actions:
+      - opponent.Damage(20)
+      - opponent.Gems.Lose(10)
+      - opponent.Dungeons.Lose(1)
+  
+  - id: spearman
+    name: Spearman
+    description: If wall > enemy Wall do 3 Damage, Else do 2 Damage
+    type: recruit
+    cost: 2
+    pic: ../Sprites/Cards/spearman.png
+    actions:
+      - if: self.Wall > opponent.Wall
+        then:
+          - opponent.Damage(3)
+        else:
+          - opponent.Damage(2)
+  
+  - id: gnome
+    name: Gnome
+    description: 3 Damage, +1 Gem
+    type: recruit
+    cost: 2
+    pic: ../Sprites/Cards/gnome.png
+    actions:
+      - opponent.Damage(3)
+      - self.Gems.Gain(1)
+  
+  - id: berserker
+    name: Berserker
+    description: 8 Damage, 3 Damage to your Tower
+    type: recruit
+    cost: 4
+    pic: ../Sprites/Cards/berserker.png
+    actions:
+      - opponent.Damage(8)
+      - self.Tower.Lose(3)
+  
+  - id: warlord
+    name: Warlord
+    description: 13 Damage, You lose 3 gems
+    type: recruit
+    cost: 13
+    pic: ../Sprites/Cards/warlord.png
+    actions:
+      - opponent.Damage(13)
+      - self.Gems.Lose(3)
+  
+  - id: pegasus_lancer
+    name: Pegasus Lancer
+    description: 12 Damage to enemy tower
+    type: recruit
+    cost: 18
+    pic: ../Sprites/Cards/pegasus_lancer.png
+    actions:
+      - opponent.Tower.Lose(12)
