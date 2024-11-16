@@ -12,7 +12,7 @@ namespace Arcomage.Scripts;
 
 public partial class Global : Node
 {
-    private const string BaseCardsFilePath = "res://Db/MM8.yaml"; // TODO: Implement dynamic card loading from directory
+    private const string BaseCardsFilePath = "res://Decks/MM8.yaml"; // TODO: Implement dynamic card loading from directory
 
     public static Table Table { get; set; }
     public static Settings Settings { get; set; }
