@@ -5,8 +5,7 @@
   <PropertyGroup>
     <InterfaceLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=1374382602&single=true&output=csv]]></InterfaceLocalization>
     <CardsLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=885174373&single=true&output=csv]]></CardsLocalization>
-    <BuildNumberPath>$(MSBuildProjectDirectory)\Build.txt</BuildNumberPath>
-    <CurrentBuildNumber>$([System.DateTime]::Now.ToString("ddMMyyyy"))</CurrentBuildNumber>
+    <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("ddMMyyyyHHmmss"))</SourceRevisionId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Sprache" Version="2.3.1" />
@@ -15,9 +14,6 @@
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-  <Target Name="GenerateBuildNumber" BeforeTargets="BeforeBuild">
-    <Exec Command="echo | set /p=$(CurrentBuildNumber) &gt; $(BuildNumberPath)&amp; exit /b 0" />
-  </Target>
   <Target Name="DownloadFilesBeforeBuild" BeforeTargets="Build">
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />

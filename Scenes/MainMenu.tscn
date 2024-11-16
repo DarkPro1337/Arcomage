@@ -175,9 +175,9 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = -38.0
-offset_right = 176.0
+offset_right = 256.0
 grow_vertical = 0
-text = "Build: UNKNOWN"
+text = "Build: <BuildTimestamp>"
 vertical_alignment = 1
 clip_text = true
 
@@ -192,6 +192,8 @@ offset_left = -192.0
 offset_top = -108.0
 offset_right = 192.0
 offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="NewGame" type="Button" parent="MenuGrid"]
 custom_minimum_size = Vector2(200, 48)
