@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c3lhbmvs8de0t"]
 
-[ext_resource type="Texture2D" uid="uid://bfedjcjjucs1x" path="res://Sprites/wall_base.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bfedjcjjucs1x" path="res://Sprites/WallBase.png" id="1"]
 
 [node name="PlayerWall" type="Control"]
 clip_contents = true

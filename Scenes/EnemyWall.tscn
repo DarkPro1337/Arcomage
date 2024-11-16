@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://keod5nwm2dtr"]
 
-[ext_resource type="Texture2D" uid="uid://bfedjcjjucs1x" path="res://Sprites/wall_base.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bfedjcjjucs1x" path="res://Sprites/WallBase.png" id="1"]
 
 [node name="EnemyWall" type="Control"]
 clip_contents = true

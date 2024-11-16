@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://druu7sryl8i7i"
-path="res://.godot/imported/tower_top_enemy.png-ce7f5f47fc596de773fdf65128c3adcb.ctex"
+uid="uid://dwujmueb205yj"
+path="res://.godot/imported/TowerTopRed.png-f9bea5c53626b515aa3ad58857fdbb24.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/tower_top_enemy.png"
-dest_files=["res://.godot/imported/tower_top_enemy.png-ce7f5f47fc596de773fdf65128c3adcb.ctex"]
+source_file="res://Sprites/TowerTopRed.png"
+dest_files=["res://.godot/imported/TowerTopRed.png-f9bea5c53626b515aa3ad58857fdbb24.ctex"]
 
 [params]
 

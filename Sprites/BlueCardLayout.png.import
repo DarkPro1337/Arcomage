@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhujxpmcdrucf"
-path="res://.godot/imported/green_card_layout_alt.png-fe07d2694f9a7ebd8e75bb07abe492d7.ctex"
+uid="uid://bd77kw4mpep6u"
+path="res://.godot/imported/BlueCardLayout.png-9e76adea3fc6c96f6e72810c5398258d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/green_card_layout_alt.png"
-dest_files=["res://.godot/imported/green_card_layout_alt.png-fe07d2694f9a7ebd8e75bb07abe492d7.ctex"]
+source_file="res://Sprites/BlueCardLayout.png"
+dest_files=["res://.godot/imported/BlueCardLayout.png-9e76adea3fc6c96f6e72810c5398258d.ctex"]
 
 [params]
 

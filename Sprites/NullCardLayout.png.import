@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://q6iont2kpwrr"
-path="res://.godot/imported/null_card_layout_alt.png-d38fcb27a56f2a4dafb991cb040131cd.ctex"
+path="res://.godot/imported/NullCardLayout.png-b89108cad2e4b28a4e50e54b4697a1a0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/null_card_layout_alt.png"
-dest_files=["res://.godot/imported/null_card_layout_alt.png-d38fcb27a56f2a4dafb991cb040131cd.ctex"]
+source_file="res://Sprites/NullCardLayout.png"
+dest_files=["res://.godot/imported/NullCardLayout.png-b89108cad2e4b28a4e50e54b4697a1a0.ctex"]
 
 [params]
 

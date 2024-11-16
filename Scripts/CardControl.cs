@@ -71,18 +71,18 @@ public partial class CardControl : Control
         switch (CardLayout)
         {
             case CardType.Brick:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/red_card_layout_alt.png");
+                Layout.Texture = GD.Load<Texture2D>("res://Sprites/RedCardLayout.png");
                 break;
             case CardType.Gem:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/blue_card_layout_alt.png");
+                Layout.Texture = GD.Load<Texture2D>("res://Sprites/BlueCardLayout.png");
                 break;
             case CardType.Recruit:
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/green_card_layout_alt.png");
+                Layout.Texture = GD.Load<Texture2D>("res://Sprites/GreenCardLayout.png");
                 break;
             case CardType.None:
             default:
                 Logger.Error("CardLayout out of range");
-                Layout.Texture = GD.Load<Texture2D>("res://Sprites/null_card_layout_alt.png");
+                Layout.Texture = GD.Load<Texture2D>("res://Sprites/NullCardLayout.png");
                 break;
         }
     }

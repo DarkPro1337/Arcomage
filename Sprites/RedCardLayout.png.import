@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfedjcjjucs1x"
-path="res://.godot/imported/wall_base.png-1ed4e90b8619e30f58b7942f0ac65522.ctex"
+uid="uid://besykgtt5lxq4"
+path="res://.godot/imported/RedCardLayout.png-a63a51162d554c9eaf8cb109457566f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/wall_base.png"
-dest_files=["res://.godot/imported/wall_base.png-1ed4e90b8619e30f58b7942f0ac65522.ctex"]
+source_file="res://Sprites/RedCardLayout.png"
+dest_files=["res://.godot/imported/RedCardLayout.png-a63a51162d554c9eaf8cb109457566f5.ctex"]
 
 [params]
 
@@ -25,8 +25,8 @@ mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
-process/premult_alpha=true
+process/fix_alpha_border=true
+process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false

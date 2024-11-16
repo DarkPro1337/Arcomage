@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dgp5mnwyrer0o"]
 
-[ext_resource type="Texture2D" uid="uid://cuyp60lfxag4i" path="res://Sprites/tower_base.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cuyp60lfxag4i" path="res://Sprites/TowerBase.png" id="1"]
 
 [node name="EnemyTower" type="Control"]
 clip_contents = true
