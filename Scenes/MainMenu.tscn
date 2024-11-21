@@ -247,7 +247,7 @@ custom_minimum_size = Vector2(200, 48)
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 6
-tooltip_text = "CREDITS_TOOLTIP"
+tooltip_text = "DEV_TOOLS_TOOLTIP"
 mouse_default_cursor_shape = 2
 text = "DEV_TOOLS"
 

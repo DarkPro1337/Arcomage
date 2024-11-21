@@ -26,11 +26,8 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Logger="*res://Scripts/Logger.cs"
-Global="*res://Scripts/Global.cs"
 Config="*res://Scripts/Config.cs"
-Network="*res://Scripts/Network.cs"
-Settings="*res://Scenes/Settings.tscn"
+Global="*res://Scripts/Global.cs"
 
 [display]
 

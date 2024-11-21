@@ -123,17 +123,4 @@ offset_right = 126.0
 offset_bottom = -16.0
 text = "CANCEL"
 
-[node name="DeviceIpAddress" type="Label" parent="."]
-layout_mode = 0
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -459.0
-offset_top = 16.0
-offset_right = 459.0
-offset_bottom = 53.0
-text = "IP_ADDRESS_NOT_FOUND"
-label_settings = ExtResource("4_qrbr7")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Level" type="Node" parent="."]

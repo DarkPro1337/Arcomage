@@ -1,27 +1,26 @@
 using Godot;
-using static Arcomage.Scripts.Global;
 
 namespace Arcomage.Scripts;
 
 public partial class Boot : Node
 {
-    public override void _Ready()
-    {
-        var version = ProjectSettings.GetSetting("application/config/version").ToString();
-        Logger.Debug("Bootstrap loaded");
-        Logger.Debug("Arcomage {Version} loaded", version);
-        Logger.Debug("Build number: {BuildNumber}", BuildNumber);
-        Logger.Debug("IP address: {IPv4}", Network.IpAddress);
+   private static readonly Logger _Logger = Logger.GetOrCreateLogger("Bootstrap");
 
-        if (!Config.Settings.IntroSkip)
-        {
-            Logger.Debug("Loading from Boot to Intro...");
-            GetTree().ChangeSceneToFile("res://Scenes/Intro.tscn");
-        }
-        else
-        {
-            Logger.Debug("Loading from Boot to Main menu...");
-            GetTree().ChangeSceneToFile("res://Scenes/MainMenu.tscn");
-        }
-    }
+   public override void _EnterTree()
+   {
+      var version = ProjectSettings.GetSetting("application/config/version").ToString();
+      _Logger.Debug("Arcomage {Version} loaded", version);
+      _Logger.Debug("Build number: {BuildNumber}", Global.BuildNumber);
+
+      if (!Config.Settings.IntroSkip)
+      {
+         _Logger.Debug("Loading from Boot to Intro...");
+         GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Intro.tscn");
+      }
+      else
+      {
+         _Logger.Debug("Loading from Boot to Main menu...");
+         GetTree().CallDeferred("change_scene_to_file", "res://Scenes/MainMenu.tscn");
+      }
+   }
 }
