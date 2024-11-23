@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3a1oufmonrao"
-path="res://.godot/imported/godot_logo.png-52e70e281087a408d7706fa803fa1ba2.ctex"
+uid="uid://dkcmh18lqgo52"
+path="res://.godot/imported/ArcomageLogo.png-a3fdb00365355e4854edfcedbca40c78.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/godot_logo.png"
-dest_files=["res://.godot/imported/godot_logo.png-52e70e281087a408d7706fa803fa1ba2.ctex"]
+source_file="res://Images/ArcomageLogo.png"
+dest_files=["res://.godot/imported/ArcomageLogo.png-a3fdb00365355e4854edfcedbca40c78.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://17cwcycndbx1"
-path="res://.godot/imported/github_logo.png-c74b4b95819ff8a69ff343d9d9289f69.ctex"
+uid="uid://dtscvvktowhgj"
+path="res://.godot/imported/GodotLogo.png-cde55b388d68c4a4f27654333fd38868.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/github_logo.png"
-dest_files=["res://.godot/imported/github_logo.png-c74b4b95819ff8a69ff343d9d9289f69.ctex"]
+source_file="res://Images/Intro/GodotLogo.png"
+dest_files=["res://.godot/imported/GodotLogo.png-cde55b388d68c4a4f27654333fd38868.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

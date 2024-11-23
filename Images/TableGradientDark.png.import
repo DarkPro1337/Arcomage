@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4hgsk60rjiyw"
-path="res://.godot/imported/itch_logo.png-075a760edf3cfb76d4f7885a79bfd26f.ctex"
+uid="uid://b4ief6r1wedxu"
+path="res://.godot/imported/TableGradientDark.png-a9b7095f67e7dd1436db69ca853f7cf0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/itch_logo.png"
-dest_files=["res://.godot/imported/itch_logo.png-075a760edf3cfb76d4f7885a79bfd26f.ctex"]
+source_file="res://Images/TableGradientDark.png"
+dest_files=["res://.godot/imported/TableGradientDark.png-a9b7095f67e7dd1436db69ca853f7cf0.ctex"]
 
 [params]
 

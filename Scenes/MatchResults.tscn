@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ca5d6s8ukswrf"]
 
-[ext_resource type="Texture2D" uid="uid://cvtghalj0sfe2" path="res://Images/Layout-edit_dark.png" id="1"]
-[ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/table_gradient_dark.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cvtghalj0sfe2" path="res://Images/BackgroundDark.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/TableGradientDark.png" id="2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8gv1"]
 bg_color = Color(0, 0, 0, 0)

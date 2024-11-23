@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t2fd02kro3h7"
-path="res://.godot/imported/nwc.png-820b63405fb324fe3f10208d9bacb647.ctex"
+uid="uid://cnjp0xqnb8x1c"
+path="res://.godot/imported/PatreonLogo.png-c2cc0931fe4eeb2b156e327e7aea63fe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Intro/nwc.png"
-dest_files=["res://.godot/imported/nwc.png-820b63405fb324fe3f10208d9bacb647.ctex"]
+source_file="res://Images/PatreonLogo.png"
+dest_files=["res://.godot/imported/PatreonLogo.png-c2cc0931fe4eeb2b156e327e7aea63fe.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

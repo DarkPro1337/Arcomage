@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gymwt4uynpid"
-path="res://.godot/imported/gamejolt_logo.png-6ed1f3739c561d644563a944e31407ca.ctex"
+uid="uid://3a1oufmonrao"
+path="res://.godot/imported/GodotLogo.png-676e2f4e4499160552efefc6b7e67ccc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/gamejolt_logo.png"
-dest_files=["res://.godot/imported/gamejolt_logo.png-6ed1f3739c561d644563a944e31407ca.ctex"]
+source_file="res://Images/GodotLogo.png"
+dest_files=["res://.godot/imported/GodotLogo.png-676e2f4e4499160552efefc6b7e67ccc.ctex"]
 
 [params]
 

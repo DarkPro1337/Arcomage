@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3grfj41psnr5"
-path="res://.godot/imported/mit_logo.png-4513a6f04d7c3ccc0163e182589065ce.ctex"
+uid="uid://dt0krnr2myvqp"
+path="res://.godot/imported/TableGradientLight.png-e73ed3060eedf8d464675048937c0f20.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/mit_logo.png"
-dest_files=["res://.godot/imported/mit_logo.png-4513a6f04d7c3ccc0163e182589065ce.ctex"]
+source_file="res://Images/TableGradientLight.png"
+dest_files=["res://.godot/imported/TableGradientLight.png-e73ed3060eedf8d464675048937c0f20.ctex"]
 
 [params]
 

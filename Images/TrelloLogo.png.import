@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4ief6r1wedxu"
-path="res://.godot/imported/table_gradient_dark.png-3cbe75c2b6248474c197b21d8d402826.ctex"
+uid="uid://dbumsrptguabu"
+path="res://.godot/imported/TrelloLogo.png-3427e6fc44d58da9a39e78522b9f9180.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/table_gradient_dark.png"
-dest_files=["res://.godot/imported/table_gradient_dark.png-3cbe75c2b6248474c197b21d8d402826.ctex"]
+source_file="res://Images/TrelloLogo.png"
+dest_files=["res://.godot/imported/TrelloLogo.png-3427e6fc44d58da9a39e78522b9f9180.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dt0krnr2myvqp"
-path="res://.godot/imported/table_gradient.png-8700ec4fc3ff4e9c398c88c4c9b2ffb6.ctex"
+uid="uid://t2fd02kro3h7"
+path="res://.godot/imported/NwcLogo.png-fd52a89f74d593e20f8ab7a072fcaf98.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/table_gradient.png"
-dest_files=["res://.godot/imported/table_gradient.png-8700ec4fc3ff4e9c398c88c4c9b2ffb6.ctex"]
+source_file="res://Images/Intro/NwcLogo.png"
+dest_files=["res://.godot/imported/NwcLogo.png-fd52a89f74d593e20f8ab7a072fcaf98.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

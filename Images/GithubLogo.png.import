@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dq2pgm0muw18t"
-path="res://.godot/imported/Layout-edit_dark_blur.png-f18b6040d8b56214b194af12615f255a.ctex"
+uid="uid://17cwcycndbx1"
+path="res://.godot/imported/GithubLogo.png-95d3417e9fb9d7a5bd7d409b2f4b3c48.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Layout-edit_dark_blur.png"
-dest_files=["res://.godot/imported/Layout-edit_dark_blur.png-f18b6040d8b56214b194af12615f255a.ctex"]
+source_file="res://Images/GithubLogo.png"
+dest_files=["res://.godot/imported/GithubLogo.png-95d3417e9fb9d7a5bd7d409b2f4b3c48.ctex"]
 
 [params]
 

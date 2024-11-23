@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpsa01f07weeh"
-path="res://.godot/imported/Layout-edit.png-222cbc74b98ecd5310b4dd23c4b17260.ctex"
+uid="uid://b3grfj41psnr5"
+path="res://.godot/imported/MitLogo.png-3d2d4b676836f5776327f387d7b5ea90.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Layout-edit.png"
-dest_files=["res://.godot/imported/Layout-edit.png-222cbc74b98ecd5310b4dd23c4b17260.ctex"]
+source_file="res://Images/MitLogo.png"
+dest_files=["res://.godot/imported/MitLogo.png-3d2d4b676836f5776327f387d7b5ea90.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

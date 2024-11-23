@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://pf60pwmtga7l"]
 
-[ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/Layout-edit_dark_blur.png" id="1_31tdg"]
+[ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="1_31tdg"]
 
 [node name="leaderboard" type="Control"]
 layout_mode = 3

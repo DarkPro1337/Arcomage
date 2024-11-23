@@ -1,13 +1,13 @@
 [gd_scene load_steps=15 format=3 uid="uid://cx3lwf0ockcc5"]
 
-[ext_resource type="Texture2D" uid="uid://cvtghalj0sfe2" path="res://Images/Layout-edit_dark.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://cvtghalj0sfe2" path="res://Images/BackgroundDark.png" id="1"]
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_57crq"]
 [ext_resource type="PackedScene" uid="uid://bm3u5shku4plo" path="res://Scenes/Credits.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://ck57oh5lctgf0" path="res://Scenes/Settings.tscn" id="4"]
 [ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="7"]
 [ext_resource type="PackedScene" uid="uid://m4q7lb4q18an" path="res://Scenes/NetworkSetup.tscn" id="7_3w6bp"]
 [ext_resource type="AudioStream" uid="uid://cbtp771p1l6hv" path="res://Sounds/title.ogg" id="8"]
-[ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/arcomage_logo.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/ArcomageLogo.png" id="9"]
 
 [sub_resource type="Theme" id="Theme_wr025"]
 default_font = ExtResource("1_57crq")

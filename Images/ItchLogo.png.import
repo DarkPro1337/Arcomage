@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtscvvktowhgj"
-path="res://.godot/imported/godot_logo_large.png-b751d9247ca47ecafbe8e46e4c5545cb.ctex"
+uid="uid://b4hgsk60rjiyw"
+path="res://.godot/imported/ItchLogo.png-038704f62bb83241bbd10d4efbecb258.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Intro/godot_logo_large.png"
-dest_files=["res://.godot/imported/godot_logo_large.png-b751d9247ca47ecafbe8e46e4c5545cb.ctex"]
+source_file="res://Images/ItchLogo.png"
+dest_files=["res://.godot/imported/ItchLogo.png-038704f62bb83241bbd10d4efbecb258.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

@@ -74,7 +74,7 @@ ui_reset={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Locales/Arcomage Translations - Cards.da.translation", "res://Locales/Arcomage Translations - Cards.en.translation", "res://Locales/Arcomage Translations - Cards.pl.translation", "res://Locales/Arcomage Translations - Cards.ru.translation", "res://Locales/Arcomage Translations - Cards.uk.translation", "res://Locales/Arcomage Translations - Interface.da.translation", "res://Locales/Arcomage Translations - Interface.en.translation", "res://Locales/Arcomage Translations - Interface.pl.translation", "res://Locales/Arcomage Translations - Interface.ru.translation", "res://Locales/Arcomage Translations - Interface.uk.translation", "res://Locales/Arcomage Translations - Cards.de.translation", "res://Locales/Arcomage Translations - Cards.fr.translation", "res://Locales/Arcomage Translations - Interface.de.translation", "res://Locales/Arcomage Translations - Interface.fr.translation")
+locale/translations=PackedStringArray("res://Locales/Cards.da.translation", "res://Locales/Cards.de.translation", "res://Locales/Cards.en.translation", "res://Locales/Cards.fr.translation", "res://Locales/Cards.pl.translation", "res://Locales/Cards.ru.translation", "res://Locales/Cards.uk.translation", "res://Locales/Interface.da.translation", "res://Locales/Interface.de.translation", "res://Locales/Interface.en.translation", "res://Locales/Interface.fr.translation", "res://Locales/Interface.pl.translation", "res://Locales/Interface.ru.translation", "res://Locales/Interface.uk.translation")
 rendering/text_driver="ICU / HarfBuzz / Graphite (Built-in)"
 
 [rendering]

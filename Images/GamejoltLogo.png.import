@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chqwgd6ghg3gr"
-path="res://.godot/imported/bmc_logo.png-05fa02f572511868363b730554345a1f.ctex"
+uid="uid://gymwt4uynpid"
+path="res://.godot/imported/GamejoltLogo.png-592bcd3268719c0e3825a29e4e73dbb8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/bmc_logo.png"
-dest_files=["res://.godot/imported/bmc_logo.png-05fa02f572511868363b730554345a1f.ctex"]
+source_file="res://Images/GamejoltLogo.png"
+dest_files=["res://.godot/imported/GamejoltLogo.png-592bcd3268719c0e3825a29e4e73dbb8.ctex"]
 
 [params]
 

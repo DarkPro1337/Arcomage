@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d3bcg00846dc0"
-path="res://.godot/imported/darkpro1337_avatar.png-d1b483e33457e2fb451c374a115287bf.ctex"
+path="res://.godot/imported/DarkPro1337Avatar.png-3fde5108595d7fa0a4f87b9338a2eafb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Intro/darkpro1337_avatar.png"
-dest_files=["res://.godot/imported/darkpro1337_avatar.png-d1b483e33457e2fb451c374a115287bf.ctex"]
+source_file="res://Images/Intro/DarkPro1337Avatar.png"
+dest_files=["res://.godot/imported/DarkPro1337Avatar.png-3fde5108595d7fa0a4f87b9338a2eafb.ctex"]
 
 [params]
 

@@ -15,7 +15,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
   <Target Name="DownloadFilesBeforeBuild" BeforeTargets="Build">
-    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
-    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Arcomage%20Translations%20-%20Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />
+    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
+    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />
   </Target>
 </Project>

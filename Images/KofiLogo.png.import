@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvtghalj0sfe2"
-path="res://.godot/imported/Layout-edit_dark.png-5fc30d8e128200162457c5b82ebb4b97.ctex"
+uid="uid://deyl6tbvt5kja"
+path="res://.godot/imported/KofiLogo.png-6a42e719976b2698354c523c03b01c92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/Layout-edit_dark.png"
-dest_files=["res://.godot/imported/Layout-edit_dark.png-5fc30d8e128200162457c5b82ebb4b97.ctex"]
+source_file="res://Images/KofiLogo.png"
+dest_files=["res://.godot/imported/KofiLogo.png-6a42e719976b2698354c523c03b01c92.ctex"]
 
 [params]
 

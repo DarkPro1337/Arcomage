@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvfyckv2rtvoq"]
 
 [ext_resource type="Script" path="res://Scripts/CardsViewer.cs" id="1"]
-[ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/table_gradient_dark.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/TableGradientDark.png" id="2"]
 
 [node name="Viewer" type="Control"]
 layout_mode = 3

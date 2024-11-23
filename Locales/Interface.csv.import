@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dxtj1mnqd7m84"
+
+[deps]
+
+files=["res://Locales/Interface.en.translation", "res://Locales/Interface.ru.translation", "res://Locales/Interface.uk.translation", "res://Locales/Interface.pl.translation", "res://Locales/Interface.da.translation", "res://Locales/Interface.de.translation", "res://Locales/Interface.fr.translation"]
+
+source_file="res://Locales/Interface.csv"
+dest_files=["res://Locales/Interface.en.translation", "res://Locales/Interface.ru.translation", "res://Locales/Interface.uk.translation", "res://Locales/Interface.pl.translation", "res://Locales/Interface.da.translation", "res://Locales/Interface.de.translation", "res://Locales/Interface.fr.translation"]
+
+[params]
+
+compress=true
+delimiter=0

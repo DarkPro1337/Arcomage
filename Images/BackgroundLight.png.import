@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkcmh18lqgo52"
-path="res://.godot/imported/arcomage_logo.png-5b67cb48fb521e167fab08c4490e5a98.ctex"
+uid="uid://dpsa01f07weeh"
+path="res://.godot/imported/BackgroundLight.png-4d08316637e60bef2ba6784a778bf321.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/arcomage_logo.png"
-dest_files=["res://.godot/imported/arcomage_logo.png-5b67cb48fb521e167fab08c4490e5a98.ctex"]
+source_file="res://Images/BackgroundLight.png"
+dest_files=["res://.godot/imported/BackgroundLight.png-4d08316637e60bef2ba6784a778bf321.ctex"]
 
 [params]
 
@@ -21,7 +21,7 @@ compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
