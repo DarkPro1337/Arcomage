@@ -19,13 +19,17 @@ public class DeckManager
 
    private void InitializeDecks()
    {
-      foreach (var deckFile in DirAccess.GetFilesAt(DecksDir))
+      var decksDir = DirAccess.Open(DecksDir);
+      var files = decksDir.GetFiles();
+      foreach (var deckFile in files)
       {
          var deck = LoadDeckFromFile(DecksDir + deckFile);
          if (deck != null)
             Decks.Add(deck);
       }
    }
+
+   public int GetAllCardsCount() => Decks.Sum(deck => deck.Cards.Count);
 
    /// <summary>
    /// Retrieves all cards from enabled decks.

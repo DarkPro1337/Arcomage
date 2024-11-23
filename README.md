@@ -54,10 +54,10 @@ If you want to help with the translation, please [contact me](https://darkpro133
 [![GameJolt game page](https://img.shields.io/badge/GameJolt-%23121015.svg?style=for-the-badge&logo=gamejolt)](https://gamejolt.com/games/arcomage/537808)
 
 ## System requirements
-* Any **x86_64** CPU with SSE2.
+* Any **x86_64** CPU with **SSE2** support.
 * Any GPU with full **Vulkan 1.0** support.
 * At least **450 MB** of free RAM.
-* At least **250 MB** of free storage.
+* At least **265 MB** of free storage.
 
 ## Building and editing
 ### Prerequisites
@@ -73,6 +73,8 @@ If you want to help with the translation, please [contact me](https://darkpro133
 **Optional:** Export the project to your desired platform (Project -> Export...)
 
 ## Support project development
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%23121015.svg?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/DarkPro1337)
+[![USDT TRC20](https://img.shields.io/badge/USDT_TRC20-%23f5f5f5.svg?style=for-the-badge&logo=tether)](https://tronscan.org/#/address/TT1F6ptBedtbvc12Gjc8YRXFXJxYA1kxBd)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-%23222222.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/darkpro1337)
 [![Ko-Fi](https://img.shields.io/badge/Ko--fi-%23323b43.svg?style=for-the-badge&logo=ko-fi)](https://ko-fi.com/darkpro1337)
 [![Patreon](https://img.shields.io/badge/Patreon-%23141519.svg?style=for-the-badge&logo=patreon)](https://www.patreon.com/darkpro1337)

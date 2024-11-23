@@ -14,6 +14,7 @@ public partial class Global : Node
    public static Table Table { get; set; }
    public static NetworkSetup NetworkSetup { get; set; }
    public static string BuildNumber { get; private set; } = GetBuildTimestamp();
+   public static ModManager ModManager { get; } = new();
    public static DeckManager DeckManager { get; } = new();
 
    public override void _Ready()
