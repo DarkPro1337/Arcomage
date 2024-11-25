@@ -17,7 +17,7 @@ public partial class Intro : Control
    {
       if (animName != "StartUp") return;
       _Logger.Debug("Loading to the Main menu...");
-      GetTree().CallDeferred("change_scene_to_file", "res://scenes/MainMenu.tscn");
+      GetTree().CallDeferred("change_scene_to_file", "res://Scenes/MainMenu.tscn");
    }
 
    public override void _Input(InputEvent @event)
@@ -25,6 +25,6 @@ public partial class Intro : Control
       base._Input(@event);
       if (!Input.IsActionJustPressed("ui_cancel") && !Input.IsActionJustPressed("ui_select")) return;
       _Logger.Debug("Skipping Intro to the Main menu...");
-      GetTree().CallDeferred("change_scene_to_file", "res://scenes/MainMenu.tscn");
+      GetTree().CallDeferred("change_scene_to_file", "res://Scenes/MainMenu.tscn");
    }
 }
