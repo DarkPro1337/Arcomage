@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bm3u5shku4plo"]
+[gd_scene load_steps=11 format=3 uid="uid://bm3u5shku4plo"]
 
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/ArcomageLogo.png" id="2"]
@@ -6,14 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://3a1oufmonrao" path="res://Images/GodotLogo.png" id="5"]
 [ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="5_asp3v"]
 [ext_resource type="LabelSettings" uid="uid://nrljeoexe8pe" path="res://Themes/LabelBase.tres" id="5_w3p6m"]
-[ext_resource type="Texture2D" uid="uid://gymwt4uynpid" path="res://Images/GamejoltLogo.png" id="6"]
 [ext_resource type="LabelSettings" uid="uid://blmdikxxdxbhv" path="res://Themes/LabelBaseTransparent.tres" id="6_mlivc"]
 [ext_resource type="Texture2D" uid="uid://17cwcycndbx1" path="res://Images/GithubLogo.png" id="7"]
-[ext_resource type="Texture2D" uid="uid://dbumsrptguabu" path="res://Images/TrelloLogo.png" id="8"]
-[ext_resource type="Texture2D" uid="uid://chqwgd6ghg3gr" path="res://Images/BmcLogo.png" id="9"]
-[ext_resource type="Texture2D" uid="uid://b4hgsk60rjiyw" path="res://Images/ItchLogo.png" id="10"]
-[ext_resource type="Texture2D" uid="uid://deyl6tbvt5kja" path="res://Images/KofiLogo.png" id="11"]
-[ext_resource type="Texture2D" uid="uid://cnjp0xqnb8x1c" path="res://Images/PatreonLogo.png" id="12"]
 [ext_resource type="Script" path="res://Scripts/Info.cs" id="13"]
 [ext_resource type="LabelSettings" uid="uid://pe8pbs72c1un" path="res://Themes/LabelHeading2.tres" id="15_yxdic"]
 
@@ -136,7 +130,6 @@ Marcus @mplayer.com[/color][/center]"
 scroll_active = false
 
 [node name="RemakeInfo" type="VBoxContainer" parent="."]
-visible = false
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -239,67 +232,8 @@ texture_normal = ExtResource("7")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Trello" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("8")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Itch" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("10")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="GameJolt" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("6")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Splitter2" type="HSplitContainer" parent="RemakeInfo/Logos"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-collapsed = true
-dragger_visibility = 2
-
-[node name="Bmc" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("9")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Patreon" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("12")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="Kofi" type="TextureButton" parent="RemakeInfo/Logos"]
-texture_filter = 4
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-mouse_default_cursor_shape = 2
-texture_normal = ExtResource("11")
-ignore_texture_size = true
-stretch_mode = 5
-
 [node name="TranslationInfo" type="VBoxContainer" parent="."]
+visible = false
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
