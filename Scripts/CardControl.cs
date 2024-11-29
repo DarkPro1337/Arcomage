@@ -60,7 +60,7 @@ public partial class CardControl : Control
       CardUses = selectedCard.Uses;
 
       NameLabel.Text = CardName;
-      Art.Texture = GD.Load<Texture2D>(CardArt);
+      Art.Texture = LoadCardArtTexture(CardArt);
       Description.Text = CardDescription;
       Cost.Text = CardCost.ToString();
       NameLabel.Uppercase = UiCardUppercaseText;
@@ -124,5 +124,33 @@ public partial class CardControl : Control
    public override void _PhysicsProcess(double delta)
    {
       base._PhysicsProcess(delta);
+   }
+
+   /// <summary>
+   /// Loads the card art texture from the specified path.
+   /// If the texture is imported by Godot's editor, it will be loaded directly using the <see cref="ResourceLoader.Load"/> method.
+   /// If the texture is not imported by Godot's editor, it will be imported using the <see cref="ImageTexture.CreateFromImage"/> method.
+   /// </summary>
+   /// <param name="path">The path to the card art image.</param>
+   /// <param name="generateMipmaps">Whether to generate mipmaps for the loaded image.</param>
+   /// <returns>The loaded card art as a <see cref="Texture2D"/> object, or a <see cref="PlaceholderTexture2D"/> if the image could not be loaded.</returns>
+   private Texture2D LoadCardArtTexture(string path, bool generateMipmaps = true)
+   {
+      if (ResourceLoader.Exists(path))
+         return ResourceLoader.Load<Texture2D>(path);
+
+      var image = new Image();
+      if (image.Load(path) != Error.Ok)
+      {
+         _Logger.Warn("Failed to load, path: {Path}", path);
+         return new PlaceholderTexture2D();
+      }
+
+      _Logger.Debug("Loading image that was not imported by editor, path: {Path}", path);
+      if (generateMipmaps)
+         image.GenerateMipmaps();
+
+      var newTexture = ImageTexture.CreateFromImage(image);
+      return newTexture;
    }
 }
