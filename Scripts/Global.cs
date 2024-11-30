@@ -16,6 +16,7 @@ public partial class Global : Node
    public static string BuildNumber { get; private set; } = GetBuildTimestamp();
    public static ModManager ModManager { get; } = new();
    public static DeckManager DeckManager { get; } = new();
+   public static TavernManager TavernManager { get; } = new();
 
    public override void _Ready()
    {

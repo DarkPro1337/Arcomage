@@ -20,6 +20,12 @@ public class DeckManager
    private void InitializeDecks()
    {
       var decksDir = DirAccess.Open(DecksDir);
+      if (decksDir == null)
+      {
+         _Logger.Warn("Decks directory failed to open: {DecksDir}", DecksDir);
+         return;
+      }
+      
       var files = decksDir.GetFiles();
       foreach (var deckFile in files)
       {

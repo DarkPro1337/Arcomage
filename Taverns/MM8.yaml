@@ -1,0 +1,135 @@
+name: Might & Magic VIII
+description: Jadame-wide Arcomage tournament
+taverns:
+  - id: TAVERN_DAGGER_WOUND_ISLAND
+    name: "The Grog and Grub (Dagger Wound Islands)"
+    startingTower: 15
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 30
+    winningResources: 100
+  - id: TAVERN_RAVENSHORE_KANTINA
+    name: "Kessel's Kantina (Ravenshore)"
+    startingTower: 20
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 50
+    winningResources: 150
+  - id: TAVERN_RAVENSHORE_OGRE
+    name: "The Dancing Ogre (Ravenshore)"
+    startingTower: 20
+    startingWall: 50
+    startingQuarry: 1
+    startingMagic: 1
+    startingDungeon: 5
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 25
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_GARROTE_GORGE
+    name: "Dragon's Blood Inn (Garrote Gorge)"
+    startingTower: 25
+    startingWall: 10
+    startingQuarry: 3
+    startingMagic: 3
+    startingDungeon: 3
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 75
+    winningResources: 200
+  - id: TAVERN_ALVAR_MIHO
+    name: "Miho's Roadhouse (Alvar)"
+    startingTower: 10
+    startingWall: 20
+    startingQuarry: 3
+    startingMagic: 1
+    startingDungeon: 2
+    startingBricks: 15
+    startingGems: 5
+    startingBeasts: 10
+    winningTower: 125
+    winningResources: 350
+  - id: TAVERN_ALVAR_PROFIT
+    name: "Profit House (Alvar)"
+    startingTower: 20
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 50
+    winningResources: 150
+  - id: TAVERN_IRONSAND_DESERT
+    name: "Parched Throat (Ironsand Desert)"
+    startingTower: 25
+    startingWall: 10
+    startingQuarry: 3
+    startingMagic: 3
+    startingDungeon: 3
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 75
+    winningResources: 200
+  - id: TAVERN_RAVAGE_ROAMING
+    name: "Bull's Eye Inn (Ravage Roaming)"
+    startingTower: 20
+    startingWall: 10
+    startingQuarry: 5
+    startingMagic: 5
+    startingDungeon: 5
+    startingBricks: 25
+    startingGems: 25
+    startingBeasts: 25
+    winningTower: 150
+    winningResources: 400
+  - id: TAVERN_SHADOWSPIRE
+    name: "Black Company (Shadowspire)"
+    startingTower: 30
+    startingWall: 15
+    startingQuarry: 4
+    startingMagic: 4
+    startingDungeon: 4
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_MURMURWOODS
+    name: "Traveler's Rest (Murmurwoods)"
+    startingTower: 30
+    startingWall: 15
+    startingQuarry: 4
+    startingMagic: 4
+    startingDungeon: 4
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_REGNA
+    name: "Pirate's Rest (Regna)"
+    startingTower: 20
+    startingWall: 10
+    startingQuarry: 1
+    startingMagic: 1
+    startingDungeon: 1
+    startingBricks: 15
+    startingGems: 15
+    startingBeasts: 15
+    winningTower: 200
+    winningResources: 500

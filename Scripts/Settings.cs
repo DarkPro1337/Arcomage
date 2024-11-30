@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using Godot;
 
@@ -130,6 +131,8 @@ public partial class Settings : Control
       Nickname.TextChanged += OnNicknameChanged;
         
       VisibilityChanged += SettingsVisibilityChanged;
+
+      GenerateTavernPresets(TavernPreset);
    }
 
    private void SettingsVisibilityChanged()
@@ -152,7 +155,6 @@ public partial class Settings : Control
          VictoryConditionsButton.Hide();
          TavernPresetsButton.Hide();
          PlayerSettingsButton.Hide();
-         LanguageSettingsButton.Hide();
          IntroSkip.Hide();
          Reset.Hide();
       }
@@ -171,10 +173,21 @@ public partial class Settings : Control
 
    private async void OnClosePressed()
    {
-      Config.SaveSettings();
-      Anim.Play("hide");
-      await ToSignal(Anim, "animation_finished");
-      Hide();
+      try
+      {
+         Config.SaveSettings();
+         Anim.Play("hide");
+         await ToSignal(Anim, "animation_finished");
+         Hide();
+      }
+      catch (Exception ex)
+      {
+         _Logger.Error(ex, "Failed to save settings");
+      }
+      finally
+      {
+         Hide();
+      }
    }
 
    private void OnResetPressed()
@@ -218,7 +231,7 @@ public partial class Settings : Control
       TowerVictory.Value = Config.Settings.TowerVictory;
       ResourceVictory.Value = Config.Settings.ResourceVictory;
 
-      TavernPreset.Selected = (int)Config.Settings.CurrentTavern;
+      TavernPreset.Selected = Config.Settings.CurrentTavern;
       Language.Selected = (int)Config.Settings.CurrentLocale;
 
       Nickname.Text = Config.Settings.Nickname;
@@ -376,7 +389,22 @@ public partial class Settings : Control
    private static void OnTowerVictoryValueChanged(double value) => Config.Settings.TowerVictory = (int)value;
    private static void OnResourceVictoryValueChanged(double value) => Config.Settings.ResourceVictory = (int)value;
 
-   private static void OnTavernPresetChanged(long index) => Config.Settings.CurrentTavern = (Tavern)index;
+   private void OnTavernPresetChanged(long index) => Config.Settings.CurrentTavern = (int)index;
+
+   private void GenerateTavernPresets(OptionButton tavernsButton)
+   {
+      tavernsButton.Clear();
+      tavernsButton.AddItem("NONE", 0);
+      foreach (var tavernPack in Global.TavernManager.TavernPacks)
+      {
+         tavernsButton.AddSeparator(tavernPack.Name);
+         foreach (var tavern in tavernPack.Taverns)
+         {
+            tavernsButton.AddItem(tavern.Id);
+            tavern.Index = tavernsButton.ItemCount - 1;
+         }
+      }
+   }
 
    private void OnLanguageChanged(long index)
    {

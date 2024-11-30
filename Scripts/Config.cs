@@ -6,24 +6,6 @@ using FileAccess = Godot.FileAccess;
 
 namespace Arcomage.Scripts;
 
-public enum Tavern
-{
-   None,
-   Harmondale,
-   Erathia,
-   TulareanForest,
-   Deyja,
-   BracadaDesert,
-   Celeste,
-   ThePit,
-   EvermornIsland,
-   Nighon,
-   BarrowDowns,
-   Tidewater,
-   Avlee,
-   StoneCity
-}
-
 public enum AiType
 {
    Auto,
@@ -77,7 +59,7 @@ public class GameSettings
    public int TowerVictory { get; set; } = 100;
    public int ResourceVictory { get; set; } = 300;
 
-   public Tavern CurrentTavern { get; set; } = Tavern.None;
+   public int CurrentTavern { get; set; }
 
    public Locale CurrentLocale { get; set; } = Locale.En;
 

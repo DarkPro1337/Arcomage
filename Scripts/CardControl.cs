@@ -150,7 +150,6 @@ public partial class CardControl : Control
       if (generateMipmaps)
          image.GenerateMipmaps();
 
-      var newTexture = ImageTexture.CreateFromImage(image);
-      return newTexture;
+      return ImageTexture.CreateFromImage(image);
    }
 }

@@ -1,0 +1,159 @@
+name: Might & Magic VII
+description: Classic Might & Magic 7 taverns
+taverns:
+  - id: TAVERN_TULAREAN_FOREST
+    name: "Emerald Inn (Tularean Forest)"
+    startingTower: 20
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 50
+    winningResources: 150
+  - id: TAVERN_ERATHIA
+    name: "Griffin's Rest (Erathia)"
+    startingTower: 20
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 50
+    winningResources: 100
+  - id: TAVERN_HARMONDALE
+    name: "On the House (Harmondale)"
+    startingTower: 15
+    startingWall: 5
+    startingQuarry: 2
+    startingMagic: 2
+    startingDungeon: 2
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 30
+    winningResources: 100
+  - id: TAVERN_AVLEE
+    name: "The Potted Pixie (Avlee)"
+    startingTower: 10
+    startingWall: 20
+    startingQuarry: 3
+    startingMagic: 1
+    startingDungeon: 2
+    startingBricks: 15
+    startingGems: 5
+    startingBeasts: 10
+    winningTower: 125
+    winningResources: 350
+  - id: TAVERN_DEYJA
+    name: "Snobbish Goblin (Deyja)"
+    startingTower: 25
+    startingWall: 10
+    startingQuarry: 3
+    startingMagic: 3
+    startingDungeon: 3
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 75
+    winningResources: 200
+  - id: TAVERN_TATALIA
+    name: "The Loyal Mercenary (Tatalia)"
+    startingTower: 10
+    startingWall: 20
+    startingQuarry: 3
+    startingMagic: 1
+    startingDungeon: 2
+    startingBricks: 15
+    startingGems: 5
+    startingBeasts: 10
+    winningTower: 125
+    winningResources: 350
+  - id: TAVERN_BRACADA_DESERT
+    name: "Familiar Place (Bracada Desert)"
+    startingTower: 20
+    startingWall: 10
+    startingQuarry: 3
+    startingMagic: 3
+    startingDungeon: 3
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 5
+    winningTower: 75
+    winningResources: 200
+  - id: TAVERN_BARROW_DOWNS
+    name: "Miner's Only (Barrow Downs)"
+    startingTower: 20
+    startingWall: 50
+    startingQuarry: 1
+    startingMagic: 1
+    startingDungeon: 5
+    startingBricks: 5
+    startingGems: 5
+    startingBeasts: 25
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_STONE_CITY
+    name: "Grogg's Grog (Stone City)"
+    startingTower: 50
+    startingWall: 50
+    startingQuarry: 5
+    startingMagic: 3
+    startingDungeon: 5
+    startingBricks: 20
+    startingGems: 10
+    startingBeasts: 20
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_EVERMORN_ISLAND
+    name: "The Laughing Monk (Evermorn Island)"
+    startingTower: 20
+    startingWall: 10
+    startingQuarry: 5
+    startingMagic: 5
+    startingDungeon: 5
+    startingBricks: 25
+    startingGems: 25
+    startingBeasts: 25
+    winningTower: 150
+    winningResources: 400
+  - id: TAVERN_CELESTE
+    name: "The Blessed Brew (Celeste)"
+    startingTower: 30
+    startingWall: 15
+    startingQuarry: 4
+    startingMagic: 4
+    startingDungeon: 4
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 100
+    winningResources: 300
+  - id: TAVERN_NIGHON
+    name: "Fortune's Folly (Nighon)"
+    startingTower: 20
+    startingWall: 10
+    startingQuarry: 1
+    startingMagic: 1
+    startingDungeon: 1
+    startingBricks: 15
+    startingGems: 15
+    startingBeasts: 15
+    winningTower: 200
+    winningResources: 500
+  - id: TAVERN_PIT
+    name: "The Vamyre Lounge (The Pit)"
+    startingTower: 30
+    startingWall: 15
+    startingQuarry: 4
+    startingMagic: 4
+    startingDungeon: 4
+    startingBricks: 10
+    startingGems: 10
+    startingBeasts: 10
+    winningTower: 100
+    winningResources: 300
