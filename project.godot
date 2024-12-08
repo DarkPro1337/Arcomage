@@ -13,7 +13,7 @@ config_version=5
 config/name="Arcomage"
 config/description="Open-source Arcomage fan-remake made on Godot Engine."
 config/version="1.0.0"
-run/main_scene="res://Scenes/Boot.tscn"
+run/main_scene="res://Scenes/Main/Boot.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Arcoamge"
 config/features=PackedStringArray("4.3", "C#")
@@ -26,8 +26,8 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Config="*res://Scripts/Config.cs"
-Global="*res://Scripts/Global.cs"
+Config="*res://Scripts/Core/Config.cs"
+Global="*res://Scripts/Core/Global.cs"
 
 [display]
 

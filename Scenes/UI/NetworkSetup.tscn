@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://m4q7lb4q18an"]
+
+[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_vgh0b"]
+[ext_resource type="Script" path="res://Scripts/UI/NetworkSetup.cs" id="2_waa7a"]
+[ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="3_1jcld"]
+[ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="4_qrbr7"]
+
+[sub_resource type="Theme" id="Theme_hvcqr"]
+default_font = ExtResource("1_vgh0b")
+default_font_size = 18
+
+[node name="NetworkSetup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_hvcqr")
+script = ExtResource("2_waa7a")
+metadata/_edit_lock_ = true
+
+[node name="Background" type="TextureRect" parent="."]
+self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("3_1jcld")
+expand_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Container" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.5
+offset_top = -77.0
+offset_right = 215.5
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Container"]
+layout_mode = 2
+text = "CONNECTION"
+label_settings = ExtResource("4_qrbr7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IpAddress" type="LineEdit" parent="Container"]
+layout_mode = 2
+text = "127.0.0.1"
+placeholder_text = "ENTER_IP_ADDRESS"
+
+[node name="Splitter" type="VSplitContainer" parent="Container"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+dragger_visibility = 2
+
+[node name="CreateServer" type="Button" parent="Container"]
+layout_mode = 2
+text = "CREATE_SERVER"
+
+[node name="JoinServer" type="Button" parent="Container"]
+layout_mode = 2
+text = "JOIN_SERVER"
+
+[node name="Lobby" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.5
+offset_right = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Lobby"]
+layout_mode = 2
+text = "LOBBY"
+label_settings = ExtResource("4_qrbr7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayersList" type="Tree" parent="Lobby"]
+custom_minimum_size = Vector2(0, 105)
+layout_mode = 2
+size_flags_vertical = 4
+columns = 2
+column_titles_visible = true
+allow_search = false
+hide_folding = true
+enable_recursive_folding = false
+hide_root = true
+scroll_horizontal_enabled = false
+scroll_vertical_enabled = false
+
+[node name="Ready" type="Button" parent="Lobby"]
+layout_mode = 2
+toggle_mode = true
+text = "NOT_READY"
+
+[node name="StartGame" type="Button" parent="Lobby"]
+visible = false
+layout_mode = 2
+text = "START_GAME"
+
+[node name="Cancel" type="Button" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -126.0
+offset_top = -53.0
+offset_right = 126.0
+offset_bottom = -16.0
+text = "CANCEL"
+
+[node name="Level" type="Node" parent="."]

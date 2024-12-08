@@ -1,0 +1,1140 @@
+[gd_scene load_steps=33 format=3 uid="uid://cqt4vepe6qmcn"]
+
+[ext_resource type="PackedScene" uid="uid://dgp5mnwyrer0o" path="res://Scenes/Gameplay/EnemyTower.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://dyny48sww0vnw" path="res://Scenes/Gameplay/PlayerTower.tscn" id="3"]
+[ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="4_6k12c"]
+[ext_resource type="PackedScene" uid="uid://c3lhbmvs8de0t" path="res://Scenes/Gameplay/PlayerWall.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://keod5nwm2dtr" path="res://Scenes/Gameplay/EnemyWall.tscn" id="6"]
+[ext_resource type="Texture2D" uid="uid://dwujmueb205yj" path="res://Sprites/TowerTopRed.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dxo573r1epfis" path="res://Sprites/Misc/recruits.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://druu7sryl8i7i" path="res://Sprites/TowerTopBlue.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://cvtghalj0sfe2" path="res://Images/BackgroundDark.png" id="11"]
+[ext_resource type="StyleBox" uid="uid://5cq0tn0mk3un" path="res://Themes/BasicPanel.tres" id="11_hvv06"]
+[ext_resource type="Texture2D" uid="uid://oe5u7ul54mpv" path="res://Sprites/CardBack.png" id="12"]
+[ext_resource type="StyleBox" uid="uid://bbpngpjr0can5" path="res://Themes/RecruitsPanel.tres" id="12_6o6bu"]
+[ext_resource type="Texture2D" uid="uid://48syq1tsdco5" path="res://Sprites/Misc/bricks.png" id="13"]
+[ext_resource type="StyleBox" uid="uid://d1yifs7hn817s" path="res://Themes/GemsPanel.tres" id="13_fuj2a"]
+[ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/TableGradientDark.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://ddkcvudg26n73" path="res://Sprites/Misc/gems.png" id="15"]
+[ext_resource type="Script" path="res://Scripts/Gameplay/Table.cs" id="16"]
+[ext_resource type="LabelSettings" uid="uid://d3q26ciiehqyy" path="res://Themes/TableResourceNameLabel.tres" id="16_ro153"]
+[ext_resource type="LabelSettings" uid="uid://bbslxo3p83s4" path="res://Themes/TablePerTurnLabel.tres" id="17_c1kuj"]
+[ext_resource type="LabelSettings" uid="uid://bf0hwd1xq6kpa" path="res://Themes/TableTotalLabel.tres" id="18_ii8jn"]
+[ext_resource type="StyleBox" uid="uid://boisg06iq0bqg" path="res://Themes/BricksPanel.tres" id="19_b2qfd"]
+[ext_resource type="StyleBox" uid="uid://qngvvogbf2n5" path="res://Themes/BricksPanelAltName.tres" id="21_mehl7"]
+[ext_resource type="StyleBox" uid="uid://7xwqacpum8g0" path="res://Themes/RecruitsPanelAltName.tres" id="21_oop71"]
+[ext_resource type="StyleBox" uid="uid://cbeyl6vw75bof" path="res://Themes/GemsPanelAltName.tres" id="22_kq6xk"]
+[ext_resource type="PackedScene" uid="uid://c3xwlecxrvu5f" path="res://Scenes/UI/InGameMenu.tscn" id="25_ln0tp"]
+[ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="25_obylu"]
+[ext_resource type="PackedScene" uid="uid://ca5d6s8ukswrf" path="res://Scenes/UI/MatchResults.tscn" id="26_7y44j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jlbpg"]
+bg_color = Color(0, 0, 0, 1)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0uddb"]
+bg_color = Color(0, 0, 0, 0)
+shadow_size = 3
+
+[sub_resource type="Animation" id="14"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ahysq"]
+_data = {
+"fade": SubResource("14")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhtno"]
+properties/0/path = NodePath("RedPanel/Name:text")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("BluePanel/Name:text")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("RedWall:size")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("BlueWall:size")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("RedTower:size")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("BlueTower:size")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("RedTowerPanel/Hp:text")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("RedWallPanel/Hp:text")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("BlueWallPanel/Hp:text")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("BlueTowerPanel/Hp:text")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+
+[node name="Table" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("16")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 6
+metadata/_edit_lock_ = true
+
+[node name="Graveyard" type="GridContainer" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -353.12
+offset_top = 16.0
+offset_right = 344.88
+offset_bottom = 196.0
+grow_horizontal = 2
+columns = 5
+metadata/_edit_lock_ = true
+
+[node name="CardBack" type="TextureRect" parent="Graveyard"]
+custom_minimum_size = Vector2(135, 180)
+layout_mode = 2
+texture = ExtResource("12")
+expand_mode = 1
+
+[node name="RedPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 120.0
+offset_bottom = 48.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jlbpg")
+
+[node name="Name" type="Label" parent="RedPanel"]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 103.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "player_name"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="BluePanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -120.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 48.0
+theme_override_styles/panel = ExtResource("11_hvv06")
+
+[node name="Name" type="Label" parent="BluePanel"]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 96.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "enemy_name"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="RedTower" parent="." instance=ExtResource("3")]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 195.0
+offset_top = -233.0
+offset_right = 240.0
+offset_bottom = -183.0
+grow_vertical = 0
+metadata/_edit_group_ = true
+
+[node name="TowerHead" type="TextureRect" parent="RedTower"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -0.999985
+offset_right = 11.0
+offset_bottom = 93.0
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+flip_v = true
+
+[node name="RedWall" parent="." instance=ExtResource("5")]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 265.0
+offset_top = -233.0
+offset_right = 289.0
+offset_bottom = -183.0
+grow_vertical = 0
+
+[node name="BlueWall" parent="." instance=ExtResource("6")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -233.0
+offset_right = -216.0
+offset_bottom = -183.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="BlueTower" parent="." instance=ExtResource("2")]
+clip_contents = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -233.0
+offset_right = -105.0
+offset_bottom = -183.0
+grow_horizontal = 0
+grow_vertical = 0
+metadata/_edit_group_ = true
+
+[node name="TowerHead" type="TextureRect" parent="BlueTower"]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -1.00002
+offset_right = 11.0
+offset_bottom = 93.0
+texture = ExtResource("10")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+flip_v = true
+
+[node name="RedTowerPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 145.0
+offset_top = -234.0
+offset_right = 200.0
+offset_bottom = -210.0
+theme_override_styles/panel = ExtResource("11_hvv06")
+metadata/_edit_group_ = true
+
+[node name="Hp" type="Label" parent="RedTowerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="RedWallPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 225.0
+offset_top = -234.0
+offset_right = 281.0
+offset_bottom = -210.0
+theme_override_styles/panel = ExtResource("11_hvv06")
+metadata/_edit_group_ = true
+
+[node name="Hp" type="Label" parent="RedWallPanel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="BlueWallPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -234.0
+offset_right = -224.0
+offset_bottom = -210.0
+theme_override_styles/panel = ExtResource("11_hvv06")
+
+[node name="Hp" type="Label" parent="BlueWallPanel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="BlueTowerPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -234.0
+offset_right = -144.0
+offset_bottom = -210.0
+theme_override_styles/panel = ExtResource("11_hvv06")
+
+[node name="Hp" type="Label" parent="BlueTowerPanel"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_right = -8.0
+theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
+theme_override_fonts/font = ExtResource("4_6k12c")
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="RedRecruitsPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 216.0
+offset_right = 104.0
+offset_bottom = 288.0
+theme_override_styles/panel = ExtResource("12_6o6bu")
+
+[node name="Pic" type="TextureRect" parent="RedRecruitsPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("9")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedRecruitsPanel"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 54.0
+offset_right = 85.0
+offset_bottom = 72.0
+text = "recruits"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="RedRecruitsPanel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="RedRecruitsPanel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="RedGemsPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 136.0
+offset_right = 104.0
+offset_bottom = 208.0
+theme_override_styles/panel = ExtResource("13_fuj2a")
+
+[node name="Pic" type="TextureRect" parent="RedGemsPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("15")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedGemsPanel"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 54.0
+offset_right = 85.0
+offset_bottom = 72.0
+text = "gems"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="RedGemsPanel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "3"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="RedGemsPanel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 31.0
+offset_bottom = 73.0
+text = "10"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="RedBricksPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 104.0
+offset_bottom = 128.0
+theme_override_styles/panel = ExtResource("19_b2qfd")
+
+[node name="Pic" type="TextureRect" parent="RedBricksPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0239999
+offset_right = -0.00800323
+texture = ExtResource("13")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedBricksPanel"]
+clip_contents = true
+custom_minimum_size = Vector2(47, 0)
+layout_mode = 0
+offset_left = 35.0
+offset_top = 54.0
+offset_right = 85.0
+offset_bottom = 72.0
+text = "bricks"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="RedBricksPanel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Total" type="Label" parent="RedBricksPanel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+vertical_alignment = 1
+clip_text = true
+
+[node name="RedRecruitsPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 216.0
+offset_right = 104.0
+offset_bottom = 288.0
+theme_override_styles/panel = ExtResource("12_6o6bu")
+
+[node name="Pic" type="TextureRect" parent="RedRecruitsPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("9")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("21_oop71")
+text = "RECRUITS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="RedRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="RedRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="RedGemsPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 136.0
+offset_right = 104.0
+offset_bottom = 208.0
+theme_override_styles/panel = ExtResource("13_fuj2a")
+
+[node name="Pic" type="TextureRect" parent="RedGemsPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("15")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedGemsPanelAlt"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("22_kq6xk")
+text = "GEMS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="RedGemsPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "3"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="RedGemsPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "10"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="RedBricksPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 104.0
+offset_bottom = 128.0
+theme_override_styles/panel = ExtResource("19_b2qfd")
+
+[node name="Pic" type="TextureRect" parent="RedBricksPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0239999
+offset_right = -0.00800323
+texture = ExtResource("13")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="RedBricksPanelAlt"]
+clip_contents = true
+custom_minimum_size = Vector2(47, 0)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("21_mehl7")
+text = "BRICKS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="RedBricksPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="RedBricksPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueRecruitsPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 216.0
+offset_right = -16.0
+offset_bottom = 288.0
+theme_override_styles/panel = ExtResource("12_6o6bu")
+
+[node name="Pic" type="TextureRect" parent="BlueRecruitsPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("9")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueRecruitsPanel"]
+layout_mode = 1
+offset_left = 36.0
+offset_top = 54.0
+offset_right = 85.0
+offset_bottom = 72.0
+text = "recruits"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="BlueRecruitsPanel"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueRecruitsPanel"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueGemsPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 136.0
+offset_right = -16.0
+offset_bottom = 208.0
+theme_override_styles/panel = ExtResource("13_fuj2a")
+
+[node name="Pic" type="TextureRect" parent="BlueGemsPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("15")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueGemsPanel"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 36.0
+offset_top = 54.0
+offset_right = 85.0
+offset_bottom = 72.0
+text = "gems"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="BlueGemsPanel"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "3"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueGemsPanel"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "10"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueBricksPanel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 56.0
+offset_right = -16.0
+offset_bottom = 128.0
+theme_override_styles/panel = ExtResource("19_b2qfd")
+
+[node name="Pic" type="TextureRect" parent="BlueBricksPanel"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("13")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueBricksPanel"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 54.0
+offset_right = 84.0
+offset_bottom = 72.0
+text = "bricks"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PerTurn" type="Label" parent="BlueBricksPanel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueBricksPanel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 34.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueRecruitsPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 216.0
+offset_right = -16.0
+offset_bottom = 288.0
+theme_override_styles/panel = ExtResource("12_6o6bu")
+
+[node name="Pic" type="TextureRect" parent="BlueRecruitsPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("9")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("21_oop71")
+text = "RECRUITS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="BlueRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueRecruitsPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueGemsPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 136.0
+offset_right = -16.0
+offset_bottom = 208.0
+theme_override_styles/panel = ExtResource("13_fuj2a")
+
+[node name="Pic" type="TextureRect" parent="BlueGemsPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0240002
+offset_right = -0.00800323
+texture = ExtResource("15")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueGemsPanelAlt"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("22_kq6xk")
+text = "GEMS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="BlueGemsPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "3"
+label_settings = ExtResource("17_c1kuj")
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueGemsPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "10"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="BlueBricksPanelAlt" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -104.0
+offset_top = 56.0
+offset_right = -16.0
+offset_bottom = 128.0
+theme_override_styles/panel = ExtResource("19_b2qfd")
+
+[node name="Pic" type="TextureRect" parent="BlueBricksPanelAlt"]
+layout_mode = 0
+anchor_left = 0.034
+anchor_top = 0.042
+anchor_right = 0.966
+anchor_bottom = 0.75
+offset_left = 0.0079999
+offset_top = -0.0239999
+offset_right = -0.00800323
+texture = ExtResource("13")
+expand_mode = 1
+
+[node name="Name" type="Label" parent="BlueBricksPanelAlt"]
+clip_contents = true
+custom_minimum_size = Vector2(47, 0)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 87.0
+offset_bottom = 16.0
+theme_override_styles/normal = ExtResource("21_mehl7")
+text = "BRICKS"
+label_settings = ExtResource("16_ro153")
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="PerTurn" type="Label" parent="BlueBricksPanelAlt"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 57.0
+text = "5"
+label_settings = ExtResource("17_c1kuj")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Total" type="Label" parent="BlueBricksPanelAlt"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 36.0
+offset_bottom = 73.0
+text = "20"
+label_settings = ExtResource("18_ii8jn")
+clip_text = true
+
+[node name="Particles" type="Control" parent="."]
+clip_contents = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = -0.5
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="DeckBg" type="TextureRect" parent="."]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -210.0
+texture = ExtResource("14")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="Shadow" type="Panel" parent="DeckBg"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0uddb")
+
+[node name="DrawCardLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -134.0
+offset_top = -262.0
+offset_right = 134.0
+offset_bottom = -224.0
+text = "DISCARD A CARD!"
+label_settings = ExtResource("25_obylu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlueDeck" type="HBoxContainer" parent="."]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="RedDeck" type="HBoxContainer" parent="."]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="DeckLocker" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.5
+offset_top = -192.0
+offset_right = 4.5
+color = Color(1, 1, 1, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ahysq")
+}
+autoplay = "fade"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0)
+
+[node name="PauseBg" type="ColorRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+
+[node name="TimeElapsed" type="Timer" parent="."]
+autostart = true
+
+[node name="InGameMenu" parent="." instance=ExtResource("25_ln0tp")]
+visible = false
+layout_mode = 1
+
+[node name="MatchResult" parent="." instance=ExtResource("26_7y44j")]
+visible = false
+layout_mode = 1
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_qhtno")
+
+[connection signal="timeout" from="TimeElapsed" to="." method="_on_Time_Elapsed_timeout"]

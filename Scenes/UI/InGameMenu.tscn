@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3xwlecxrvu5f"]
+
+[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_oj148"]
+[ext_resource type="Script" path="res://Scripts/UI/InGameMenu.cs" id="2_ubjxc"]
+[ext_resource type="PackedScene" uid="uid://ck57oh5lctgf0" path="res://Scenes/UI/Settings.tscn" id="3_a15le"]
+[ext_resource type="LabelSettings" uid="uid://nrljeoexe8pe" path="res://Themes/LabelBase.tres" id="3_vmiwe"]
+
+[sub_resource type="Theme" id="Theme_6bbhq"]
+default_font = ExtResource("1_oj148")
+
+[node name="InGameMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_6bbhq")
+script = ExtResource("2_ubjxc")
+
+[node name="Background" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Container" type="VBoxContainer" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.0
+offset_top = -112.0
+offset_right = 145.0
+offset_bottom = 112.0
+alignment = 1
+
+[node name="PauseLabel" type="Label" parent="Container"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "GAME_IS_PAUSED"
+label_settings = ExtResource("3_vmiwe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="Container"]
+layout_mode = 2
+text = "RESUME"
+
+[node name="Settings" type="Button" parent="Container"]
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="Stats" type="Button" parent="Container"]
+visible = false
+layout_mode = 2
+text = "STATS"
+
+[node name="Exit" type="Button" parent="Container"]
+layout_mode = 2
+text = "EXIT"
+
+[node name="Settings" parent="." instance=ExtResource("3_a15le")]
+visible = false
+layout_mode = 1
