@@ -40,12 +40,12 @@ At the beginning of each turn, the generators increase the amount of the player'
 As a rule, cards that require the same type of resources are similar in action. Gems - increase the tower, bricks - walls, animals - to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
 
 ## Localizations
-![GB](Images/Icons/Flags/gb.png) English, ![RU](Images/Icons/Flags/ru.png) Русский, ![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski, ![DK](Images/Icons/Flags/dk.png) Dansk, ![DE](Images/Icons/Flags/de.png) Deutsch, ![FR](Images/Icons/Flags/fr.png) français  
+English, Русский, Українська, Polski, Dansk, Deutsch, français  
 
 ### Contributors
-Thanks to the following people for their help in translating the game
-* **[Zmeonysh](https://www.youtube.com/@Zmeonysh)** (![UA](Images/Icons/Flags/ua.png) Українська, ![PL](Images/Icons/Flags/pl.png) Polski)
-* **[TimawaViking](https://www.reddit.com/user/TimawaViking/)** (![DK](Images/Icons/Flags/dk.png) Dansk)  
+Thanks to the following people for their help in translating the game:
+* **[Zmeonysh](https://www.youtube.com/@Zmeonysh)** (Українська, Polski)
+* **[TimawaViking](https://www.reddit.com/user/TimawaViking/)** (Dansk)  
 
 If you want to help with the translation, please [contact me](https://darkpro1337.github.io/), I will be very grateful for your help.
 
@@ -61,14 +61,16 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.3 stable mono](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
+* [**Godot** v.4.3-stable mono](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
 * [**.NET** SDK](https://dotnet.microsoft.com/download)
+* [**GodotEnv**](https://github.com/chickensoft-games/GodotEnv)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/4.3/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
-2. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
-3. Press `F5` to run the project
+2. Open folder with project and run `godotenv addons install`
+3. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
+4. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)
 

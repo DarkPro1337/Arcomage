@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -15,9 +16,9 @@ public sealed class MessageTemplateFormatMethodAttribute(string parameterName) :
 public class Logger
 {
    private static readonly Dictionary<string, Logger> _Loggers = new();
+   public static event Action<string> NewLogAdded;
 
    private readonly string _name;
-
    private Logger(string name) => _name = name;
 
    public static Logger GetOrCreateLogger(string name)
@@ -40,19 +41,21 @@ public class Logger
 
    private void Log(string message, LogLevel level, Exception ex = null)
    {
-      var log = $"[{DateTime.Now:HH:mm:ss}]  {level}  {_name}  {message}";
-
-      if (ex != null)
+      var now = DateTime.Now;
+      var formattedMessage = $"[{now:HH:mm:ss}] {level} {_name} {message}";
+      if (ex is not null)
       {
-         log += $"\nException: {ex.GetType().Name}: {ex.Message}\nStack Trace: {ex.StackTrace}";
-         if (ex.InnerException != null)
-            log += $"\nInner Exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}\nInner Stack Trace: {ex.InnerException.StackTrace}";
+         formattedMessage += $"\nException: {ex.GetType().Name}: {ex.Message}\nStack Trace: {ex.StackTrace}";
+         if (ex.InnerException is not null)
+            formattedMessage += $"\nInner Exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}\nInner Stack Trace: {ex.InnerException.StackTrace}";
       }
 
+      NewLogAdded?.Invoke(message);
+
       if (level == LogLevel.Error)
-         GD.PrintErr(log);
+         GD.PrintErr(formattedMessage);
       else
-         GD.Print(log);
+         GD.Print(formattedMessage);
    }
 
    [MessageTemplateFormatMethod("message")]
@@ -76,7 +79,7 @@ public class Logger
       return arg switch
       {
          null => "null",
-         System.Collections.IEnumerable enumerable when arg is not string => enumerable.Cast<object>().Count().ToString(),
+         IEnumerable enumerable and not string => enumerable.Cast<object>().Count().ToString(),
          _ => arg.ToString()
       };
    }
@@ -84,6 +87,13 @@ public class Logger
    public void Error(string message) => Log(message, LogLevel.Error);
 
    public void Error(Exception ex, string message) => Log(message, LogLevel.Error, ex);
+
+   [MessageTemplateFormatMethod("message")]
+   public void Error(string message, params object[] args)
+   {
+      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
+      Log(formattedMessage, LogLevel.Error);
+   }
 
    public void Debug(string message) => Log(message, LogLevel.Debug);
 

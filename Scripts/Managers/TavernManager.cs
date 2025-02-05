@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Arcomage.Scripts.Data;
 using Arcomage.Scripts.Logging;
 using Godot;
@@ -7,30 +8,6 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 namespace Arcomage.Scripts.Managers;
-
-public class TavernPack
-{
-   public string Name { get; set; }
-   public string Description { get; set; }
-   public List<Tavern> Taverns { get; set; }
-}
-
-public class Tavern
-{
-   [YamlIgnore] public int Index { get; set; }
-   public string Id { get; set; }
-   public string Name { get; set; }
-   public int StartingTower { get; set; }
-   public int StartingWall { get; set; }
-   public int StartingQuarry { get; set; }
-   public int StartingMagic { get; set; }
-   public int StartingDungeon { get; set; }
-   public int StartingBricks { get; set; }
-   public int StartingGems { get; set; }
-   public int StartingBeasts { get; set; }
-   public int WinningTower { get; set; }
-   public int WinningResources { get; set; }
-}
 
 public class TavernManager
 {
@@ -62,19 +39,7 @@ public class TavernManager
 
    public Tavern GetTavernByIndex(int idx)
    {
-      if (idx <= 0)
-         return null;
-
-      foreach (var pack in TavernPacks)
-      {
-         foreach (var tavern in pack.Taverns)
-         {
-            if (tavern.Index == idx)
-               return tavern;
-         }
-      }
-
-      return null;
+      return idx <= 0 ? null : TavernPacks.SelectMany(pack => pack.Taverns).FirstOrDefault(tavern => tavern.Index == idx);
    }
 
    private TavernPack LoadTavernPackFromFile(string filePath)

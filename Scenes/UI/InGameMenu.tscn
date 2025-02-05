@@ -1,12 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3xwlecxrvu5f"]
+[gd_scene load_steps=5 format=3 uid="uid://c3xwlecxrvu5f"]
 
-[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_oj148"]
 [ext_resource type="Script" path="res://Scripts/UI/InGameMenu.cs" id="2_ubjxc"]
 [ext_resource type="PackedScene" uid="uid://ck57oh5lctgf0" path="res://Scenes/UI/Settings.tscn" id="3_a15le"]
 [ext_resource type="LabelSettings" uid="uid://nrljeoexe8pe" path="res://Themes/LabelBase.tres" id="3_vmiwe"]
 
 [sub_resource type="Theme" id="Theme_6bbhq"]
-default_font = ExtResource("1_oj148")
 
 [node name="InGameMenu" type="Control"]
 process_mode = 2

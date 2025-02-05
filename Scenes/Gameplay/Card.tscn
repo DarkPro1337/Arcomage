@@ -1,10 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://82184713u5ak"]
 
-[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1"]
 [ext_resource type="Script" path="res://Scripts/Gameplay/CardControl.cs" id="1_ha45m"]
-[ext_resource type="FontFile" uid="uid://cvd1t3a5j33fp" path="res://Fonts/Roboto-Black.ttf" id="2"]
 [ext_resource type="Texture2D" uid="uid://besykgtt5lxq4" path="res://Sprites/RedCardLayout.png" id="4"]
-[ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="6"]
 [ext_resource type="Texture2D" uid="uid://oe5u7ul54mpv" path="res://Sprites/CardBack.png" id="7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohmah"]
@@ -35,18 +32,26 @@ shadow_size = 2
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_32ds7"]
 
+[sub_resource type="FontVariation" id="FontVariation_vagtb"]
+variation_opentype = {
+1869640570: 14,
+2003265652: 600
+}
+
 [sub_resource type="LabelSettings" id="LabelSettings_1br1x"]
 line_spacing = 0.0
-font = ExtResource("2")
+font = SubResource("FontVariation_vagtb")
 font_size = 12
 font_color = Color(0, 0, 0, 1)
 outline_size = 6
 outline_color = Color(0, 0, 0, 0.0784314)
 shadow_offset = Vector2(0, 0)
 
+[sub_resource type="FontVariation" id="FontVariation_xaubc"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_1h2lf"]
 line_spacing = 0.0
-font = ExtResource("1")
+font = SubResource("FontVariation_xaubc")
 font_size = 10
 font_color = Color(0, 0, 0, 1)
 outline_size = 4
@@ -55,16 +60,22 @@ shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.0784314)
 shadow_offset = Vector2(0, 0)
 
+[sub_resource type="FontVariation" id="FontVariation_1te8f"]
+variation_opentype = {
+1869640570: 14,
+2003265652: 300
+}
+
 [sub_resource type="LabelSettings" id="LabelSettings_t661o"]
 line_spacing = 0.0
-font = ExtResource("6")
+font = SubResource("FontVariation_1te8f")
+font_size = 14
 font_color = Color(0, 0, 0, 1)
-outline_size = 6
+outline_size = 5
 outline_color = Color(0, 0, 0, 0.0784314)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xvv0o"]
 line_spacing = 0.0
-font = ExtResource("2")
 font_size = 20
 font_color = Color(0.898039, 0, 0, 1)
 outline_size = 10
@@ -168,14 +179,12 @@ text_overrun_behavior = 1
 [node name="Cost" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.785
-anchor_top = 0.856
-anchor_right = 0.985
-anchor_bottom = 0.983
-offset_left = 0.0249939
-offset_top = -0.0800171
-offset_right = 0.0249939
-offset_bottom = -0.940002
+anchor_left = 0.8
+anchor_top = 0.85
+anchor_right = 0.97
+anchor_bottom = 0.978
+offset_right = 0.0500031
+offset_bottom = -0.0400085
 text = "0"
 label_settings = SubResource("LabelSettings_t661o")
 horizontal_alignment = 1

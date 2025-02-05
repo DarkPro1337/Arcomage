@@ -1,6 +1,8 @@
 <Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <InterfaceLocalization><![CDATA[https://docs.google.com/spreadsheets/d/e/2PACX-1vQypyad7a5Yp2Yv54YsFIbJJfxc02OduroayIK16Qt-pqiELdC1sq9v04VY8bANPsqajRV6SB9jTDqR/pub?gid=1374382602&single=true&output=csv]]></InterfaceLocalization>
@@ -8,12 +10,11 @@
     <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("ddMMyyyyHHmmss"))</SourceRevisionId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
     <PackageReference Include="Sprache" Version="2.3.1" />
-    <PackageReference Include="YamlDotNet" Version="16.1.2" />
+    <PackageReference Include="Wasmtime" Version="22.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.2.1" />
   </ItemGroup>
-  <PropertyGroup>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
   <Target Name="DownloadFilesBeforeBuild" BeforeTargets="Build">
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />

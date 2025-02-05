@@ -23,7 +23,6 @@ public partial class MainMenu : Control
       var newGameButton = GetNode<Button>("MenuGrid/NewGame");
       var multiplayerGameButton = GetNode<Button>("MenuGrid/MultiplayerGame");
       var settingsButton = GetNode<Button>("MenuGrid/Settings");
-      var leaderboardButton = GetNode<Button>("MenuGrid/Leaderboard");
       var creditsButton = GetNode<Button>("MenuGrid/Credits");
       var devToolsButton = GetNode<Button>("MenuGrid/DevTools");
       var exitButton = GetNode<Button>("MenuGrid/Exit");
@@ -31,7 +30,6 @@ public partial class MainMenu : Control
       newGameButton.Pressed += OnNewGamePressed;
       multiplayerGameButton.Pressed += OnMultiplayerGamePressed;
       settingsButton.Pressed += OnSettingsPressed;
-      leaderboardButton.Pressed += OnLeaderboardPressed;
       creditsButton.Pressed += OnCreditsPressed;
       devToolsButton.Pressed += OnDevToolsPressed;
       exitButton.Pressed += OnExitPressed;
@@ -74,21 +72,9 @@ public partial class MainMenu : Control
    }
 
    private void OnMultiplayerGamePressed() => NetworkSetup.Show();
-   private void OnLeaderboardPressed() => Alert(Tr("WORK_IN_PROGRESS"), "Oops");
    private void OnCreditsPressed() => Credits.Show();
-   private void OnDevToolsPressed() => GetTree().ChangeSceneToFile("res://Scenes/UI/Debug/CardsViewer.tscn");
+   private void OnDevToolsPressed() => GetTree().ChangeSceneDeferred("res://Scenes/UI/Debug/CardsViewer.tscn");
    private void OnExitPressed() => GetTree().Quit();
-
-   private void Alert(string text, string title = "Alert")
-   {
-      var dialog = new AcceptDialog();
-      dialog.DialogText = text;
-      dialog.Title = title;
-      dialog.Connect("modal_connected", new Callable(dialog, "queue_free"));
-      AddChild(dialog);
-      dialog.PopupCentered();
-      _Logger.Debug($"{title} alert displayed");
-   }
 
    private void ReadCommandLine()
    {

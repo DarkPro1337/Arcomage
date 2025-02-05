@@ -1,9 +1,13 @@
 [gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://pe8pbs72c1un"]
 
-[ext_resource type="FontFile" uid="uid://cvd1t3a5j33fp" path="res://Fonts/Roboto-Black.ttf" id="1_axe4h"]
+[sub_resource type="FontVariation" id="FontVariation_7b4h2"]
+variation_opentype = {
+1869640570: 14,
+2003265652: 600
+}
 
 [resource]
-font = ExtResource("1_axe4h")
+font = SubResource("FontVariation_7b4h2")
 font_size = 20
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)

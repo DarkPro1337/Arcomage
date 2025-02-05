@@ -18,14 +18,9 @@ public partial class Global : Node
    public static Table Table { get; set; }
    public static NetworkSetup NetworkSetup { get; set; }
    public static string BuildNumber { get; private set; } = GetBuildTimestamp();
-   public static ModManager ModManager { get; } = new();
+   public static ModManager ModManager { get; set; }
    public static DeckManager DeckManager { get; } = new();
    public static TavernManager TavernManager { get; } = new();
-
-   public override void _Ready()
-   {
-      OS.LowProcessorUsageMode = true;
-   }
 
    public static Dictionary<string, string> GetCommandLineArgs()
    {
@@ -57,5 +52,13 @@ public partial class Global : Node
 
       Logger.Error("Build timestamp missing");
       return "UNKNOWN";
+   }
+}
+
+public static class SceneTreeExtensions
+{
+   public static void ChangeSceneDeferred(this SceneTree tree, string path)
+   {
+      tree.CallDeferred("change_scene_to_file", path);
    }
 }

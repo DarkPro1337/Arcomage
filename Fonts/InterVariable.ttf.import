@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cvd1t3a5j33fp"
-path="res://.godot/imported/Roboto-Black.ttf-190cdf5d99c554d9f3ee32d11ef3ba17.fontdata"
+uid="uid://c557qqmpne6kp"
+path="res://.godot/imported/InterVariable.ttf-ec4945583c68aa639a772e09e31ff539.fontdata"
 
 [deps]
 
-source_file="res://Fonts/Roboto-Black.ttf"
-dest_files=["res://.godot/imported/Roboto-Black.ttf-190cdf5d99c554d9f3ee32d11ef3ba17.fontdata"]
+source_file="res://Fonts/InterVariable.ttf"
+dest_files=["res://.godot/imported/InterVariable.ttf-ec4945583c68aa639a772e09e31ff539.fontdata"]
 
 [params]
 
@@ -16,14 +16,14 @@ Rendering=null
 antialiasing=1
 generate_mipmaps=true
 disable_embedded_bitmaps=true
-multichannel_signed_distance_field=true
+multichannel_signed_distance_field=false
 msdf_pixel_range=8
 msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
-hinting=2
+hinting=1
 subpixel_positioning=1
-oversampling=0.0
+oversampling=2.0
 Fallbacks=null
 fallbacks=[]
 Compress=null

@@ -69,7 +69,8 @@ public partial class CardControl : Control
       NameLabel.Uppercase = UiCardUppercaseText;
       Name = CardId;
 
-      if (CardFeatures != null && CardFeatures.Contains(CardFeature.NotDiscardable)) Discardable = false;
+      if (CardFeatures != null && CardFeatures.Contains(CardFeature.NotDiscardable))
+         Discardable = false;
 
       switch (CardLayout)
       {

@@ -1,11 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://kr1us7ks0taf"]
+[gd_scene load_steps=8 format=3 uid="uid://kr1us7ks0taf"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Intro.cs" id="2"]
 [ext_resource type="Texture2D" uid="uid://t2fd02kro3h7" path="res://Images/Intro/NwcLogo.png" id="3"]
-[ext_resource type="FontFile" uid="uid://d0h2oth3qeqwa" path="res://Fonts/RobotoCondensed-Regular.ttf" id="3_xxgvb"]
 [ext_resource type="Texture2D" uid="uid://dtscvvktowhgj" path="res://Images/Intro/GodotLogo.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://d3bcg00846dc0" path="res://Images/Intro/DarkPro1337Avatar.png" id="5"]
-[ext_resource type="FontFile" uid="uid://cvd1t3a5j33fp" path="res://Fonts/Roboto-Black.ttf" id="5_8gna2"]
 
 [sub_resource type="Animation" id="Animation_a882a"]
 length = 0.001
@@ -137,7 +135,6 @@ offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(-64.5824, 48.9445)
-theme_override_fonts/font = ExtResource("3_xxgvb")
 text = "made on"
 horizontal_alignment = 2
 vertical_alignment = 2
@@ -173,7 +170,6 @@ offset_top = 71.5
 offset_right = 73.0
 offset_bottom = 104.5
 pivot_offset = Vector2(69.7908, -11.1305)
-theme_override_fonts/font = ExtResource("5_8gna2")
 text = "DarkPro1337"
 horizontal_alignment = 1
 
@@ -189,7 +185,6 @@ offset_top = -100.5
 offset_right = 41.5
 offset_bottom = -71.5
 pivot_offset = Vector2(42.0663, 40.0536)
-theme_override_fonts/font = ExtResource("3_xxgvb")
 text = "made by"
 horizontal_alignment = 1
 vertical_alignment = 2
@@ -229,13 +224,12 @@ offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(-96.6838, 53.3769)
-theme_override_fonts/font = ExtResource("3_xxgvb")
 text = "in honor of"
 horizontal_alignment = 2
 vertical_alignment = 2
 
 [node name="Animator" type="AnimationPlayer" parent="."]
-autoplay = "StartUp"
 libraries = {
 "": SubResource("AnimationLibrary_hyo1b")
 }
+autoplay = "StartUp"

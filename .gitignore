@@ -26,3 +26,6 @@ build.txt
 .vscode
 *.tmp
 *.user
+addons/*
+!addons/.editorconfig
+.addons/*

@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bm3u5shku4plo"]
+[gd_scene load_steps=10 format=3 uid="uid://bm3u5shku4plo"]
 
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/ArcomageLogo.png" id="2"]
 [ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="4_dciym"]
 [ext_resource type="Texture2D" uid="uid://3a1oufmonrao" path="res://Images/GodotLogo.png" id="5"]
-[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="5_asp3v"]
 [ext_resource type="LabelSettings" uid="uid://nrljeoexe8pe" path="res://Themes/LabelBase.tres" id="5_w3p6m"]
 [ext_resource type="LabelSettings" uid="uid://blmdikxxdxbhv" path="res://Themes/LabelBaseTransparent.tres" id="6_mlivc"]
 [ext_resource type="Texture2D" uid="uid://17cwcycndbx1" path="res://Images/GithubLogo.png" id="7"]
@@ -316,7 +315,6 @@ offset_left = 812.0
 offset_top = 488.0
 offset_right = 946.0
 offset_bottom = 525.0
-theme_override_fonts/font = ExtResource("5_asp3v")
 theme_override_font_sizes/font_size = 20
 text = "NEXT"
 flat = true

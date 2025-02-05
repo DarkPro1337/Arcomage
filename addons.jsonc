@@ -1,0 +1,10 @@
+{
+  "$schema": "https://chickensoft.games/schemas/addons.schema.json",
+  "addons": {
+    "imgui-godot": {
+      "url": "https://github.com/pkdawson/imgui-godot",
+      "checkout": "6.x",
+      "subfolder": "addons/imgui-godot"
+    }
+  }
+}

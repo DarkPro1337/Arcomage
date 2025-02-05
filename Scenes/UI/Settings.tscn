@@ -1,19 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://ck57oh5lctgf0"]
+[gd_scene load_steps=6 format=3 uid="uid://ck57oh5lctgf0"]
 
 [ext_resource type="Script" path="res://Scripts/UI/Settings.cs" id="1_8se8j"]
-[ext_resource type="FontFile" uid="uid://cj57vhrh3rv6d" path="res://Fonts/Roboto-Medium.ttf" id="1_xsh22"]
+[ext_resource type="Theme" uid="uid://vfnrm17ifja3" path="res://Themes/Theme.tres" id="1_l7kn1"]
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="2_idday"]
-[ext_resource type="Texture2D" uid="uid://cdcud7it23lk8" path="res://Images/Icons/Flags/gb.png" id="3_qa8cm"]
-[ext_resource type="Texture2D" uid="uid://cge56yffs43nm" path="res://Images/Icons/Flags/ru.png" id="4_2tfki"]
-[ext_resource type="Texture2D" uid="uid://bm0poeq6ucufi" path="res://Images/Icons/Flags/ua.png" id="5_jwrtd"]
-[ext_resource type="Texture2D" uid="uid://dkp5a4f1r3o3y" path="res://Images/Icons/Flags/pl.png" id="6_joof3"]
-[ext_resource type="Texture2D" uid="uid://cvsdectwsoylf" path="res://Images/Icons/Flags/dk.png" id="7_ivjg1"]
-[ext_resource type="Texture2D" uid="uid://bifv2jpwach65" path="res://Images/Icons/Flags/de.png" id="9_dwbfe"]
-[ext_resource type="Texture2D" uid="uid://c26b567iksh6x" path="res://Images/Icons/Flags/fr.png" id="10_oxuib"]
-
-[sub_resource type="Theme" id="Theme_t74ne"]
-default_font = ExtResource("1_xsh22")
-Button/font_sizes/font_size = 20
 
 [sub_resource type="Animation" id="4"]
 resource_name = "hide"
@@ -44,7 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(-360, -64)
-theme = SubResource("Theme_t74ne")
+theme = ExtResource("1_l7kn1")
 script = ExtResource("1_8se8j")
 
 [node name="Background" type="TextureRect" parent="."]
@@ -531,7 +520,6 @@ text = "TAVERN"
 [node name="Option" type="OptionButton" parent="Tab/TavernPresets/Container/Preset"]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
-selected = 0
 
 [node name="LanguageSettings" type="CenterContainer" parent="Tab"]
 visible = false
@@ -553,27 +541,21 @@ text = "LANGUAGE"
 [node name="Option" type="OptionButton" parent="Tab/LanguageSettings/Container/Language"]
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
+theme_override_constants/icon_max_width = 16
 selected = 0
 item_count = 7
 popup/item_0/text = "English"
-popup/item_0/icon = ExtResource("3_qa8cm")
 popup/item_1/text = "Русский"
-popup/item_1/icon = ExtResource("4_2tfki")
 popup/item_1/id = 1
 popup/item_2/text = "Українська"
-popup/item_2/icon = ExtResource("5_jwrtd")
 popup/item_2/id = 2
 popup/item_3/text = "Polski"
-popup/item_3/icon = ExtResource("6_joof3")
 popup/item_3/id = 3
 popup/item_4/text = "Dansk"
-popup/item_4/icon = ExtResource("7_ivjg1")
 popup/item_4/id = 4
 popup/item_5/text = "Deutsch"
-popup/item_5/icon = ExtResource("9_dwbfe")
 popup/item_5/id = 5
 popup/item_6/text = "français"
-popup/item_6/icon = ExtResource("10_oxuib")
 popup/item_6/id = 6
 
 [node name="TranslationErrors" type="Label" parent="Tab/LanguageSettings/Container"]

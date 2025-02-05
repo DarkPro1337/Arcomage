@@ -1,6 +1,13 @@
-[gd_resource type="LabelSettings" format=3 uid="uid://blmdikxxdxbhv"]
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://blmdikxxdxbhv"]
+
+[sub_resource type="FontVariation" id="FontVariation_b51ot"]
+variation_opentype = {
+1869640570: 14,
+2003265652: 300
+}
 
 [resource]
+font = SubResource("FontVariation_b51ot")
 font_color = Color(1, 1, 1, 0.584314)
 shadow_size = 8
 shadow_color = Color(0, 0, 0, 0.498039)
