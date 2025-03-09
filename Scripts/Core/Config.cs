@@ -15,17 +15,6 @@ public enum AiType
    Random
 }
 
-public enum Locale
-{
-   En,
-   Ru,
-   Uk,
-   Pl,
-   Da,
-   De,
-   Fr
-}
-
 public class GameSettings
 {
    public bool Fullscreen { get; set; }
@@ -62,7 +51,7 @@ public class GameSettings
 
    public int CurrentTavern { get; set; }
 
-   public Locale CurrentLocale { get; set; } = Locale.En;
+   public string CurrentLocale { get; set; } = "en";
 
    public string Nickname { get; set; } = "Player";
 }

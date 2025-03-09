@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://vfnrm17ifja3" path="res://Themes/Theme.tres" id="1_r8lx4"]
 [ext_resource type="PackedScene" uid="uid://bm3u5shku4plo" path="res://Scenes/UI/Credits.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://ck57oh5lctgf0" path="res://Scenes/UI/Settings.tscn" id="4"]
-[ext_resource type="Script" path="res://Scripts/UI/MainMenu.cs" id="7"]
+[ext_resource type="Script" uid="uid://dehwarykkrfud" path="res://Scripts/UI/MainMenu.cs" id="7"]
 [ext_resource type="PackedScene" uid="uid://m4q7lb4q18an" path="res://Scenes/UI/NetworkSetup.tscn" id="7_3w6bp"]
 [ext_resource type="AudioStream" uid="uid://cbtp771p1l6hv" path="res://Sounds/title.ogg" id="8"]
 [ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/ArcomageLogo.png" id="9"]
@@ -50,7 +50,7 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_76yvq"]
 _data = {
-"start": SubResource("2")
+&"start": SubResource("2")
 }
 
 [sub_resource type="Animation" id="3"]
@@ -97,8 +97,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tu3xr"]
 _data = {
-"fade_out": SubResource("3"),
-"settings_show": SubResource("4")
+&"fade_out": SubResource("3"),
+&"settings_show": SubResource("4")
 }
 
 [node name="MainMenu" type="Control"]
@@ -256,7 +256,6 @@ anchors_preset = -1
 visible = false
 layout_mode = 1
 anchors_preset = -1
-pivot_offset = Vector2(0, 0)
 
 [node name="NetworkSetup" parent="." instance=ExtResource("7_3w6bp")]
 visible = false
@@ -265,13 +264,13 @@ anchors_preset = -1
 
 [node name="StartupAnim" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_76yvq")
+&"": SubResource("AnimationLibrary_76yvq")
 }
 autoplay = "start"
 
 [node name="MenuAnim" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_tu3xr")
+&"": SubResource("AnimationLibrary_tu3xr")
 }
 
 [node name="StartupRect" type="ColorRect" parent="."]

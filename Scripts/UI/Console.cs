@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Arcomage.Scripts.Core;
 using Arcomage.Scripts.Logging;
 using Godot;
 using ImGuiNET;
@@ -60,7 +59,7 @@ public partial class Console : Node
          }
 
          _Logger.Debug("Changing scene to {Scene}", value);
-         GetTree().ChangeSceneDeferred(value);
+         GetTree().CallDeferred("change_scene_to_file", value);
       }
    }
 

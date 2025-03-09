@@ -1,7 +1,9 @@
 using System;
 using System.Globalization;
+using System.Linq;
 using Arcomage.Scripts.Core;
 using Arcomage.Scripts.Logging;
+using Arcomage.Scripts.Managers;
 using Godot;
 
 namespace Arcomage.Scripts.UI;
@@ -169,8 +171,10 @@ public partial class Settings : Control
 
    public override void _Ready()
    {
-      UpdateControls();
       UpdateLocale();
+      UpdateControls();
+
+      Global.TranslationManager.TranslationChanged += UpdateLocale;
    }
 
    private async void OnClosePressed()
@@ -196,8 +200,8 @@ public partial class Settings : Control
    {
       Config.Settings = new GameSettings();
       Config.SaveSettings();
-      UpdateControls();
       UpdateLocale();
+      UpdateControls();
    }
 
    private void UpdateControls()
@@ -234,42 +238,18 @@ public partial class Settings : Control
       ResourceVictory.Value = Config.Settings.ResourceVictory;
 
       TavernPreset.Selected = Config.Settings.CurrentTavern;
-      Language.Selected = (int)Config.Settings.CurrentLocale;
+      Language.Selected = Global.TranslationManager.GetLoadedLocaleIndex();
 
       Nickname.Text = Config.Settings.Nickname;
    }
 
-   private static void UpdateLocale()
+   private void UpdateLocale()
    {
-      switch (Config.Settings.CurrentLocale)
-      {
-         case Locale.En:
-            TranslationServer.SetLocale("en");
-            break;
-         case Locale.Ru:
-            TranslationServer.SetLocale("ru");
-            break;
-         case Locale.Uk:
-            TranslationServer.SetLocale("uk");
-            break;
-         case Locale.Pl:
-            TranslationServer.SetLocale("pl");
-            break;
-         case Locale.Da:
-            TranslationServer.SetLocale("da");
-            break;
-         case Locale.De:
-            TranslationServer.SetLocale("de");
-            break;
-         case Locale.Fr:
-            TranslationServer.SetLocale("fr");
-            break;
-         default:
-            _Logger.Warn("Unknown locale - {Locale}. Fallback to English.", Config.Settings.CurrentLocale);
-            TranslationServer.SetLocale("en");
-            break;
-      }
+      Language.Clear();
+      foreach (var locale in Global.TranslationManager.LoadedLocales)
+         Language.AddItem(locale.DisplayName);
 
+      TranslationServer.SetLocale(Config.Settings.CurrentLocale);
       _Logger.Debug("Loaded locale - {Locale}", Config.Settings.CurrentLocale);
    }
 
@@ -410,42 +390,13 @@ public partial class Settings : Control
 
    private void OnLanguageChanged(long index)
    {
-      Config.Settings.CurrentLocale = (Locale)index;
-      switch ((Locale)index)
-      {
-         case Locale.En:
-            TranslationServer.SetLocale("en");
-            TranslationErrors.Hide();
-            break;
-         case Locale.Ru:
-            TranslationServer.SetLocale("ru");
-            TranslationErrors.Show();
-            break;
-         case Locale.Uk:
-            TranslationServer.SetLocale("uk");
-            TranslationErrors.Show();
-            break;
-         case Locale.Pl:
-            TranslationServer.SetLocale("pl");
-            TranslationErrors.Show();
-            break;
-         case Locale.Da:
-            TranslationServer.SetLocale("da");
-            TranslationErrors.Show();
-            break;
-         case Locale.De:
-            TranslationServer.SetLocale("de");
-            TranslationErrors.Show();
-            break;
-         case Locale.Fr:
-            TranslationServer.SetLocale("fr");
-            TranslationErrors.Show();
-            break;
-         default:
-            TranslationServer.SetLocale("en");
-            TranslationErrors.Show();
-            break;
-      }
+      var locale = Global.TranslationManager.LoadedLocales.ElementAt((int)index);
+      Config.Settings.CurrentLocale = locale.Name;
+      TranslationServer.SetLocale(locale.Name);
+      if (locale.Name != "en")
+         TranslationErrors.Show();
+      else
+         TranslationErrors.Hide();
    }
 
    private void OnNicknameChanged(string newText) => Config.Settings.Nickname = newText;

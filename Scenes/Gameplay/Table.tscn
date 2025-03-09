@@ -15,7 +15,7 @@
 [ext_resource type="StyleBox" uid="uid://d1yifs7hn817s" path="res://Themes/GemsPanel.tres" id="13_fuj2a"]
 [ext_resource type="Texture2D" uid="uid://b4ief6r1wedxu" path="res://Images/TableGradientDark.png" id="14"]
 [ext_resource type="Texture2D" uid="uid://ddkcvudg26n73" path="res://Sprites/Misc/gems.png" id="15"]
-[ext_resource type="Script" path="res://Scripts/Gameplay/Table.cs" id="16"]
+[ext_resource type="Script" uid="uid://d3jmuhyxowktf" path="res://Scripts/Gameplay/Table.cs" id="16"]
 [ext_resource type="LabelSettings" uid="uid://d3q26ciiehqyy" path="res://Themes/TableResourceNameLabel.tres" id="16_ro153"]
 [ext_resource type="LabelSettings" uid="uid://bbslxo3p83s4" path="res://Themes/TablePerTurnLabel.tres" id="17_c1kuj"]
 [ext_resource type="LabelSettings" uid="uid://bf0hwd1xq6kpa" path="res://Themes/TableTotalLabel.tres" id="18_ii8jn"]
@@ -63,7 +63,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ahysq"]
 _data = {
-"fade": SubResource("14")
+&"fade": SubResource("14")
 }
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhtno"]
@@ -1101,7 +1101,7 @@ color = Color(1, 1, 1, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_ahysq")
+&"": SubResource("AnimationLibrary_ahysq")
 }
 autoplay = "fade"
 

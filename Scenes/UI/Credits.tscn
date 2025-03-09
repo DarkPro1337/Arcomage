@@ -7,7 +7,7 @@
 [ext_resource type="LabelSettings" uid="uid://nrljeoexe8pe" path="res://Themes/LabelBase.tres" id="5_w3p6m"]
 [ext_resource type="LabelSettings" uid="uid://blmdikxxdxbhv" path="res://Themes/LabelBaseTransparent.tres" id="6_mlivc"]
 [ext_resource type="Texture2D" uid="uid://17cwcycndbx1" path="res://Images/GithubLogo.png" id="7"]
-[ext_resource type="Script" path="res://Scripts/UI/Info.cs" id="13"]
+[ext_resource type="Script" uid="uid://b51yndqdnc6v0" path="res://Scripts/UI/Info.cs" id="13"]
 [ext_resource type="LabelSettings" uid="uid://pe8pbs72c1un" path="res://Themes/LabelHeading2.tres" id="15_yxdic"]
 
 [node name="Credits" type="Control"]

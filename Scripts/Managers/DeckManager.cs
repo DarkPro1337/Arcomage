@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Arcomage.Scripts.Data;
 using Arcomage.Scripts.Logging;
 using Godot;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using FileAccess = Godot.FileAccess;
 
 namespace Arcomage.Scripts.Managers;
 
@@ -56,7 +58,7 @@ public class DeckManager
    /// </summary>
    /// <param name="filePath">The path to the YAML file.</param>
    /// <returns>The loaded deck, or null if the file is not valid or an error occurs.</returns>
-   private Deck LoadDeckFromFile(string filePath)
+   public Deck LoadDeckFromFile(string filePath)
    {
       if (filePath.GetExtension() != "yaml" && filePath.GetExtension() != "yml")
       {
@@ -96,6 +98,38 @@ public class DeckManager
       catch (Exception ex)
       {
          _Logger.Error(ex, "Unexpected error occurred while loading cards from file {Path}", filePath);
+         return null;
+      }
+   }
+
+   /// <summary>
+   /// Loads a deck from a specified YAML text.
+   /// </summary>
+   /// <param name="yaml">The YAML text to load the deck from.</param>
+   /// <returns>The loaded deck, or null if the text is not valid or an error occurs.</returns>
+   public Deck LoadDeckFromYamlText(string yaml)
+   {
+      try
+      {
+         var deck = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithTypeConverter(new ActionTypeConverter())
+            .Build()
+            .Deserialize<Deck>(yaml);
+
+         if (deck?.Cards is null)
+         {
+            _Logger.Warn("Provided YAML is not a valid deck.");
+            return null;
+         }
+
+         _Logger.Debug("Loaded {Count} cards from deck {Name} from YAML", deck.Cards.Count, deck.Name);
+         deck.IsEnabled = true;
+         return deck;
+      }
+      catch (Exception ex)
+      {
+         _Logger.Error(ex, "Unexpected error occurred while loading deck from YAML text");
          return null;
       }
    }

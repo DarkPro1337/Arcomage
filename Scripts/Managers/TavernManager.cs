@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Arcomage.Scripts.Data;
 using Arcomage.Scripts.Logging;
@@ -27,7 +29,7 @@ public class TavernManager
          _Logger.Warn("Taverns directory failed to open: {TavernsDir}", TavernsDir);
          return;
       }
-      
+
       var files = tavernsDir.GetFiles();
       foreach (var tavernFile in files)
       {
@@ -42,7 +44,7 @@ public class TavernManager
       return idx <= 0 ? null : TavernPacks.SelectMany(pack => pack.Taverns).FirstOrDefault(tavern => tavern.Index == idx);
    }
 
-   private TavernPack LoadTavernPackFromFile(string filePath)
+   public TavernPack LoadTavernPackFromFile(string filePath)
    {
       if (filePath.GetExtension() != "yaml" && filePath.GetExtension() != "yml")
       {
@@ -81,6 +83,32 @@ public class TavernManager
       catch (Exception ex)
       {
          _Logger.Error(ex, "Unexpected error occurred while loading tavern pack from file {Path}", filePath);
+         return null;
+      }
+   }
+
+   public TavernPack LoadTavernPackFromYamlText(string yaml)
+   {
+      try
+      {
+         var pack = new DeserializerBuilder()
+            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+            .WithTypeConverter(new ActionTypeConverter())
+            .Build()
+            .Deserialize<TavernPack>(yaml);
+
+         if (pack?.Taverns is null)
+         {
+            _Logger.Warn("YAML text did not contain a valid tavern pack.");
+            return null;
+         }
+
+         _Logger.Debug("Loaded {Count} taverns from {Name} pack", pack.Taverns.Count, pack.Name);
+         return pack;
+      }
+      catch (Exception ex)
+      {
+         _Logger.Error(ex, "Unexpected error occurred while loading tavern pack from YAML text");
          return null;
       }
    }

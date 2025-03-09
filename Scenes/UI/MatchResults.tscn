@@ -40,8 +40,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bau11"]
 _data = {
-"fade_out": SubResource("4"),
-"hint_anim": SubResource("3")
+&"fade_out": SubResource("4"),
+&"hint_anim": SubResource("3")
 }
 
 [node name="MatchResult" type="Control"]

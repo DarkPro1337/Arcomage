@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dql4dtk3pdjmp"]
 
-[ext_resource type="Script" path="res://Scripts/Core/Boot.cs" id="1"]
+[ext_resource type="Script" uid="uid://kdpnetpb2rpu" path="res://Scripts/Core/Boot.cs" id="1"]
 
 [node name="Boot" type="Node"]
 script = ExtResource("1")

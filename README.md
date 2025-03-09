@@ -61,7 +61,7 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.3-stable mono](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
+* [**Godot** v.4.4-stable .NET](https://godotengine.org/download/archive/4.4-stable/)
 * [**.NET** SDK](https://dotnet.microsoft.com/download)
 * [**GodotEnv**](https://github.com/chickensoft-games/GodotEnv)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/4.3/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
@@ -69,7 +69,7 @@ If you want to help with the translation, please [contact me](https://darkpro133
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
 2. Open folder with project and run `godotenv addons install`
-3. Open the project in [**Godot Engine .NET**](https://downloads.tuxfamily.org/godotengine/4.3/mono/)
+3. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.4-stable/)
 4. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)
@@ -78,5 +78,3 @@ If you want to help with the translation, please [contact me](https://darkpro133
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%23121015.svg?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/DarkPro1337)
 [![USDT TRC20](https://img.shields.io/badge/USDT_TRC20-%23f5f5f5.svg?style=for-the-badge&logo=tether)](https://tronscan.org/#/address/TT1F6ptBedtbvc12Gjc8YRXFXJxYA1kxBd)
 [![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-%23222222.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/darkpro1337)
-[![Ko-Fi](https://img.shields.io/badge/Ko--fi-%23323b43.svg?style=for-the-badge&logo=ko-fi)](https://ko-fi.com/darkpro1337)
-[![Patreon](https://img.shields.io/badge/Patreon-%23141519.svg?style=for-the-badge&logo=patreon)](https://www.patreon.com/darkpro1337)

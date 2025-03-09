@@ -1,7 +1,7 @@
-<Project Sdk="Godot.NET.Sdk/4.3.0">
+<Project Sdk="Godot.NET.Sdk/4.4.0">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
@@ -15,7 +15,7 @@
     <PackageReference Include="Wasmtime" Version="22.0.0" />
     <PackageReference Include="YamlDotNet" Version="16.2.1" />
   </ItemGroup>
-  <Target Name="DownloadFilesBeforeBuild" BeforeTargets="Build">
+  <Target Name="DownloadLocalesBeforeBuild" BeforeTargets="Build">
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
     <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />
   </Target>

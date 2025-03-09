@@ -73,7 +73,7 @@ public partial class MainMenu : Control
 
    private void OnMultiplayerGamePressed() => NetworkSetup.Show();
    private void OnCreditsPressed() => Credits.Show();
-   private void OnDevToolsPressed() => GetTree().ChangeSceneDeferred("res://Scenes/UI/Debug/CardsViewer.tscn");
+   private void OnDevToolsPressed() => GetTree().CallDeferred("change_scene_to_file", "res://Scenes/UI/Debug/CardsViewer.tscn");
    private void OnExitPressed() => GetTree().Quit();
 
    private void ReadCommandLine()

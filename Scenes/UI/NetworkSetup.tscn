@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=4 uid="uid://m4q7lb4q18an"]
 
-[ext_resource type="Script" path="res://Scripts/UI/NetworkSetup.cs" id="2_waa7a"]
+[ext_resource type="Script" uid="uid://b78e0aavipeb1" path="res://Scripts/UI/NetworkSetup.cs" id="2_waa7a"]
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="3_1jcld"]
 [ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="4_qrbr7"]
 
