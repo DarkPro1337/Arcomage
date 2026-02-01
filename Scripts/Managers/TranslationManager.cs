@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Logging;
+using Arcomage.Core;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Managers;
+namespace Arcomage.Managers;
 
 public record LocaleInfo(string Name, string DisplayName);
 

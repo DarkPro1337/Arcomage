@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Arcomage.Scripts.UI
+namespace Arcomage.UI
 {
    public partial class Info : Control
    {

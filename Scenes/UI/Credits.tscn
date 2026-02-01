@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bm3u5shku4plo"]
+[gd_scene format=3 uid="uid://bm3u5shku4plo"]
 
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://dkcmh18lqgo52" path="res://Images/ArcomageLogo.png" id="2"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://b51yndqdnc6v0" path="res://Scripts/UI/Info.cs" id="13"]
 [ext_resource type="LabelSettings" uid="uid://pe8pbs72c1un" path="res://Themes/LabelHeading2.tres" id="15_yxdic"]
 
-[node name="Credits" type="Control"]
+[node name="Credits" type="Control" unique_id=1004595226]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("13")
 
-[node name="bg" type="TextureRect" parent="."]
+[node name="bg" type="TextureRect" parent="." unique_id=2091543582]
 self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
 layout_mode = 0
 anchor_right = 1.0
@@ -28,7 +28,7 @@ texture = ExtResource("1")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="logo" type="TextureRect" parent="."]
+[node name="logo" type="TextureRect" parent="." unique_id=29056938]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -42,7 +42,7 @@ texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OriginalInfo" type="VBoxContainer" parent="."]
+[node name="OriginalInfo" type="VBoxContainer" parent="." unique_id=524266429]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -58,7 +58,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="OriginalInfo"]
+[node name="Label" type="Label" parent="OriginalInfo" unique_id=1610073174]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -68,18 +68,18 @@ label_settings = ExtResource("4_dciym")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Container" type="HBoxContainer" parent="OriginalInfo"]
+[node name="Container" type="HBoxContainer" parent="OriginalInfo" unique_id=698841277]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 alignment = 1
 
-[node name="LeftSide" type="CenterContainer" parent="OriginalInfo/Container"]
+[node name="LeftSide" type="CenterContainer" parent="OriginalInfo/Container" unique_id=1582346390]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 
-[node name="Credits" type="RichTextLabel" parent="OriginalInfo/Container/LeftSide"]
+[node name="Credits" type="RichTextLabel" parent="OriginalInfo/Container/LeftSide" unique_id=125904479]
 custom_minimum_size = Vector2(280, 376)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -101,12 +101,12 @@ Todd Smailes
 Ernie Gallardo[/color][/center]"
 scroll_active = false
 
-[node name="RightSide" type="CenterContainer" parent="OriginalInfo/Container"]
+[node name="RightSide" type="CenterContainer" parent="OriginalInfo/Container" unique_id=1077836093]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 0
 
-[node name="Credits" type="RichTextLabel" parent="OriginalInfo/Container/RightSide"]
+[node name="Credits" type="RichTextLabel" parent="OriginalInfo/Container/RightSide" unique_id=721318614]
 custom_minimum_size = Vector2(280, 376)
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -128,7 +128,7 @@ James Dickinson
 Marcus @mplayer.com[/color][/center]"
 scroll_active = false
 
-[node name="RemakeInfo" type="VBoxContainer" parent="."]
+[node name="RemakeInfo" type="VBoxContainer" parent="." unique_id=1908070477]
 layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
@@ -140,12 +140,12 @@ offset_right = 456.0
 offset_bottom = 252.0
 alignment = 1
 
-[node name="Text" type="VBoxContainer" parent="RemakeInfo"]
+[node name="Text" type="VBoxContainer" parent="RemakeInfo" unique_id=1862201044]
 custom_minimum_size = Vector2(912, 244)
 layout_mode = 2
 alignment = 1
 
-[node name="AuthorHeading" type="Label" parent="RemakeInfo/Text"]
+[node name="AuthorHeading" type="Label" parent="RemakeInfo/Text" unique_id=1192847903]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "REMAKE_DEV"
@@ -153,18 +153,18 @@ label_settings = ExtResource("15_yxdic")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Author" type="Label" parent="RemakeInfo/Text"]
+[node name="Author" type="Label" parent="RemakeInfo/Text" unique_id=1197675235]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 tooltip_text = "https://darkpro1337.github.io"
 mouse_filter = 1
 mouse_default_cursor_shape = 2
-text = "Artem Darkov @DarkPro1337"
+text = "Artem Chernykh @DarkPro1337"
 label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TestingHeading" type="Label" parent="RemakeInfo/Text"]
+[node name="TestingHeading" type="Label" parent="RemakeInfo/Text" unique_id=2082250712]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "TESTING"
@@ -172,7 +172,7 @@ label_settings = ExtResource("15_yxdic")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tester01" type="Label" parent="RemakeInfo/Text"]
+[node name="Tester01" type="Label" parent="RemakeInfo/Text" unique_id=1305966021]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "TedCraft"
@@ -180,7 +180,7 @@ label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Tester02" type="Label" parent="RemakeInfo/Text"]
+[node name="Tester02" type="Label" parent="RemakeInfo/Text" unique_id=1913613983]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Zmeonysh"
@@ -188,12 +188,12 @@ label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Warning" type="VBoxContainer" parent="RemakeInfo"]
+[node name="Warning" type="VBoxContainer" parent="RemakeInfo" unique_id=1339023974]
 custom_minimum_size = Vector2(912, 88)
 layout_mode = 2
 alignment = 1
 
-[node name="Text" type="Label" parent="RemakeInfo/Warning"]
+[node name="Text" type="Label" parent="RemakeInfo/Warning" unique_id=1621190726]
 custom_minimum_size = Vector2(912, 70)
 layout_mode = 2
 text = "WARNING_TEXT"
@@ -203,11 +203,11 @@ vertical_alignment = 1
 autowrap_mode = 3
 clip_text = true
 
-[node name="Logos" type="HBoxContainer" parent="RemakeInfo"]
+[node name="Logos" type="HBoxContainer" parent="RemakeInfo" unique_id=939659751]
 layout_mode = 2
 alignment = 1
 
-[node name="Engine" type="TextureButton" parent="RemakeInfo/Logos"]
+[node name="Engine" type="TextureButton" parent="RemakeInfo/Logos" unique_id=1359508350]
 texture_filter = 4
 custom_minimum_size = Vector2(124, 48)
 layout_mode = 2
@@ -216,13 +216,13 @@ texture_normal = ExtResource("5")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Splitter1" type="HSplitContainer" parent="RemakeInfo/Logos"]
+[node name="Splitter1" type="HSplitContainer" parent="RemakeInfo/Logos" unique_id=1040132195]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 collapsed = true
 dragger_visibility = 2
 
-[node name="GitHub" type="TextureButton" parent="RemakeInfo/Logos"]
+[node name="GitHub" type="TextureButton" parent="RemakeInfo/Logos" unique_id=917290852]
 texture_filter = 4
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
@@ -231,7 +231,7 @@ texture_normal = ExtResource("7")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="TranslationInfo" type="VBoxContainer" parent="."]
+[node name="TranslationInfo" type="VBoxContainer" parent="." unique_id=510080245]
 visible = false
 layout_mode = 0
 anchor_left = 0.5
@@ -243,12 +243,12 @@ offset_top = -150.0
 offset_right = 456.0
 offset_bottom = 252.0
 
-[node name="Heading" type="VBoxContainer" parent="TranslationInfo"]
+[node name="Heading" type="VBoxContainer" parent="TranslationInfo" unique_id=1348953088]
 custom_minimum_size = Vector2(912, 50)
 layout_mode = 2
 alignment = 1
 
-[node name="Text" type="Label" parent="TranslationInfo/Heading"]
+[node name="Text" type="Label" parent="TranslationInfo/Heading" unique_id=1471179902]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "THANKS_FOR_TRANSLATION"
@@ -257,11 +257,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="Locales" type="VBoxContainer" parent="TranslationInfo"]
+[node name="Locales" type="VBoxContainer" parent="TranslationInfo" unique_id=1287362455]
 custom_minimum_size = Vector2(912, 244)
 layout_mode = 2
 
-[node name="Uk" type="Label" parent="TranslationInfo/Locales"]
+[node name="Uk" type="Label" parent="TranslationInfo/Locales" unique_id=1634793915]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Українська"
@@ -269,7 +269,7 @@ label_settings = ExtResource("15_yxdic")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AuthorUk" type="Label" parent="TranslationInfo/Locales"]
+[node name="AuthorUk" type="Label" parent="TranslationInfo/Locales" unique_id=459066265]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Zmeonysh"
@@ -277,7 +277,7 @@ label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Pl" type="Label" parent="TranslationInfo/Locales"]
+[node name="Pl" type="Label" parent="TranslationInfo/Locales" unique_id=1919646862]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Polski"
@@ -285,7 +285,7 @@ label_settings = ExtResource("15_yxdic")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AuthorPl" type="Label" parent="TranslationInfo/Locales"]
+[node name="AuthorPl" type="Label" parent="TranslationInfo/Locales" unique_id=1356018182]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Zmeonysh"
@@ -293,7 +293,7 @@ label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Da" type="Label" parent="TranslationInfo/Locales"]
+[node name="Da" type="Label" parent="TranslationInfo/Locales" unique_id=1756203092]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "Dansk"
@@ -301,7 +301,7 @@ label_settings = ExtResource("15_yxdic")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AuthorDa" type="Label" parent="TranslationInfo/Locales"]
+[node name="AuthorDa" type="Label" parent="TranslationInfo/Locales" unique_id=1267970590]
 custom_minimum_size = Vector2(912, 26)
 layout_mode = 2
 text = "TimawaViking"
@@ -309,7 +309,7 @@ label_settings = ExtResource("5_w3p6m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Next" type="Button" parent="."]
+[node name="Next" type="Button" parent="." unique_id=761552994]
 layout_mode = 0
 offset_left = 812.0
 offset_top = 488.0

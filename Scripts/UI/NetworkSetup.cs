@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Gameplay;
-using Arcomage.Scripts.Logging;
+using Arcomage.Core;
+using Arcomage.Gameplay;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.UI;
+namespace Arcomage.UI;
 
 public partial class NetworkSetup : Control
 {
@@ -26,7 +27,7 @@ public partial class NetworkSetup : Control
    private Button StartGameButton => GetNode<Button>("Lobby/StartGame");
    private Node Level => GetNode<Node>("Level");
     
-   public List<Player> Players { get; } = new();
+   public Dictionary<long, Player> Players { get; } = new();
 
    public override void _EnterTree()
    {
@@ -159,9 +160,9 @@ public partial class NetworkSetup : Control
    private void OnPeerDisconnected(long id)
    {
       _Logger.Debug($"Peer disconnected: {id}");
-      if (Players.All(x => x.Id != id)) return;
-      var player = Players.First(x => x.Id == id);
-      Players.Remove(player);
+      if (!Players.ContainsKey(id))
+         return;
+      Players.Remove(id);
 
       StartGameButton.Hide();
       UpdatePlayersList();
@@ -193,7 +194,8 @@ public partial class NetworkSetup : Control
       ReadyButton.Text = Tr(toggle ? "READY" : "NOT_READY");
 
       var id = Multiplayer.GetUniqueId();
-      var player = Players.First(x => x.Id == id);
+      if (!Players.TryGetValue(id, out var player))
+         return;
       player.Ready = toggle;
       UpdatePlayersList();
 
@@ -206,14 +208,15 @@ public partial class NetworkSetup : Control
       if (Players.Count == 0)
          return;
         
-      var player = Players.First(x => x.Id == id);
+      if (!Players.TryGetValue(id, out var player))
+         return;
       player.Ready = ready;
       UpdatePlayersList();
    }
 
    private void OnStartGamePressed()
    {
-      if (Players.Count(x => x.Ready) < MaxPlayers)
+      if (Players.Values.Count(x => x.Ready) < MaxPlayers)
          return;
 
       Rpc(nameof(StartGame));
@@ -261,8 +264,10 @@ public partial class NetworkSetup : Control
    private void RegisterPlayer(long id, string name)
    {
       _Logger.Debug($"Registering player with id {id} and name {name}");
+      if (Players.ContainsKey(id))
+         return;
       var isHost = id == 1;
-      Players.Add(new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       Rpc(nameof(AddRemotePlayer), id, name);
       UpdatePlayersList();
    }
@@ -271,8 +276,10 @@ public partial class NetworkSetup : Control
    public void AddRemotePlayer(long id, string name)
    {
       _Logger.Debug($"Adding remote player with id {id} and name {name}");
+      if (Players.ContainsKey(id))
+         return;
       var isHost = id == 1;
-      Players.Add(new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       UpdatePlayersList();
    }
 
@@ -280,7 +287,7 @@ public partial class NetworkSetup : Control
    public void RequestReadyStatuses()
    {
       long requesterId = Multiplayer.GetRemoteSenderId();
-      foreach (var player in Players) 
+      foreach (var player in Players.Values) 
          RpcId(requesterId, nameof(UpdateReadyStatus), player.Id, player.Ready);
       UpdatePlayersList();
    }
@@ -288,7 +295,7 @@ public partial class NetworkSetup : Control
    private void UpdatePlayersList()
    {
       PlayersList.Clear();
-      var orderedPlayers = Players.OrderBy(x => !x.Host);
+      var orderedPlayers = Players.Values.OrderBy(x => !x.Host);
       var players = new Dictionary<string, bool>();
       foreach (var player in orderedPlayers) 
          players.TryAdd(player.Name, player.Ready);
@@ -303,6 +310,6 @@ public partial class NetworkSetup : Control
          child.SetSelectable(1, false);
       }
 
-      StartGameButton.Disabled = Players.Count(x => x.Ready) < MaxPlayers;
+      StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MaxPlayers;
    }
 }

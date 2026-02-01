@@ -1,7 +1,7 @@
-using Arcomage.Scripts.Logging;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.UI;
+namespace Arcomage.UI;
 
 public partial class Intro : Control
 {

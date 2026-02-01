@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://82184713u5ak"]
+[gd_scene format=3 uid="uid://82184713u5ak"]
 
 [ext_resource type="Script" uid="uid://b16ym8op1lagd" path="res://Scripts/Gameplay/CardControl.cs" id="1_ha45m"]
 [ext_resource type="Texture2D" uid="uid://besykgtt5lxq4" path="res://Sprites/RedCardLayout.png" id="4"]
@@ -81,7 +81,7 @@ font_color = Color(0.898039, 0, 0, 1)
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
-[node name="Card" type="Control"]
+[node name="Card" type="Control" unique_id=644846560]
 custom_minimum_size = Vector2(135, 180)
 layout_mode = 3
 anchor_right = 0.140625
@@ -90,20 +90,20 @@ offset_bottom = 0.000183105
 size_flags_vertical = 4
 script = ExtResource("1_ha45m")
 
-[node name="CardShadow" type="Panel" parent="."]
+[node name="CardShadow" type="Panel" parent="." unique_id=1308705070]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ohmah")
 
-[node name="Selector" type="Panel" parent="."]
+[node name="Selector" type="Panel" parent="." unique_id=333770695]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_4pmem")
 
-[node name="Layout" type="TextureRect" parent="."]
+[node name="Layout" type="TextureRect" parent="." unique_id=2058158232]
 custom_minimum_size = Vector2(135, 180)
 layout_mode = 1
 anchors_preset = 15
@@ -114,7 +114,7 @@ grow_vertical = 2
 texture = ExtResource("4")
 expand_mode = 1
 
-[node name="ArtShadow" type="Panel" parent="."]
+[node name="ArtShadow" type="Panel" parent="." unique_id=1210465364]
 layout_mode = 0
 anchor_left = 0.037
 anchor_top = 0.15
@@ -125,7 +125,7 @@ offset_right = -0.00500488
 offset_bottom = 0.019989
 theme_override_styles/panel = SubResource("StyleBoxFlat_a3o16")
 
-[node name="Art" type="TextureRect" parent="."]
+[node name="Art" type="TextureRect" parent="." unique_id=4141406]
 layout_mode = 0
 anchor_left = 0.037
 anchor_top = 0.15
@@ -137,7 +137,7 @@ offset_bottom = 0.019989
 texture = SubResource("PlaceholderTexture2D_32ds7")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="."]
+[node name="Name" type="Label" parent="." unique_id=611720389]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.037
@@ -157,7 +157,7 @@ clip_text = true
 text_overrun_behavior = 3
 ellipsis_char = "_"
 
-[node name="Description" type="Label" parent="."]
+[node name="Description" type="Label" parent="." unique_id=221240104]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.037
@@ -176,7 +176,7 @@ autowrap_mode = 3
 clip_text = true
 text_overrun_behavior = 1
 
-[node name="Cost" type="Label" parent="."]
+[node name="Cost" type="Label" parent="." unique_id=1182656840]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.8
@@ -191,7 +191,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="CardBack" type="TextureRect" parent="."]
+[node name="CardBack" type="TextureRect" parent="." unique_id=580931577]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
@@ -199,7 +199,7 @@ anchor_bottom = 1.0
 texture = ExtResource("7")
 expand_mode = 1
 
-[node name="Discarded" type="Label" parent="."]
+[node name="Discarded" type="Label" parent="." unique_id=1132073823]
 visible = false
 layout_mode = 1
 anchors_preset = 8

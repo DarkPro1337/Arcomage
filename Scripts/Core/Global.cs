@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using Arcomage.Scripts.Gameplay;
-using Arcomage.Scripts.Logging;
-using Arcomage.Scripts.Managers;
-using Arcomage.Scripts.UI;
+using Arcomage.Gameplay;
+using Arcomage.Managers;
+using Arcomage.UI;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Core;
+namespace Arcomage.Core;
 
 public partial class Global : Node
 {

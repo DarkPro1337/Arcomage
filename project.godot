@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Arcomage"
@@ -16,7 +20,7 @@ config/version="1.0.0"
 run/main_scene="res://Scenes/Main/Boot.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Arcoamge"
-config/features=PackedStringArray("4.4", "C#")
+config/features=PackedStringArray("4.6", "C#")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 config/icon="res://icon.png"
@@ -25,7 +29,7 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-ImGuiRoot="*res://addons/imgui-godot/data/ImGuiRoot.tscn"
+ImGuiRoot="*uid://dugmpnsxaagba"
 Console="*res://Scripts/UI/Console.cs"
 Config="*res://Scripts/Core/Config.cs"
 Global="*res://Scripts/Core/Global.cs"
@@ -39,7 +43,6 @@ window/size/initial_position_type=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation="sensor_landscape"
-window/vsync/vsync_mode=2
 
 [dotnet]
 
@@ -58,8 +61,8 @@ enabled=PackedStringArray("res://addons/imgui-godot/plugin.cfg")
 
 [gui]
 
-theme/custom_font="res://Fonts/InterVariable.ttf"
 theme/default_font_generate_mipmaps=true
+theme/custom_font="res://Fonts/InterVariable.ttf"
 
 [input]
 

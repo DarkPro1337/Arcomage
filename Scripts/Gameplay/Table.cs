@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Data;
-using Arcomage.Scripts.Logging;
+using Arcomage.Core;
+using Arcomage.Data;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Gameplay;
+namespace Arcomage.Gameplay;
 
 public class Player
 {
@@ -15,20 +15,22 @@ public class Player
    public bool Host { get; init; }
    public bool Ai { get; set; }
    public bool Ready { get; set; }
-    
+
    public bool PlayAgain { get; set; } = false;
    public bool Discarding { get; set; } = false;
    public bool DrawCard { get; set; } = false;
-    
+
    public int TowerHp { get; set; } = Config.Settings.TowerLevels;
    public int WallHp { get; set; } = Config.Settings.WallLevels;
-    
+
    public int Quarries { get; set; } = Config.Settings.QuarryLevels;
    public int Bricks { get; set; } = Config.Settings.BrickQuantity;
    public int Magic { get; set; } = Config.Settings.MagicLevels;
    public int Gems { get; set; } = Config.Settings.GemQuantity;
    public int Dungeons { get; set; } = Config.Settings.DungeonLevels;
    public int Recruits { get; set; } = Config.Settings.RecruitQuantity;
+
+   public override string ToString() => $"{Name} ({Id})";
 }
 
 public partial class Table : Control
@@ -100,14 +102,15 @@ public partial class Table : Control
 
    private readonly RandomNumberGenerator _rng = new();
 
-   public List<Player> Players = [];
-   private int _turn;
-   public bool AiReady = true;
+   public Dictionary<long, Player> Players { get; private set; } = new();
+   private long _turnPlayerId;
+   private long _redPlayerId = 1;
+   private long _bluePlayerId = 2;
 
-   public int Elapsed = 0;
+   public int Elapsed { get; private set; }
    public string ElapsedString = "00:00";
 
-   public bool IsOffline;
+   public bool IsOffline { get; private set; }
 
    [Signal]
    public delegate void GraveyardAnimationEndedEventHandler();
@@ -131,56 +134,38 @@ public partial class Table : Control
          _Logger.Debug("Player name from command line: " + name);
          Config.Settings.Nickname = name;
       }
-        
+
       _Logger.Debug("Loaded");
       Global.Table = this;
-        
+
       LocaleStatPanels();
-        
-      if (!Multiplayer.IsServer()) return;
-        
-      SpawnLocalPlayer();
-        
-      if (Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer)
-      {
-         IsOffline = true;
-         Players.Add(new Player { Id = 2, Name = "COMPUTER", Host = false, Ai = true });
-         RedNamePanel.Text = Players[0].Name;
-         BlueNamePanel.Text = Tr(Players[1].Name);
-      }
-      else if (Multiplayer.MultiplayerPeer is not null)
-      {
-         IsOffline = false;
-         Players = Global.NetworkSetup.Players;
-         RedNamePanel.Text = Players[0].Name;
-         BlueNamePanel.Text = Players[1].Name;
-      }
-            
+      if (Multiplayer.IsServer())
+         SpawnLocalPlayer();
+
+      InitializePlayersAndUi();
+
+      if (!Multiplayer.IsServer())
+         return;
+
       Multiplayer.PeerConnected += AddPlayer;
       Multiplayer.PeerDisconnected += RemovePlayer;
-        
+
       SpawnConnectedPlayers();
-        
+
       _rng.Randomize();
-      _turn = _rng.RandiRange(0, IsOffline ? 1 : Players.Count);
-      AddResources(_turn);
+      _turnPlayerId = GetRandomTurnPlayerId();
+      AddResources(_turnPlayerId);
       PlaceStartCardsOnDeck();
-        
-      if (_turn == 0)
-      {
-         RedDeck.Show();
-         BlueDeck.Hide();
-      }
+      if (IsOffline)
+         SetTurn(_turnPlayerId);
       else
-      {
-         RedDeck.Hide();
-         BlueDeck.Show();
-      }
+         Rpc(nameof(SetTurn), _turnPlayerId);
    }
 
    public override void _ExitTree()
    {
-      if (!Multiplayer.IsServer()) return;
+      if (!Multiplayer.IsServer())
+         return;
 
       Multiplayer.PeerConnected -= AddPlayer;
       Multiplayer.PeerDisconnected -= RemovePlayer;
@@ -193,23 +178,79 @@ public partial class Table : Control
 
    private void PlaceStartCardsOnDeck()
    {
-      var card = (PackedScene)ResourceLoader.Load("res://Scenes/Gameplay/Card.tscn");
-      for (var i = 0; i < Config.Settings.CardsInHand; i++)
+      if (IsOffline)
       {
-         var newCard = (Control)card.Instantiate();
-         RedDeck.AddChild(newCard);
+         SpawnInitialHands(
+            BuildRandomHandIds(Config.Settings.CardsInHand),
+            BuildRandomHandIds(Config.Settings.CardsInHand));
+         return;
       }
-        
-      for (var i = 0; i < Config.Settings.CardsInHand; i++)
+
+      if (!Multiplayer.IsServer())
+         return;
+
+      var redHand = BuildRandomHandIds(Config.Settings.CardsInHand);
+      var blueHand = BuildRandomHandIds(Config.Settings.CardsInHand);
+      Rpc(nameof(SpawnInitialHands), redHand, blueHand);
+   }
+
+   private string[] BuildRandomHandIds(int count)
+   {
+      var cards = Global.DeckManager.GetAllCards();
+      var hand = new string[count];
+      if (cards.Count == 0)
+         return hand;
+
+      for (var i = 0; i < count; i++)
       {
-         var newCard = (Control)card.Instantiate();
-         BlueDeck.AddChild(newCard);
+         var card = cards[_rng.RandiRange(0, cards.Count - 1)];
+         hand[i] = card.Id;
+      }
+
+      return hand;
+   }
+
+   [Rpc(CallLocal = true)]
+   private void SpawnInitialHands(string[] redHand, string[] blueHand)
+   {
+      ClearDeck(RedDeck);
+      ClearDeck(BlueDeck);
+
+      foreach (var cardId in redHand)
+      {
+         _Logger.Debug("Adding card to red deck: " + cardId);
+         RedDeck.AddChild(CreateCard(cardId));
+      }
+
+      foreach (var cardId in blueHand)
+      {
+         _Logger.Debug("Adding card to blue deck: " + cardId);
+         BlueDeck.AddChild(CreateCard(cardId));
+      }
+
+      UpdateDeckVisibility();
+   }
+
+   private Control CreateCard(string cardId)
+   {
+      var card = (PackedScene)ResourceLoader.Load("res://Scenes/Gameplay/Card.tscn");
+      var newCard = (CardControl)card.Instantiate();
+      newCard.CardId = cardId;
+      return newCard;
+   }
+
+   private void ClearDeck(HBoxContainer deck)
+   {
+      foreach (var child in deck.GetChildren())
+      {
+         deck.RemoveChild(child);
+         child.QueueFree();
       }
    }
 
    private void SpawnConnectedPlayers()
    {
-      foreach (var id in Multiplayer.GetPeers()) 
+      foreach (var id in Multiplayer.GetPeers())
          AddPlayer(id);
    }
 
@@ -219,30 +260,138 @@ public partial class Table : Control
          AddPlayer(1);
    }
 
+   private void InitializePlayersAndUi()
+   {
+      if (Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer)
+      {
+         IsOffline = true;
+         if (!Players.ContainsKey(2))
+            Players.Add(2, new Player { Id = 2, Name = "COMPUTER", Host = false, Ai = true });
+         AssignSlots();
+         UpdateNamePanels();
+      }
+      else if (Multiplayer.MultiplayerPeer is not null)
+      {
+         IsOffline = false;
+         Players = Global.NetworkSetup.Players;
+         AssignSlots();
+         UpdateNamePanels();
+      }
+   }
+
+   private void AssignSlots()
+   {
+      if (Players.Count == 0)
+         return;
+
+      var host = Players.Values.FirstOrDefault(player => player.Host);
+      if (host != null)
+         _redPlayerId = host.Id;
+
+      var other = Players.Values.FirstOrDefault(player => player.Id != _redPlayerId);
+      if (other != null)
+         _bluePlayerId = other.Id;
+   }
+
+   private void UpdateNamePanels()
+   {
+      if (!Players.TryGetValue(_redPlayerId, out var red))
+         return;
+
+      RedNamePanel.Text = red.Name;
+
+      if (!Players.TryGetValue(_bluePlayerId, out var blue))
+         return;
+
+      BlueNamePanel.Text = blue.Ai && IsOffline ? Tr(blue.Name) : blue.Name;
+   }
+
+   private long GetRandomTurnPlayerId()
+   {
+      if (!Players.ContainsKey(_redPlayerId) || !Players.ContainsKey(_bluePlayerId))
+         return _redPlayerId;
+
+      return _rng.RandiRange(0, 1) == 0 ? _redPlayerId : _bluePlayerId;
+   }
+
    private void AddPlayer(long id)
    {
       _Logger.Debug("Adding player with id: " + id);
+      if (Players.ContainsKey(id))
+         return;
       if (id == 1)
          RegisterPlayer(id, Config.Settings.Nickname);
       else
          RpcId(id, nameof(RequestNickname));
    }
-    
+
    private void RemovePlayer(long id)
    {
-      if (Players.All(x => x.Id != id)) return;
-      var player = Players.First(x => x.Id == id);
-      Players.Remove(player);
-   }
-    
-   private void AddResources(int turn)
-   {
-      Players[turn].Bricks += Players[turn].Quarries;
-      Players[turn].Gems += Players[turn].Magic;
-      Players[turn].Recruits += Players[turn].Dungeons;
+      if (!Players.ContainsKey(id))
+         return;
+
+      Players.Remove(id);
    }
 
-   private void LocaleStatPanels() => 
+   private void AddResources(long playerId)
+   {
+      if (!Players.TryGetValue(playerId, out var player))
+         return;
+      player.Bricks += player.Quarries;
+      player.Gems += player.Magic;
+      player.Recruits += player.Dungeons;
+   }
+
+   [Rpc(CallLocal = true)]
+   private void SetTurn(long playerId)
+   {
+      if (!Players.TryGetValue(playerId, out var player))
+         return;
+      _Logger.Debug("Setting turn to {PlayerName}", player.Name);
+      _turnPlayerId = playerId;
+      UpdateDeckVisibility();
+   }
+
+   private void UpdateDeckVisibility()
+   {
+      if (Players.Count == 0)
+         return;
+
+      var localId = Multiplayer.GetUniqueId();
+      var showRed = _turnPlayerId == _redPlayerId;
+      var showBlue = _turnPlayerId == _bluePlayerId;
+
+      if (Players.TryGetValue(_turnPlayerId, out var player))
+         _Logger.Debug("Updating deck visibility for {PlayerName}", player.Name);
+
+      RedDeck.Visible = showRed;
+      BlueDeck.Visible = showBlue;
+
+      if (showRed)
+         ApplyDeckVisibility(RedDeck, _redPlayerId == localId);
+
+      if (showBlue)
+         ApplyDeckVisibility(BlueDeck, _bluePlayerId == localId);
+   }
+
+   private bool IsLocalPlayerHost()
+   {
+      if (IsOffline || Multiplayer.MultiplayerPeer is OfflineMultiplayerPeer)
+         return true;
+
+      return Multiplayer.GetUniqueId() == 1;
+   }
+
+   private void ApplyDeckVisibility(HBoxContainer deck, bool showFaces)
+   {
+      foreach (var child in deck.GetChildren())
+      {
+         if (child is CardControl card)
+            card.SetFaceDown(!showFaces);
+      }
+   }
+
+   private void LocaleStatPanels() =>
       SwitchStatPanel(TranslationServer.GetLocale() == "en");
 
    private void SwitchStatPanel(bool toggle)
@@ -255,7 +404,7 @@ public partial class Table : Control
          BlueBricksPanel.Show();
          BlueGemsPanel.Show();
          BlueRecruitsPanel.Show();
-            
+
          RedBricksAltPanel.Hide();
          RedGemsAltPanel.Hide();
          RedRecruitsAltPanel.Hide();
@@ -271,7 +420,7 @@ public partial class Table : Control
          BlueBricksPanel.Hide();
          BlueGemsPanel.Hide();
          BlueRecruitsPanel.Hide();
-            
+
          RedBricksAltPanel.Show();
          RedGemsAltPanel.Show();
          RedRecruitsAltPanel.Show();
@@ -283,50 +432,65 @@ public partial class Table : Control
 
    private void UpdateStatPanelUi()
    {
-      RedBricksPerTurn.Text = Players[0].Quarries.ToString();
-      RedBricksAltPerTurn.Text = Players[0].Quarries.ToString();
-      RedBricksTotal.Text = Players[0].Bricks.ToString();
-      RedBricksAltTotal.Text = Players[0].Bricks.ToString();
-        
-      RedGemsPerTurn.Text = Players[0].Magic.ToString();
-      RedGemsAltPerTurn.Text = Players[0].Magic.ToString();
-      RedGemsTotal.Text = Players[0].Gems.ToString();
-      RedGemsAltTotal.Text = Players[0].Gems.ToString();
-        
-      RedRecruitsPerTurn.Text = Players[0].Dungeons.ToString();
-      RedRecruitsAltPerTurn.Text = Players[0].Dungeons.ToString();
-      RedRecruitsTotal.Text = Players[0].Recruits.ToString();
-      RedRecruitsAltTotal.Text = Players[0].Recruits.ToString();
-        
-      BlueBricksPerTurn.Text = Players[1].Quarries.ToString();
-      BlueBricksAltPerTurn.Text = Players[1].Quarries.ToString();
-      BlueBricksTotal.Text = Players[1].Bricks.ToString();
-      BlueBricksAltTotal.Text = Players[1].Bricks.ToString();
-        
-      BlueGemsPerTurn.Text = Players[1].Magic.ToString();
-      BlueGemsAltPerTurn.Text = Players[1].Magic.ToString();
-      BlueGemsTotal.Text = Players[1].Gems.ToString();
-      BlueGemsAltTotal.Text = Players[1].Gems.ToString();
-        
-      BlueRecruitsPerTurn.Text = Players[1].Dungeons.ToString();
-      BlueRecruitsAltPerTurn.Text = Players[1].Dungeons.ToString();
-      BlueRecruitsTotal.Text = Players[1].Recruits.ToString();
-      BlueRecruitsAltTotal.Text = Players[1].Recruits.ToString();
-        
-      RedTowerHpPanel.Text = Players[1].TowerHp.ToString();
-      RedWallHpPanel.Text = Players[1].WallHp.ToString();
-        
-      BlueTowerHpPanel.Text = Players[1].TowerHp.ToString();
-      BlueWallHpPanel.Text = Players[1].WallHp.ToString();
+      if (Players.Count == 0)
+         return;
+
+      if (!Players.TryGetValue(_redPlayerId, out var red))
+         return;
+
+      RedBricksPerTurn.Text = red.Quarries.ToString();
+      RedBricksAltPerTurn.Text = red.Quarries.ToString();
+      RedBricksTotal.Text = red.Bricks.ToString();
+      RedBricksAltTotal.Text = red.Bricks.ToString();
+
+      RedGemsPerTurn.Text = red.Magic.ToString();
+      RedGemsAltPerTurn.Text = red.Magic.ToString();
+      RedGemsTotal.Text = red.Gems.ToString();
+      RedGemsAltTotal.Text = red.Gems.ToString();
+
+      RedRecruitsPerTurn.Text = red.Dungeons.ToString();
+      RedRecruitsAltPerTurn.Text = red.Dungeons.ToString();
+      RedRecruitsTotal.Text = red.Recruits.ToString();
+      RedRecruitsAltTotal.Text = red.Recruits.ToString();
+
+      RedTowerHpPanel.Text = red.TowerHp.ToString();
+      RedWallHpPanel.Text = red.WallHp.ToString();
+
+      if (!Players.TryGetValue(_bluePlayerId, out var blue))
+         return;
+
+      BlueBricksPerTurn.Text = blue.Quarries.ToString();
+      BlueBricksAltPerTurn.Text = blue.Quarries.ToString();
+      BlueBricksTotal.Text = blue.Bricks.ToString();
+      BlueBricksAltTotal.Text = blue.Bricks.ToString();
+
+      BlueGemsPerTurn.Text = blue.Magic.ToString();
+      BlueGemsAltPerTurn.Text = blue.Magic.ToString();
+      BlueGemsTotal.Text = blue.Gems.ToString();
+      BlueGemsAltTotal.Text = blue.Gems.ToString();
+
+      BlueRecruitsPerTurn.Text = blue.Dungeons.ToString();
+      BlueRecruitsAltPerTurn.Text = blue.Dungeons.ToString();
+      BlueRecruitsTotal.Text = blue.Recruits.ToString();
+      BlueRecruitsAltTotal.Text = blue.Recruits.ToString();
+
+      BlueTowerHpPanel.Text = blue.TowerHp.ToString();
+      BlueWallHpPanel.Text = blue.WallHp.ToString();
    }
-    
+
+   public Player GetCurrentPlayer()
+   {
+      Players.TryGetValue(_turnPlayerId, out var player);
+      return player;
+   }
+
    [Rpc]
    public void RequestNickname()
    {
       _Logger.Debug("Nickname requested");
       RpcId(1, nameof(RespondNickname), Config.Settings.Nickname);
    }
-    
+
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void RespondNickname(string name)
    {
@@ -334,21 +498,31 @@ public partial class Table : Control
       long id = Multiplayer.GetRemoteSenderId();
       RegisterPlayer(id, name);
    }
-    
+
    private void RegisterPlayer(long id, string name)
    {
       _Logger.Debug("Registering player with id: " + id + " and name: " + name);
+      if (Players.ContainsKey(id))
+         return;
+
       var isHost = id == 1;
-      Players.Add(new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      AssignSlots();
+      UpdateNamePanels();
       Rpc(nameof(AddRemotePlayer), id, name);
    }
-    
+
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void AddRemotePlayer(long id, string name)
    {
       _Logger.Debug("Adding remote player with id: " + id + " and name: " + name);
+      if (Players.ContainsKey(id))
+         return;
+
       var isHost = id == 1;
-      Players.Add(new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
+      AssignSlots();
+      UpdateNamePanels();
    }
 
    public int GetValue(Player player, ResourceTypes resourceType)
@@ -435,16 +609,17 @@ public partial class Table : Control
 
    public Player[] GetTargetPlayer(Player self, TargetType target)
    {
+      var players = Players.Values;
       return target switch
       {
          TargetType.Self => [self],
-         TargetType.Opponent => [Players.FirstOrDefault(player => player.Id != self.Id)],
-         TargetType.All => Players.ToArray(),
-         TargetType.AllExceptSelf => Players.Where(player => player.Id != self.Id).ToArray(),
-         TargetType.LowestWall => [Players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
-         TargetType.HighestWall => [Players.OrderByDescending(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
-         TargetType.LowestTower => [Players.OrderBy(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
-         TargetType.HighestTower => [Players.OrderByDescending(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
+         TargetType.Opponent => [players.FirstOrDefault(player => player.Id != self.Id)],
+         TargetType.All => players.ToArray(),
+         TargetType.AllExceptSelf => players.Where(player => player.Id != self.Id).ToArray(),
+         TargetType.LowestWall => [players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
+         TargetType.HighestWall => [players.OrderByDescending(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
+         TargetType.LowestTower => [players.OrderBy(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
+         TargetType.HighestTower => [players.OrderByDescending(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
          _ => throw new ArgumentOutOfRangeException(nameof(target), target, null)
       };
    }

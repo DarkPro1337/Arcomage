@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cqt4vepe6qmcn"]
+[gd_scene format=3 uid="uid://cqt4vepe6qmcn"]
 
 [ext_resource type="PackedScene" uid="uid://dgp5mnwyrer0o" path="res://Scenes/Gameplay/EnemyTower.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://dyny48sww0vnw" path="res://Scenes/Gameplay/PlayerTower.tscn" id="3"]
@@ -98,7 +98,7 @@ properties/9/path = NodePath("BlueTowerPanel/Hp:text")
 properties/9/spawn = true
 properties/9/replication_mode = 1
 
-[node name="Table" type="Control"]
+[node name="Table" type="Control" unique_id=192559447]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,7 +107,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("16")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=774900429]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -116,7 +116,7 @@ expand_mode = 1
 stretch_mode = 6
 metadata/_edit_lock_ = true
 
-[node name="Graveyard" type="GridContainer" parent="."]
+[node name="Graveyard" type="GridContainer" parent="." unique_id=1529346429]
 modulate = Color(1, 1, 1, 0.5)
 layout_mode = 1
 anchors_preset = 5
@@ -130,13 +130,13 @@ grow_horizontal = 2
 columns = 5
 metadata/_edit_lock_ = true
 
-[node name="CardBack" type="TextureRect" parent="Graveyard"]
+[node name="CardBack" type="TextureRect" parent="Graveyard" unique_id=1823946747]
 custom_minimum_size = Vector2(135, 180)
 layout_mode = 2
 texture = ExtResource("12")
 expand_mode = 1
 
-[node name="RedPanel" type="Panel" parent="."]
+[node name="RedPanel" type="Panel" parent="." unique_id=851375810]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
@@ -144,7 +144,7 @@ offset_right = 120.0
 offset_bottom = 48.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_jlbpg")
 
-[node name="Name" type="Label" parent="RedPanel"]
+[node name="Name" type="Label" parent="RedPanel" unique_id=1522424799]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -157,7 +157,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="BluePanel" type="Panel" parent="."]
+[node name="BluePanel" type="Panel" parent="." unique_id=728421487]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -167,7 +167,7 @@ offset_right = -16.0
 offset_bottom = 48.0
 theme_override_styles/panel = ExtResource("11_hvv06")
 
-[node name="Name" type="Label" parent="BluePanel"]
+[node name="Name" type="Label" parent="BluePanel" unique_id=545148729]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 1.0
@@ -180,7 +180,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="RedTower" parent="." instance=ExtResource("3")]
+[node name="RedTower" parent="." unique_id=1002861132 instance=ExtResource("3")]
 clip_contents = false
 layout_mode = 1
 anchors_preset = 2
@@ -193,7 +193,7 @@ offset_bottom = -183.0
 grow_vertical = 0
 metadata/_edit_group_ = true
 
-[node name="TowerHead" type="TextureRect" parent="RedTower"]
+[node name="TowerHead" type="TextureRect" parent="RedTower" unique_id=891362159]
 layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -208,7 +208,7 @@ stretch_mode = 5
 flip_h = true
 flip_v = true
 
-[node name="RedWall" parent="." instance=ExtResource("5")]
+[node name="RedWall" parent="." unique_id=725230108 instance=ExtResource("5")]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -219,7 +219,7 @@ offset_right = 289.0
 offset_bottom = -183.0
 grow_vertical = 0
 
-[node name="BlueWall" parent="." instance=ExtResource("6")]
+[node name="BlueWall" parent="." unique_id=118670838 instance=ExtResource("6")]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -233,7 +233,7 @@ offset_bottom = -183.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="BlueTower" parent="." instance=ExtResource("2")]
+[node name="BlueTower" parent="." unique_id=1674765429 instance=ExtResource("2")]
 clip_contents = false
 layout_mode = 1
 anchors_preset = 3
@@ -249,7 +249,7 @@ grow_horizontal = 0
 grow_vertical = 0
 metadata/_edit_group_ = true
 
-[node name="TowerHead" type="TextureRect" parent="BlueTower"]
+[node name="TowerHead" type="TextureRect" parent="BlueTower" unique_id=1615830483]
 layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -264,7 +264,7 @@ stretch_mode = 5
 flip_h = true
 flip_v = true
 
-[node name="RedTowerPanel" type="Panel" parent="."]
+[node name="RedTowerPanel" type="Panel" parent="." unique_id=406526132]
 layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -275,7 +275,7 @@ offset_bottom = -210.0
 theme_override_styles/panel = ExtResource("11_hvv06")
 metadata/_edit_group_ = true
 
-[node name="Hp" type="Label" parent="RedTowerPanel"]
+[node name="Hp" type="Label" parent="RedTowerPanel" unique_id=1242163832]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -290,7 +290,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="RedWallPanel" type="Panel" parent="."]
+[node name="RedWallPanel" type="Panel" parent="." unique_id=989625062]
 layout_mode = 0
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -301,7 +301,7 @@ offset_bottom = -210.0
 theme_override_styles/panel = ExtResource("11_hvv06")
 metadata/_edit_group_ = true
 
-[node name="Hp" type="Label" parent="RedWallPanel"]
+[node name="Hp" type="Label" parent="RedWallPanel" unique_id=10928709]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -313,7 +313,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="BlueWallPanel" type="Panel" parent="."]
+[node name="BlueWallPanel" type="Panel" parent="." unique_id=1086817098]
 layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
@@ -325,7 +325,7 @@ offset_right = -224.0
 offset_bottom = -210.0
 theme_override_styles/panel = ExtResource("11_hvv06")
 
-[node name="Hp" type="Label" parent="BlueWallPanel"]
+[node name="Hp" type="Label" parent="BlueWallPanel" unique_id=872791201]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -337,7 +337,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="BlueTowerPanel" type="Panel" parent="."]
+[node name="BlueTowerPanel" type="Panel" parent="." unique_id=1560996854]
 layout_mode = 0
 anchor_left = 1.0
 anchor_top = 1.0
@@ -349,7 +349,7 @@ offset_right = -144.0
 offset_bottom = -210.0
 theme_override_styles/panel = ExtResource("11_hvv06")
 
-[node name="Hp" type="Label" parent="BlueTowerPanel"]
+[node name="Hp" type="Label" parent="BlueTowerPanel" unique_id=94872791]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -361,7 +361,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="RedRecruitsPanel" type="Panel" parent="."]
+[node name="RedRecruitsPanel" type="Panel" parent="." unique_id=1604972581]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 216.0
@@ -369,7 +369,7 @@ offset_right = 104.0
 offset_bottom = 288.0
 theme_override_styles/panel = ExtResource("12_6o6bu")
 
-[node name="Pic" type="TextureRect" parent="RedRecruitsPanel"]
+[node name="Pic" type="TextureRect" parent="RedRecruitsPanel" unique_id=686495599]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -381,7 +381,7 @@ offset_right = -0.00800323
 texture = ExtResource("9")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedRecruitsPanel"]
+[node name="Name" type="Label" parent="RedRecruitsPanel" unique_id=2081262214]
 layout_mode = 0
 offset_left = 33.0
 offset_top = 55.0
@@ -392,7 +392,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="RedRecruitsPanel"]
+[node name="PerTurn" type="Label" parent="RedRecruitsPanel" unique_id=1303764333]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -402,7 +402,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="RedRecruitsPanel"]
+[node name="Total" type="Label" parent="RedRecruitsPanel" unique_id=613231302]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 54.0
@@ -412,7 +412,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="RedGemsPanel" type="Panel" parent="."]
+[node name="RedGemsPanel" type="Panel" parent="." unique_id=271164250]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 136.0
@@ -420,7 +420,7 @@ offset_right = 104.0
 offset_bottom = 208.0
 theme_override_styles/panel = ExtResource("13_fuj2a")
 
-[node name="Pic" type="TextureRect" parent="RedGemsPanel"]
+[node name="Pic" type="TextureRect" parent="RedGemsPanel" unique_id=1331392467]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -432,7 +432,7 @@ offset_right = -0.00800323
 texture = ExtResource("15")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedGemsPanel"]
+[node name="Name" type="Label" parent="RedGemsPanel" unique_id=239323730]
 layout_mode = 0
 offset_left = 35.0
 offset_top = 55.0
@@ -443,7 +443,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="RedGemsPanel"]
+[node name="PerTurn" type="Label" parent="RedGemsPanel" unique_id=227039233]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -453,7 +453,7 @@ text = "3"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="RedGemsPanel"]
+[node name="Total" type="Label" parent="RedGemsPanel" unique_id=371201738]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -463,7 +463,7 @@ text = "10"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="RedBricksPanel" type="Panel" parent="."]
+[node name="RedBricksPanel" type="Panel" parent="." unique_id=807682549]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 56.0
@@ -471,7 +471,7 @@ offset_right = 104.0
 offset_bottom = 128.0
 theme_override_styles/panel = ExtResource("19_b2qfd")
 
-[node name="Pic" type="TextureRect" parent="RedBricksPanel"]
+[node name="Pic" type="TextureRect" parent="RedBricksPanel" unique_id=1541535196]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -483,7 +483,7 @@ offset_right = -0.00800323
 texture = ExtResource("13")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedBricksPanel"]
+[node name="Name" type="Label" parent="RedBricksPanel" unique_id=975222874]
 clip_contents = true
 custom_minimum_size = Vector2(47, 0)
 layout_mode = 0
@@ -496,7 +496,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="RedBricksPanel"]
+[node name="PerTurn" type="Label" parent="RedBricksPanel" unique_id=347218255]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -507,7 +507,7 @@ label_settings = ExtResource("17_c1kuj")
 vertical_alignment = 1
 clip_text = true
 
-[node name="Total" type="Label" parent="RedBricksPanel"]
+[node name="Total" type="Label" parent="RedBricksPanel" unique_id=1022497731]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -518,7 +518,7 @@ label_settings = ExtResource("18_ii8jn")
 vertical_alignment = 1
 clip_text = true
 
-[node name="RedRecruitsPanelAlt" type="Panel" parent="."]
+[node name="RedRecruitsPanelAlt" type="Panel" parent="." unique_id=1888293837]
 visible = false
 layout_mode = 0
 offset_left = 16.0
@@ -527,7 +527,7 @@ offset_right = 104.0
 offset_bottom = 288.0
 theme_override_styles/panel = ExtResource("12_6o6bu")
 
-[node name="Pic" type="TextureRect" parent="RedRecruitsPanelAlt"]
+[node name="Pic" type="TextureRect" parent="RedRecruitsPanelAlt" unique_id=1285515230]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -539,7 +539,7 @@ offset_right = -0.00800323
 texture = ExtResource("9")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedRecruitsPanelAlt"]
+[node name="Name" type="Label" parent="RedRecruitsPanelAlt" unique_id=1543163996]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -551,7 +551,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="RedRecruitsPanelAlt"]
+[node name="PerTurn" type="Label" parent="RedRecruitsPanelAlt" unique_id=1766538829]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -561,7 +561,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="RedRecruitsPanelAlt"]
+[node name="Total" type="Label" parent="RedRecruitsPanelAlt" unique_id=1118151917]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -571,7 +571,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="RedGemsPanelAlt" type="Panel" parent="."]
+[node name="RedGemsPanelAlt" type="Panel" parent="." unique_id=1451791172]
 visible = false
 layout_mode = 0
 offset_left = 16.0
@@ -580,7 +580,7 @@ offset_right = 104.0
 offset_bottom = 208.0
 theme_override_styles/panel = ExtResource("13_fuj2a")
 
-[node name="Pic" type="TextureRect" parent="RedGemsPanelAlt"]
+[node name="Pic" type="TextureRect" parent="RedGemsPanelAlt" unique_id=1234886648]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -592,7 +592,7 @@ offset_right = -0.00800323
 texture = ExtResource("15")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedGemsPanelAlt"]
+[node name="Name" type="Label" parent="RedGemsPanelAlt" unique_id=1363387862]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -605,7 +605,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="RedGemsPanelAlt"]
+[node name="PerTurn" type="Label" parent="RedGemsPanelAlt" unique_id=1039645603]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -615,7 +615,7 @@ text = "3"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="RedGemsPanelAlt"]
+[node name="Total" type="Label" parent="RedGemsPanelAlt" unique_id=1891271783]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -625,7 +625,7 @@ text = "10"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="RedBricksPanelAlt" type="Panel" parent="."]
+[node name="RedBricksPanelAlt" type="Panel" parent="." unique_id=1777918501]
 visible = false
 layout_mode = 0
 offset_left = 16.0
@@ -634,7 +634,7 @@ offset_right = 104.0
 offset_bottom = 128.0
 theme_override_styles/panel = ExtResource("19_b2qfd")
 
-[node name="Pic" type="TextureRect" parent="RedBricksPanelAlt"]
+[node name="Pic" type="TextureRect" parent="RedBricksPanelAlt" unique_id=1836788549]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -646,7 +646,7 @@ offset_right = -0.00800323
 texture = ExtResource("13")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="RedBricksPanelAlt"]
+[node name="Name" type="Label" parent="RedBricksPanelAlt" unique_id=1531907808]
 clip_contents = true
 custom_minimum_size = Vector2(47, 0)
 layout_mode = 0
@@ -661,7 +661,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="RedBricksPanelAlt"]
+[node name="PerTurn" type="Label" parent="RedBricksPanelAlt" unique_id=1226257569]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -671,7 +671,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="RedBricksPanelAlt"]
+[node name="Total" type="Label" parent="RedBricksPanelAlt" unique_id=1029733262]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -681,7 +681,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueRecruitsPanel" type="Panel" parent="."]
+[node name="BlueRecruitsPanel" type="Panel" parent="." unique_id=1159506744]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -691,7 +691,7 @@ offset_right = -16.0
 offset_bottom = 288.0
 theme_override_styles/panel = ExtResource("12_6o6bu")
 
-[node name="Pic" type="TextureRect" parent="BlueRecruitsPanel"]
+[node name="Pic" type="TextureRect" parent="BlueRecruitsPanel" unique_id=1059464026]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -703,7 +703,7 @@ offset_right = -0.00800323
 texture = ExtResource("9")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueRecruitsPanel"]
+[node name="Name" type="Label" parent="BlueRecruitsPanel" unique_id=1679251412]
 layout_mode = 1
 offset_left = 36.0
 offset_top = 55.0
@@ -714,7 +714,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="BlueRecruitsPanel"]
+[node name="PerTurn" type="Label" parent="BlueRecruitsPanel" unique_id=1374934317]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 6.0
@@ -725,7 +725,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueRecruitsPanel"]
+[node name="Total" type="Label" parent="BlueRecruitsPanel" unique_id=1249871252]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 3.0
@@ -736,7 +736,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueGemsPanel" type="Panel" parent="."]
+[node name="BlueGemsPanel" type="Panel" parent="." unique_id=244447183]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -746,7 +746,7 @@ offset_right = -16.0
 offset_bottom = 208.0
 theme_override_styles/panel = ExtResource("13_fuj2a")
 
-[node name="Pic" type="TextureRect" parent="BlueGemsPanel"]
+[node name="Pic" type="TextureRect" parent="BlueGemsPanel" unique_id=1915779508]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -758,7 +758,7 @@ offset_right = -0.00800323
 texture = ExtResource("15")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueGemsPanel"]
+[node name="Name" type="Label" parent="BlueGemsPanel" unique_id=426096850]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 36.0
@@ -770,7 +770,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="BlueGemsPanel"]
+[node name="PerTurn" type="Label" parent="BlueGemsPanel" unique_id=1408603738]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 6.0
@@ -781,7 +781,7 @@ text = "3"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueGemsPanel"]
+[node name="Total" type="Label" parent="BlueGemsPanel" unique_id=2084020530]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 3.0
@@ -792,7 +792,7 @@ text = "10"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueBricksPanel" type="Panel" parent="."]
+[node name="BlueBricksPanel" type="Panel" parent="." unique_id=1230194453]
 layout_mode = 0
 anchor_left = 1.0
 anchor_right = 1.0
@@ -802,7 +802,7 @@ offset_right = -16.0
 offset_bottom = 128.0
 theme_override_styles/panel = ExtResource("19_b2qfd")
 
-[node name="Pic" type="TextureRect" parent="BlueBricksPanel"]
+[node name="Pic" type="TextureRect" parent="BlueBricksPanel" unique_id=187628360]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -814,7 +814,7 @@ offset_right = -0.00800323
 texture = ExtResource("13")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueBricksPanel"]
+[node name="Name" type="Label" parent="BlueBricksPanel" unique_id=845684081]
 layout_mode = 0
 offset_left = 36.0
 offset_top = 55.0
@@ -825,7 +825,7 @@ label_settings = ExtResource("16_ro153")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="PerTurn" type="Label" parent="BlueBricksPanel"]
+[node name="PerTurn" type="Label" parent="BlueBricksPanel" unique_id=2119461773]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -835,7 +835,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueBricksPanel"]
+[node name="Total" type="Label" parent="BlueBricksPanel" unique_id=52949648]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -845,7 +845,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueRecruitsPanelAlt" type="Panel" parent="."]
+[node name="BlueRecruitsPanelAlt" type="Panel" parent="." unique_id=190266753]
 visible = false
 layout_mode = 0
 anchor_left = 1.0
@@ -856,7 +856,7 @@ offset_right = -16.0
 offset_bottom = 288.0
 theme_override_styles/panel = ExtResource("12_6o6bu")
 
-[node name="Pic" type="TextureRect" parent="BlueRecruitsPanelAlt"]
+[node name="Pic" type="TextureRect" parent="BlueRecruitsPanelAlt" unique_id=718279502]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -868,7 +868,7 @@ offset_right = -0.00800323
 texture = ExtResource("9")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueRecruitsPanelAlt"]
+[node name="Name" type="Label" parent="BlueRecruitsPanelAlt" unique_id=1174108576]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -881,7 +881,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="BlueRecruitsPanelAlt"]
+[node name="PerTurn" type="Label" parent="BlueRecruitsPanelAlt" unique_id=580231907]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -891,7 +891,7 @@ text = "5"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueRecruitsPanelAlt"]
+[node name="Total" type="Label" parent="BlueRecruitsPanelAlt" unique_id=1250706946]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -901,7 +901,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueGemsPanelAlt" type="Panel" parent="."]
+[node name="BlueGemsPanelAlt" type="Panel" parent="." unique_id=925762400]
 visible = false
 layout_mode = 0
 anchor_left = 1.0
@@ -912,7 +912,7 @@ offset_right = -16.0
 offset_bottom = 208.0
 theme_override_styles/panel = ExtResource("13_fuj2a")
 
-[node name="Pic" type="TextureRect" parent="BlueGemsPanelAlt"]
+[node name="Pic" type="TextureRect" parent="BlueGemsPanelAlt" unique_id=1581947557]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -924,7 +924,7 @@ offset_right = -0.00800323
 texture = ExtResource("15")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueGemsPanelAlt"]
+[node name="Name" type="Label" parent="BlueGemsPanelAlt" unique_id=254486433]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 1.0
@@ -937,7 +937,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="BlueGemsPanelAlt"]
+[node name="PerTurn" type="Label" parent="BlueGemsPanelAlt" unique_id=952554925]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -947,7 +947,7 @@ text = "3"
 label_settings = ExtResource("17_c1kuj")
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueGemsPanelAlt"]
+[node name="Total" type="Label" parent="BlueGemsPanelAlt" unique_id=663373428]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -957,7 +957,7 @@ text = "10"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="BlueBricksPanelAlt" type="Panel" parent="."]
+[node name="BlueBricksPanelAlt" type="Panel" parent="." unique_id=1456615650]
 visible = false
 layout_mode = 0
 anchor_left = 1.0
@@ -968,7 +968,7 @@ offset_right = -16.0
 offset_bottom = 128.0
 theme_override_styles/panel = ExtResource("19_b2qfd")
 
-[node name="Pic" type="TextureRect" parent="BlueBricksPanelAlt"]
+[node name="Pic" type="TextureRect" parent="BlueBricksPanelAlt" unique_id=1539709474]
 layout_mode = 0
 anchor_left = 0.034
 anchor_top = 0.042
@@ -980,7 +980,7 @@ offset_right = -0.00800323
 texture = ExtResource("13")
 expand_mode = 1
 
-[node name="Name" type="Label" parent="BlueBricksPanelAlt"]
+[node name="Name" type="Label" parent="BlueBricksPanelAlt" unique_id=1086119668]
 clip_contents = true
 custom_minimum_size = Vector2(47, 0)
 layout_mode = 0
@@ -995,7 +995,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
 
-[node name="PerTurn" type="Label" parent="BlueBricksPanelAlt"]
+[node name="PerTurn" type="Label" parent="BlueBricksPanelAlt" unique_id=197705172]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 24.0
@@ -1006,7 +1006,7 @@ label_settings = ExtResource("17_c1kuj")
 vertical_alignment = 1
 clip_text = true
 
-[node name="Total" type="Label" parent="BlueBricksPanelAlt"]
+[node name="Total" type="Label" parent="BlueBricksPanelAlt" unique_id=853234879]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 54.0
@@ -1016,7 +1016,7 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="Particles" type="Control" parent="."]
+[node name="Particles" type="Control" parent="." unique_id=1079446313]
 clip_contents = true
 anchors_preset = 0
 anchor_right = 1.0
@@ -1026,7 +1026,7 @@ offset_bottom = -0.5
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="DeckBg" type="TextureRect" parent="."]
+[node name="DeckBg" type="TextureRect" parent="." unique_id=1505110332]
 layout_mode = 0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -1036,7 +1036,7 @@ texture = ExtResource("14")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="Shadow" type="Panel" parent="DeckBg"]
+[node name="Shadow" type="Panel" parent="DeckBg" unique_id=1800439602]
 show_behind_parent = true
 layout_mode = 1
 anchors_preset = 15
@@ -1046,7 +1046,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0uddb")
 
-[node name="DrawCardLabel" type="Label" parent="."]
+[node name="DrawCardLabel" type="Label" parent="." unique_id=1634429126]
 visible = false
 layout_mode = 0
 anchor_left = 0.5
@@ -1062,7 +1062,7 @@ label_settings = ExtResource("25_obylu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlueDeck" type="HBoxContainer" parent="."]
+[node name="BlueDeck" type="HBoxContainer" parent="." unique_id=1183410987]
 visible = false
 clip_contents = true
 layout_mode = 1
@@ -1075,7 +1075,7 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="RedDeck" type="HBoxContainer" parent="."]
+[node name="RedDeck" type="HBoxContainer" parent="." unique_id=1613964190]
 visible = false
 clip_contents = true
 layout_mode = 1
@@ -1088,7 +1088,7 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="DeckLocker" type="ColorRect" parent="."]
+[node name="DeckLocker" type="ColorRect" parent="." unique_id=1919161336]
 visible = false
 layout_mode = 0
 anchor_top = 1.0
@@ -1099,20 +1099,18 @@ offset_top = -192.0
 offset_right = 4.5
 color = Color(1, 1, 1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ahysq")
-}
-autoplay = "fade"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1046198792]
+libraries/ = SubResource("AnimationLibrary_ahysq")
+autoplay = &"fade"
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1556048573]
 visible = false
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0)
 
-[node name="PauseBg" type="ColorRect" parent="."]
+[node name="PauseBg" type="ColorRect" parent="." unique_id=1614048411]
 visible = false
 modulate = Color(1, 1, 1, 0.75)
 layout_mode = 0
@@ -1120,18 +1118,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.0588235, 0.0588235, 0.0588235, 1)
 
-[node name="TimeElapsed" type="Timer" parent="."]
+[node name="TimeElapsed" type="Timer" parent="." unique_id=283379168]
 autostart = true
 
-[node name="InGameMenu" parent="." instance=ExtResource("25_ln0tp")]
+[node name="InGameMenu" parent="." unique_id=899424930 instance=ExtResource("25_ln0tp")]
 visible = false
 layout_mode = 1
 
-[node name="MatchResult" parent="." instance=ExtResource("26_7y44j")]
+[node name="MatchResult" parent="." unique_id=1610393094 instance=ExtResource("26_7y44j")]
 visible = false
 layout_mode = 1
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=803166851]
 replication_config = SubResource("SceneReplicationConfig_qhtno")
 
 [connection signal="timeout" from="TimeElapsed" to="." method="_on_Time_Elapsed_timeout"]

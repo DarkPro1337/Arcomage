@@ -1,4 +1,4 @@
-namespace Arcomage.Scripts.Data;
+namespace Arcomage.Data;
 
 public enum CardType
 {

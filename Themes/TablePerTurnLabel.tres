@@ -1,4 +1,4 @@
-[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bbslxo3p83s4"]
+[gd_resource type="LabelSettings" format=3 uid="uid://bbslxo3p83s4"]
 
 [sub_resource type="FontVariation" id="FontVariation_t4kl2"]
 variation_opentype = {

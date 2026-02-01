@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Linq;
-using Arcomage.Scripts.Data;
-using Arcomage.Scripts.Logging;
+using Arcomage.Data;
 using Godot;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Managers;
+namespace Arcomage.Managers;
 
 public class TavernManager
 {

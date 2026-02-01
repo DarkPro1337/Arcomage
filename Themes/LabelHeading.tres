@@ -1,6 +1,9 @@
 [gd_resource type="LabelSettings" format=3 uid="uid://ddmn6mo77w83e"]
 
+[ext_resource type="FontFile" uid="uid://c557qqmpne6kp" path="res://Fonts/InterVariable.ttf" id="1_3d47o"]
+
 [resource]
+font = ExtResource("1_3d47o")
 font_size = 24
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)

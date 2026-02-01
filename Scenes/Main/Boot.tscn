@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dql4dtk3pdjmp"]
+[gd_scene format=3 uid="uid://dql4dtk3pdjmp"]
 
 [ext_resource type="Script" uid="uid://kdpnetpb2rpu" path="res://Scripts/Core/Boot.cs" id="1"]
 
-[node name="Boot" type="Node"]
+[node name="Boot" type="Node" unique_id=1735650937]
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1950040639]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -1,11 +1,11 @@
 using System;
 using System.IO;
 using System.Text.Json;
-using Arcomage.Scripts.Logging;
 using Godot;
 using FileAccess = Godot.FileAccess;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Core;
+namespace Arcomage.Core;
 
 public enum AiType
 {

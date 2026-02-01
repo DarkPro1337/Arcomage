@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Godot;
 
-namespace Arcomage.Scripts.Logging;
+namespace Arcomage.Logging;
 
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class MessageTemplateFormatMethodAttribute(string parameterName) : Attribute

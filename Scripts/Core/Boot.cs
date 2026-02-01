@@ -1,7 +1,7 @@
-using Arcomage.Scripts.Logging;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Core;
+namespace Arcomage.Core;
 
 public partial class Boot : Node
 {

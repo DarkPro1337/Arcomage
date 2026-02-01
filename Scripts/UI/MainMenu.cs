@@ -1,8 +1,8 @@
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Logging;
+using Arcomage.Core;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.UI;
+namespace Arcomage.UI;
 
 public partial class MainMenu : Control
 {

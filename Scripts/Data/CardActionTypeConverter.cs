@@ -5,7 +5,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace Arcomage.Scripts.Data;
+namespace Arcomage.Data;
 
 public class ActionTypeConverter : IYamlTypeConverter
 {

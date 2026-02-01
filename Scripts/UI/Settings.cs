@@ -1,12 +1,11 @@
 using System;
 using System.Globalization;
 using System.Linq;
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Logging;
-using Arcomage.Scripts.Managers;
+using Arcomage.Core;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.UI;
+namespace Arcomage.UI;
 
 public enum BusType
 {

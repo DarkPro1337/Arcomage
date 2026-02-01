@@ -4,16 +4,16 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using Arcomage.Scripts.Data;
-using Arcomage.Scripts.Logging;
+using Arcomage.Data;
 using Godot;
 using Wasmtime;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Global = Arcomage.Scripts.Core.Global;
+using Global = Arcomage.Core.Global;
+using Logger = Arcomage.Logging.Logger;
 using Module = Wasmtime.Module;
 
-namespace Arcomage.Scripts.Managers;
+namespace Arcomage.Managers;
 
 public record Mod(ModMetadata Metadata, Store Store, Instance Instance)
 {

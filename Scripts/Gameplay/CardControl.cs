@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using Arcomage.Scripts.Core;
-using Arcomage.Scripts.Data;
-using Arcomage.Scripts.Logging;
+using System.Linq;
+using Arcomage.Core;
+using Arcomage.Data;
 using Godot;
+using Logger = Arcomage.Logging.Logger;
 
-namespace Arcomage.Scripts.Gameplay;
+namespace Arcomage.Gameplay;
 
 public partial class CardControl : Control
 {
@@ -20,6 +21,7 @@ public partial class CardControl : Control
    private Label Discarded => GetNode<Label>("Discarded");
 
    private readonly RandomNumberGenerator _rng = new();
+   private bool _faceDown;
 
    public int CardIdx = -1;
    public string CardId;
@@ -48,9 +50,22 @@ public partial class CardControl : Control
       _rng.Randomize();
 
       var cards = Global.DeckManager.GetAllCards();
-      var selectedCard = CardIdx != -1 && CardIdx >= 0 && CardIdx < cards.Count
-         ? cards[CardIdx]
-         : cards[_rng.RandiRange(0, cards.Count - 1)];
+      Card selectedCard = null;
+
+      if (!string.IsNullOrWhiteSpace(CardId))
+         selectedCard = cards.FirstOrDefault(card => card.Id == CardId);
+
+      if (selectedCard == null && CardIdx >= 0 && CardIdx < cards.Count)
+         selectedCard = cards[CardIdx];
+
+      if (selectedCard == null && cards.Count > 0)
+         selectedCard = cards[_rng.RandiRange(0, cards.Count - 1)];
+
+      if (selectedCard == null)
+      {
+         _Logger.Warn("No cards available to initialize card control.");
+         return;
+      }
             
       CardId = selectedCard.Id;
       CardName = selectedCard.Id.ToUpper();
@@ -91,8 +106,24 @@ public partial class CardControl : Control
       }
    }
     
+   public void SetFaceDown(bool faceDown)
+   {
+      _faceDown = faceDown;
+      CardBack.Visible = faceDown;
+      Layout.Visible = !faceDown;
+      Art.Visible = !faceDown;
+      NameLabel.Visible = !faceDown;
+      Description.Visible = !faceDown;
+      Cost.Visible = !faceDown;
+      Discarded.Visible = !faceDown && Discarded.Visible;
+      MouseFilter = faceDown ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
+   }
+    
    private void OnMouseEntered()
    {
+      if (_faceDown)
+         return;
+
       if (Usable)
       {
          Selector.SelfModulate = new Color(1, 1, 1);
@@ -107,14 +138,24 @@ public partial class CardControl : Control
     
    private void OnMouseExited()
    {
+      if (_faceDown)
+         return;
+
       Selector.Hide();
       Selector.SelfModulate = new Color(1, 1, 1);
    }
 
    private void OnGuiInput(InputEvent @event)
    {
+      if (_faceDown)
+         return;
+
       if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
       {
+         _Logger.Debug($"LMB pressed on {Name}");
+         if (CardActions == null)
+            return;
+
          foreach (var action in CardActions)
             action.Execute(Global.Table);
       }

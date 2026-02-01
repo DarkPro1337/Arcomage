@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Arcomage.Scripts.Logging;
 using Godot;
 using ImGuiNET;
+using Logger = Arcomage.Logging.Logger;
 using Vector2 = System.Numerics.Vector2;
 
-namespace Arcomage.Scripts.UI;
+namespace Arcomage.UI;
 
 public partial class Console : Node
 {
