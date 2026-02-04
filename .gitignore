@@ -29,3 +29,28 @@ build.txt
 addons/*
 !addons/.editorconfig
 .addons/*
+
+# MacOS General
+.DS_Store
+__MACOSX/
+.AppleDouble
+.LSOverride
+
+# MacOS Thumbnails
+._*
+
+# MacOS files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# MacOS directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk

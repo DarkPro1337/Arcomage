@@ -7,11 +7,11 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/darkpro1337/arcomage?style=for-the-badge)
 
 # Arcomage fan-remake made on Godot Engine
-![Arcomage Logo](Images/ArcomageLogo.png)
+![Arcomage Logo](res/ArcomageLogo.png)
 ## Description
 **Loved by many card mini-game from Might and Magic 7 and 8 returns with updated graphics as standalone game!**
 
-![Arcomage Screenshot](Images/ArcomageTn.png)
+![Arcomage Screenshot](res/ArcomageTn.png)
 
 Arcomage is a computer card game for two players. Each player has a random set of 6 cards, a tower, a wall, three types of resources and their generators.
 
@@ -61,15 +61,15 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.4-stable .NET](https://godotengine.org/download/archive/4.4-stable/)
-* [**.NET** SDK](https://dotnet.microsoft.com/download)
+* [**Godot** v.4.6-stable .NET](https://godotengine.org/download/archive/4.6-stable/)
+* [**.NET** 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * [**GodotEnv**](https://github.com/chickensoft-games/GodotEnv)
-* Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/4.3/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
+* Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/latest/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
 2. Open folder with project and run `godotenv addons install`
-3. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.4-stable/)
+3. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.6-stable/)
 4. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)
