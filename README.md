@@ -68,13 +68,11 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
-2. Open folder with project and run `godotenv addons install`
-3. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.6-stable/)
-4. Press `F5` to run the project
+2. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.6-stable/)
+3. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)
 
 ## Support project development
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%23121015.svg?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/DarkPro1337)
 [![USDT TRC20](https://img.shields.io/badge/USDT_TRC20-%23f5f5f5.svg?style=for-the-badge&logo=tether)](https://tronscan.org/#/address/TT1F6ptBedtbvc12Gjc8YRXFXJxYA1kxBd)
-[![Buy me a coffee](https://img.shields.io/badge/Buy_me_a_coffee-%23222222.svg?style=for-the-badge&logo=buy-me-a-coffee)](https://www.buymeacoffee.com/darkpro1337)

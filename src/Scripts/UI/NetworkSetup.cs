@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.Generic;
 using System.Linq;
 using Arcomage.Core;
 using Arcomage.Gameplay;
@@ -160,9 +159,8 @@ public partial class NetworkSetup : Control
    private void OnPeerDisconnected(long id)
    {
       _Logger.Debug($"Peer disconnected: {id}");
-      if (!Players.ContainsKey(id))
+      if (!Players.Remove(id))
          return;
-      Players.Remove(id);
 
       StartGameButton.Hide();
       UpdatePlayersList();

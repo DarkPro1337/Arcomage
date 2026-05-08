@@ -204,7 +204,6 @@ offset_right = 11.0
 offset_bottom = 93.0
 texture = ExtResource("8")
 expand_mode = 1
-stretch_mode = 5
 flip_h = true
 flip_v = true
 
@@ -260,7 +259,6 @@ offset_right = 11.0
 offset_bottom = 93.0
 texture = ExtResource("10")
 expand_mode = 1
-stretch_mode = 5
 flip_h = true
 flip_v = true
 

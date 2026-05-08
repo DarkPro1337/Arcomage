@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dyny48sww0vnw"]
+[gd_scene format=3 uid="uid://dyny48sww0vnw"]
 
 [ext_resource type="Texture2D" uid="uid://cuyp60lfxag4i" path="res://Sprites/TowerBase.png" id="1"]
 
-[node name="PlayerTower" type="Control"]
+[node name="PlayerTower" type="Control" unique_id=688647398]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 0
@@ -10,7 +10,7 @@ offset_right = 45.0
 offset_bottom = 50.0
 rotation = 3.14159
 
-[node name="TowerBase" type="TextureRect" parent="."]
+[node name="TowerBase" type="TextureRect" parent="." unique_id=1934533888]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 2
