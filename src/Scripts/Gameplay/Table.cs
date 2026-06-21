@@ -1,37 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Arcomage.Core;
-using Arcomage.Data;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Gameplay;
-
-public class Player
-{
-   public long Id { get; init; }
-   public string Name { get; init; }
-   public bool Host { get; init; }
-   public bool Ai { get; set; }
-   public bool Ready { get; set; }
-
-   public bool PlayAgain { get; set; } = false;
-   public bool Discarding { get; set; } = false;
-   public bool DrawCard { get; set; } = false;
-
-   public int TowerHp { get; set; } = Config.Settings.TowerLevels;
-   public int WallHp { get; set; } = Config.Settings.WallLevels;
-
-   public int Quarries { get; set; } = Config.Settings.QuarryLevels;
-   public int Bricks { get; set; } = Config.Settings.BrickQuantity;
-   public int Magic { get; set; } = Config.Settings.MagicLevels;
-   public int Gems { get; set; } = Config.Settings.GemQuantity;
-   public int Dungeons { get; set; } = Config.Settings.DungeonLevels;
-   public int Recruits { get; set; } = Config.Settings.RecruitQuantity;
-
-   public override string ToString() => $"{Name} ({Id})";
-}
 
 public partial class Table : Control
 {
@@ -91,14 +64,20 @@ public partial class Table : Control
    private Panel BlueRecruitsAltPanel => GetNode<Panel>("BlueRecruitsPanelAlt");
    private Label BlueRecruitsAltPerTurn => GetNode<Label>("BlueRecruitsPanelAlt/PerTurn");
    private Label BlueRecruitsAltTotal => GetNode<Label>("BlueRecruitsPanelAlt/Total");
+   private Control RedTower => GetNode<Control>("RedTower");
+   private Control RedWall => GetNode<Control>("RedWall");
    private Label RedTowerHpPanel => GetNode<Label>("RedTowerPanel/Hp");
    private Label RedWallHpPanel => GetNode<Label>("RedWallPanel/Hp");
+   private Control BlueTower => GetNode<Control>("BlueTower");
+   private Control BlueWall => GetNode<Control>("BlueWall");
    private Label BlueTowerHpPanel => GetNode<Label>("BlueTowerPanel/Hp");
    private Label BlueWallHpPanel => GetNode<Label>("BlueWallPanel/Hp");
 
    private Control InGameMenu => GetNode<Control>("InGameMenu");
 
    #endregion
+
+   private const float MaxStructureHeight = 200f;
 
    private readonly RandomNumberGenerator _rng = new();
 
@@ -319,6 +298,7 @@ public partial class Table : Control
       _logger.Debug("Adding player with id: " + id);
       if (Players.ContainsKey(id))
          return;
+
       if (id == 1)
          RegisterPlayer(id, Config.Settings.Nickname);
       else
@@ -337,6 +317,7 @@ public partial class Table : Control
    {
       if (!Players.TryGetValue(playerId, out var player))
          return;
+
       player.Bricks += player.Quarries;
       player.Gems += player.Magic;
       player.Recruits += player.Dungeons;
@@ -347,6 +328,7 @@ public partial class Table : Control
    {
       if (!Players.TryGetValue(playerId, out var player))
          return;
+
       _logger.Debug("Setting turn to {PlayerName}", player.Name);
       _turnPlayerId = playerId;
       UpdateDeckVisibility();
@@ -391,8 +373,7 @@ public partial class Table : Control
       }
    }
 
-   private void LocaleStatPanels() =>
-      SwitchStatPanel(TranslationServer.GetLocale() == "en");
+   private void LocaleStatPanels() => SwitchStatPanel(TranslationServer.GetLocale() == "en");
 
    private void SwitchStatPanel(bool toggle)
    {
@@ -453,6 +434,8 @@ public partial class Table : Control
       RedRecruitsTotal.Text = red.Recruits.ToString();
       RedRecruitsAltTotal.Text = red.Recruits.ToString();
 
+      SetStructureHeight(RedTower, red.TowerHp);
+      SetStructureHeight(RedWall, red.WallHp);
       RedTowerHpPanel.Text = red.TowerHp.ToString();
       RedWallHpPanel.Text = red.WallHp.ToString();
 
@@ -474,14 +457,24 @@ public partial class Table : Control
       BlueRecruitsTotal.Text = blue.Recruits.ToString();
       BlueRecruitsAltTotal.Text = blue.Recruits.ToString();
 
+      SetStructureHeight(BlueTower, blue.TowerHp);
+      SetStructureHeight(BlueWall, blue.WallHp);
       BlueTowerHpPanel.Text = blue.TowerHp.ToString();
       BlueWallHpPanel.Text = blue.WallHp.ToString();
    }
 
-   public Player GetCurrentPlayer()
+   private static float GetStructureHeight(int hp)
    {
-      Players.TryGetValue(_turnPlayerId, out var player);
-      return player;
+      var maxHp = Mathf.Max(1, Config.Settings.TowerVictory);
+      var ratio = Mathf.Clamp(hp / (float)maxHp, 0f, 1f);
+      return ratio * MaxStructureHeight;
+   }
+
+   private static void SetStructureHeight(Control structure, int hp)
+   {
+      var size = structure.Size;
+      size.Y = GetStructureHeight(hp);
+      structure.Size = size;
    }
 
    [Rpc]
@@ -525,110 +518,4 @@ public partial class Table : Control
       UpdateNamePanels();
    }
 
-   public int GetValue(Player player, ResourceTypes resourceType)
-   {
-      return resourceType switch
-      {
-         ResourceTypes.Tower => player.TowerHp,
-         ResourceTypes.Wall => player.WallHp,
-         ResourceTypes.Quarry => player.Quarries,
-         ResourceTypes.Magic => player.Magic,
-         ResourceTypes.Dungeon => player.Dungeons,
-         ResourceTypes.Bricks => player.Bricks,
-         ResourceTypes.Gems => player.Gems,
-         ResourceTypes.Recruits => player.Recruits,
-         _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, "Invalid resource type")
-      };
-   }
-
-   public void GainValue(Player targetPlayer, ResourceTypes resource, int amount)
-   {
-      switch (resource)
-      {
-         case ResourceTypes.Tower:
-            targetPlayer.TowerHp += amount;
-            break;
-         case ResourceTypes.Wall:
-            targetPlayer.WallHp += amount;
-            break;
-         case ResourceTypes.Quarry:
-            targetPlayer.Quarries += amount;
-            break;
-         case ResourceTypes.Magic:
-            targetPlayer.Magic += amount;
-            break;
-         case ResourceTypes.Dungeon:
-            targetPlayer.Dungeons += amount;
-            break;
-         case ResourceTypes.Bricks:
-            targetPlayer.Bricks += amount;
-            break;
-         case ResourceTypes.Gems:
-            targetPlayer.Gems += amount;
-            break;
-         case ResourceTypes.Recruits:
-            targetPlayer.Recruits += amount;
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
-      }
-   }
-
-   public void SetValue(Player targetPlayer, ResourceTypes resource, int amount)
-   {
-      switch (resource)
-      {
-         case ResourceTypes.Tower:
-            targetPlayer.TowerHp = amount;
-            break;
-         case ResourceTypes.Wall:
-            targetPlayer.WallHp = amount;
-            break;
-         case ResourceTypes.Quarry:
-            targetPlayer.Quarries = amount;
-            break;
-         case ResourceTypes.Magic:
-            targetPlayer.Magic = amount;
-            break;
-         case ResourceTypes.Dungeon:
-            targetPlayer.Dungeons = amount;
-            break;
-         case ResourceTypes.Bricks:
-            targetPlayer.Bricks = amount;
-            break;
-         case ResourceTypes.Gems:
-            targetPlayer.Gems = amount;
-            break;
-         case ResourceTypes.Recruits:
-            targetPlayer.Recruits = amount;
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
-      }
-   }
-
-   public Player[] GetTargetPlayer(Player self, TargetType target)
-   {
-      var players = Players.Values;
-      return target switch
-      {
-         TargetType.Self => [self],
-         TargetType.Opponent => [players.FirstOrDefault(player => player.Id != self.Id)],
-         TargetType.All => players.ToArray(),
-         TargetType.AllExceptSelf => players.Where(player => player.Id != self.Id).ToArray(),
-         TargetType.LowestWall => [players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
-         TargetType.HighestWall => [players.OrderByDescending(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
-         TargetType.LowestTower => [players.OrderBy(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
-         TargetType.HighestTower => [players.OrderByDescending(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
-         _ => throw new ArgumentOutOfRangeException(nameof(target), target, null)
-      };
-   }
-
-   public void Damage(Player target, int amount)
-   {
-      if (target.WallHp > 0)
-         target.WallHp -= amount;
-      else
-         target.TowerHp -= amount;
-   }
 }
