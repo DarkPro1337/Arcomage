@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.6.2">
+<Project Sdk="Godot.NET.Sdk/4.7.0">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -15,7 +15,7 @@
     <PackageReference Include="YamlDotNet" Version="16.2.1" />
   </ItemGroup>
   <Target Name="DownloadLocalesBeforeBuild" BeforeTargets="Build">
-    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
-    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)\Locales\Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />
+    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)/Locales/Interface.csv&quot; &quot;$(InterfaceLocalization)&quot;" />
+    <Exec Command="curl -L -o &quot;$(MSBuildProjectDirectory)/Locales/Cards.csv&quot; &quot;$(CardsLocalization)&quot;" />
   </Target>
 </Project>

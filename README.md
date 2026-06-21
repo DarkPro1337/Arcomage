@@ -1,10 +1,10 @@
-[![Godot Engine](https://img.shields.io/badge/GODOT_4-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
+[![Godot Engine](https://img.shields.io/badge/GODOT_4.7-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
-![.NET](https://img.shields.io/badge/.NET_8-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
-![GitHub](https://img.shields.io/github/license/DarkPro1337/Arcomage?style=for-the-badge)
+![.NET](https://img.shields.io/badge/.NET_10-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
+![GitHub license](https://img.shields.io/github/license/DarkPro1337/Arcomage?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/DarkPro1337/Arcomage?style=for-the-badge)
-![GitHub Repo stars](https://img.shields.io/github/stars/darkpro1337/arcomage?style=for-the-badge)
-![GitHub repo size](https://img.shields.io/github/repo-size/darkpro1337/arcomage?style=for-the-badge)
+![GitHub Repo stars](https://img.shields.io/github/stars/DarkPro1337/Arcomage?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/DarkPro1337/Arcomage?style=for-the-badge)
 
 # Arcomage fan-remake made on Godot Engine
 ![Arcomage Logo](res/ArcomageLogo.png)
@@ -61,7 +61,7 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.6.2-stable .NET](https://godotengine.org/download/archive/4.6.2-stable/)
+* [**Godot** v.4.7-stable .NET](https://godotengine.org/download/archive/4.7-stable/)
 * [**.NET** 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/latest/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
 
