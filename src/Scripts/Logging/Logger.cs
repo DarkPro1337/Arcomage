@@ -15,7 +15,7 @@ public sealed class MessageTemplateFormatMethodAttribute(string parameterName) :
 
 public class Logger
 {
-   private static readonly Dictionary<string, Logger> _Loggers = new();
+   private static readonly Dictionary<string, Logger> _loggers = new();
    public static event Action<string> NewLogAdded;
 
    private readonly string _name;
@@ -23,11 +23,11 @@ public class Logger
 
    public static Logger GetOrCreateLogger(string name)
    {
-      if (_Loggers.TryGetValue(name, out var logger))
+      if (_loggers.TryGetValue(name, out var logger))
          return logger;
 
       logger = new Logger(name);
-      _Loggers[name] = logger;
+      _loggers[name] = logger;
       return logger;
    }
 

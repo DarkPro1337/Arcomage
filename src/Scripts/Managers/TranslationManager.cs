@@ -12,7 +12,7 @@ public record LocaleInfo(string Name, string DisplayName);
 
 public class TranslationManager
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("TranslationManager");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("TranslationManager");
 
    public List<LocaleInfo> LoadedLocales { get; } = [];
 
@@ -51,7 +51,7 @@ public class TranslationManager
       var lines = csvText.Split((char[])['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
       if (lines.Length < 2)
       {
-         _Logger.Error("CSV file must contain at least one line.");
+         _logger.Error("CSV file must contain at least one line.");
          return null;
       }
 

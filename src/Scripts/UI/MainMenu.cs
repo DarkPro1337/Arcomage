@@ -6,7 +6,7 @@ namespace Arcomage.UI;
 
 public partial class MainMenu : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("MainMenu");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("MainMenu");
 
    private Control Settings => GetNode<Control>("Settings");
    private Control NetworkSetup => GetNode<Control>("NetworkSetup");
@@ -54,7 +54,7 @@ public partial class MainMenu : Control
          BuildNumber.Text += "-dev";
 
       GetTree().Paused = false;
-      _Logger.Debug("Main menu loaded.");
+      _logger.Debug("Main menu loaded.");
       ReadCommandLine();
    }
 
@@ -82,7 +82,7 @@ public partial class MainMenu : Control
       if (!args.TryGetValue("playerName", out var name))
          return;
 
-      _Logger.Debug("Player name from command line: " + name);
+      _logger.Debug("Player name from command line: " + name);
       Config.Settings.Nickname = name;
       Settings.Call("UpdateControls");
       DisplayServer.WindowSetTitle($"Arcomage - {name}");

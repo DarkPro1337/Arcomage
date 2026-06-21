@@ -12,7 +12,7 @@ namespace Arcomage.Managers;
 
 public class DeckManager
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("DeckManager");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("DeckManager");
 
    private const string DecksDir = "res://Decks/";
 
@@ -25,7 +25,7 @@ public class DeckManager
       var decksDir = DirAccess.Open(DecksDir);
       if (decksDir == null)
       {
-         _Logger.Warn("Decks directory failed to open: {DecksDir}", DecksDir);
+         _logger.Warn("Decks directory failed to open: {DecksDir}", DecksDir);
          return;
       }
       
@@ -61,13 +61,13 @@ public class DeckManager
    {
       if (filePath.GetExtension() != "yaml" && filePath.GetExtension() != "yml")
       {
-         _Logger.Warn("Only YAML file formats (.yaml or .yml) are supported for cards.");
+         _logger.Warn("Only YAML file formats (.yaml or .yml) are supported for cards.");
          return null;
       }
     
       if (!FileAccess.FileExists(filePath))
       {
-         _Logger.Warn("File {Path} does not exist.", filePath);
+         _logger.Warn("File {Path} does not exist.", filePath);
          return null;
       }
     
@@ -86,17 +86,17 @@ public class DeckManager
 
          if (deck.Cards == null)
          {
-            _Logger.Warn($"Root element in {filePath} is not a valid deck.");
+            _logger.Warn($"Root element in {filePath} is not a valid deck.");
             return null;
          }
 
-         _Logger.Debug("Loaded {Count} cards from {Path} ({Path})", deck.Cards.Count, deck.Name, filePath);
+         _logger.Debug("Loaded {Count} cards from {Path} ({Path})", deck.Cards.Count, deck.Name, filePath);
          deck.IsEnabled = true; // TODO: implement deck enabling/disabling in the UI
          return deck;
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Unexpected error occurred while loading cards from file {Path}", filePath);
+         _logger.Error(ex, "Unexpected error occurred while loading cards from file {Path}", filePath);
          return null;
       }
    }
@@ -118,17 +118,17 @@ public class DeckManager
 
          if (deck?.Cards is null)
          {
-            _Logger.Warn("Provided YAML is not a valid deck.");
+            _logger.Warn("Provided YAML is not a valid deck.");
             return null;
          }
 
-         _Logger.Debug("Loaded {Count} cards from deck {Name} from YAML", deck.Cards.Count, deck.Name);
+         _logger.Debug("Loaded {Count} cards from deck {Name} from YAML", deck.Cards.Count, deck.Name);
          deck.IsEnabled = true;
          return deck;
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Unexpected error occurred while loading deck from YAML text");
+         _logger.Error(ex, "Unexpected error occurred while loading deck from YAML text");
          return null;
       }
    }

@@ -9,7 +9,7 @@ namespace Arcomage.Gameplay;
 
 public partial class CardControl : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("CardControl");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("CardControl");
 
    private Panel Selector => GetNode<Panel>("Selector");
    private TextureRect CardBack => GetNode<TextureRect>("CardBack");
@@ -63,7 +63,7 @@ public partial class CardControl : Control
 
       if (selectedCard == null)
       {
-         _Logger.Warn("No cards available to initialize card control.");
+         _logger.Warn("No cards available to initialize card control.");
          return;
       }
             
@@ -100,7 +100,7 @@ public partial class CardControl : Control
             break;
          case CardType.None:
          default:
-            _Logger.Warn("CardLayout out of range");
+            _logger.Warn("CardLayout out of range");
             Layout.Texture = GD.Load<Texture2D>("res://Sprites/NullCardLayout.png");
             break;
       }
@@ -152,7 +152,7 @@ public partial class CardControl : Control
 
       if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
       {
-         _Logger.Debug($"LMB pressed on {Name}");
+         _logger.Debug($"LMB pressed on {Name}");
          if (CardActions == null)
             return;
 
@@ -161,7 +161,7 @@ public partial class CardControl : Control
       }
       else if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true })
       {
-         _Logger.Debug($"RMB pressed on {Name}");
+         _logger.Debug($"RMB pressed on {Name}");
          // TODO: implement card discarding
       }
    }
@@ -187,11 +187,11 @@ public partial class CardControl : Control
       var image = new Image();
       if (image.Load(path) != Error.Ok)
       {
-         _Logger.Warn("Failed to load, path: {Path}", path);
+         _logger.Warn("Failed to load, path: {Path}", path);
          return new PlaceholderTexture2D();
       }
 
-      _Logger.Debug("Loading image that was not imported by editor, path: {Path}", path);
+      _logger.Debug("Loading image that was not imported by editor, path: {Path}", path);
       if (generateMipmaps)
          image.GenerateMipmaps();
 

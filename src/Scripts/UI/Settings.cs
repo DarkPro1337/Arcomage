@@ -16,7 +16,7 @@ public enum BusType
 
 public partial class Settings : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("Settings");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("Settings");
 
    private readonly CultureInfo _invariantCulture = CultureInfo.InvariantCulture;
 
@@ -146,13 +146,13 @@ public partial class Settings : Control
       var parentName = GetParent().Name.ToString();
       if (string.IsNullOrEmpty(parentName))
       {
-         _Logger.Debug("Settings loaded from source with empty name");
+         _logger.Debug("Settings loaded from source with empty name");
          return;
       }
         
       if (parentName == "InGameMenu")
       {
-         _Logger.Debug("Settings loaded from InGameMenu");
+         _logger.Debug("Settings loaded from InGameMenu");
          StartingConditionsButton.Hide();
          PlayConditionsButton.Hide();
          VictoryConditionsButton.Hide();
@@ -163,7 +163,7 @@ public partial class Settings : Control
       }
       else if (parentName != "MainMenu")
       {
-         _Logger.Debug("Settings loaded from unknown source and not shown");
+         _logger.Debug("Settings loaded from unknown source and not shown");
          Hide();
       }
    }
@@ -187,7 +187,7 @@ public partial class Settings : Control
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Failed to save settings");
+         _logger.Error(ex, "Failed to save settings");
       }
       finally
       {
@@ -249,7 +249,7 @@ public partial class Settings : Control
          Language.AddItem(locale.DisplayName);
 
       TranslationServer.SetLocale(Config.Settings.CurrentLocale);
-      _Logger.Debug("Loaded locale - {Locale}", Config.Settings.CurrentLocale);
+      _logger.Debug("Loaded locale - {Locale}", Config.Settings.CurrentLocale);
    }
 
    private void OnWindowSettingsPressed() => Tab.CurrentTab = 0;
@@ -275,7 +275,7 @@ public partial class Settings : Control
          WindowResolution.Show();
       }
 
-      _Logger.Debug("Fullscreen toggled to " + toggle);
+      _logger.Debug("Fullscreen toggled to " + toggle);
    }
 
    private void OnBorderlessButtonToggled(bool toggle)
@@ -287,20 +287,20 @@ public partial class Settings : Control
       else
          Fullscreen.Show();
 
-      _Logger.Debug("Borderless toggled to " + toggle);
+      _logger.Debug("Borderless toggled to " + toggle);
    }
 
    private void OnWindowResolutionApplyPressed()
    {
       if (WindowWidthEdit.Text == "" || WindowHeightEdit.Text == "")
       {
-         _Logger.Error("Window resolution can't be empty");
+         _logger.Error("Window resolution can't be empty");
          return;
       }
 
       if (!int.TryParse(WindowWidthEdit.Text, out var width) || !int.TryParse(WindowHeightEdit.Text, out var height))
       {
-         _Logger.Error("Window resolution must be a number");
+         _logger.Error("Window resolution must be a number");
          return;
       }
 
@@ -313,14 +313,14 @@ public partial class Settings : Control
       DisplayServer.WindowSetSize(resolution);
       Config.CenterWindow(GetWindow());
 
-      _Logger.Debug("Window resolution applied to " + WindowWidthEdit.Text + "x" + WindowHeightEdit.Text);
+      _logger.Debug("Window resolution applied to " + WindowWidthEdit.Text + "x" + WindowHeightEdit.Text);
    }
 
    private static void OnVsyncButtonToggled(bool toggle)
    {
       Config.Settings.Vsync = toggle;
       DisplayServer.WindowSetVsyncMode(toggle ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled);
-      _Logger.Debug("Vsync toggled to " + toggle);
+      _logger.Debug("Vsync toggled to " + toggle);
    }
 
    private static void OnIntroSkipButtonToggled(bool toggle) => Config.Settings.IntroSkip = toggle;

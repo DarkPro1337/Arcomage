@@ -23,7 +23,7 @@ public record Mod(ModMetadata Metadata, Store Store, Instance Instance)
 
 public partial class ModManager : Node
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("ModManager");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("ModManager");
 
    private readonly Dictionary<string, Mod> _mods = new();
    private readonly Wasmtime.Engine _engine = new();
@@ -69,11 +69,11 @@ public partial class ModManager : Node
       var modFilePaths = GetArcpakFilePaths(ModsDir).ToArray();
       if (modFilePaths.Length == 0)
       {
-         _Logger.Debug("No mods found in {ModsDir}", ModsDir);
+         _logger.Debug("No mods found in {ModsDir}", ModsDir);
          return;
       }
 
-      _Logger.Debug("Found {ModsCount} mods in {ModsDir}", modFilePaths.Length, ModsDir);
+      _logger.Debug("Found {ModsCount} mods in {ModsDir}", modFilePaths.Length, ModsDir);
       foreach (var modPath in modFilePaths)
       {
          try
@@ -83,7 +83,7 @@ public partial class ModManager : Node
             var metadataEntry = archive.GetEntry("metadata.yaml");
             if (metadataEntry is null)
             {
-               _Logger.Warn("Metadata file missing in {Mod}, mod loading skipped", modPath);
+               _logger.Warn("Metadata file missing in {Mod}, mod loading skipped", modPath);
                continue;
             }
 
@@ -93,7 +93,7 @@ public partial class ModManager : Node
                .Build()
                .Deserialize<ModMetadata>(reader.ReadToEnd());
 
-            _Logger.Debug("Loading mod {ModName} v{ModVersion} by {ModAuthor} ({Path})", metadata.Name, metadata.Version, metadata.Author, modPath);
+            _logger.Debug("Loading mod {ModName} v{ModVersion} by {ModAuthor} ({Path})", metadata.Name, metadata.Version, metadata.Author, modPath);
 
             if (metadata.Resources is not null)
             {
@@ -102,7 +102,7 @@ public partial class ModManager : Node
                   var resourceEntry = archive.GetEntry(resource);
                   if (resourceEntry is null)
                   {
-                     _Logger.Warn("Resource file {Resource} missing in {Mod}", resource, modPath);
+                     _logger.Warn("Resource file {Resource} missing in {Mod}", resource, modPath);
                      continue;
                   }
 
@@ -121,9 +121,9 @@ public partial class ModManager : Node
                      fileStream.Close();
 
                      if (ProjectSettings.LoadResourcePack(localPath))
-                        _Logger.Debug("Loaded resource pack {Resource} in {Mod}", resource, modPath);
+                        _logger.Debug("Loaded resource pack {Resource} in {Mod}", resource, modPath);
                      else
-                        _Logger.Warn("Failed to load resource pack {Resource} in {Mod}", resource, modPath);
+                        _logger.Warn("Failed to load resource pack {Resource} in {Mod}", resource, modPath);
                   }
 
                   if (Path.GetExtension(resourceEntry.Name) == ".yaml")
@@ -141,21 +141,21 @@ public partial class ModManager : Node
 
                      if (doc.TryGetValue("cards", out _))
                      {
-                        _Logger.Debug("Detected deck pack YAML file: {YamlFile}", resource);
+                        _logger.Debug("Detected deck pack YAML file: {YamlFile}", resource);
                         var deck = Global.DeckManager.LoadDeckFromYamlText(yamlText);
                         if (deck is not null)
                            Global.DeckManager.Decks.Add(deck);
                      }
                      else if (doc.TryGetValue("taverns", out _))
                      {
-                        _Logger.Debug("Detected tavern pack YAML file: {YamlFile}", resource);
+                        _logger.Debug("Detected tavern pack YAML file: {YamlFile}", resource);
                         var tavernPack = Global.TavernManager.LoadTavernPackFromYamlText(yamlText);
                         if (tavernPack is not null)
                            Global.TavernManager.TavernPacks.Add(tavernPack);
                      }
                      else
                      {
-                        _Logger.Warn("YAML file {YamlFile} did not contain a recognized pack type", resource);
+                        _logger.Warn("YAML file {YamlFile} did not contain a recognized pack type", resource);
                      }
                   }
 
@@ -171,7 +171,7 @@ public partial class ModManager : Node
                      var localesString = string.Join(",", translations.Select(x => x.Locale));
                      var stringsCount = translations.Select(x => x.Messages).Count();
                      Global.TranslationManager.UpdateLoadedLocales();
-                     _Logger.Debug("Loaded {Count} translations for {Locales} from {CsvFile}", stringsCount, localesString, resource);
+                     _logger.Debug("Loaded {Count} translations for {Locales} from {CsvFile}", stringsCount, localesString, resource);
                   }
                }
             }
@@ -181,7 +181,7 @@ public partial class ModManager : Node
                var wasmEntry = archive.GetEntry(metadata.EntryPoint);
                if (wasmEntry is null)
                {
-                  _Logger.Warn("WASM file missing but entrypoint is defined in metadata in {Mod}", modPath);
+                  _logger.Warn("WASM file missing but entrypoint is defined in metadata in {Mod}", modPath);
                   continue;
                }
 
@@ -203,13 +203,13 @@ public partial class ModManager : Node
                   {
                      var span = memory.GetSpan<byte>(0);
                      var bytes = span.Slice(ptr, len).ToArray();
-                     _Logger.Info("{ModName} :: {Message}", metadata.Name, Encoding.UTF8.GetString(bytes));
+                     _logger.Info("{ModName} :: {Message}", metadata.Name, Encoding.UTF8.GetString(bytes));
                   }
                }));
 
                linker.Define("env", "abort", Function.FromCallback(store, (int msg, int file, int line, int column) =>
                {
-                  _Logger.Error("Abort called in {ModName} at {File}:{Line}:{Column}",
+                  _logger.Error("Abort called in {ModName} at {File}:{Line}:{Column}",
                      metadata.Name, file, line, column);
                }));
 
@@ -221,7 +221,7 @@ public partial class ModManager : Node
          }
          catch (Exception ex)
          {
-            _Logger.Error(ex, "Error loading mod {ModName}: {Error}", modPath, ex.Message);
+            _logger.Error(ex, "Error loading mod {ModName}: {Error}", modPath, ex.Message);
          }
       }
    }

@@ -9,7 +9,7 @@ namespace Arcomage.UI;
 
 public partial class NetworkSetup : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("NetworkSetup");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("NetworkSetup");
 
    private const int Port = 8070;
    private const int MaxPlayers = 2;
@@ -84,7 +84,7 @@ public partial class NetworkSetup : Control
         
    private void OnConnectionFailed()
    {
-      _Logger.Error("Connection failed.");
+      _logger.Error("Connection failed.");
 
       Lobby.Hide();
       MultiplayerConfigUi.Show();
@@ -92,7 +92,7 @@ public partial class NetworkSetup : Control
         
    private void OnServerDisconnected()
    {
-      _Logger.Debug("Server disconnected.");
+      _logger.Debug("Server disconnected.");
 
       Lobby.Hide();
       MultiplayerConfigUi.Show();
@@ -105,7 +105,7 @@ public partial class NetworkSetup : Control
 
    private void OnConnectedToServer()
    {
-      _Logger.Debug("Connected to server.");
+      _logger.Debug("Connected to server.");
       MultiplayerConfigUi.Hide();
       Lobby.Show();
 
@@ -135,7 +135,7 @@ public partial class NetworkSetup : Control
          return;
       }
         
-      _Logger.Debug("Server started.");
+      _logger.Debug("Server started.");
       Multiplayer.MultiplayerPeer = peer;
       MultiplayerConfigUi.Hide();
       Lobby.Show();
@@ -147,7 +147,7 @@ public partial class NetworkSetup : Control
     
    private void OnPeerConnected(long id)
    {
-      _Logger.Debug($"Peer connected: {id}");
+      _logger.Debug($"Peer connected: {id}");
       if (id == 1)
          RegisterPlayer(id, Config.Settings.Nickname);
       else
@@ -158,7 +158,7 @@ public partial class NetworkSetup : Control
 
    private void OnPeerDisconnected(long id)
    {
-      _Logger.Debug($"Peer disconnected: {id}");
+      _logger.Debug($"Peer disconnected: {id}");
       if (!Players.Remove(id))
          return;
 
@@ -171,7 +171,7 @@ public partial class NetworkSetup : Control
       var address = ServerIpAddress.Get("text").AsString();
       if (string.IsNullOrWhiteSpace(address))
       {
-         _Logger.Error("Need a remote to connect to.");
+         _logger.Error("Need a remote to connect to.");
          return;
       }
 
@@ -179,7 +179,7 @@ public partial class NetworkSetup : Control
       peer.CreateClient(address, Port);
       if (peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected)
       {
-         _Logger.Error("Failed to connect to server");
+         _logger.Error("Failed to connect to server");
          return;
       }
 
@@ -230,7 +230,7 @@ public partial class NetworkSetup : Control
 
    private void ChangeLevel(PackedScene scene)
    {
-      _Logger.Debug("Calling ChangeLevel");
+      _logger.Debug("Calling ChangeLevel");
       RemoveOldLevel();
       Level.AddChild(scene.Instantiate());
    }
@@ -247,21 +247,21 @@ public partial class NetworkSetup : Control
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void RequestNickname()
    {
-      _Logger.Debug("Nickname requested");
+      _logger.Debug("Nickname requested");
       RpcId(Multiplayer.GetRemoteSenderId(), nameof(RespondNickname), Config.Settings.Nickname);
    }
 
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void RespondNickname(string name)
    {
-      _Logger.Debug("Nickname received: " + name);
+      _logger.Debug("Nickname received: " + name);
       long id = Multiplayer.GetRemoteSenderId();
       RegisterPlayer(id, name);
    }
 
    private void RegisterPlayer(long id, string name)
    {
-      _Logger.Debug($"Registering player with id {id} and name {name}");
+      _logger.Debug($"Registering player with id {id} and name {name}");
       if (Players.ContainsKey(id))
          return;
       var isHost = id == 1;
@@ -273,7 +273,7 @@ public partial class NetworkSetup : Control
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void AddRemotePlayer(long id, string name)
    {
-      _Logger.Debug($"Adding remote player with id {id} and name {name}");
+      _logger.Debug($"Adding remote player with id {id} and name {name}");
       if (Players.ContainsKey(id))
          return;
       var isHost = id == 1;

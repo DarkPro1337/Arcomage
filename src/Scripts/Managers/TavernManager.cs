@@ -11,7 +11,7 @@ namespace Arcomage.Managers;
 
 public class TavernManager
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("TavernManager");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("TavernManager");
 
    private const string TavernsDir = "res://Taverns/";
 
@@ -24,7 +24,7 @@ public class TavernManager
       var tavernsDir = DirAccess.Open(TavernsDir);
       if (tavernsDir == null)
       {
-         _Logger.Warn("Taverns directory failed to open: {TavernsDir}", TavernsDir);
+         _logger.Warn("Taverns directory failed to open: {TavernsDir}", TavernsDir);
          return;
       }
 
@@ -46,13 +46,13 @@ public class TavernManager
    {
       if (filePath.GetExtension() != "yaml" && filePath.GetExtension() != "yml")
       {
-         _Logger.Warn("Only YAML file formats (.yaml or .yml) are supported for taverns.");
+         _logger.Warn("Only YAML file formats (.yaml or .yml) are supported for taverns.");
          return null;
       }
 
       if (!FileAccess.FileExists(filePath))
       {
-         _Logger.Warn("Tavern file not found: {FilePath}", filePath);
+         _logger.Warn("Tavern file not found: {FilePath}", filePath);
          return null;
       }
 
@@ -71,16 +71,16 @@ public class TavernManager
 
          if (pack.Taverns == null)
          {
-            _Logger.Warn($"Root element in {filePath} is not a valid tavern pack.");
+            _logger.Warn($"Root element in {filePath} is not a valid tavern pack.");
             return null;
          }
 
-         _Logger.Debug("Loaded {Count} taverns from {Name} pack ({Path})", pack.Taverns.Count, pack.Name, filePath);
+         _logger.Debug("Loaded {Count} taverns from {Name} pack ({Path})", pack.Taverns.Count, pack.Name, filePath);
          return pack;
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Unexpected error occurred while loading tavern pack from file {Path}", filePath);
+         _logger.Error(ex, "Unexpected error occurred while loading tavern pack from file {Path}", filePath);
          return null;
       }
    }
@@ -97,16 +97,16 @@ public class TavernManager
 
          if (pack?.Taverns is null)
          {
-            _Logger.Warn("YAML text did not contain a valid tavern pack.");
+            _logger.Warn("YAML text did not contain a valid tavern pack.");
             return null;
          }
 
-         _Logger.Debug("Loaded {Count} taverns from {Name} pack", pack.Taverns.Count, pack.Name);
+         _logger.Debug("Loaded {Count} taverns from {Name} pack", pack.Taverns.Count, pack.Name);
          return pack;
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Unexpected error occurred while loading tavern pack from YAML text");
+         _logger.Error(ex, "Unexpected error occurred while loading tavern pack from YAML text");
          return null;
       }
    }

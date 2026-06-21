@@ -35,7 +35,7 @@ public class Player
 
 public partial class Table : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("Table");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("Table");
 
    #region Controls
 
@@ -131,11 +131,11 @@ public partial class Table : Control
       var args = Global.GetCommandLineArgs();
       if (args.TryGetValue("playerName", out var name))
       {
-         _Logger.Debug("Player name from command line: " + name);
+         _logger.Debug("Player name from command line: " + name);
          Config.Settings.Nickname = name;
       }
 
-      _Logger.Debug("Loaded");
+      _logger.Debug("Loaded");
       Global.Table = this;
 
       LocaleStatPanels();
@@ -218,13 +218,13 @@ public partial class Table : Control
 
       foreach (var cardId in redHand)
       {
-         _Logger.Debug("Adding card to red deck: " + cardId);
+         _logger.Debug("Adding card to red deck: " + cardId);
          RedDeck.AddChild(CreateCard(cardId));
       }
 
       foreach (var cardId in blueHand)
       {
-         _Logger.Debug("Adding card to blue deck: " + cardId);
+         _logger.Debug("Adding card to blue deck: " + cardId);
          BlueDeck.AddChild(CreateCard(cardId));
       }
 
@@ -316,7 +316,7 @@ public partial class Table : Control
 
    private void AddPlayer(long id)
    {
-      _Logger.Debug("Adding player with id: " + id);
+      _logger.Debug("Adding player with id: " + id);
       if (Players.ContainsKey(id))
          return;
       if (id == 1)
@@ -347,7 +347,7 @@ public partial class Table : Control
    {
       if (!Players.TryGetValue(playerId, out var player))
          return;
-      _Logger.Debug("Setting turn to {PlayerName}", player.Name);
+      _logger.Debug("Setting turn to {PlayerName}", player.Name);
       _turnPlayerId = playerId;
       UpdateDeckVisibility();
    }
@@ -362,7 +362,7 @@ public partial class Table : Control
       var showBlue = _turnPlayerId == _bluePlayerId;
 
       if (Players.TryGetValue(_turnPlayerId, out var player))
-         _Logger.Debug("Updating deck visibility for {PlayerName}", player.Name);
+         _logger.Debug("Updating deck visibility for {PlayerName}", player.Name);
 
       RedDeck.Visible = showRed;
       BlueDeck.Visible = showBlue;
@@ -487,21 +487,21 @@ public partial class Table : Control
    [Rpc]
    public void RequestNickname()
    {
-      _Logger.Debug("Nickname requested");
+      _logger.Debug("Nickname requested");
       RpcId(1, nameof(RespondNickname), Config.Settings.Nickname);
    }
 
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void RespondNickname(string name)
    {
-      _Logger.Debug("Nickname received: " + name);
+      _logger.Debug("Nickname received: " + name);
       long id = Multiplayer.GetRemoteSenderId();
       RegisterPlayer(id, name);
    }
 
    private void RegisterPlayer(long id, string name)
    {
-      _Logger.Debug("Registering player with id: " + id + " and name: " + name);
+      _logger.Debug("Registering player with id: " + id + " and name: " + name);
       if (Players.ContainsKey(id))
          return;
 
@@ -515,7 +515,7 @@ public partial class Table : Control
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    public void AddRemotePlayer(long id, string name)
    {
-      _Logger.Debug("Adding remote player with id: " + id + " and name: " + name);
+      _logger.Debug("Adding remote player with id: " + id + " and name: " + name);
       if (Players.ContainsKey(id))
          return;
 

@@ -10,18 +10,18 @@ public static class ActionParser
    private static Parser<T> Fail<T>(string message) => input => Result.Failure<T>(input, message, []);
 
    // Parser for simple identifiers (e.g., self, Tower)
-   private static readonly Parser<string> _Identifier =
+   private static readonly Parser<string> _identifier =
       from first in Parse.Letter.Or(Parse.Char('_'))
       from rest in Parse.LetterOrDigit.Or(Parse.Char('_')).Many()
       select new string(new[] { first }.Concat(rest).ToArray());
 
    // Parser for numbers (e.g., 10, 5)
-   private static readonly Parser<Expression> _Number =
+   private static readonly Parser<Expression> _number =
       Parse.Number.Token().Select(n => new NumberExpression { Value = int.Parse(n) });
 
    // Parser for variable expressions (e.g., self.Tower or highestMagic)
-   private static readonly Parser<Expression> _Variable =
-      _Identifier.DelimitedBy(Parse.Char('.'))
+   private static readonly Parser<Expression> _variable =
+      _identifier.DelimitedBy(Parse.Char('.'))
          .Select(ids => ids.ToList())
          .Then(ParseVariable);
 
@@ -61,24 +61,24 @@ public static class ActionParser
    }
 
    // Forward declaration for recursive expressions
-   public static readonly Parser<Expression> ExpressionParser = Parse.Ref(() => _Expression);
+   public static readonly Parser<Expression> ExpressionParser = Parse.Ref(() => _expression);
 
    // Parser for parentheses
-   private static readonly Parser<Expression> _ParenthesizedExpression =
+   private static readonly Parser<Expression> _parenthesizedExpression =
       from lparen in Parse.Char('(').Token()
       from expr in ExpressionParser
       from rparen in Parse.Char(')').Token()
       select expr;
 
    // Parser for basic expressions (number, variable, or parenthesized expression)
-   private static readonly Parser<Expression> _Operand =
-      _Number.Or(_Variable).Or(_ParenthesizedExpression);
+   private static readonly Parser<Expression> _operand =
+      _number.Or(_variable).Or(_parenthesizedExpression);
 
    // Parser for multiplicative expressions (*, /)
-   private static readonly Parser<Expression> _MultiplicativeExpression =
+   private static readonly Parser<Expression> _multiplicativeExpression =
       Parse.ChainOperator(
          Parse.Char('*').Token().Select(c => c.ToString()),
-         _Operand,
+         _operand,
          (op, left, right) => new BinaryExpression
          {
             Left = left,
@@ -87,10 +87,10 @@ public static class ActionParser
          });
 
    // Parser for additive expressions (+, -)
-   private static readonly Parser<Expression> _AdditiveExpression =
+   private static readonly Parser<Expression> _additiveExpression =
       Parse.ChainOperator(
          Parse.Char('+').Token().Select(c => c.ToString()),
-         _MultiplicativeExpression,
+         _multiplicativeExpression,
          (op, left, right) => new BinaryExpression
          {
             Left = left,
@@ -99,15 +99,15 @@ public static class ActionParser
          });
 
    // Parser for comparison expressions (==, !=, <, >, <=, >=)
-   private static readonly Parser<Expression> _ComparisonExpression =
-      from left in _AdditiveExpression
+   private static readonly Parser<Expression> _comparisonExpression =
+      from left in _additiveExpression
       from op in Parse.String("==").Text().Token()
          .Or(Parse.String("!=").Text().Token())
          .Or(Parse.String("<=").Text().Token())
          .Or(Parse.String(">=").Text().Token())
          .Or(Parse.Char('<').Token().Select(c => c.ToString()))
          .Or(Parse.Char('>').Token().Select(c => c.ToString()))
-      from right in _AdditiveExpression
+      from right in _additiveExpression
       select new BinaryExpression
       {
          Left = left,
@@ -116,17 +116,17 @@ public static class ActionParser
       };
 
    // The main expression parser
-   private static readonly Parser<Expression> _Expression =
-      _ComparisonExpression.Or(_AdditiveExpression);
+   private static readonly Parser<Expression> _expression =
+      _comparisonExpression.Or(_additiveExpression);
 
    // Parser for method call arguments
-   private static readonly Parser<List<Expression>> _Arguments =
-      from args in _Expression.DelimitedBy(Parse.Char(',').Token()).Optional()
+   private static readonly Parser<List<Expression>> _arguments =
+      from args in _expression.DelimitedBy(Parse.Char(',').Token()).Optional()
       select args.GetOrElse([]).ToList();
 
    // Parser to split the receiver and method from a qualified identifier
-   private static readonly Parser<(TargetType Target, ResourceTypes? Resource, EffectType Method)> _ReceiverAndMethod =
-      _Identifier.DelimitedBy(Parse.Char('.'))
+   private static readonly Parser<(TargetType Target, ResourceTypes? Resource, EffectType Method)> _receiverAndMethod =
+      _identifier.DelimitedBy(Parse.Char('.'))
          .Select(ids => ids.ToList())
          .Then(ParseReceiverAndMethod);
 
@@ -186,10 +186,10 @@ public static class ActionParser
    }
 
    // Parser for method calls (e.g., self.Tower.Gain(10))
-   private static readonly Parser<MethodCallAction> _MethodCall =
-      from rm in _ReceiverAndMethod
+   private static readonly Parser<MethodCallAction> _methodCall =
+      from rm in _receiverAndMethod
       from lparen in Parse.Char('(').Token()
-      from args in _Arguments
+      from args in _arguments
       from rparen in Parse.Char(')').Token()
       select new MethodCallAction
       {
@@ -200,14 +200,14 @@ public static class ActionParser
       };
 
    // Parser for conditional actions
-   private static readonly Parser<ConditionalAction> _Conditional =
+   private static readonly Parser<ConditionalAction> _conditional =
       from ifKeyword in Parse.String("if").Token()
-      from condition in _Expression
+      from condition in _expression
       from thenKeyword in Parse.String("then").Token()
-      from thenActions in _ActionList
+      from thenActions in _actionList
       from elseActions in (
          from elseKeyword in Parse.String("else").Token()
-         from elseActs in _ActionList
+         from elseActs in _actionList
          select elseActs).Optional()
       select new ConditionalAction
       {
@@ -218,11 +218,11 @@ public static class ActionParser
 
    // Parser for a single action
    public static readonly Parser<ActionBase> Action =
-      _Conditional.Select(ActionBase (a) => a)
-         .Or(_MethodCall.Select(ActionBase (a) => a));
+      _conditional.Select(ActionBase (a) => a)
+         .Or(_methodCall.Select(ActionBase (a) => a));
 
    // Parser for a list of actions
-   private static readonly Parser<List<ActionBase>> _ActionList =
+   private static readonly Parser<List<ActionBase>> _actionList =
       from lbracket in Parse.Char('[').Token().Optional()
       from actions in Action.DelimitedBy(Parse.Char(',').Token())
       from rbracket in Parse.Char(']').Token().Optional()

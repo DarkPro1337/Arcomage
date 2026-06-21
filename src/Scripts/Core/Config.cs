@@ -58,8 +58,8 @@ public class GameSettings
 
 public partial class Config : Node
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("Config");
-   private static readonly JsonSerializerOptions _SerializerOptions = new() { WriteIndented = true };
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("Config");
+   private static readonly JsonSerializerOptions _serializerOptions = new() { WriteIndented = true };
 
    private const string ConfigPath = "user://settings.json";
 
@@ -79,7 +79,7 @@ public partial class Config : Node
       {
          if (!FileAccess.FileExists(ConfigPath))
          {
-            var defaults = JsonSerializer.Serialize(Settings, _SerializerOptions);
+            var defaults = JsonSerializer.Serialize(Settings, _serializerOptions);
             using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
             file.StoreString(defaults);
             file.Close();
@@ -94,7 +94,7 @@ public partial class Config : Node
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Failed to load settings. Fallback to defaults.");
+         _logger.Error(ex, "Failed to load settings. Fallback to defaults.");
          return new GameSettings();
       }
    }
@@ -103,14 +103,14 @@ public partial class Config : Node
    {
       try
       {
-         var content = JsonSerializer.Serialize(Settings, _SerializerOptions);
+         var content = JsonSerializer.Serialize(Settings, _serializerOptions);
          using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
          file.StoreString(content);
          file.Close();
       }
       catch (Exception ex)
       {
-         _Logger.Error(ex, "Failed to save settings.");
+         _logger.Error(ex, "Failed to save settings.");
       }
    }
 

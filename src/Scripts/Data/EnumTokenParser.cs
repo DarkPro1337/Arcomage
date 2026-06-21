@@ -6,8 +6,8 @@ namespace Arcomage.Data;
 
 public static class EnumTokenParser
 {
-   private static readonly Dictionary<Type, Dictionary<string, object>> _Cache = new();
-   private static readonly Lock _CacheLock = new();
+   private static readonly Dictionary<Type, Dictionary<string, object>> _cache = new();
+   private static readonly Lock _cacheLock = new();
 
    public static bool TryParseToken<TEnum>(string token, out TEnum value)
       where TEnum : struct, Enum
@@ -30,13 +30,13 @@ public static class EnumTokenParser
 
    private static Dictionary<string, object> GetTokenMap(Type enumType)
    {
-      lock (_CacheLock)
+      lock (_cacheLock)
       {
-         if (_Cache.TryGetValue(enumType, out var map))
+         if (_cache.TryGetValue(enumType, out var map))
             return map;
 
          map = BuildTokenMap(enumType);
-         _Cache[enumType] = map;
+         _cache[enumType] = map;
          return map;
       }
    }

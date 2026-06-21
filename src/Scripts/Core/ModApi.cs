@@ -5,7 +5,7 @@ namespace Arcomage.Core;
 
 public class ModApi
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("ModAPI");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("ModAPI");
 
    public void Log(string message) => Logger.GetOrCreateLogger("Main").Info(message);
 
@@ -14,12 +14,12 @@ public class ModApi
    public void RegisterDeck(Deck deck)
    {
       Global.DeckManager.Decks.Add(deck);
-      _Logger.Debug("Deck {DeckName} registered", deck.Name);
+      _logger.Debug("Deck {DeckName} registered", deck.Name);
    }
 
    public void RegisterTavernPack(TavernPack tavernPack)
    {
       Global.TavernManager.TavernPacks.Add(tavernPack);
-      _Logger.Debug("Tavern pack {TavernPackName} registered", tavernPack.Name);
+      _logger.Debug("Tavern pack {TavernPackName} registered", tavernPack.Name);
    }
 }

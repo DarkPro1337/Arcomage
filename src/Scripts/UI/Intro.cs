@@ -5,7 +5,7 @@ namespace Arcomage.UI;
 
 public partial class Intro : Control
 {
-   private static readonly Logger _Logger = Logger.GetOrCreateLogger("Intro");
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("Intro");
 
    public override void _EnterTree()
    {
@@ -17,7 +17,7 @@ public partial class Intro : Control
    private void OnAnimPlayerAnimationFinished(string animName)
    {
       if (animName != "StartUp") return;
-      _Logger.Debug("Loading to the Main menu...");
+      _logger.Debug("Loading to the Main menu...");
       GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/MainMenu.tscn");
    }
 
@@ -25,7 +25,7 @@ public partial class Intro : Control
    {
       base._Input(@event);
       if (!Input.IsActionJustPressed("ui_cancel") && !Input.IsActionJustPressed("ui_select")) return;
-      _Logger.Debug("Skipping Intro to the Main menu...");
+      _logger.Debug("Skipping Intro to the Main menu...");
       GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/MainMenu.tscn");
    }
 }
