@@ -33,7 +33,8 @@ public class MethodCallAction : ActionBase
       {
          var amount = GetArgumentValue(gameState, 0);
          foreach (var target in targets)
-            gameState.Damage(target, amount);
+            gameState.Damage(target, amount, Resource);
+
          return;
       }
 
@@ -74,6 +75,7 @@ public class MethodCallAction : ActionBase
    {
       if (Arguments == null || index < 0 || index >= Arguments.Count)
          return 0;
+
       return Arguments[index].Evaluate(gameState);
    }
 
@@ -81,11 +83,13 @@ public class MethodCallAction : ActionBase
    {
       if (Arguments == null || Arguments.Count == 0)
          return null;
+
       if (Arguments[0] is not VariableExpression variable)
          return null;
 
       var target = gameState.GetTargetPlayer(self, variable.Target)
          .FirstOrDefault(player => player != null);
+
       if (target == null)
          return null;
 
@@ -137,6 +141,7 @@ public class VariableExpression : Expression
 
       var targetPlayer = gameState.GetTargetPlayer(self, Target)
          .FirstOrDefault(player => player != null);
+
       if (targetPlayer == null)
          return 0;
 
@@ -146,7 +151,7 @@ public class VariableExpression : Expression
 
 public class AggregateExpression : Expression
 {
-   public ResourceTypes Aggregate { get; set; }
+   public ResourceTypes Aggregate { get; init; }
 
    public override int Evaluate(Table gameState)
    {

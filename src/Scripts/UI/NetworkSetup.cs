@@ -73,19 +73,16 @@ public partial class NetworkSetup : Control
 
    private void OnCancelPressed()
    {
-      Players.Clear();
-      PlayersList.Clear();
-      Multiplayer.MultiplayerPeer.Close();
+      CloseMultiplayerSession();
       Lobby.Hide();
       MultiplayerConfigUi.Show();
-      UpdatePlayersList();
       Hide();
    }
         
    private void OnConnectionFailed()
    {
       _logger.Error("Connection failed.");
-
+      CloseMultiplayerSession();
       Lobby.Hide();
       MultiplayerConfigUi.Show();
    }
@@ -93,14 +90,12 @@ public partial class NetworkSetup : Control
    private void OnServerDisconnected()
    {
       _logger.Debug("Server disconnected.");
-
+      CloseMultiplayerSession();
       Lobby.Hide();
       MultiplayerConfigUi.Show();
-      PlayersList.Clear();
-      Players.Clear();
 
-      if (Level.GetChild(0) is { } child && child.Name == "Table") 
-         Level.GetChild(0).QueueFree();
+      if (Level.GetChild(0) is { } child && child.Name == "Table")
+         child.QueueFree();
    }
 
    private void OnConnectedToServer()
@@ -116,32 +111,34 @@ public partial class NetworkSetup : Control
 
    private void OnCreateServerPressed()
    {
+      CloseMultiplayerSession();
+
       var peer = new ENetMultiplayerPeer();
       var error = peer.CreateServer(Port, MaxPlayers);
-
-      if (error == Error.AlreadyInUse)
+      if (error != Error.Ok)
       {
-         OS.Alert("Multiplayer instance already has an open connection. It'll be closed. Please try again.");
-         Multiplayer.MultiplayerPeer.Close();
+         _logger.Error("Failed to start multiplayer server: {Error}", error);
+         OS.Alert("Failed to start multiplayer server.");
          return;
       }
-
-      Multiplayer.PeerConnected += OnPeerConnected;
-      Multiplayer.PeerDisconnected += OnPeerDisconnected;
 
       if (peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected)
       {
          OS.Alert("Failed to start multiplayer server.");
          return;
       }
-        
+
+      Multiplayer.PeerConnected -= OnPeerConnected;
+      Multiplayer.PeerDisconnected -= OnPeerDisconnected;
+      Multiplayer.PeerConnected += OnPeerConnected;
+      Multiplayer.PeerDisconnected += OnPeerDisconnected;
+
       _logger.Debug("Server started.");
       Multiplayer.MultiplayerPeer = peer;
       MultiplayerConfigUi.Hide();
       Lobby.Show();
 
       RegisterPlayer(1, Config.Settings.Nickname);
-
       UpdatePlayersList();
    }
     
@@ -175,11 +172,13 @@ public partial class NetworkSetup : Control
          return;
       }
 
+      CloseMultiplayerSession();
+
       var peer = new ENetMultiplayerPeer();
-      peer.CreateClient(address, Port);
-      if (peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected)
+      var error = peer.CreateClient(address, Port);
+      if (error != Error.Ok || peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected)
       {
-         _logger.Error("Failed to connect to server");
+         _logger.Error("Failed to connect to server: {Error}", error);
          return;
       }
 
@@ -224,6 +223,7 @@ public partial class NetworkSetup : Control
    private void StartGame()
    {
       MultiplayerConfigUi.Hide();
+      Lobby.Hide();
       GetTree().Paused = false;
       CallDeferred(nameof(ChangeLevel), ResourceLoader.Load("res://Scenes/Gameplay/Table.tscn"));
    }
@@ -309,5 +309,24 @@ public partial class NetworkSetup : Control
       }
 
       StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MaxPlayers;
+   }
+
+   private void CloseMultiplayerSession()
+   {
+      Multiplayer.PeerConnected -= OnPeerConnected;
+      Multiplayer.PeerDisconnected -= OnPeerDisconnected;
+
+      if (Multiplayer.MultiplayerPeer is ENetMultiplayerPeer peer)
+      {
+         peer.Close();
+         Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+      }
+
+      Players.Clear();
+      PlayersList.Clear();
+      ReadyButton.SetPressedNoSignal(false);
+      ReadyButton.Text = Tr("NOT_READY");
+      StartGameButton.Hide();
+      UpdatePlayersList();
    }
 }

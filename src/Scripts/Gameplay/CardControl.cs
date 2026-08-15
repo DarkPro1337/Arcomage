@@ -147,22 +147,18 @@ public partial class CardControl : Control
 
    private void OnGuiInput(InputEvent @event)
    {
-      if (_faceDown)
+      if (_faceDown || Preview)
          return;
 
       if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true })
       {
          _logger.Debug($"LMB pressed on {Name}");
-         if (CardActions == null)
-            return;
-
-         foreach (var action in CardActions)
-            action.Execute(Global.Table);
+         Global.Table?.OnCardClicked(this, discarded: false);
       }
       else if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true })
       {
          _logger.Debug($"RMB pressed on {Name}");
-         // TODO: implement card discarding
+         Global.Table?.OnCardClicked(this, discarded: true);
       }
    }
 

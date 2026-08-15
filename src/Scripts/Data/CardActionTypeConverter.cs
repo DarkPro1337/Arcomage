@@ -33,7 +33,7 @@ public class ActionTypeConverter : IYamlTypeConverter
 
    public void WriteYaml(IEmitter emitter, object value, Type type, ObjectSerializer serializer)
    {
-      throw new NotImplementedException("Writing actions to YAML is not supported. Why do you need this? :)");
+      throw new NotSupportedException("Writing actions to YAML is not supported. Why do you need this? :)");
    }
 
    private ActionBase ParseActionString(string actionString)

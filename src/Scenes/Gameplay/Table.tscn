@@ -1129,5 +1129,3 @@ layout_mode = 1
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=803166851]
 replication_config = SubResource("SceneReplicationConfig_qhtno")
-
-[connection signal="timeout" from="TimeElapsed" to="." method="_on_Time_Elapsed_timeout"]

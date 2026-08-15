@@ -103,7 +103,7 @@ public partial class Table
       return target switch
       {
          TargetType.Self => [self],
-         TargetType.Opponent => [players.FirstOrDefault(player => player.Id != self.Id)],
+         TargetType.Opponent => [GetOpponent(self)],
          TargetType.All => players.ToArray(),
          TargetType.AllExceptSelf => players.Where(player => player.Id != self.Id).ToArray(),
          TargetType.LowestWall => [players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
@@ -114,10 +114,34 @@ public partial class Table
       };
    }
 
-   public void Damage(Player target, int amount)
+   public Player GetOpponent(Player self)
+   {
+      if (self == null)
+         return null;
+
+      var opponentId = self.Id == _redPlayerId ? _bluePlayerId : _redPlayerId;
+      if (Players.TryGetValue(opponentId, out var opponent))
+         return opponent;
+
+      return Players.Values.FirstOrDefault(player => player.Id != self.Id);
+   }
+
+   public void Damage(Player target, int amount, ResourceTypes? resource = null)
    {
       if (amount <= 0)
          return;
+
+      if (resource == ResourceTypes.Tower)
+      {
+         target.TowerHp = Mathf.Max(0, target.TowerHp - amount);
+         return;
+      }
+
+      if (resource == ResourceTypes.Wall)
+      {
+         target.WallHp = Mathf.Max(0, target.WallHp - amount);
+         return;
+      }
 
       var wallDamage = Mathf.Min(target.WallHp, amount);
       target.WallHp -= wallDamage;

@@ -10,73 +10,6 @@ public partial class Table : Control
 {
    private static readonly Logger _logger = Logger.GetOrCreateLogger("Table");
 
-   #region Controls
-
-   private Control Particles => GetNode<Control>("Particles");
-   private TextureRect GraveyardCardBack => GetNode<TextureRect>("Graveyard/CardBack");
-   private GridContainer Graveyard => GetNode<GridContainer>("Graveyard");
-   private Label DrawCardLabel => GetNode<Label>("DrawCardLabel");
-   private Control EndGameScreen => GetNode<Control>("EndGame");
-   private Timer TimeElapsed => GetNode<Timer>("TimeElapsed");
-
-   private HBoxContainer RedDeck => GetNode<HBoxContainer>("RedDeck");
-   private HBoxContainer BlueDeck => GetNode<HBoxContainer>("BlueDeck");
-   private Label RedNamePanel => GetNode<Label>("RedPanel/Name");
-   private Label BlueNamePanel => GetNode<Label>("BluePanel/Name");
-   private ColorRect DeckLocker => GetNode<ColorRect>("DeckLocker");
-
-   private Panel RedBricksPanel => GetNode<Panel>("RedBricksPanel");
-   private Label RedBricksPerTurn => GetNode<Label>("RedBricksPanel/PerTurn");
-   private Label RedBricksTotal => GetNode<Label>("RedBricksPanel/Total");
-   private Panel RedGemsPanel => GetNode<Panel>("RedGemsPanel");
-   private Label RedGemsPerTurn => GetNode<Label>("RedGemsPanel/PerTurn");
-   private Label RedGemsTotal => GetNode<Label>("RedGemsPanel/Total");
-   private Panel RedRecruitsPanel => GetNode<Panel>("RedRecruitsPanel");
-   private Label RedRecruitsPerTurn => GetNode<Label>("RedRecruitsPanel/PerTurn");
-   private Label RedRecruitsTotal => GetNode<Label>("RedRecruitsPanel/Total");
-
-   private Panel BlueBricksPanel => GetNode<Panel>("BlueBricksPanel");
-   private Label BlueBricksPerTurn => GetNode<Label>("BlueBricksPanel/PerTurn");
-   private Label BlueBricksTotal => GetNode<Label>("BlueBricksPanel/Total");
-   private Panel BlueGemsPanel => GetNode<Panel>("BlueGemsPanel");
-   private Label BlueGemsPerTurn => GetNode<Label>("BlueGemsPanel/PerTurn");
-   private Label BlueGemsTotal => GetNode<Label>("BlueGemsPanel/Total");
-   private Panel BlueRecruitsPanel => GetNode<Panel>("BlueRecruitsPanel");
-   private Label BlueRecruitsPerTurn => GetNode<Label>("BlueRecruitsPanel/PerTurn");
-   private Label BlueRecruitsTotal => GetNode<Label>("BlueRecruitsPanel/Total");
-
-   private Panel RedBricksAltPanel => GetNode<Panel>("RedBricksPanelAlt");
-   private Label RedBricksAltPerTurn => GetNode<Label>("RedBricksPanelAlt/PerTurn");
-   private Label RedBricksAltTotal => GetNode<Label>("RedBricksPanelAlt/Total");
-   private Panel RedGemsAltPanel => GetNode<Panel>("RedGemsPanelAlt");
-   private Label RedGemsAltPerTurn => GetNode<Label>("RedGemsPanelAlt/PerTurn");
-   private Label RedGemsAltTotal => GetNode<Label>("RedGemsPanelAlt/Total");
-   private Panel RedRecruitsAltPanel => GetNode<Panel>("RedRecruitsPanelAlt");
-   private Label RedRecruitsAltPerTurn => GetNode<Label>("RedRecruitsPanelAlt/PerTurn");
-   private Label RedRecruitsAltTotal => GetNode<Label>("RedRecruitsPanelAlt/Total");
-
-   private Panel BlueBricksAltPanel => GetNode<Panel>("BlueBricksPanelAlt");
-   private Label BlueBricksAltPerTurn => GetNode<Label>("BlueBricksPanelAlt/PerTurn");
-   private Label BlueBricksAltTotal => GetNode<Label>("BlueBricksPanelAlt/Total");
-   private Panel BlueGemsAltPanel => GetNode<Panel>("BlueGemsPanelAlt");
-   private Label BlueGemsAltPerTurn => GetNode<Label>("BlueGemsPanelAlt/PerTurn");
-   private Label BlueGemsAltTotal => GetNode<Label>("BlueGemsPanelAlt/Total");
-   private Panel BlueRecruitsAltPanel => GetNode<Panel>("BlueRecruitsPanelAlt");
-   private Label BlueRecruitsAltPerTurn => GetNode<Label>("BlueRecruitsPanelAlt/PerTurn");
-   private Label BlueRecruitsAltTotal => GetNode<Label>("BlueRecruitsPanelAlt/Total");
-   private Control RedTower => GetNode<Control>("RedTower");
-   private Control RedWall => GetNode<Control>("RedWall");
-   private Label RedTowerHpPanel => GetNode<Label>("RedTowerPanel/Hp");
-   private Label RedWallHpPanel => GetNode<Label>("RedWallPanel/Hp");
-   private Control BlueTower => GetNode<Control>("BlueTower");
-   private Control BlueWall => GetNode<Control>("BlueWall");
-   private Label BlueTowerHpPanel => GetNode<Label>("BlueTowerPanel/Hp");
-   private Label BlueWallHpPanel => GetNode<Label>("BlueWallPanel/Hp");
-
-   private Control InGameMenu => GetNode<Control>("InGameMenu");
-
-   #endregion
-
    private const float MaxStructureHeight = 200f;
 
    private readonly RandomNumberGenerator _rng = new();
@@ -91,6 +24,13 @@ public partial class Table : Control
 
    public bool IsOffline { get; private set; }
 
+   private bool _gameStarted;
+   private bool _gameOver;
+   private bool _aiPlayQueued;
+   private bool _leavingMatch;
+   private long _winnerId;
+   private string _winReasonKey = string.Empty;
+
    [Signal]
    public delegate void GraveyardAnimationEndedEventHandler();
 
@@ -100,9 +40,45 @@ public partial class Table : Control
    public override void _Input(InputEvent @event)
    {
       base._Input(@event);
-      if (!Input.IsActionJustPressed("ui_cancel")) return;
+
+      if (_gameOver && MatchResult.Visible)
+      {
+         if (IsContinuePressed(@event))
+            LeaveMatch();
+         return;
+      }
+
+      if (!Input.IsActionJustPressed("ui_cancel"))
+         return;
+
       InGameMenu.Show();
       GetTree().Paused = true;
+   }
+
+   private static bool IsContinuePressed(InputEvent @event)
+   {
+      if (@event.IsActionPressed("ui_select") || @event.IsActionPressed("ui_accept"))
+         return true;
+
+      return @event is InputEventKey { Pressed: true, Echo: false, Keycode: Key.Space };
+   }
+
+   private async void LeaveMatch()
+   {
+      if (_leavingMatch)
+         return;
+
+      _leavingMatch = true;
+      var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
+      anim.Play("fade_out");
+      await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
+      GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+   }
+
+   public override void _EnterTree()
+   {
+      base._EnterTree();
+      TimeElapsed.Timeout += OnTimeElapsedTimeout;
    }
 
    public override void _Ready()
@@ -124,7 +100,10 @@ public partial class Table : Control
       InitializePlayersAndUi();
 
       if (!Multiplayer.IsServer())
+      {
+         RpcId(1, nameof(RequestGameState));
          return;
+      }
 
       Multiplayer.PeerConnected += AddPlayer;
       Multiplayer.PeerDisconnected += RemovePlayer;
@@ -135,14 +114,16 @@ public partial class Table : Control
       _turnPlayerId = GetRandomTurnPlayerId();
       AddResources(_turnPlayerId);
       PlaceStartCardsOnDeck();
-      if (IsOffline)
-         SetTurn(_turnPlayerId);
-      else
-         Rpc(nameof(SetTurn), _turnPlayerId);
+      _gameStarted = true;
+      SetTurn(_turnPlayerId);
+      BroadcastGameState();
+      TryStartAiTurn();
    }
 
    public override void _ExitTree()
    {
+      TimeElapsed.Timeout -= OnTimeElapsedTimeout;
+
       if (!Multiplayer.IsServer())
          return;
 
@@ -157,20 +138,9 @@ public partial class Table : Control
 
    private void PlaceStartCardsOnDeck()
    {
-      if (IsOffline)
-      {
-         SpawnInitialHands(
-            BuildRandomHandIds(Config.Settings.CardsInHand),
-            BuildRandomHandIds(Config.Settings.CardsInHand));
-         return;
-      }
-
-      if (!Multiplayer.IsServer())
-         return;
-
-      var redHand = BuildRandomHandIds(Config.Settings.CardsInHand);
-      var blueHand = BuildRandomHandIds(Config.Settings.CardsInHand);
-      Rpc(nameof(SpawnInitialHands), redHand, blueHand);
+      SpawnInitialHands(
+         BuildRandomHandIds(Config.Settings.CardsInHand),
+         BuildRandomHandIds(Config.Settings.CardsInHand));
    }
 
    private string[] BuildRandomHandIds(int count)
@@ -246,6 +216,7 @@ public partial class Table : Control
          IsOffline = true;
          if (!Players.ContainsKey(2))
             Players.Add(2, new Player { Id = 2, Name = "COMPUTER", Host = false, Ai = true });
+
          AssignSlots();
          UpdateNamePanels();
       }
@@ -305,13 +276,7 @@ public partial class Table : Control
          RpcId(id, nameof(RequestNickname));
    }
 
-   private void RemovePlayer(long id)
-   {
-      if (!Players.ContainsKey(id))
-         return;
-
-      Players.Remove(id);
-   }
+   private void RemovePlayer(long id) => Players.Remove(id);
 
    private void AddResources(long playerId)
    {
@@ -323,7 +288,6 @@ public partial class Table : Control
       player.Recruits += player.Dungeons;
    }
 
-   [Rpc(CallLocal = true)]
    private void SetTurn(long playerId)
    {
       if (!Players.TryGetValue(playerId, out var player))
@@ -354,6 +318,9 @@ public partial class Table : Control
 
       if (showBlue)
          ApplyDeckVisibility(BlueDeck, _bluePlayerId == localId);
+
+      UpdateCardAffordability();
+      UpdateTurnLockUi();
    }
 
    private bool IsLocalPlayerHost()
@@ -518,4 +485,9 @@ public partial class Table : Control
       UpdateNamePanels();
    }
 
+   private void OnTimeElapsedTimeout()
+   {
+      Elapsed++;
+      ElapsedString = $"{Elapsed / 60:D2}:{Elapsed % 60:D2}";
+   }
 }

@@ -366,7 +366,7 @@ cards:
     features:
       - playAgain
     actions:
-      - opponent.Damage(1)
+      - opponent.Tower.Lose(1)
   
   - id: amethyst
     name: Amethyst
