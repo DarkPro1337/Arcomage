@@ -16,6 +16,7 @@ public partial class Table
    private Label RedNamePanel => GetNode<Label>("RedPanel/Name");
    private Label BlueNamePanel => GetNode<Label>("BluePanel/Name");
    private ColorRect DeckLocker => GetNode<ColorRect>("DeckLocker");
+   private Control CardAnimLayer => GetNode<Control>("CardAnimLayer");
 
    private Panel RedBricksPanel => GetNode<Panel>("RedBricksPanel");
    private Label RedBricksPerTurn => GetNode<Label>("RedBricksPanel/PerTurn");

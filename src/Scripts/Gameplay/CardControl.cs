@@ -118,6 +118,22 @@ public partial class CardControl : Control
       Discarded.Visible = !faceDown && Discarded.Visible;
       MouseFilter = faceDown ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
    }
+
+   /// <summary>
+   /// Flips the card face-up, disables input, and optionally shows the discarded overlay
+   /// before it flies to the center or graveyard.
+   /// </summary>
+   public void BeginPlayAnimation(bool discarded)
+   {
+      Usable = false;
+      Used = true;
+      Preview = true;
+      Selector.Hide();
+      SetFaceDown(false);
+      MouseFilter = MouseFilterEnum.Ignore;
+      MouseDefaultCursorShape = CursorShape.Arrow;
+      Discarded.Visible = discarded;
+   }
     
    private void OnMouseEntered()
    {

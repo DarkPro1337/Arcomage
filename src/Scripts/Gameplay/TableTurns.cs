@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Arcomage.Core;
 using Arcomage.Data;
 using Godot;
@@ -24,12 +26,12 @@ public partial class Table
    /// <param name="card">The card control that received the click.</param>
    /// <param name="discarded"><see langword="true"/> to discard without resolving effects; <see langword="false"/> to play it.</param>
    /// <remarks>
-   /// The host and offline match resolve immediately. A client forwards the request to the server
+   /// The host and offline match resolve immediately. A client forwards the request to the server,
    /// so both peers apply the same result.
    /// </remarks>
    public void OnCardClicked(CardControl card, bool discarded)
    {
-      if (_gameOver || card == null)
+      if (_gameOver || _animating || card == null)
          return;
 
       var ownerId = GetOwnerId(card);
@@ -91,92 +93,225 @@ public partial class Table
    /// <param name="discarded"><see langword="true"/> to discard; <see langword="false"/> to pay the cost and run effects.</param>
    /// <remarks>
    /// While <see cref="Player.Discarding"/> is set (DrawDiscard cards), any click discards
-   /// and the same player keeps the turn afterwards.
+   /// and the same player keeps the turn afterward.
    /// </remarks>
    private void ResolveCardPlay(long playerId, int cardIndex, string cardId, bool discarded)
    {
-      if (_gameOver || !IsAuthority() || _turnPlayerId != playerId)
-         return;
+      _ = ResolveCardPlayAsync(playerId, cardIndex, cardId, discarded);
+   }
 
-      if (!Players.TryGetValue(playerId, out var player))
-         return;
-
-      var deck = GetDeckForPlayer(playerId);
-      if (deck == null)
-         return;
-
-      var cards = deck.GetChildren().OfType<CardControl>().ToList();
-      if (cardIndex < 0 || cardIndex >= cards.Count)
-         return;
-
-      var card = cards[cardIndex];
-      if (!string.IsNullOrEmpty(cardId) && card.CardId != cardId)
-         return;
-
-      if (player.Discarding)
+   private async Task ResolveCardPlayAsync(long playerId, int cardIndex, string cardId, bool discarded)
+   {
+      try
       {
-         if (!CanDiscard(card, cards))
+         if (_gameOver || !IsAuthority() || _turnPlayerId != playerId || _animating)
             return;
 
-         RemoveCard(deck, card);
-         player.Discarding = false;
-         FinishPlay(player, playAgain: true);
-         return;
-      }
-
-      if (discarded)
-      {
-         if (!CanDiscard(card, cards))
+         if (!Players.TryGetValue(playerId, out var player))
             return;
 
-         ReplaceCard(deck, card);
-         FinishPlay(player, playAgain: false);
-         return;
+         var deck = GetDeckForPlayer(playerId);
+         if (deck == null)
+            return;
+
+         var cards = deck.GetChildren().OfType<CardControl>().ToList();
+         if (cardIndex < 0 || cardIndex >= cards.Count)
+            return;
+
+         var card = cards[cardIndex];
+         if (!string.IsNullOrEmpty(cardId) && card.CardId != cardId)
+            return;
+
+         var discardedPlay = discarded;
+         var playAgain = false;
+         var enterDiscarding = false;
+         string replacementId;
+
+         if (player.Discarding)
+         {
+            if (!CanDiscard(card, cards))
+               return;
+
+            player.Discarding = false;
+            discardedPlay = true;
+            playAgain = true;
+            replacementId = PickRandomCardId();
+         }
+         else if (discarded)
+         {
+            if (!CanDiscard(card, cards))
+               return;
+
+            replacementId = PickRandomCardId();
+         }
+         else
+         {
+            if (!CanAfford(player, card))
+               return;
+
+            PayCost(player, card);
+
+            if (card.CardActions != null)
+            {
+               foreach (var action in card.CardActions)
+                  action.Execute(this);
+            }
+
+            playAgain = HasFeature(card, CardFeature.PlayAgain);
+            replacementId = PickRandomCardId();
+
+            if (HasFeature(card, CardFeature.DrawDiscard))
+            {
+               enterDiscarding = true;
+               playAgain = true;
+            }
+         }
+
+         player.PlayAgain = playAgain;
+         var clearGraveyard = !playAgain && !TryGetMatchResult(player, out _, out _);
+         await PlayResolvedCard(player, deck, card, cardIndex, discardedPlay, replacementId, playAgain, clearGraveyard, enterDiscarding);
       }
-
-      if (!CanAfford(player, card))
-         return;
-
-      PayCost(player, card);
-
-      if (card.CardActions != null)
+      catch (Exception ex)
       {
-         foreach (var action in card.CardActions)
-            action.Execute(this);
+         _logger.Error(ex, "Failed to resolve card play");
+         _animating = false;
+         if (IsInsideTree())
+            UpdateTurnLockUi();
       }
-
-      var playAgain = HasFeature(card, CardFeature.PlayAgain);
-      var drawDiscard = HasFeature(card, CardFeature.DrawDiscard);
-
-      ReplaceCard(deck, card);
-
-      if (drawDiscard)
-      {
-         DrawRandomCard(deck);
-         player.Discarding = true;
-         playAgain = true;
-      }
-
-      player.PlayAgain = playAgain;
-      FinishPlay(player, playAgain);
    }
 
    /// <summary>
-   /// Checks victory, then either keeps the current player (PlayAgain) or starts the opponent's turn.
+   /// Runs the play animation on every peer, then advances the turn on the authority.
    /// </summary>
-   /// <param name="player">The player who just played or discarded.</param>
-   /// <param name="playAgain">
-   /// When <see langword="true"/>, the same player acts again and does not receive turn income.
-   /// </param>
-   private void FinishPlay(Player player, bool playAgain)
+   private async Task PlayResolvedCard(
+      Player player,
+      HBoxContainer deck,
+      CardControl card,
+      int cardIndex,
+      bool discarded,
+      string replacementId,
+      bool playAgain,
+      bool clearGraveyard,
+      bool enterDiscarding)
+   {
+      _animating = true;
+      UpdateTurnLockUi();
+      AfterStateChanged();
+
+      if (!IsOffline && Multiplayer.IsServer())
+      {
+         Rpc(nameof(AnimateRemoteCardPlay),
+            player.Id, cardIndex, discarded,
+            replacementId, clearGraveyard,
+            SerializePlayer(_redPlayerId), SerializePlayer(_bluePlayerId));
+      }
+
+      try
+      {
+         await AnimateCardPlay(deck, card, discarded, replacementId);
+         if (!IsInsideTree())
+            return;
+
+         if (TryFinishGame(player))
+         {
+            BroadcastGameState();
+            return;
+         }
+
+         if (clearGraveyard)
+            await ClearGraveyardAnimated();
+
+         if (!IsInsideTree())
+            return;
+
+         if (enterDiscarding)
+            player.Discarding = true;
+
+         _animating = false;
+         AdvanceTurn(player, playAgain);
+      }
+      finally
+      {
+         _animating = false;
+         if (IsInsideTree())
+            UpdateTurnLockUi();
+      }
+   }
+
+   /// <summary>
+   /// Client-side playback of a card the host already resolved: apply stats, fly the card, then wait for the snapshot.
+   /// </summary>
+   [Rpc]
+   private void AnimateRemoteCardPlay(
+      long playerId,
+      int cardIndex,
+      bool discarded,
+      string replacementId,
+      bool clearGraveyard,
+      int[] redStats,
+      int[] blueStats)
+   {
+      _ = AnimateRemoteCardPlayAsync(playerId, cardIndex, discarded, replacementId, clearGraveyard, redStats, blueStats);
+   }
+
+   private async Task AnimateRemoteCardPlayAsync(
+      long playerId,
+      int cardIndex,
+      bool discarded,
+      string replacementId,
+      bool clearGraveyard,
+      int[] redStats,
+      int[] blueStats)
+   {
+      try
+      {
+         if (IsAuthority())
+            return;
+
+         ApplyPlayerStats(_redPlayerId, redStats);
+         ApplyPlayerStats(_bluePlayerId, blueStats);
+         UpdateStatPanelUi();
+
+         var deck = GetDeckForPlayer(playerId);
+         var cards = deck?.GetChildren().OfType<CardControl>().ToList();
+         if (deck == null || cardIndex < 0 || cardIndex >= cards.Count)
+            return;
+
+         _animating = true;
+         UpdateTurnLockUi();
+
+         try
+         {
+            await AnimateCardPlay(deck, cards[cardIndex], discarded, replacementId);
+            if (!IsInsideTree())
+               return;
+
+            if (clearGraveyard)
+               await ClearGraveyardAnimated();
+         }
+         finally
+         {
+            _animating = false;
+            if (IsInsideTree())
+               ApplyPendingRemoteState();
+         }
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Failed to play remote card animation");
+         _animating = false;
+         if (IsInsideTree())
+            ApplyPendingRemoteState();
+      }
+   }
+
+   /// <summary>
+   /// Either keeps the current player (PlayAgain) or starts the opponent's turn with income.
+   /// Victory for the acting player is checked before this is called, so a winning card can stay in the graveyard.
+   /// </summary>
+   private void AdvanceTurn(Player player, bool playAgain)
    {
       player.PlayAgain = playAgain;
-
-      if (TryFinishGame(player))
-      {
-         BroadcastGameState();
-         return;
-      }
 
       if (playAgain)
       {
@@ -206,7 +341,7 @@ public partial class Table
    /// </summary>
    private void TryStartAiTurn()
    {
-      if (_gameOver || !IsAuthority() || _aiPlayQueued)
+      if (_gameOver || !IsAuthority() || _aiPlayQueued || _animating)
          return;
 
       if (!Players.TryGetValue(_turnPlayerId, out var player) || !player.Ai)
@@ -319,6 +454,52 @@ public partial class Table
       long winnerId,
       string winReason)
    {
+      if (_animating)
+      {
+         _pendingRemoteState = new RemoteGameState(
+            turnPlayerId, redId, blueId, redStats, blueStats,
+            redHand, blueHand, discarding, gameOver, winnerId, winReason);
+         ApplyPlayerStats(_redPlayerId, redStats);
+         ApplyPlayerStats(_bluePlayerId, blueStats);
+         UpdateStatPanelUi();
+         return;
+      }
+
+      ApplyRemoteGameStateNow(
+         turnPlayerId, redId, blueId, redStats, blueStats,
+         redHand, blueHand, discarding, gameOver, winnerId, winReason);
+   }
+
+   private void ApplyPendingRemoteState()
+   {
+      if (_pendingRemoteState == null)
+      {
+         UpdateTurnLockUi();
+         return;
+      }
+
+      var pending = _pendingRemoteState;
+      _pendingRemoteState = null;
+      ApplyRemoteGameStateNow(
+         pending.TurnPlayerId, pending.RedId, pending.BlueId,
+         pending.RedStats, pending.BlueStats,
+         pending.RedHand, pending.BlueHand,
+         pending.Discarding, pending.GameOver, pending.WinnerId, pending.WinReason);
+   }
+
+   private void ApplyRemoteGameStateNow(
+      long turnPlayerId,
+      long redId,
+      long blueId,
+      int[] redStats,
+      int[] blueStats,
+      string[] redHand,
+      string[] blueHand,
+      bool discarding,
+      bool gameOver,
+      long winnerId,
+      string winReason)
+   {
       _redPlayerId = redId;
       _bluePlayerId = blueId;
       EnsurePlayer(redId);
@@ -329,7 +510,9 @@ public partial class Table
       if (Players.TryGetValue(turnPlayerId, out var current))
          current.Discarding = discarding;
 
-      SpawnInitialHands(redHand, blueHand);
+      if (!HandsMatch(redHand, blueHand))
+         SpawnInitialHands(redHand, blueHand);
+
       _gameStarted = true;
       _gameOver = gameOver;
       SetTurn(turnPlayerId);
@@ -340,6 +523,29 @@ public partial class Table
       if (Players.TryGetValue(winnerId, out var winner))
          ShowEndGame(winner, winReason);
    }
+
+   private bool HandsMatch(string[] redHand, string[] blueHand)
+   {
+      return redHand != null
+         && blueHand != null
+         && GetHandIds(RedDeck).SequenceEqual(redHand)
+         && GetHandIds(BlueDeck).SequenceEqual(blueHand);
+   }
+
+   private RemoteGameState _pendingRemoteState;
+
+   private sealed record RemoteGameState(
+      long TurnPlayerId,
+      long RedId,
+      long BlueId,
+      int[] RedStats,
+      int[] BlueStats,
+      string[] RedHand,
+      string[] BlueHand,
+      bool Discarding,
+      bool GameOver,
+      long WinnerId,
+      string WinReason);
 
    /// <summary>
    /// Rebuilds nameplates, hand visibility, and resource panels after a local state change.
@@ -379,13 +585,13 @@ public partial class Table
    }
 
    /// <summary>
-   /// Locks the hand while it is not the local human's turn, and shows the discard prompt when needed.
+   /// Locks the hand while it is not the local human's turn and shows the discard prompt when needed.
    /// </summary>
    private void UpdateTurnLockUi()
    {
       var current = GetCurrentPlayer();
       var localTurn = IsLocalPlayersTurn();
-      DeckLocker.Visible = _gameOver || !localTurn || current?.Ai == true;
+      DeckLocker.Visible = _gameOver || _animating || !localTurn || current?.Ai == true;
       DrawCardLabel.Visible = localTurn && current?.Discarding == true;
    }
 
@@ -400,6 +606,23 @@ public partial class Table
    /// </remarks>
    private bool TryFinishGame(Player actingPlayer)
    {
+      if (_gameOver)
+         return true;
+
+      if (!TryGetMatchResult(actingPlayer, out var winner, out var reasonKey))
+         return false;
+
+      return ShowEndGame(winner, reasonKey);
+   }
+
+   /// <summary>
+   /// Checks victory without showing the match-result overlay.
+   /// The acting player wins ties: their tower destruction / tower / resource victory is checked first.
+   /// </summary>
+   private bool TryGetMatchResult(Player actingPlayer, out Player winner, out string reasonKey)
+   {
+      winner = null;
+      reasonKey = string.Empty;
       if (actingPlayer == null)
          return false;
 
@@ -408,18 +631,46 @@ public partial class Table
          return false;
 
       if (opponent.TowerHp <= 0)
-         return ShowEndGame(actingPlayer, "TOWER_DESTROY_MSG");
+      {
+         winner = actingPlayer;
+         reasonKey = "TOWER_DESTROY_MSG";
+         return true;
+      }
+
       if (actingPlayer.TowerHp >= Config.Settings.TowerVictory)
-         return ShowEndGame(actingPlayer, "TOWER_VICTORY_MSG");
+      {
+         winner = actingPlayer;
+         reasonKey = "TOWER_VICTORY_MSG";
+         return true;
+      }
+
       if (GetResourceTotal(actingPlayer) >= Config.Settings.ResourceVictory)
-         return ShowEndGame(actingPlayer, "RESOURCE_VICTORY_MSG");
+      {
+         winner = actingPlayer;
+         reasonKey = "RESOURCE_VICTORY_MSG";
+         return true;
+      }
 
       if (actingPlayer.TowerHp <= 0)
-         return ShowEndGame(opponent, "TOWER_DESTROY_MSG");
+      {
+         winner = opponent;
+         reasonKey = "TOWER_DESTROY_MSG";
+         return true;
+      }
+
       if (opponent.TowerHp >= Config.Settings.TowerVictory)
-         return ShowEndGame(opponent, "TOWER_VICTORY_MSG");
+      {
+         winner = opponent;
+         reasonKey = "TOWER_VICTORY_MSG";
+         return true;
+      }
+
       if (GetResourceTotal(opponent) >= Config.Settings.ResourceVictory)
-         return ShowEndGame(opponent, "RESOURCE_VICTORY_MSG");
+      {
+         winner = opponent;
+         reasonKey = "RESOURCE_VICTORY_MSG";
+         return true;
+      }
 
       return false;
    }
@@ -457,7 +708,6 @@ public partial class Table
 
    /// <summary>
    /// Removes a card from the hand without drawing a replacement.
-   /// Used after DrawDiscard, where the extra card was already drawn.
    /// </summary>
    private static void RemoveCard(HBoxContainer deck, CardControl card)
    {

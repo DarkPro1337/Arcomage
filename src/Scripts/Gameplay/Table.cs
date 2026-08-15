@@ -27,6 +27,7 @@ public partial class Table : Control
    private bool _gameStarted;
    private bool _gameOver;
    private bool _aiPlayQueued;
+   private bool _animating;
    private bool _leavingMatch;
    private long _winnerId;
    private string _winReasonKey = string.Empty;
