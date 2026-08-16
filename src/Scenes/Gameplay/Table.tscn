@@ -66,38 +66,6 @@ _data = {
 &"fade": SubResource("14")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qhtno"]
-properties/0/path = NodePath("RedPanel/Name:text")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("BluePanel/Name:text")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath("RedWall:size")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-properties/3/path = NodePath("BlueWall:size")
-properties/3/spawn = true
-properties/3/replication_mode = 1
-properties/4/path = NodePath("RedTower:size")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-properties/5/path = NodePath("BlueTower:size")
-properties/5/spawn = true
-properties/5/replication_mode = 1
-properties/6/path = NodePath("RedTowerPanel/Hp:text")
-properties/6/spawn = true
-properties/6/replication_mode = 1
-properties/7/path = NodePath("RedWallPanel/Hp:text")
-properties/7/spawn = true
-properties/7/replication_mode = 1
-properties/8/path = NodePath("BlueWallPanel/Hp:text")
-properties/8/spawn = true
-properties/8/replication_mode = 1
-properties/9/path = NodePath("BlueTowerPanel/Hp:text")
-properties/9/spawn = true
-properties/9/replication_mode = 1
-
 [node name="Table" type="Control" unique_id=192559447]
 layout_mode = 3
 anchors_preset = 15
@@ -1136,6 +1104,3 @@ layout_mode = 1
 [node name="MatchResult" parent="." unique_id=1610393094 instance=ExtResource("26_7y44j")]
 visible = false
 layout_mode = 1
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=803166851]
-replication_config = SubResource("SceneReplicationConfig_qhtno")
