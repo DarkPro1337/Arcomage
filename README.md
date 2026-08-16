@@ -90,6 +90,15 @@ docker compose up
 3. Wait until the log shows `Startup done`. The game already defaults to `127.0.0.1:7350` (`defaultkey`).
 4. In the game, open **Multiplayer Game**: **Find Match**, **Create Room**, or **Join Room**. Create/Join Server is the old LAN path and does not need Nakama.
 
+Two Godot instances on the same PC share one hardware id, so Nakama would treat them as one player. Give the second instance a different `--playerName` (this only affects the Nakama device account, not real users):
+
+```bash
+godot --path "./"
+godot --path "./" --playerName=Test
+```
+
+Then **Create Room** on the first client and **Join Room** with that code on the second. The console should list two players, not one.
+
 Useful URLs while Compose is running:
 
 * Game API / WebSocket: `http://127.0.0.1:7350`

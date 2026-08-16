@@ -39,6 +39,8 @@ public partial class Boot : Node
    private static void ApplyNakamaCli()
    {
       var args = Global.GetCommandLineArgs();
+      if (args.TryGetValue("playerName", out var name) && !string.IsNullOrWhiteSpace(name))
+         Config.Settings.Nickname = name;
       if (args.TryGetValue("nakamaHost", out var host))
          Config.Settings.NakamaHost = host;
       if (args.TryGetValue("nakamaPort", out var port) && int.TryParse(port, out var parsed))

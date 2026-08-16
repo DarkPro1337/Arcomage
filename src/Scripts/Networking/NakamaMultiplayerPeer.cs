@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Godot;
 
 namespace Arcomage.Networking;
@@ -14,7 +15,13 @@ public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
    private const int MaxPacketBytes = 1 << 24;
 
    private readonly ConcurrentQueue<IncomingPacket> _incoming = new();
+   private readonly ConcurrentQueue<int> _pendingConnected = new();
+   private readonly ConcurrentQueue<int> _pendingDisconnected = new();
+
+   private readonly HashSet<int> _knownRemotes = [];
+
    private ConnectionStatus _status = ConnectionStatus.Disconnected;
+
    private int _selfId;
    private int _targetPeer;
    private bool _refusingNewConnections;
@@ -59,12 +66,14 @@ public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
       _targetPeer = pPeer;
    }
 
+   private int _lastPacketFrom = HostPeerId;
+
    public override int _GetPacketPeer()
    {
-      if (_status != ConnectionStatus.Connected || !_incoming.TryPeek(out var packet))
-         return HostPeerId;
+      if (_incoming.TryPeek(out var packet))
+         _lastPacketFrom = packet.From;
 
-      return packet.From;
+      return _lastPacketFrom;
    }
 
    public override bool _IsServer() => _selfId == HostPeerId;
@@ -73,6 +82,11 @@ public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
 
    public override void _Poll()
    {
+      while (_pendingConnected.TryDequeue(out var peerId))
+         EmitSignal(MultiplayerPeer.SignalName.PeerConnected, peerId);
+
+      while (_pendingDisconnected.TryDequeue(out var peerId))
+         EmitSignal(MultiplayerPeer.SignalName.PeerDisconnected, peerId);
    }
 
    public override int _GetUniqueId() => _selfId;
@@ -88,18 +102,27 @@ public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
       _status = ConnectionStatus.Disconnected;
       _incoming.Clear();
       _selfId = 0;
+      _knownRemotes.Clear();
+      Drain(_pendingConnected);
+      Drain(_pendingDisconnected);
    }
 
    public void BeginConnecting()
    {
       _status = ConnectionStatus.Connecting;
       _incoming.Clear();
+      _knownRemotes.Clear();
+      Drain(_pendingConnected);
+      Drain(_pendingDisconnected);
    }
 
    public void Initialize(int selfId)
    {
       _selfId = selfId;
       _status = ConnectionStatus.Connected;
+      _knownRemotes.Clear();
+      Drain(_pendingConnected);
+      Drain(_pendingDisconnected);
    }
 
    public void SetDisconnected()
@@ -114,18 +137,31 @@ public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
 
    public void NotifyPeerConnected(int peerId)
    {
-      if (peerId == _selfId)
+      if (peerId == _selfId || peerId <= 0)
          return;
 
-      EmitSignal(MultiplayerPeer.SignalName.PeerConnected, peerId);
+      if (!_knownRemotes.Add(peerId))
+         return;
+
+      _pendingConnected.Enqueue(peerId);
    }
 
    public void NotifyPeerDisconnected(int peerId)
    {
-      if (peerId == _selfId)
+      if (peerId == _selfId || peerId <= 0)
          return;
 
-      EmitSignal(MultiplayerPeer.SignalName.PeerDisconnected, peerId);
+      if (!_knownRemotes.Remove(peerId))
+         return;
+
+      _pendingDisconnected.Enqueue(peerId);
+   }
+
+   private static void Drain(ConcurrentQueue<int> queue)
+   {
+      while (queue.TryDequeue(out _))
+      {
+      }
    }
 
    private sealed class IncomingPacket(byte[] data, int from)

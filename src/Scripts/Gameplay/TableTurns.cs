@@ -51,6 +51,12 @@ public partial class Table
       if (ownerId != Multiplayer.GetUniqueId())
          return;
 
+      if (Global.Online is { IsInMatch: true })
+      {
+         _ = Global.Online.SendCardPlay(cardIndex, cardId, discarded, _selectedTargetId);
+         return;
+      }
+
       RpcId(1, nameof(RequestCardPlay), cardIndex, cardId, discarded, _selectedTargetId);
    }
 
@@ -60,6 +66,7 @@ public partial class Table
    /// <param name="cardIndex">Index of the card in the sender's hand.</param>
    /// <param name="cardId">Expected card id, used to reject a desynced hand.</param>
    /// <param name="discarded"><see langword="true"/> if the sender discarded instead of playing.</param>
+   /// <param name="targetId">Enemy seat the sender selected, or <c>0</c> to use the default.</param>
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
    private void RequestCardPlay(int cardIndex, string cardId, bool discarded, long targetId)
    {
@@ -92,6 +99,7 @@ public partial class Table
    /// <param name="cardIndex">Index of the card in that player's hand.</param>
    /// <param name="cardId">Expected card id, or empty to skip the id check.</param>
    /// <param name="discarded"><see langword="true"/> to discard; <see langword="false"/> to pay the cost and run effects.</param>
+   /// <param name="targetId">Enemy seat to hit, or <c>0</c> to pick the default living enemy.</param>
    /// <remarks>
    /// While <see cref="Player.Discarding"/> is set (DrawDiscard cards), any click discards
    /// and the same player keeps the turn afterward.
@@ -283,9 +291,16 @@ public partial class Table
 
          CardControl flying = null;
          if (cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
+         {
             flying = cards[cue.CardIndex];
+            if (!string.IsNullOrEmpty(cue.PlayedCardId) && flying.CardId != cue.PlayedCardId)
+               flying = ReplaceHandCard(deck, flying, cue.PlayedCardId);
+         }
          else if (!string.IsNullOrEmpty(cue.PlayedCardId))
+         {
             flying = (CardControl)CreateCard(cue.PlayedCardId);
+            deck?.AddChild(flying);
+         }
 
          if (flying == null)
             return;
@@ -435,18 +450,44 @@ public partial class Table
    /// <param name="peerId">Target peer id, or <c>0</c> to broadcast to all clients.</param>
    private void SendGameState(long peerId = 0)
    {
+      if (Global.Online is { IsInMatch: true })
+      {
+         SendNakamaSnapshots(peerId);
+         return;
+      }
+
       if (peerId != 0)
       {
+         if (Array.IndexOf(Multiplayer.GetPeers(), (int)peerId) < 0)
+            return;
+
          RpcId(peerId, nameof(ApplyRemoteGameState), SnapshotJson.Serialize(BuildSnapshot(peerId)));
          return;
       }
 
-      var peers = Multiplayer.GetPeers().Select(id => (long)id).ToList();
-      if (peers.Count == 0)
-         peers = [.. Players.Keys.Where(id => id != Multiplayer.GetUniqueId() && id > 0 && id < 100)];
-
+      var peers = Multiplayer.GetPeers();
       foreach (var id in peers)
+      {
+         if (id == Multiplayer.GetUniqueId())
+            continue;
+
          RpcId(id, nameof(ApplyRemoteGameState), SnapshotJson.Serialize(BuildSnapshot(id)));
+      }
+   }
+
+   private void SendNakamaSnapshots(long peerId)
+   {
+      if (peerId != 0)
+      {
+         _ = Global.Online.SendSnapshot((int)peerId, SnapshotJson.Serialize(BuildSnapshot(peerId)));
+         return;
+      }
+
+      var self = Multiplayer.GetUniqueId();
+      foreach (var id in Players.Keys.Where(id => id != self && id is > 0 and < 100))
+      {
+         _ = Global.Online.SendSnapshot((int)id, SnapshotJson.Serialize(BuildSnapshot(id)));
+      }
    }
 
    [Rpc]
@@ -493,13 +534,18 @@ public partial class Table
       }
 
       EnsureHandContainers();
-      BindSeatHuds();
+      if (_hudByPlayer.Count != _seatOrder.Count)
+         BindSeatHuds();
+      else
+         UpdateNamePanels();
 
       var localId = GetLocalHumanId();
       foreach (var playerSnap in snapshot.Players)
       {
          if (playerSnap.Id == localId && playerSnap.Hand is { Length: > 0 })
             ApplyHand(playerSnap.Id, playerSnap.Hand);
+         else if (playerSnap.Id != localId)
+            ApplyHiddenHand(playerSnap.Id, playerSnap.HandCount);
       }
 
       if (Players.TryGetValue(snapshot.TurnPlayerId, out var current))
@@ -679,7 +725,7 @@ public partial class Table
       if (actingPlayer == null)
          return false;
 
-      EliminateDestroyedTowers(actingPlayer);
+      EliminateDestroyedTowers();
 
       if (actingPlayer.TowerHp >= Config.Settings.TowerVictory)
       {
@@ -746,7 +792,7 @@ public partial class Table
       return false;
    }
 
-   private void EliminateDestroyedTowers(Player actingPlayer)
+   private void EliminateDestroyedTowers()
    {
       if (MatchMode == MatchMode.OneVsOne)
          return;

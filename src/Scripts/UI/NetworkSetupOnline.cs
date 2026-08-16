@@ -1,3 +1,4 @@
+using System;
 using Arcomage.Core;
 using Arcomage.Gameplay;
 using Arcomage.Networking;
@@ -72,40 +73,61 @@ public partial class NetworkSetup
 
    private async void OnFindMatchPressed()
    {
-      _usingNakama = true;
-      Global.PendingMatchMode = _mode;
-      Global.PendingRanked = _rankedCheck.ButtonPressed;
-      _maxPlayers = MatchModeRules.MaxPlayers(_mode);
-      if (!await Global.Online.FindMatch(_mode, _rankedCheck.ButtonPressed))
-         return;
+      try
+      {
+         _usingNakama = true;
+         Global.PendingMatchMode = _mode;
+         Global.PendingRanked = _rankedCheck.ButtonPressed;
+         _maxPlayers = MatchModeRules.MaxPlayers(_mode);
+         if (!await Global.Online.FindMatch(_mode, _rankedCheck.ButtonPressed))
+            return;
 
-      CallDeferred(nameof(ShowOnlineLobby), false);
+         CallDeferred(nameof(ShowOnlineLobby), false);
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Find match");
+      }
    }
 
    private async void OnCreateRoomPressed()
    {
-      _usingNakama = true;
-      Global.PendingMatchMode = _mode;
-      Global.PendingRanked = false;
+      try
+      {
+         _usingNakama = true;
+         Global.PendingMatchMode = _mode;
+         Global.PendingRanked = false;
 
-      var code = await Global.Online.CreateRoom(_mode);
-      if (string.IsNullOrEmpty(code))
-         return;
+         var code = await Global.Online.CreateRoom(_mode);
+         if (string.IsNullOrEmpty(code))
+            return;
 
-      CallDeferred(nameof(ShowCreatedRoom), code);
+         CallDeferred(nameof(ShowCreatedRoom), code);
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Create room");
+      }
    }
 
    private async void OnJoinRoomPressed()
    {
-      _usingNakama = true;
-      Global.PendingMatchMode = _mode;
-      Global.PendingRanked = false;
+      try
+      {
+         _usingNakama = true;
+         Global.PendingMatchMode = _mode;
+         Global.PendingRanked = false;
 
-      var code = _roomCode.Text;
-      if (!await Global.Online.JoinRoom(code, _mode))
-         return;
+         var code = _roomCode.Text;
+         if (!await Global.Online.JoinRoom(code, _mode))
+            return;
 
-      CallDeferred(nameof(ShowOnlineLobby), true);
+         CallDeferred(nameof(ShowOnlineLobby), true);
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Join room");
+      }
    }
 
    private void ShowCreatedRoom(string code)
@@ -134,6 +156,7 @@ public partial class NetworkSetup
          return;
       }
 
+      AttachNakamaPeer();
       SyncNakamaPlayers();
    }
 
@@ -192,8 +215,11 @@ public partial class NetworkSetup
       if (Global.Online?.Peer == null)
          return;
 
-      Multiplayer.MultiplayerPeer = Global.Online.Peer;
+      if (Multiplayer.MultiplayerPeer != Global.Online.Peer)
+         Multiplayer.MultiplayerPeer = Global.Online.Peer;
+
       Multiplayer.Set("server_relay", true);
+      Global.Online.NotifyGodotPeers();
    }
 
    private void SyncNakamaPlayers()

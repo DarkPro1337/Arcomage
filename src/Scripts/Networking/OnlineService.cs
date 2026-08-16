@@ -20,6 +20,9 @@ public partial class OnlineService : Node
    public const int OpHostClaim = 3;
    public const int OpChat = 4;
    public const int OpStartMatch = 5;
+   public const int OpSnapshot = 6;
+   public const int OpRequestSnapshot = 7;
+   public const int OpCardPlay = 8;
 
    public static OnlineService Instance { get; private set; }
 
@@ -43,10 +46,14 @@ public partial class OnlineService : Node
    public event Action MatchLeft;
    public event Action<string, string> ChatReceived;
    public event Action PeersChanged;
+   public event Action<string> SnapshotReceived;
+   public event Action<int> SnapshotRequested;
+   public event Action<int, int, string, bool, long> CardPlayReceived;
 
    private readonly Dictionary<string, int> _userToPeer = new();
    private readonly Dictionary<int, string> _peerToUser = new();
    private readonly Dictionary<string, string> _userNames = new();
+   private readonly Dictionary<string, IUserPresence> _presences = new();
    private readonly ConcurrentQueue<Action> _mainThread = new();
    private string _hostUserId = string.Empty;
    private IMatchmakerTicket _ticket;
@@ -138,12 +145,18 @@ public partial class OnlineService : Node
             Timeout = 10
          };
 
-         var deviceId = OS.GetUniqueId();
-         if (string.IsNullOrWhiteSpace(deviceId))
-            deviceId = Guid.NewGuid().ToString("N");
-
+         var deviceId = BuildDeviceId();
          var username = SanitizeUsername(Config.Settings.Nickname);
          Session = await Client.AuthenticateDeviceAsync(deviceId, username);
+         try
+         {
+            await Client.UpdateAccountAsync(Session, username, Config.Settings.Nickname);
+         }
+         catch (Exception ex)
+         {
+            _logger.Debug("Update account skipped: {Message}", ex.Message);
+         }
+
          Socket = Nakama.Socket.From(Client);
          Socket.ReceivedMatchmakerMatched += matched => RunOnMainThread(() => OnMatchmakerMatched(matched));
          Socket.ReceivedMatchState += state => RunOnMainThread(() => OnMatchState(state));
@@ -151,6 +164,7 @@ public partial class OnlineService : Node
          Socket.ReceivedChannelMessage += message => RunOnMainThread(() => OnChannelMessage(message));
          Socket.Closed += () => RunOnMainThread(OnSocketClosed);
          await Socket.ConnectAsync(Session, true);
+         _logger.Debug("Nakama session {UserId} as {Username} (device {DeviceId})", Session.UserId, username, deviceId);
          SetStatus("ONLINE_CONNECTED");
          return true;
       }
@@ -223,19 +237,19 @@ public partial class OnlineService : Node
 
    public async Task CancelMatchmaker()
    {
-      if (Socket == null || _ticket == null)
+      var ticket = _ticket;
+      _ticket = null;
+      if (Socket == null || ticket == null)
          return;
 
       try
       {
-         await Socket.RemoveMatchmakerAsync(_ticket);
+         await Socket.RemoveMatchmakerAsync(ticket);
       }
       catch (Exception ex)
       {
-         _logger.Debug(ex, "Remove matchmaker");
+         _logger.Debug("Remove matchmaker skipped: {Message}", ex.Message);
       }
-
-      _ticket = null;
    }
 
    public async Task<string> CreateRoom(MatchMode mode)
@@ -313,6 +327,7 @@ public partial class OnlineService : Node
       _userToPeer.Clear();
       _peerToUser.Clear();
       _userNames.Clear();
+      _presences.Clear();
       _hostUserId = string.Empty;
       MatchCode = string.Empty;
       MatchLeft?.Invoke();
@@ -320,11 +335,104 @@ public partial class OnlineService : Node
 
    public IEnumerable<(int PeerId, string Name)> ListPeers()
    {
-      foreach (var (peerId, userId) in _peerToUser.OrderBy(pair => pair.Key))
+      if (_peerToUser.Count > 0)
       {
-         _userNames.TryGetValue(userId, out var name);
-         yield return (peerId, string.IsNullOrEmpty(name) ? userId : name);
+         foreach (var (peerId, userId) in _peerToUser.OrderBy(pair => pair.Key))
+            yield return (peerId, ResolvePeerName(userId, string.Empty));
+         yield break;
       }
+
+      BindMatchNames();
+      var seen = new HashSet<string>();
+      var id = 1;
+      if (Match?.Self != null && seen.Add(Match.Self.UserId))
+         yield return (id++, ResolvePeerName(Match.Self.UserId, Match.Self.Username));
+
+      if (Match?.Presences == null)
+         yield break;
+
+      foreach (var presence in Match.Presences)
+      {
+         if (!seen.Add(presence.UserId))
+            continue;
+
+         yield return (id++, ResolvePeerName(presence.UserId, presence.Username));
+      }
+   }
+
+   private string ResolvePeerName(string userId, string fallback)
+   {
+      if (_userNames.TryGetValue(userId, out var name) && !string.IsNullOrEmpty(name))
+         return name;
+
+      if (userId == Session?.UserId)
+         return Config.Settings.Nickname;
+
+      return string.IsNullOrEmpty(fallback) ? userId : fallback;
+   }
+
+   public async Task SendSnapshot(int peerId, string json)
+   {
+      if (Socket == null || Match == null || string.IsNullOrEmpty(json))
+         return;
+
+      try
+      {
+         await Socket.SendMatchStateAsync(Match.Id, OpSnapshot, $"{peerId}\n{json}");
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Send snapshot to peer {PeerId}", peerId);
+      }
+   }
+
+   public async Task RequestSnapshot()
+   {
+      if (Socket == null || Match == null)
+         return;
+
+      try
+      {
+         await Socket.SendMatchStateAsync(Match.Id, OpRequestSnapshot, Array.Empty<byte>());
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Request snapshot");
+      }
+   }
+
+   public async Task SendCardPlay(int cardIndex, string cardId, bool discarded, long targetId)
+   {
+      if (Socket == null || Match == null)
+         return;
+
+      var payload = $"{cardIndex}\n{cardId}\n{(discarded ? 1 : 0)}\n{targetId}";
+      try
+      {
+         await Socket.SendMatchStateAsync(Match.Id, OpCardPlay, payload);
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Send card play");
+      }
+   }
+
+   private void RememberPresence(IUserPresence presence)
+   {
+      if (presence == null || string.IsNullOrEmpty(presence.UserId))
+         return;
+
+      _presences[presence.UserId] = presence;
+   }
+
+   private void TrackMatchPresences()
+   {
+      RememberPresence(Match?.Self);
+      if (Match?.Presences == null)
+         return;
+
+      foreach (var presence in Match.Presences)
+         RememberPresence(presence);
    }
 
    public async Task SendChat(string text)
@@ -357,7 +465,7 @@ public partial class OnlineService : Node
 
       try
       {
-         TableChannel = await Socket.JoinChatAsync($"match_{Match.Id}", ChannelType.Room, false, false);
+         TableChannel = await Socket.JoinChatAsync($"match_{Match.Id}", ChannelType.Room);
       }
       catch (Exception ex)
       {
@@ -432,6 +540,19 @@ public partial class OnlineService : Node
       {
          _ticket = null;
          Match = await Socket.JoinMatchAsync(matched);
+         TrackMatchPresences();
+         foreach (var user in matched.Users)
+         {
+            if (user.Presence == null)
+               continue;
+
+            RememberPresence(user.Presence);
+            _userNames[user.Presence.UserId] = string.IsNullOrEmpty(user.Presence.Username)
+               ? user.Presence.UserId
+               : user.Presence.Username;
+         }
+
+         _userNames[Session.UserId] = Config.Settings.Nickname;
          ElectHostFromUsers(matched.Users.Select(user => user.Presence.UserId).Append(Session.UserId));
          SetStatus("ONLINE_MATCHED");
          MatchReady?.Invoke();
@@ -455,11 +576,21 @@ public partial class OnlineService : Node
       BindPeer();
    }
 
+   public void NotifyGodotPeers()
+   {
+      if (Peer == null)
+         return;
+
+      foreach (var peerId in _peerToUser.Keys)
+         Peer.NotifyPeerConnected(peerId);
+   }
+
    private void InitializeAsHost()
    {
       _hostUserId = Session.UserId;
       _userNames[Session.UserId] = Config.Settings.Nickname;
-      BuildPeerMap(new[] { Session.UserId }.Concat(Match.Presences.Select(p => p.UserId)));
+      TrackMatchPresences();
+      BuildPeerMap(new[] { Session.UserId }.Concat(_presences.Keys));
       BindPeer();
       _ = SendHostClaim();
       _ = SendPeerAssignments();
@@ -468,9 +599,13 @@ public partial class OnlineService : Node
    private void InitializeAsClient()
    {
       _userNames[Session.UserId] = Config.Settings.Nickname;
-      Peer = new NakamaMultiplayerPeer();
+      if (Peer == null)
+      {
+         Peer = new NakamaMultiplayerPeer();
+         Peer.PacketGenerated += OnGodotPacketGenerated;
+      }
+
       Peer.BeginConnecting();
-      Peer.PacketGenerated += OnGodotPacketGenerated;
       BindMatchNames();
    }
 
@@ -513,13 +648,14 @@ public partial class OnlineService : Node
       if (!_userToPeer.TryGetValue(Session.UserId, out var selfId))
          return;
 
-      var previous = Peer;
-      if (previous != null)
-         previous.PacketGenerated -= OnGodotPacketGenerated;
+      if (Peer == null)
+      {
+         Peer = new NakamaMultiplayerPeer();
+         Peer.PacketGenerated += OnGodotPacketGenerated;
+      }
 
-      Peer = new NakamaMultiplayerPeer();
-      Peer.PacketGenerated += OnGodotPacketGenerated;
       Peer.Initialize(selfId);
+      NotifyGodotPeers();
       PeersChanged?.Invoke();
    }
 
@@ -545,11 +681,17 @@ public partial class OnlineService : Node
    {
       BindMatchNames();
       foreach (var joined in presence.Joins)
+      {
+         RememberPresence(joined);
          _userNames[joined.UserId] = joined.Username;
+      }
+
+      foreach (var left in presence.Leaves)
+         _presences.Remove(left.UserId);
 
       if (_forceHost)
       {
-         var ids = new[] { Session.UserId }.Concat(Match?.Presences.Select(p => p.UserId) ?? []);
+         var ids = new[] { Session.UserId }.Concat(_presences.Keys);
          foreach (var left in presence.Leaves)
             ids = ids.Where(id => id != left.UserId);
 
@@ -560,6 +702,7 @@ public partial class OnlineService : Node
       }
 
       NotifyPeerChanges(presence);
+      PeersChanged?.Invoke();
    }
 
    private void NotifyPeerChanges(IMatchPresenceEvent presence)
@@ -603,7 +746,41 @@ public partial class OnlineService : Node
          case OpStartMatch:
             MatchReady?.Invoke();
             break;
+         case OpSnapshot:
+            ApplyIncomingSnapshot(Encoding.UTF8.GetString(state.State));
+            break;
+         case OpRequestSnapshot:
+            if (Peer is { IsHost: true } && state.UserPresence != null && _userToPeer.TryGetValue(state.UserPresence.UserId, out var requester))
+               SnapshotRequested?.Invoke(requester);
+            break;
+         case OpCardPlay:
+            if (Peer is not { IsHost: true } || state.UserPresence == null || !_userToPeer.TryGetValue(state.UserPresence.UserId, out var fromPeer))
+               break;
+            ParseCardPlay(Encoding.UTF8.GetString(state.State), fromPeer);
+            break;
       }
+   }
+
+   private void ApplyIncomingSnapshot(string raw)
+   {
+      var json = raw;
+      var split = raw.IndexOf('\n');
+      if (split > 0 && int.TryParse(raw[..split], out var target) && target > 0)
+      {
+         var self = 0;
+         if (Session != null)
+            _userToPeer.TryGetValue(Session.UserId, out self);
+
+         if (self == 0)
+            self = Peer?._GetUniqueId() ?? 0;
+
+         if (self != 0 && target != self)
+            return;
+
+         json = raw[(split + 1)..];
+      }
+
+      SnapshotReceived?.Invoke(json);
    }
 
    private void ApplyPeerAssignments(string body)
@@ -621,11 +798,20 @@ public partial class OnlineService : Node
       }
 
       BindPeer();
-      if (Peer != null)
-      {
-         foreach (var peerId in _peerToUser.Keys)
-            Peer.NotifyPeerConnected(peerId);
-      }
+   }
+
+   private void ParseCardPlay(string body, int fromPeer)
+   {
+      var parts = body.Split('\n');
+      if (parts.Length < 4)
+         return;
+
+      if (!int.TryParse(parts[0], out var index))
+         return;
+
+      var discarded = parts[2] == "1";
+      long.TryParse(parts[3], out var targetId);
+      CardPlayReceived?.Invoke(fromPeer, index, parts[1], discarded, targetId);
    }
 
    private void DeliverGodotPacket(byte[] buffer)
@@ -645,15 +831,15 @@ public partial class OnlineService : Node
 
    private async void OnGodotPacketGenerated(int targetPeer, byte[] payload)
    {
-      if (Socket == null || Match == null || Peer == null)
-         return;
-
-      var packet = new byte[8 + payload.Length];
-      BitConverter.GetBytes(Peer._GetUniqueId()).CopyTo(packet, 0);
-      BitConverter.GetBytes(targetPeer).CopyTo(packet, 4);
-      payload.CopyTo(packet, 8);
       try
       {
+         if (Socket == null || Match == null || Peer == null)
+            return;
+
+         var packet = new byte[8 + payload.Length];
+         BitConverter.GetBytes(Peer._GetUniqueId()).CopyTo(packet, 0);
+         BitConverter.GetBytes(targetPeer).CopyTo(packet, 4);
+         payload.CopyTo(packet, 8);
          await Socket.SendMatchStateAsync(Match.Id, OpGodotPacket, packet);
       }
       catch (Exception ex)
@@ -754,6 +940,26 @@ public partial class OnlineService : Node
          chars[i] = alphabet[rng.Next(alphabet.Length)];
 
       return new string(chars);
+   }
+
+   private static string BuildDeviceId()
+   {
+      var hardware = OS.GetUniqueId();
+      if (string.IsNullOrWhiteSpace(hardware))
+         hardware = "godot-device";
+
+      var args = Global.GetCommandLineArgs();
+      var suffix = string.Empty;
+      if (args.TryGetValue("nakamaDevice", out var device) && !string.IsNullOrWhiteSpace(device))
+         suffix = device.Trim();
+      else if (args.TryGetValue("playerName", out var playerName) && !string.IsNullOrWhiteSpace(playerName))
+         suffix = playerName.Trim();
+
+      var id = string.IsNullOrEmpty(suffix) ? hardware : $"{hardware}:{suffix}";
+      if (id.Length < 10)
+         id = id.PadRight(10, '0');
+
+      return id.Length <= 128 ? id : id[..128];
    }
 
    private static string SanitizeUsername(string name)

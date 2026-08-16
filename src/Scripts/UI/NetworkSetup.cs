@@ -49,6 +49,8 @@ public partial class NetworkSetup : Control
       ReadyButton.Toggled -= OnReadyPressed;
       StartGameButton.Pressed -= OnStartGamePressed;
 
+      UnbindLanPeerSignals();
+
       Multiplayer.ConnectionFailed -= OnConnectionFailed;
       Multiplayer.ServerDisconnected -= OnServerDisconnected;
       Multiplayer.ConnectedToServer -= OnConnectedToServer;
@@ -85,9 +87,6 @@ public partial class NetworkSetup : Control
    private void OnCancelPressed()
    {
       CloseMultiplayerSession();
-      if (Global.Online != null)
-         _ = Global.Online.LeaveMatch();
-
       Lobby.Hide();
       MultiplayerConfigUi.Show();
       Hide();
@@ -114,6 +113,9 @@ public partial class NetworkSetup : Control
 
    private void OnConnectedToServer()
    {
+      if (_usingNakama)
+         return;
+
       _logger.Debug("Connected to server.");
       MultiplayerConfigUi.Hide();
       Lobby.Show();
@@ -142,10 +144,7 @@ public partial class NetworkSetup : Control
          return;
       }
 
-      Multiplayer.PeerConnected -= OnPeerConnected;
-      Multiplayer.PeerDisconnected -= OnPeerDisconnected;
-      Multiplayer.PeerConnected += OnPeerConnected;
-      Multiplayer.PeerDisconnected += OnPeerDisconnected;
+      BindLanPeerSignals();
 
       _logger.Debug("Server started.");
       Multiplayer.MultiplayerPeer = peer;
@@ -209,6 +208,9 @@ public partial class NetworkSetup : Control
          return;
       player.Ready = toggle;
       UpdatePlayersList();
+
+      if (Multiplayer.MultiplayerPeer == null || Multiplayer.MultiplayerPeer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Connected)
+         return;
 
       Rpc(nameof(UpdateReadyStatus), id, toggle);
    }
@@ -350,10 +352,31 @@ public partial class NetworkSetup : Control
          StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MatchModeRules.MinPlayers(_mode) && Players.Count < _maxPlayers;
    }
 
-   private void CloseMultiplayerSession()
+   private bool _lanPeerSignalsBound;
+
+   private void BindLanPeerSignals()
    {
+      if (_lanPeerSignalsBound)
+         return;
+
+      Multiplayer.PeerConnected += OnPeerConnected;
+      Multiplayer.PeerDisconnected += OnPeerDisconnected;
+      _lanPeerSignalsBound = true;
+   }
+
+   private void UnbindLanPeerSignals()
+   {
+      if (!_lanPeerSignalsBound)
+         return;
+
       Multiplayer.PeerConnected -= OnPeerConnected;
       Multiplayer.PeerDisconnected -= OnPeerDisconnected;
+      _lanPeerSignalsBound = false;
+   }
+
+   private void CloseMultiplayerSession()
+   {
+      UnbindLanPeerSignals();
 
       if (Multiplayer.MultiplayerPeer is ENetMultiplayerPeer peer)
       {
@@ -363,10 +386,11 @@ public partial class NetworkSetup : Control
       else if (_usingNakama)
       {
          Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
-         _usingNakama = false;
-         if (Global.Online != null)
-            _ = Global.Online.LeaveMatch();
       }
+
+      _usingNakama = false;
+      if (Global.Online != null)
+         _ = Global.Online.LeaveMatch();
 
       Players.Clear();
       PlayersList.Clear();

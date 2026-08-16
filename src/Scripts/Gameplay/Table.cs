@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Arcomage.Core;
@@ -47,11 +48,90 @@ public partial class Table : Control
          return;
       }
 
+      if (_matchChat != null && _matchChat.TryHandleInput(@event))
+         return;
+
       if (!Input.IsActionJustPressed("ui_cancel"))
          return;
 
       InGameMenu.Show();
       GetTree().Paused = true;
+   }
+
+   private int _hostStateRetries;
+
+   private void RequestHostGameState()
+   {
+      if (IsOffline || Multiplayer.IsServer() || _gameStarted)
+         return;
+
+      if (Global.Online is { IsInMatch: true })
+      {
+         if (_hostStateRetries > 0)
+            return;
+
+         _hostStateRetries = 1;
+         _ = Global.Online.RequestSnapshot();
+         var timer = GetTree().CreateTimer(1.5);
+         timer.Timeout += OnSnapshotRetryTimeout;
+         return;
+      }
+
+      if (Array.IndexOf(Multiplayer.GetPeers(), 1) >= 0)
+      {
+         RpcId(1, nameof(RequestGameState));
+         return;
+      }
+
+      if (_hostStateRetries++ < 10)
+         CallDeferred(nameof(RequestHostGameState));
+   }
+
+   private void OnSnapshotRetryTimeout()
+   {
+      if (!IsInsideTree() || _gameStarted || Multiplayer.IsServer())
+         return;
+
+      _hostStateRetries = 0;
+      RequestHostGameState();
+   }
+
+   private void BindOnlineSync()
+   {
+      if (Global.Online is not { IsInMatch: true })
+         return;
+
+      Global.Online.SnapshotReceived += OnNakamaSnapshot;
+      Global.Online.SnapshotRequested += OnNakamaSnapshotRequested;
+      Global.Online.CardPlayReceived += OnNakamaCardPlay;
+   }
+
+   private void UnbindOnlineSync()
+   {
+      if (Global.Online == null)
+         return;
+
+      Global.Online.SnapshotReceived -= OnNakamaSnapshot;
+      Global.Online.SnapshotRequested -= OnNakamaSnapshotRequested;
+      Global.Online.CardPlayReceived -= OnNakamaCardPlay;
+   }
+
+   private void OnNakamaSnapshot(string json) => ApplyRemoteGameState(json);
+
+   private void OnNakamaSnapshotRequested(int peerId)
+   {
+      if (!IsAuthority() || !_gameStarted)
+         return;
+
+      SendGameState(peerId);
+   }
+
+   private void OnNakamaCardPlay(int peerId, int cardIndex, string cardId, bool discarded, long targetId)
+   {
+      if (!IsAuthority())
+         return;
+
+      ResolveCardPlay(peerId, cardIndex, cardId, discarded, targetId);
    }
 
    private static bool IsContinuePressed(InputEvent @event)
@@ -67,14 +147,22 @@ public partial class Table : Control
 
    private async void LeaveMatch()
    {
-      if (_leavingMatch)
-         return;
+      try
+      {
+         if (_leavingMatch)
+            return;
 
-      _leavingMatch = true;
-      var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
-      anim.Play("fade_out");
-      await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
-      GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+         _leavingMatch = true;
+         var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
+         anim.Play("fade_out");
+         await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
+         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Leave match");
+         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+      }
    }
 
    public override void _EnterTree()
@@ -97,7 +185,8 @@ public partial class Table : Control
       ConfigureMatchRules();
 
       LocaleStatPanels();
-      SetupMatchChat();
+
+      BindOnlineSync();
       if (Multiplayer.IsServer())
          SpawnLocalPlayer();
 
@@ -105,7 +194,7 @@ public partial class Table : Control
 
       if (!Multiplayer.IsServer())
       {
-         RpcId(1, nameof(RequestGameState));
+         CallDeferred(nameof(RequestHostGameState));
          return;
       }
 
@@ -127,6 +216,8 @@ public partial class Table : Control
    public override void _ExitTree()
    {
       TimeElapsed.Timeout -= OnTimeElapsedTimeout;
+
+      UnbindOnlineSync();
 
       if (!Multiplayer.IsServer())
          return;
@@ -162,6 +253,23 @@ public partial class Table : Control
       if (deck == null || cardIds == null)
          return;
 
+      var current = GetHandIds(deck);
+      if (current.Length == cardIds.Length)
+      {
+         var same = true;
+         for (var i = 0; i < cardIds.Length; i++)
+         {
+            if (current[i] == cardIds[i])
+               continue;
+
+            same = false;
+            break;
+         }
+
+         if (same)
+            return;
+      }
+
       ClearDeck(deck);
       foreach (var cardId in cardIds)
       {
@@ -169,6 +277,51 @@ public partial class Table : Control
             continue;
          deck.AddChild(CreateCard(cardId));
       }
+   }
+
+   private void ApplyHiddenHand(long playerId, int count)
+   {
+      var deck = GetDeckForPlayer(playerId);
+      if (deck == null || count <= 0)
+         return;
+
+      var current = deck.GetChildren().OfType<CardControl>().Count();
+      if (current == count)
+      {
+         ApplyDeckVisibility(deck, false);
+         return;
+      }
+
+      var placeholderId = Global.DeckManager.GetAllCards().FirstOrDefault()?.Id;
+      if (string.IsNullOrEmpty(placeholderId))
+         return;
+
+      ClearDeck(deck);
+      for (var i = 0; i < count; i++)
+      {
+         var card = (CardControl)CreateCard(placeholderId);
+         deck.AddChild(card);
+         card.SetFaceDown(true);
+      }
+   }
+
+   private CardControl ReplaceHandCard(HBoxContainer deck, CardControl current, string cardId)
+   {
+      if (deck == null || current == null)
+         return current;
+
+      var index = current.GetIndex();
+      var replacement = (CardControl)CreateCard(cardId);
+      if (current.GetParent() == deck)
+         deck.RemoveChild(current);
+
+      current.QueueFree();
+      deck.AddChild(replacement);
+      if (index >= 0 && index < deck.GetChildCount())
+         deck.MoveChild(replacement, index);
+
+      replacement.SetFaceDown(true);
+      return replacement;
    }
 
    private Control CreateCard(string cardId)
@@ -218,7 +371,7 @@ public partial class Table : Control
          IsOffline = false;
          if (Global.NetworkSetup?.Players is { Count: > 0 })
          {
-            Players = Global.NetworkSetup.Players;
+            Players = new Dictionary<long, Player>(Global.NetworkSetup.Players);
          }
          else if (Global.Online != null)
          {
@@ -240,12 +393,12 @@ public partial class Table : Control
 
          AssignSlots();
          UpdateNamePanels();
+         SetupMatchChat();
       }
    }
 
    private void UpdateNamePanels()
    {
-      var english = TranslationServer.GetLocale() == "en";
       foreach (var (id, hud) in _hudByPlayer)
       {
          if (!Players.TryGetValue(id, out var player))
@@ -271,7 +424,21 @@ public partial class Table : Control
             Recruits = player.Recruits
          };
 
-         hud.Apply(named, english);
+         hud.Apply(named);
+      }
+
+      HighlightCurrentTurn();
+   }
+
+   private void HighlightCurrentTurn()
+   {
+      foreach (var (id, hud) in _hudByPlayer)
+      {
+         var onTurn = id == _turnPlayerId;
+         if (hud.NameLabel?.GetParent() is CanvasItem panel)
+            panel.SelfModulate = onTurn ? Colors.White : new Color(1, 1, 1, 0.45f);
+
+         hud.NameLabel?.Modulate = onTurn ? Colors.White : new Color(1, 1, 1, 0.7f);
       }
    }
 
@@ -279,7 +446,30 @@ public partial class Table : Control
    {
       _logger.Debug("Adding player with id: " + id);
       if (Players.ContainsKey(id))
+      {
+         if (_gameStarted && IsAuthority())
+            SendGameState(id);
+
          return;
+      }
+
+      if (Global.Online is { IsInMatch: true })
+      {
+         var name = Config.Settings.Nickname;
+         foreach (var (peerId, peerName) in Global.Online.ListPeers())
+         {
+            if (peerId != id)
+               continue;
+
+            name = peerName;
+            break;
+         }
+
+         RegisterPlayer(id, name);
+         if (_gameStarted)
+            SendGameState(id);
+         return;
+      }
 
       if (id == 1)
          RegisterPlayer(id, Config.Settings.Nickname);
@@ -304,9 +494,17 @@ public partial class Table : Control
       if (!Players.TryGetValue(playerId, out var player))
          return;
 
+      if (_turnPlayerId == playerId)
+      {
+         UpdateDeckVisibility();
+         HighlightCurrentTurn();
+         return;
+      }
+
       _logger.Debug("Setting turn to {PlayerName}", player.Name);
       _turnPlayerId = playerId;
       UpdateDeckVisibility();
+      HighlightCurrentTurn();
    }
 
    private void UpdateDeckVisibility()
@@ -314,18 +512,22 @@ public partial class Table : Control
       if (Players.Count == 0)
          return;
 
-      var localId = GetLocalHumanId();
-      RedDeck.Visible = true;
-      BlueDeck.Visible = IsOffline;
-
       foreach (var (playerId, deck) in _handByPlayer)
       {
-         var showFaces = IsOffline || playerId == localId;
-         ApplyDeckVisibility(deck, showFaces);
+         if (deck == RedDeck || deck == BlueDeck)
+            deck.Visible = playerId == _turnPlayerId;
+
+         ApplyDeckVisibility(deck, ShouldShowHandFaces(playerId));
       }
 
       UpdateCardAffordability();
       UpdateTurnLockUi();
+   }
+
+   private bool ShouldShowHandFaces(long playerId)
+   {
+      var localId = GetLocalHumanId();
+      return localId > 0 && playerId == localId;
    }
 
    private bool IsLocalPlayerHost()
@@ -424,7 +626,9 @@ public partial class Table : Control
       Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       AssignSlots();
       UpdateNamePanels();
-      Rpc(nameof(AddRemotePlayer), id, name);
+
+      if (Global.Online is not { IsInMatch: true })
+         Rpc(nameof(AddRemotePlayer), id, name);
    }
 
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]

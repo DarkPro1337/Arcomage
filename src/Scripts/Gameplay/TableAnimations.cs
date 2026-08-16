@@ -35,8 +35,14 @@ public partial class Table
       bool discarded,
       string replacementId)
    {
-      var slotIndex = card.GetIndex();
-      var startPos = card.GlobalPosition;
+      var slotIndex = 0;
+      var startPos = deck?.GlobalPosition ?? GetPlayCenterPosition();
+      if (card.GetParent() == deck)
+      {
+         slotIndex = card.GetIndex();
+         startPos = card.GlobalPosition;
+      }
+
       card.BeginPlayAnimation(discarded);
 
       var graveyardCard = CreateGraveyardCopy(card.CardId, discarded);
@@ -45,9 +51,19 @@ public partial class Table
 
       var graveyardPos = GetGraveyardSlotPosition(graveyardCard.GetIndex());
       var placeholder = CreateHandPlaceholder();
-      deck.AddChild(placeholder);
-      deck.MoveChild(placeholder, slotIndex);
-      deck.RemoveChild(card);
+      if (deck != null)
+      {
+         deck.AddChild(placeholder);
+         if (slotIndex >= 0 && slotIndex < deck.GetChildCount())
+            deck.MoveChild(placeholder, slotIndex);
+
+         if (card.GetParent() == deck)
+            deck.RemoveChild(card);
+      }
+
+      if (card.GetParent() != null && card.GetParent() != CardAnimLayer)
+         card.GetParent().RemoveChild(card);
+
       PlaceFlyingCard(card, startPos);
 
       var tween = CreateCardTween();
@@ -72,15 +88,17 @@ public partial class Table
       if (IsInstanceValid(card))
          card.QueueFree();
 
-      if (!string.IsNullOrEmpty(replacementId))
+      if (!string.IsNullOrEmpty(replacementId) && deck != null)
       {
          await DealCardIntoHand(deck, placeholder, replacementId);
          if (!IsInsideTree())
             return;
       }
-      else if (IsInstanceValid(placeholder))
+      else if (deck != null && IsInstanceValid(placeholder))
       {
-         deck.RemoveChild(placeholder);
+         if (placeholder.GetParent() == deck)
+            deck.RemoveChild(placeholder);
+
          placeholder.QueueFree();
       }
 
@@ -223,7 +241,7 @@ public partial class Table
 
    /// <summary>
    /// Top-left of where a 180px card sits in a hand slot.
-   /// The deck HBox is 200px tall and cards use <see cref="SizeFlags.ShrinkCenter"/>,
+   /// The deck HBox is 200px tall and cards use <see cref="Control.SizeFlags.ShrinkCenter"/>,
    /// so a stretched placeholder's origin is above the real card.
    /// </summary>
    private static Vector2 GetHandSlotPosition(Control slot)
@@ -262,11 +280,10 @@ public partial class Table
 
    private bool ShouldShowHandFaces(HBoxContainer deck)
    {
-      var localId = GetLocalHumanId();
       foreach (var (playerId, hand) in _handByPlayer)
       {
          if (hand == deck)
-            return IsOffline || playerId == localId;
+            return ShouldShowHandFaces(playerId);
       }
 
       return deck == RedDeck;

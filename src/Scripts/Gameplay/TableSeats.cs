@@ -146,18 +146,15 @@ public partial class Table
    {
       EnsureHandsRoot();
       var localId = GetLocalHumanId();
-      foreach (var playerId in _seatOrder)
+      foreach (var playerId in _seatOrder.Where(playerId => !_handByPlayer.ContainsKey(playerId)))
       {
-         if (_handByPlayer.ContainsKey(playerId))
-            continue;
-
-         if (playerId == localId || (IsOffline && playerId == _seatOrder[0]))
+         if (playerId == localId || (localId < 0 && playerId == _seatOrder[0]))
          {
             _handByPlayer[playerId] = RedDeck;
             continue;
          }
 
-         if (IsOffline && _seatOrder.Count > 1 && playerId == _seatOrder[1])
+         if (!_handByPlayer.ContainsValue(BlueDeck))
          {
             _handByPlayer[playerId] = BlueDeck;
             continue;
@@ -420,7 +417,7 @@ public sealed class SeatHud
          NameLabel?.Modulate = selected ? new Color(1f, 0.85f, 0.3f) : Colors.White;
    }
 
-   public void Apply(Player player, bool english)
+   public void Apply(Player player)
    {
       if (player == null)
          return;
@@ -438,12 +435,12 @@ public sealed class SeatHud
       TowerHp?.Text = player.TowerHp.ToString();
       WallHp?.Text = player.WallHp.ToString();
 
-      SetPair(BricksPerTurn, BricksAltPerTurn, player.Quarries.ToString(), english);
-      SetPair(BricksTotal, BricksAltTotal, player.Bricks.ToString(), english);
-      SetPair(GemsPerTurn, GemsAltPerTurn, player.Magic.ToString(), english);
-      SetPair(GemsTotal, GemsAltTotal, player.Gems.ToString(), english);
-      SetPair(RecruitsPerTurn, RecruitsAltPerTurn, player.Dungeons.ToString(), english);
-      SetPair(RecruitsTotal, RecruitsAltTotal, player.Recruits.ToString(), english);
+      SetPair(BricksPerTurn, BricksAltPerTurn, player.Quarries.ToString());
+      SetPair(BricksTotal, BricksAltTotal, player.Bricks.ToString());
+      SetPair(GemsPerTurn, GemsAltPerTurn, player.Magic.ToString());
+      SetPair(GemsTotal, GemsAltTotal, player.Gems.ToString());
+      SetPair(RecruitsPerTurn, RecruitsAltPerTurn, player.Dungeons.ToString());
+      SetPair(RecruitsTotal, RecruitsAltTotal, player.Recruits.ToString());
 
       if (Tower != null)
          Table.SetStructureHeightPublic(Tower, player.TowerHp);
@@ -479,7 +476,7 @@ public sealed class SeatHud
       };
    }
 
-   private static void SetPair(Label primary, Label alt, string text, bool english)
+   private static void SetPair(Label primary, Label alt, string text)
    {
       primary?.Text = text;
       alt?.Text = text;
