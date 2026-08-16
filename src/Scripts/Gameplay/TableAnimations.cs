@@ -40,11 +40,10 @@ public partial class Table
       card.BeginPlayAnimation(discarded);
 
       var graveyardCard = CreateGraveyardCopy(card.CardId, discarded);
-      await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-      if (!IsInsideTree() || !GodotObject.IsInstanceValid(graveyardCard))
+      if (!IsInsideTree() || !IsInstanceValid(graveyardCard))
          return;
 
-      var graveyardPos = graveyardCard.GlobalPosition;
+      var graveyardPos = GetGraveyardSlotPosition(graveyardCard.GetIndex());
       var placeholder = CreateHandPlaceholder();
       deck.AddChild(placeholder);
       deck.MoveChild(placeholder, slotIndex);
@@ -67,10 +66,10 @@ public partial class Table
       if (!IsInsideTree())
          return;
 
-      if (GodotObject.IsInstanceValid(graveyardCard))
+      if (IsInstanceValid(graveyardCard))
          graveyardCard.Modulate = Colors.White;
 
-      if (GodotObject.IsInstanceValid(card))
+      if (IsInstanceValid(card))
          card.QueueFree();
 
       if (!string.IsNullOrEmpty(replacementId))
@@ -79,7 +78,7 @@ public partial class Table
          if (!IsInsideTree())
             return;
       }
-      else if (GodotObject.IsInstanceValid(placeholder))
+      else if (IsInstanceValid(placeholder))
       {
          deck.RemoveChild(placeholder);
          placeholder.QueueFree();
@@ -122,54 +121,53 @@ public partial class Table
       }
 
       await ToSignal(tween, Tween.SignalName.Finished);
-      foreach (var played in cards)
-      {
-         if (GodotObject.IsInstanceValid(played))
-            played.QueueFree();
-      }
+      foreach (var played in cards.Where(IsInstanceValid))
+         played.QueueFree();
 
+      UpdateGraveyardSize();
       EmitSignal(SignalName.GraveyardAnimationEnded);
    }
 
    /// <summary>
    /// Deals a face-down dummy from the pile into <paramref name="placeholder"/>'s slot,
-   /// then swaps it for the real card.
+   /// then drops that same card into the hand (no second instance, so the landing does not pop).
    /// </summary>
    private async Task DealCardIntoHand(HBoxContainer deck, Control placeholder, string cardId)
    {
-      if (!GodotObject.IsInstanceValid(placeholder))
+      if (!IsInstanceValid(placeholder))
          return;
 
       var slotIndex = placeholder.GetIndex();
-      var slotPos = placeholder.GlobalPosition;
+      var slotPos = GetHandSlotPosition(placeholder);
       var faceDown = !ShouldShowHandFaces(deck);
 
-      var dummy = (CardControl)CreateCard(cardId);
-      dummy.Preview = true;
-      dummy.SetFaceDown(true);
-      PlaceFlyingCard(dummy, GraveyardCardBack.GlobalPosition);
+      var dealt = (CardControl)CreateCard(cardId);
+      dealt.Preview = true;
+      dealt.SetFaceDown(true);
+      PlaceFlyingCard(dealt, GraveyardCardBack.GlobalPosition);
       PlayDealSound();
 
       var tween = CreateCardTween();
-      tween.TweenProperty(dummy, "global_position", slotPos, DealDuration);
+      tween.TweenProperty(dealt, "global_position", slotPos, DealDuration);
       await ToSignal(tween, Tween.SignalName.Finished);
-      if (!IsInsideTree())
+      if (!IsInsideTree() || !IsInstanceValid(dealt))
          return;
 
-      if (GodotObject.IsInstanceValid(placeholder))
+      if (IsInstanceValid(placeholder))
       {
+         slotIndex = placeholder.GetIndex();
          deck.RemoveChild(placeholder);
          placeholder.QueueFree();
       }
 
-      var dealt = (CardControl)CreateCard(cardId);
+      CardAnimLayer.RemoveChild(dealt);
+      PrepareCardForHand(dealt);
       deck.AddChild(dealt);
       if (slotIndex >= 0 && slotIndex < deck.GetChildCount() - 1)
          deck.MoveChild(dealt, slotIndex);
-      dealt.SetFaceDown(faceDown);
 
-      if (GodotObject.IsInstanceValid(dummy))
-         dummy.QueueFree();
+      dealt.Preview = false;
+      dealt.SetFaceDown(faceDown);
    }
 
    private CardControl CreateGraveyardCopy(string cardId, bool discarded)
@@ -177,9 +175,39 @@ public partial class Table
       var copy = (CardControl)CreateCard(cardId);
       copy.Preview = true;
       copy.Modulate = Colors.Transparent;
+      copy.CustomMinimumSize = CardSize;
+      copy.MouseFilter = MouseFilterEnum.Ignore;
       Graveyard.AddChild(copy);
       copy.BeginPlayAnimation(discarded);
+      UpdateGraveyardSize();
       return copy;
+   }
+
+   /// <summary>
+   /// World position of graveyard slot <paramref name="index"/> (0 is the draw pile).
+   /// Used instead of a freshly added card's <see cref="Control.GlobalPosition"/>, which
+   /// still sits on <see cref="GraveyardCardBack"/> until GridContainer finishes sorting.
+   /// </summary>
+   private Vector2 GetGraveyardSlotPosition(int index)
+   {
+      var origin = GraveyardCardBack.GlobalPosition;
+      var columns = Mathf.Max(1, Graveyard.Columns);
+      var hSep = Graveyard.GetThemeConstant("h_separation", "GridContainer");
+      var vSep = Graveyard.GetThemeConstant("v_separation", "GridContainer");
+      var col = index % columns;
+      var row = index / columns;
+      return origin + new Vector2(col * (CardSize.X + hSep), row * (CardSize.Y + vSep));
+   }
+
+   private void UpdateGraveyardSize()
+   {
+      var columns = Mathf.Max(1, Graveyard.Columns);
+      var rows = Mathf.Max(1, Mathf.CeilToInt(Graveyard.GetChildCount() / (float)columns));
+      var vSep = Graveyard.GetThemeConstant("v_separation", "GridContainer");
+      var height = rows * CardSize.Y + Mathf.Max(0, rows - 1) * vSep;
+      var size = Graveyard.Size;
+      size.Y = height;
+      Graveyard.Size = size;
    }
 
    private static Control CreateHandPlaceholder()
@@ -187,10 +215,33 @@ public partial class Table
       return new Control
       {
          CustomMinimumSize = CardSize,
-         Size = CardSize,
+         SizeFlagsVertical = SizeFlags.ShrinkCenter,
          MouseFilter = MouseFilterEnum.Ignore,
          Modulate = Colors.Transparent
       };
+   }
+
+   /// <summary>
+   /// Top-left of where a 180px card sits in a hand slot.
+   /// The deck HBox is 200px tall and cards use <see cref="SizeFlags.ShrinkCenter"/>,
+   /// so a stretched placeholder's origin is above the real card.
+   /// </summary>
+   private static Vector2 GetHandSlotPosition(Control slot)
+   {
+      var rect = slot.GetGlobalRect();
+      var position = rect.Position;
+      if (rect.Size.Y > CardSize.Y)
+         position.Y += (rect.Size.Y - CardSize.Y) / 2f;
+      return position;
+   }
+
+   private static void PrepareCardForHand(CardControl card)
+   {
+      card.ZIndex = 0;
+      card.MouseFilter = MouseFilterEnum.Stop;
+      card.SetAnchorsPreset(LayoutPreset.TopLeft);
+      card.CustomMinimumSize = CardSize;
+      card.Position = Vector2.Zero;
    }
 
    private void PlaceFlyingCard(Control card, Vector2 globalPosition)
@@ -223,15 +274,5 @@ public partial class Table
       return tween;
    }
 
-   private void PlayDealSound()
-   {
-      var player = new AudioStreamPlayer
-      {
-         Stream = GD.Load<AudioStream>("res://Sounds/deal.ogg"),
-         Bus = "Sounds"
-      };
-      AddChild(player);
-      player.Finished += player.QueueFree;
-      player.Play();
-   }
+   private void PlayDealSound() => PlaySfx(DealSoundPath);
 }

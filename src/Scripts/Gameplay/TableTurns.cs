@@ -150,12 +150,15 @@ public partial class Table
                return;
 
             PayCost(player, card);
+            var before = CaptureStatSnapshots();
 
             if (card.CardActions != null)
             {
                foreach (var action in card.CardActions)
                   action.Execute(this);
             }
+
+            PlayStatChangeFeedback(before);
 
             playAgain = HasFeature(card, CardFeature.PlayAgain);
             replacementId = PickRandomCardId();
@@ -268,12 +271,18 @@ public partial class Table
          if (IsAuthority())
             return;
 
+         var deck = GetDeckForPlayer(playerId);
+         var cards = deck?.GetChildren().OfType<CardControl>().ToList();
+
+         var before = CaptureStatSnapshots();
+         if (!discarded && cards != null && cardIndex >= 0 && cardIndex < cards.Count)
+            ApplyPayCostToSnapshot(before, playerId, cards[cardIndex]);
+
          ApplyPlayerStats(_redPlayerId, redStats);
          ApplyPlayerStats(_bluePlayerId, blueStats);
          UpdateStatPanelUi();
+         PlayStatChangeFeedback(before);
 
-         var deck = GetDeckForPlayer(playerId);
-         var cards = deck?.GetChildren().OfType<CardControl>().ToList();
          if (deck == null || cardIndex < 0 || cardIndex >= cards.Count)
             return;
 
@@ -689,7 +698,9 @@ public partial class Table
       MatchResult.GetNode<Label>("WinnerName").Text = winner.Ai && IsOffline ? Tr(winner.Name) : winner.Name;
       MatchResult.GetNode<Label>("ByWhat").Text = Tr(reasonKey);
       MatchResult.GetNode<Label>("Time").Text = $"TIME: {ElapsedString}";
+      TimeElapsed.Stop();
       MatchResult.Show();
+      MatchResult.GetNode<AnimationPlayer>("Anim").Play("hint_anim");
       DeckLocker.Show();
       return true;
    }

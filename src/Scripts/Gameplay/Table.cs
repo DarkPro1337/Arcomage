@@ -58,6 +58,9 @@ public partial class Table : Control
 
    private static bool IsContinuePressed(InputEvent @event)
    {
+      if (@event.IsEcho())
+         return false;
+
       if (@event.IsActionPressed("ui_select") || @event.IsActionPressed("ui_accept"))
          return true;
 

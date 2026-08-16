@@ -21,6 +21,7 @@ color_ramp = SubResource("GradientTexture1D_26ulm")
 scale = Vector2(2, 2)
 amount = 256
 lifetime = 3.0
+one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 fixed_fps = 0
