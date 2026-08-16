@@ -358,6 +358,7 @@ public partial class Table
 
       _aiPlayQueued = true;
       DeckLocker.Show();
+
       GetTree().CreateTimer(0.75).Timeout += OnAiThinkTimeout;
    }
 
@@ -436,6 +437,7 @@ public partial class Table
             SerializePlayer(_redPlayerId), SerializePlayer(_bluePlayerId),
             GetHandIds(RedDeck), GetHandIds(BlueDeck),
             discarding, _gameOver, _winnerId, _winReasonKey);
+
          return;
       }
 
@@ -468,9 +470,11 @@ public partial class Table
          _pendingRemoteState = new RemoteGameState(
             turnPlayerId, redId, blueId, redStats, blueStats,
             redHand, blueHand, discarding, gameOver, winnerId, winReason);
+
          ApplyPlayerStats(_redPlayerId, redStats);
          ApplyPlayerStats(_bluePlayerId, blueStats);
          UpdateStatPanelUi();
+
          return;
       }
 
@@ -756,7 +760,7 @@ public partial class Table
    /// </summary>
    private string[] GetHandIds(HBoxContainer deck)
    {
-      return deck.GetChildren().OfType<CardControl>().Select(card => card.CardId ?? string.Empty).ToArray();
+      return [.. deck.GetChildren().OfType<CardControl>().Select(card => card.CardId ?? string.Empty)];
    }
 
    /// <summary>
@@ -839,14 +843,12 @@ public partial class Table
    /// <summary>
    /// Returns the hand container for <paramref name="playerId"/>.
    /// </summary>
-   private HBoxContainer GetDeckForPlayer(long playerId) =>
-      playerId == _redPlayerId ? RedDeck : BlueDeck;
+   private HBoxContainer GetDeckForPlayer(long playerId) => playerId == _redPlayerId ? RedDeck : BlueDeck;
 
    /// <summary>
    /// Returns the opposing seat for <paramref name="playerId"/>.
    /// </summary>
-   private long GetOpponentId(long playerId) =>
-      playerId == _redPlayerId ? _bluePlayerId : _redPlayerId;
+   private long GetOpponentId(long playerId) => playerId == _redPlayerId ? _bluePlayerId : _redPlayerId;
 
    /// <summary>
    /// Whether this instance may mutate match state (offline play or the multiplayer host).
@@ -927,12 +929,10 @@ public partial class Table
    /// <summary>
    /// Whether <paramref name="card"/> lists <paramref name="feature"/> in its YAML features.
    /// </summary>
-   private static bool HasFeature(CardControl card, CardFeature feature) =>
-      card.CardFeatures?.Contains(feature) == true;
+   private static bool HasFeature(CardControl card, CardFeature feature) => card.CardFeatures?.Contains(feature) == true;
 
    /// <summary>
    /// Sum of bricks, gems, and recruits used for the resource victory check.
    /// </summary>
-   private static int GetResourceTotal(Player player) =>
-      player.Bricks + player.Gems + player.Recruits;
+   private static int GetResourceTotal(Player player) => player.Bricks + player.Gems + player.Recruits;
 }

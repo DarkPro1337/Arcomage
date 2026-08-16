@@ -15,7 +15,6 @@ public class Card
    public int Cost { get; set; }
    public string Pic { get; set; }
    public List<ActionBase> Actions { get; set; }
-   public List<CardsUse> Uses { get; set; }
    public List<CardFeature> Features { get; set; }
 }
 

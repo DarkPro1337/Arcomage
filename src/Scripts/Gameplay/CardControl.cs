@@ -30,15 +30,14 @@ public partial class CardControl : Control
    public int CardCost;
    public CardType CardLayout;
    public string CardArt;
-   public List<CardsUse> CardUses;
    public List<CardFeature> CardFeatures;
    public List<ActionBase> CardActions;
 
-   public bool Preview = false;
+   public bool Preview;
    public bool Discardable = true;
    public bool Usable = true;
    public bool BotUsable = true;
-   public bool Used = false;
+   public bool Used;
    public bool UiCardUppercaseText = false;
 
    public override void _Ready()
@@ -75,7 +74,6 @@ public partial class CardControl : Control
       CardLayout = selectedCard.Type;
       CardActions = selectedCard.Actions;
       CardFeatures = selectedCard.Features;
-      CardUses = selectedCard.Uses;
 
       NameLabel.Text = CardName;
       Art.Texture = LoadCardArtTexture(CardArt);
