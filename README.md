@@ -64,6 +64,7 @@ If you want to help with the translation, please [contact me](https://darkpro133
 * [**Godot** v.4.7.1-stable .NET](https://godotengine.org/download/archive/4.7.1-stable/)
 * [**.NET** 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/latest/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
+* Optional, for online multiplayer: [**Docker Desktop**](https://www.docker.com/products/docker-desktop/) (or Docker Engine + Compose)
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
@@ -71,6 +72,43 @@ If you want to help with the translation, please [contact me](https://darkpro133
 3. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project -> Export...)
+
+## Online multiplayer (Nakama)
+
+LAN still works from **Multiplayer Game** with Create/Join Server and an IP. Global matchmaking, room codes, in-match chat, and ranked play go through a self-hosted [Nakama](https://heroiclabs.com/nakama/) server. itch.io / GameJolt / GitHub are only storefronts — they do not provide the network.
+
+### Local development
+
+1. Install Docker Desktop and start it.
+2. From the repo:
+
+```bash
+cd docker
+docker compose up
+```
+
+3. Wait until the log shows `Startup done`. The game already defaults to `127.0.0.1:7350` (`defaultkey`).
+4. In the game, open **Multiplayer Game**: **Find Match**, **Create Room**, or **Join Room**. Create/Join Server is the old LAN path and does not need Nakama.
+
+Useful URLs while Compose is running:
+
+* Game API / WebSocket: `http://127.0.0.1:7350`
+* Nakama Console: [http://127.0.0.1:7351](http://127.0.0.1:7351) (default login `admin` / `password`)
+
+Stop with `Ctrl+C`, or `docker compose down` in `docker/`.
+
+### Production (VDS)
+
+Use the same `docker/docker-compose.yml` on a VDS (about 1 vCPU / 2 GB RAM is enough). Point clients at that host:
+
+* settings in `user://settings.json`: `NakamaHost`, `NakamaPort`, `NakamaUseSsl`, `NakamaServerKey`
+* or launch flags: `--nakamaHost=your.server.example --nakamaPort=7350 --nakamaSsl`
+
+Change Nakama’s default keys and console password before exposing the server to the internet. Optional ranked dedicated host:
+
+```bash
+godot --headless -- --dedicated --nakamaHost=your.server.example
+```
 
 ## Support project development
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-%23121015.svg?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/DarkPro1337)

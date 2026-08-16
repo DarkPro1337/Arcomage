@@ -10,6 +10,7 @@
     <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("ddMMyyyyHHmmss"))</SourceRevisionId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="NakamaClient" Version="3.16.0" />
     <PackageReference Include="Sprache" Version="2.3.1" />
     <PackageReference Include="Wasmtime" Version="22.0.0" />
     <PackageReference Include="YamlDotNet" Version="16.2.1" />

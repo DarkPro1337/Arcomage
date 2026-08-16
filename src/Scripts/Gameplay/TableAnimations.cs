@@ -262,8 +262,14 @@ public partial class Table
 
    private bool ShouldShowHandFaces(HBoxContainer deck)
    {
-      var localId = Multiplayer.GetUniqueId();
-      return deck == RedDeck ? _redPlayerId == localId : _bluePlayerId == localId;
+      var localId = GetLocalHumanId();
+      foreach (var (playerId, hand) in _handByPlayer)
+      {
+         if (hand == deck)
+            return IsOffline || playerId == localId;
+      }
+
+      return deck == RedDeck;
    }
 
    private Tween CreateCardTween()

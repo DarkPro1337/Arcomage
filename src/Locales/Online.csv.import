@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ciay3b0i1sddo"
+
+[deps]
+
+files=["res://Locales/Online.en.translation", "res://Locales/Online.ru.translation", "res://Locales/Online.uk.translation", "res://Locales/Online.pl.translation", "res://Locales/Online.da.translation", "res://Locales/Online.de.translation", "res://Locales/Online.fr.translation"]
+
+source_file="res://Locales/Online.csv"
+dest_files=["res://Locales/Online.en.translation", "res://Locales/Online.ru.translation", "res://Locales/Online.uk.translation", "res://Locales/Online.pl.translation", "res://Locales/Online.da.translation", "res://Locales/Online.de.translation", "res://Locales/Online.fr.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

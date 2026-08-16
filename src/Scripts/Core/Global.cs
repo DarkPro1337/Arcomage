@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Arcomage.Gameplay;
 using Arcomage.Managers;
+using Arcomage.Networking;
 using Arcomage.UI;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
@@ -17,11 +18,34 @@ public partial class Global : Node
 
    public static Table Table { get; set; }
    public static NetworkSetup NetworkSetup { get; set; }
+   public static OnlineService Online { get; set; }
+   public static MatchMode PendingMatchMode { get; set; } = MatchMode.OneVsOne;
+   public static bool PendingRanked { get; set; }
    public static string BuildNumber { get; private set; } = GetBuildTimestamp();
    public static ModManager ModManager { get; set; }
    public static DeckManager DeckManager { get; } = new();
    public static TavernManager TavernManager { get; } = new();
    public static TranslationManager TranslationManager { get; } = new();
+
+   public override void _EnterTree()
+   {
+      LoadOnlineTranslations();
+   }
+
+   private static void LoadOnlineTranslations()
+   {
+      const string path = "res://Locales/Online.csv";
+      if (!FileAccess.FileExists(path))
+         return;
+
+      using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+      var translations = TranslationManager.LoadTranslationsFromCsv(file.GetAsText());
+      if (translations == null)
+         return;
+
+      foreach (var translation in translations)
+         TranslationServer.AddTranslation(translation);
+   }
 
    public static Dictionary<string, string> GetCommandLineArgs()
    {

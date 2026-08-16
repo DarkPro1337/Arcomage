@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Arcomage.Core;
 using Arcomage.Gameplay;
+using Arcomage.Networking;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
 
@@ -12,7 +13,6 @@ public partial class NetworkSetup : Control
    private static readonly Logger _logger = Logger.GetOrCreateLogger("NetworkSetup");
 
    private const int Port = 8070;
-   private const int MaxPlayers = 2;
 
    private VBoxContainer MultiplayerConfigUi => GetNode<VBoxContainer>("Container");
    private VBoxContainer Lobby => GetNode<VBoxContainer>("Lobby");
@@ -52,6 +52,14 @@ public partial class NetworkSetup : Control
       Multiplayer.ConnectionFailed -= OnConnectionFailed;
       Multiplayer.ServerDisconnected -= OnServerDisconnected;
       Multiplayer.ConnectedToServer -= OnConnectedToServer;
+
+      if (Global.Online != null)
+      {
+         Global.Online.StatusChanged -= OnOnlineStatusChanged;
+         Global.Online.MatchReady -= OnNakamaMatchReady;
+         Global.Online.PeersChanged -= OnNakamaPeersChanged;
+         Global.Online.MatchLeft -= OnNakamaMatchLeft;
+      }
    }
 
    public override void _Ready()
@@ -65,15 +73,21 @@ public partial class NetworkSetup : Control
       Multiplayer.Set("server_relay", false);
 
       if (DisplayServer.GetName() == "headless")
-         CallDeferred(nameof(OnConnectPressed));
+         return;
 
       PlayersList.SetColumnTitle(0, Tr("PLAYERS"));
       PlayersList.SetColumnTitle(1, Tr("STATUS"));
+      BuildOnlineUi();
+
+      _ = Global.Online?.EnsureSession();
    }
 
    private void OnCancelPressed()
    {
       CloseMultiplayerSession();
+      if (Global.Online != null)
+         _ = Global.Online.LeaveMatch();
+
       Lobby.Hide();
       MultiplayerConfigUi.Show();
       Hide();
@@ -114,7 +128,7 @@ public partial class NetworkSetup : Control
       CloseMultiplayerSession();
 
       var peer = new ENetMultiplayerPeer();
-      var error = peer.CreateServer(Port, MaxPlayers);
+      var error = peer.CreateServer(Port, _maxPlayers);
       if (error != Error.Ok)
       {
          _logger.Error("Failed to start multiplayer server: {Error}", error);
@@ -213,8 +227,20 @@ public partial class NetworkSetup : Control
 
    private void OnStartGamePressed()
    {
-      if (Players.Values.Count(x => x.Ready) < MaxPlayers)
-         return;
+      var ready = Players.Values.Count(x => x.Ready);
+      if (ready < MatchModeRules.MinPlayers(_mode) && ready < _maxPlayers)
+      {
+         if (!_usingNakama)
+            return;
+         FillCasualWithAi();
+      }
+
+      Global.PendingMatchMode = _mode;
+      if (_usingNakama && Global.Online?.Peer != null)
+      {
+         AttachNakamaPeer();
+         Global.Online.BroadcastStartMatch();
+      }
 
       Rpc(nameof(StartGame));
    }
@@ -292,13 +318,25 @@ public partial class NetworkSetup : Control
 
    private void UpdatePlayersList()
    {
+      if (!GodotThread.IsMainThread())
+      {
+         CallDeferred(nameof(UpdatePlayersList));
+         return;
+      }
+
+      if (!IsInsideTree() || PlayersList == null || !IsInstanceValid(PlayersList))
+         return;
+
       PlayersList.Clear();
       var orderedPlayers = Players.Values.OrderBy(x => !x.Host);
       var players = new Dictionary<string, bool>();
-      foreach (var player in orderedPlayers) 
-         players.TryAdd(player.Name, player.Ready);
+      foreach (var player in orderedPlayers)
+         players.TryAdd(string.IsNullOrEmpty(player.Name) ? $"Player {player.Id}" : player.Name, player.Ready);
 
       var root = PlayersList.GetRoot() ?? PlayersList.CreateItem();
+      if (root == null)
+         return;
+
       foreach (var (name, ready) in players)
       {
          var child = PlayersList.CreateItem(root);
@@ -308,7 +346,8 @@ public partial class NetworkSetup : Control
          child.SetSelectable(1, false);
       }
 
-      StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MaxPlayers;
+      if (StartGameButton != null && IsInstanceValid(StartGameButton))
+         StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MatchModeRules.MinPlayers(_mode) && Players.Count < _maxPlayers;
    }
 
    private void CloseMultiplayerSession()
@@ -320,6 +359,13 @@ public partial class NetworkSetup : Control
       {
          peer.Close();
          Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+      }
+      else if (_usingNakama)
+      {
+         Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+         _usingNakama = false;
+         if (Global.Online != null)
+            _ = Global.Online.LeaveMatch();
       }
 
       Players.Clear();

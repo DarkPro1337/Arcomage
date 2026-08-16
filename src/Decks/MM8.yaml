@@ -611,7 +611,7 @@ cards:
     pic: ../Sprites/Cards/lava_jewel.png
     actions:
       - self.Tower.Gain(12)
-      - all.Damage(6)
+      - enemies.Damage(6)
   
   - id: dragons_eye
     name: Dragon's Eye

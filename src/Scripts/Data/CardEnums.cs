@@ -37,6 +37,8 @@ public enum TargetType
    Opponent,
    All,
    AllExceptSelf,
+   Enemies,
+   Allies,
    LowestWall,
    HighestWall,
    LowestTower,

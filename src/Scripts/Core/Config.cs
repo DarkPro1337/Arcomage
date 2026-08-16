@@ -54,6 +54,11 @@ public class GameSettings
    public string CurrentLocale { get; set; } = "en";
 
    public string Nickname { get; set; } = "Player";
+
+   public string NakamaHost { get; set; } = "127.0.0.1";
+   public int NakamaPort { get; set; } = 7350;
+   public bool NakamaUseSsl { get; set; }
+   public string NakamaServerKey { get; set; } = "defaultkey";
 }
 
 public partial class Config : Node

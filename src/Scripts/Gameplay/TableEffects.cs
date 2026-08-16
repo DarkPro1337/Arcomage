@@ -107,19 +107,11 @@ public partial class Table
 
    private Control GetStatFeedbackControl(Player player, ResourceTypes resource)
    {
-      var red = player.Id == _redPlayerId;
-      return resource switch
-      {
-         ResourceTypes.Tower => red ? RedTower : BlueTower,
-         ResourceTypes.Wall => red ? RedWall : BlueWall,
-         ResourceTypes.Quarry => VisibleControl(red ? RedBricksPerTurn : BlueBricksPerTurn, red ? RedBricksAltPerTurn : BlueBricksAltPerTurn),
-         ResourceTypes.Bricks => VisibleControl(red ? RedBricksTotal : BlueBricksTotal, red ? RedBricksAltTotal : BlueBricksAltTotal),
-         ResourceTypes.Magic => VisibleControl(red ? RedGemsPerTurn : BlueGemsPerTurn, red ? RedGemsAltPerTurn : BlueGemsAltPerTurn),
-         ResourceTypes.Gems => VisibleControl(red ? RedGemsTotal : BlueGemsTotal, red ? RedGemsAltTotal : BlueGemsAltTotal),
-         ResourceTypes.Dungeon => VisibleControl(red ? RedRecruitsPerTurn : BlueRecruitsPerTurn, red ? RedRecruitsAltPerTurn : BlueRecruitsAltPerTurn),
-         ResourceTypes.Recruits => VisibleControl(red ? RedRecruitsTotal : BlueRecruitsTotal, red ? RedRecruitsAltTotal : BlueRecruitsAltTotal),
-         _ => null
-      };
+      if (!_hudByPlayer.TryGetValue(player.Id, out var hud))
+         return null;
+
+      var english = TranslationServer.GetLocale() == "en";
+      return hud.GetResourceControl(resource, english);
    }
 
    private static Control VisibleControl(Control primary, Control alt)

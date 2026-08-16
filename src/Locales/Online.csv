@@ -1,0 +1,16 @@
+id,en,ru,uk,pl,da,de,fr
+FIND_MATCH,Find Match,Найти игру,Знайти гру,Znajdź mecz,Find kamp,Partie finden,Trouver une partie
+CREATE_ROOM,Create Room,Создать комнату,Створити кімнату,Utwórz pokój,Opret rum,Raum erstellen,Créer une salle
+JOIN_ROOM,Join Room,Войти в комнату,Увійти в кімнату,Dołącz do pokoju,Deltag rum,Raum beitreten,Rejoindre une salle
+ROOM_CODE,Room code,Код комнаты,Код кімнати,Kod pokoju,Rumkode,Raumcode,Code de salle
+RANKED,Ranked,Рейтинг,Рейтинг,Ranking,Ranglistet,Rangliste,Classé
+MODE_1V1,1v1,1 на 1,1 на 1,1v1,1v1,1v1,1v1
+MODE_FFA,Free for all (3-4),Каждый за себя (3-4),Кожен сам за себе (3-4),Każdy na każdego (3-4),Alle mod alle (3-4),Jeder gegen jeden (3-4),Chacun pour soi (3-4)
+MODE_2V2,2v2,2 на 2,2 на 2,2v2,2v2,2v2,2v2
+ONLINE_CONNECTED,Online ready,Онлайн готов,Онлайн готовий,Online gotowy,Online klar,Online bereit,En ligne
+ONLINE_SEARCHING,Searching for a match...,Поиск матча...,Пошук матчу...,Szukanie meczu...,Søger efter kamp...,Suche nach einer Partie...,Recherche d'une partie...
+ONLINE_MATCHED,Match found,Матч найден,Матч знайдено,Znaleziono mecz,Kamp fundet,Partie gefunden,Partie trouvée
+ONLINE_ROOM,Room ready,Комната готова,Кімната готова,Pokój gotowy,Raum bereit,Raum bereit,Salle prête
+ONLINE_DEDICATED,Dedicated host running,Выделенный сервер запущен,Виділений сервер запущено,Serwer dedykowany działa,Dedikeret vært kører,Dedizierter Host läuft,Hôte dédié en cours
+ONLINE_UNAVAILABLE,Online unavailable,Онлайн недоступен,Онлайн недоступний,Online niedostępny,Online utilgængelig,Online nicht verfügbar,Hors ligne
+CHAT_PLACEHOLDER,Chat...,Чат...,Чат...,Czat...,Chat...,Chat...,Chat...

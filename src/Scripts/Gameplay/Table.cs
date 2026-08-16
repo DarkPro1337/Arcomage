@@ -16,8 +16,6 @@ public partial class Table : Control
 
    public Dictionary<long, Player> Players { get; private set; } = new();
    private long _turnPlayerId;
-   private long _redPlayerId = 1;
-   private long _bluePlayerId = 2;
 
    public int Elapsed { get; private set; }
    public string ElapsedString = "00:00";
@@ -96,8 +94,10 @@ public partial class Table : Control
 
       _logger.Debug("Loaded");
       Global.Table = this;
+      ConfigureMatchRules();
 
       LocaleStatPanels();
+      SetupMatchChat();
       if (Multiplayer.IsServer())
          SpawnLocalPlayer();
 
@@ -140,13 +140,6 @@ public partial class Table : Control
       UpdateStatPanelUi();
    }
 
-   private void PlaceStartCardsOnDeck()
-   {
-      SpawnInitialHands(
-         BuildRandomHandIds(Config.Settings.CardsInHand),
-         BuildRandomHandIds(Config.Settings.CardsInHand));
-   }
-
    private string[] BuildRandomHandIds(int count)
    {
       var cards = Global.DeckManager.GetAllCards();
@@ -163,25 +156,19 @@ public partial class Table : Control
       return hand;
    }
 
-   [Rpc(CallLocal = true)]
-   private void SpawnInitialHands(string[] redHand, string[] blueHand)
+   private void ApplyHand(long playerId, string[] cardIds)
    {
-      ClearDeck(RedDeck);
-      ClearDeck(BlueDeck);
+      var deck = GetDeckForPlayer(playerId);
+      if (deck == null || cardIds == null)
+         return;
 
-      foreach (var cardId in redHand)
+      ClearDeck(deck);
+      foreach (var cardId in cardIds)
       {
-         _logger.Debug("Adding card to red deck: " + cardId);
-         RedDeck.AddChild(CreateCard(cardId));
+         if (string.IsNullOrEmpty(cardId))
+            continue;
+         deck.AddChild(CreateCard(cardId));
       }
-
-      foreach (var cardId in blueHand)
-      {
-         _logger.Debug("Adding card to blue deck: " + cardId);
-         BlueDeck.AddChild(CreateCard(cardId));
-      }
-
-      UpdateDeckVisibility();
    }
 
    private Control CreateCard(string cardId)
@@ -209,8 +196,10 @@ public partial class Table : Control
 
    private void SpawnLocalPlayer()
    {
-      if (!OS.HasFeature("dedicated_server"))
-         AddPlayer(1);
+      if (OS.HasFeature("dedicated_server") || DisplayServer.GetName() == "headless")
+         return;
+
+      AddPlayer(1);
    }
 
    private void InitializePlayersAndUi()
@@ -227,45 +216,63 @@ public partial class Table : Control
       else if (Multiplayer.MultiplayerPeer is not null)
       {
          IsOffline = false;
-         Players = Global.NetworkSetup.Players;
+         if (Global.NetworkSetup?.Players is { Count: > 0 })
+         {
+            Players = Global.NetworkSetup.Players;
+         }
+         else if (Global.Online != null)
+         {
+            Players = new Dictionary<long, Player>();
+            foreach (var (id, name) in Global.Online.ListPeers())
+            {
+               if (Global.Online.IsDedicated && id == 1)
+                  continue;
+
+               Players[id] = new Player
+               {
+                  Id = id,
+                  Name = name,
+                  Host = id == 1,
+                  Ai = false
+               };
+            }
+         }
+
          AssignSlots();
          UpdateNamePanels();
       }
    }
 
-   private void AssignSlots()
-   {
-      if (Players.Count == 0)
-         return;
-
-      var host = Players.Values.FirstOrDefault(player => player.Host);
-      if (host != null)
-         _redPlayerId = host.Id;
-
-      var other = Players.Values.FirstOrDefault(player => player.Id != _redPlayerId);
-      if (other != null)
-         _bluePlayerId = other.Id;
-   }
-
    private void UpdateNamePanels()
    {
-      if (!Players.TryGetValue(_redPlayerId, out var red))
-         return;
+      var english = TranslationServer.GetLocale() == "en";
+      foreach (var (id, hud) in _hudByPlayer)
+      {
+         if (!Players.TryGetValue(id, out var player))
+            continue;
 
-      RedNamePanel.Text = red.Name;
+         var display = player.Ai && IsOffline ? Tr(player.Name) : player.Name;
+         var named = new Player
+         {
+            Id = player.Id,
+            Name = display,
+            Host = player.Host,
+            Ai = player.Ai,
+            SeatIndex = player.SeatIndex,
+            TeamId = player.TeamId,
+            Eliminated = player.Eliminated,
+            TowerHp = player.TowerHp,
+            WallHp = player.WallHp,
+            Quarries = player.Quarries,
+            Bricks = player.Bricks,
+            Magic = player.Magic,
+            Gems = player.Gems,
+            Dungeons = player.Dungeons,
+            Recruits = player.Recruits
+         };
 
-      if (!Players.TryGetValue(_bluePlayerId, out var blue))
-         return;
-
-      BlueNamePanel.Text = blue.Ai && IsOffline ? Tr(blue.Name) : blue.Name;
-   }
-
-   private long GetRandomTurnPlayerId()
-   {
-      if (!Players.ContainsKey(_redPlayerId) || !Players.ContainsKey(_bluePlayerId))
-         return _redPlayerId;
-
-      return _rng.RandiRange(0, 1) == 0 ? _redPlayerId : _bluePlayerId;
+         hud.Apply(named, english);
+      }
    }
 
    private void AddPlayer(long id)
@@ -307,21 +314,15 @@ public partial class Table : Control
       if (Players.Count == 0)
          return;
 
-      var localId = Multiplayer.GetUniqueId();
-      var showRed = _turnPlayerId == _redPlayerId;
-      var showBlue = _turnPlayerId == _bluePlayerId;
+      var localId = GetLocalHumanId();
+      RedDeck.Visible = true;
+      BlueDeck.Visible = IsOffline;
 
-      if (Players.TryGetValue(_turnPlayerId, out var player))
-         _logger.Debug("Updating deck visibility for {PlayerName}", player.Name);
-
-      RedDeck.Visible = showRed;
-      BlueDeck.Visible = showBlue;
-
-      if (showRed)
-         ApplyDeckVisibility(RedDeck, _redPlayerId == localId);
-
-      if (showBlue)
-         ApplyDeckVisibility(BlueDeck, _bluePlayerId == localId);
+      foreach (var (playerId, deck) in _handByPlayer)
+      {
+         var showFaces = IsOffline || playerId == localId;
+         ApplyDeckVisibility(deck, showFaces);
+      }
 
       UpdateCardAffordability();
       UpdateTurnLockUi();
@@ -382,57 +383,7 @@ public partial class Table : Control
       }
    }
 
-   private void UpdateStatPanelUi()
-   {
-      if (Players.Count == 0)
-         return;
-
-      if (!Players.TryGetValue(_redPlayerId, out var red))
-         return;
-
-      RedBricksPerTurn.Text = red.Quarries.ToString();
-      RedBricksAltPerTurn.Text = red.Quarries.ToString();
-      RedBricksTotal.Text = red.Bricks.ToString();
-      RedBricksAltTotal.Text = red.Bricks.ToString();
-
-      RedGemsPerTurn.Text = red.Magic.ToString();
-      RedGemsAltPerTurn.Text = red.Magic.ToString();
-      RedGemsTotal.Text = red.Gems.ToString();
-      RedGemsAltTotal.Text = red.Gems.ToString();
-
-      RedRecruitsPerTurn.Text = red.Dungeons.ToString();
-      RedRecruitsAltPerTurn.Text = red.Dungeons.ToString();
-      RedRecruitsTotal.Text = red.Recruits.ToString();
-      RedRecruitsAltTotal.Text = red.Recruits.ToString();
-
-      SetStructureHeight(RedTower, red.TowerHp);
-      SetStructureHeight(RedWall, red.WallHp);
-      RedTowerHpPanel.Text = red.TowerHp.ToString();
-      RedWallHpPanel.Text = red.WallHp.ToString();
-
-      if (!Players.TryGetValue(_bluePlayerId, out var blue))
-         return;
-
-      BlueBricksPerTurn.Text = blue.Quarries.ToString();
-      BlueBricksAltPerTurn.Text = blue.Quarries.ToString();
-      BlueBricksTotal.Text = blue.Bricks.ToString();
-      BlueBricksAltTotal.Text = blue.Bricks.ToString();
-
-      BlueGemsPerTurn.Text = blue.Magic.ToString();
-      BlueGemsAltPerTurn.Text = blue.Magic.ToString();
-      BlueGemsTotal.Text = blue.Gems.ToString();
-      BlueGemsAltTotal.Text = blue.Gems.ToString();
-
-      BlueRecruitsPerTurn.Text = blue.Dungeons.ToString();
-      BlueRecruitsAltPerTurn.Text = blue.Dungeons.ToString();
-      BlueRecruitsTotal.Text = blue.Recruits.ToString();
-      BlueRecruitsAltTotal.Text = blue.Recruits.ToString();
-
-      SetStructureHeight(BlueTower, blue.TowerHp);
-      SetStructureHeight(BlueWall, blue.WallHp);
-      BlueTowerHpPanel.Text = blue.TowerHp.ToString();
-      BlueWallHpPanel.Text = blue.WallHp.ToString();
-   }
+   private void UpdateStatPanelUi() => UpdateNamePanels();
 
    private static float GetStructureHeight(int hp)
    {
@@ -493,5 +444,11 @@ public partial class Table : Control
    {
       Elapsed++;
       ElapsedString = $"{Elapsed / 60:D2}:{Elapsed % 60:D2}";
+   }
+
+   [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+   public void BroadcastChat(string name, string text)
+   {
+      _matchChat?.Append(name, text);
    }
 }

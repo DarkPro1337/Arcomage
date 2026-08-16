@@ -31,6 +31,7 @@ config/windows_native_icon="res://icon.ico"
 
 Config="*res://Scripts/Core/Config.cs"
 Global="*res://Scripts/Core/Global.cs"
+OnlineService="*res://Scripts/Networking/OnlineService.cs"
 ModManager="*res://Scripts/Managers/ModManager.cs"
 
 [display]

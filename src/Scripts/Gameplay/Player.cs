@@ -5,10 +5,14 @@ namespace Arcomage.Gameplay;
 public class Player
 {
    public long Id { get; init; }
-   public string Name { get; init; }
+   public string Name { get; set; }
    public bool Host { get; init; }
    public bool Ai { get; init; }
    public bool Ready { get; set; }
+   public int SeatIndex { get; set; }
+   public int TeamId { get; set; }
+   public bool Eliminated { get; set; }
+   public long SelectedTargetId { get; set; }
 
    public bool PlayAgain { get; set; }
    public bool Discarding { get; set; }

@@ -99,13 +99,15 @@ public partial class Table
 
    public Player[] GetTargetPlayer(Player self, TargetType target)
    {
-      var players = Players.Values;
+      var players = LivingPlayers().ToArray();
       return target switch
       {
          TargetType.Self => [self],
          TargetType.Opponent => [GetOpponent(self)],
-         TargetType.All => players.ToArray(),
+         TargetType.All => players,
          TargetType.AllExceptSelf => players.Where(player => player.Id != self.Id).ToArray(),
+         TargetType.Enemies => EnemiesOf(self).ToArray(),
+         TargetType.Allies => AlliesOf(self).ToArray(),
          TargetType.LowestWall => [players.OrderBy(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
          TargetType.HighestWall => [players.OrderByDescending(player => GetValue(player, ResourceTypes.Wall)).FirstOrDefault()],
          TargetType.LowestTower => [players.OrderBy(player => GetValue(player, ResourceTypes.Tower)).FirstOrDefault()],
@@ -119,11 +121,11 @@ public partial class Table
       if (self == null)
          return null;
 
-      var opponentId = self.Id == _redPlayerId ? _bluePlayerId : _redPlayerId;
-      if (Players.TryGetValue(opponentId, out var opponent))
-         return opponent;
+      var targetId = self.SelectedTargetId != 0 ? self.SelectedTargetId : GetDefaultEnemyId(self);
+      if (Players.TryGetValue(targetId, out var targeted) && !targeted.Eliminated && AreEnemies(self, targeted))
+         return targeted;
 
-      return Players.Values.FirstOrDefault(player => player.Id != self.Id);
+      return EnemiesOf(self).FirstOrDefault();
    }
 
    public void Damage(Player target, int amount, ResourceTypes? resource = null)

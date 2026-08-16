@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Arcomage.Core;
 using Arcomage.Data;
+using Arcomage.Networking;
 using Godot;
 
 namespace Arcomage.Gameplay;
@@ -43,14 +44,14 @@ public partial class Table
 
       if (IsAuthority())
       {
-         ResolveCardPlay(ownerId, cardIndex, cardId, discarded);
+         ResolveCardPlay(ownerId, cardIndex, cardId, discarded, _selectedTargetId);
          return;
       }
 
       if (ownerId != Multiplayer.GetUniqueId())
          return;
 
-      RpcId(1, nameof(RequestCardPlay), cardIndex, cardId, discarded);
+      RpcId(1, nameof(RequestCardPlay), cardIndex, cardId, discarded, _selectedTargetId);
    }
 
    /// <summary>
@@ -60,12 +61,12 @@ public partial class Table
    /// <param name="cardId">Expected card id, used to reject a desynced hand.</param>
    /// <param name="discarded"><see langword="true"/> if the sender discarded instead of playing.</param>
    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-   private void RequestCardPlay(int cardIndex, string cardId, bool discarded)
+   private void RequestCardPlay(int cardIndex, string cardId, bool discarded, long targetId)
    {
       if (!Multiplayer.IsServer())
          return;
 
-      ResolveCardPlay(Multiplayer.GetRemoteSenderId(), cardIndex, cardId, discarded);
+      ResolveCardPlay(Multiplayer.GetRemoteSenderId(), cardIndex, cardId, discarded, targetId);
    }
 
    /// <summary>
@@ -95,20 +96,22 @@ public partial class Table
    /// While <see cref="Player.Discarding"/> is set (DrawDiscard cards), any click discards
    /// and the same player keeps the turn afterward.
    /// </remarks>
-   private void ResolveCardPlay(long playerId, int cardIndex, string cardId, bool discarded)
+   private void ResolveCardPlay(long playerId, int cardIndex, string cardId, bool discarded, long targetId = 0)
    {
-      _ = ResolveCardPlayAsync(playerId, cardIndex, cardId, discarded);
+      _ = ResolveCardPlayAsync(playerId, cardIndex, cardId, discarded, targetId);
    }
 
-   private async Task ResolveCardPlayAsync(long playerId, int cardIndex, string cardId, bool discarded)
+   private async Task ResolveCardPlayAsync(long playerId, int cardIndex, string cardId, bool discarded, long targetId)
    {
       try
       {
          if (_gameOver || !IsAuthority() || _turnPlayerId != playerId || _animating)
             return;
 
-         if (!Players.TryGetValue(playerId, out var player))
+         if (!Players.TryGetValue(playerId, out var player) || player.Eliminated)
             return;
+
+         player.SelectedTargetId = IsValidEnemyTarget(player, targetId) ? targetId : GetDefaultEnemyId(player);
 
          var deck = GetDeckForPlayer(playerId);
          if (deck == null)
@@ -203,10 +206,16 @@ public partial class Table
 
       if (!IsOffline && Multiplayer.IsServer())
       {
-         Rpc(nameof(AnimateRemoteCardPlay),
-            player.Id, cardIndex, discarded,
-            replacementId, clearGraveyard,
-            SerializePlayer(_redPlayerId), SerializePlayer(_bluePlayerId));
+         Rpc(nameof(AnimateRemoteCardPlay), SnapshotJson.Serialize(new CardPlayCue
+         {
+            PlayerId = player.Id,
+            CardIndex = cardIndex,
+            Discarded = discarded,
+            ReplacementId = replacementId,
+            ClearGraveyard = clearGraveyard,
+            PlayedCardId = card.CardId ?? string.Empty,
+            Players = BuildPlayerSnapshots(0)
+         }));
       }
 
       try
@@ -245,45 +254,40 @@ public partial class Table
    /// Client-side playback of a card the host already resolved: apply stats, fly the card, then wait for the snapshot.
    /// </summary>
    [Rpc]
-   private void AnimateRemoteCardPlay(
-      long playerId,
-      int cardIndex,
-      bool discarded,
-      string replacementId,
-      bool clearGraveyard,
-      int[] redStats,
-      int[] blueStats)
+   private void AnimateRemoteCardPlay(string json)
    {
-      _ = AnimateRemoteCardPlayAsync(playerId, cardIndex, discarded, replacementId, clearGraveyard, redStats, blueStats);
+      _ = AnimateRemoteCardPlayAsync(json);
    }
 
-   private async Task AnimateRemoteCardPlayAsync(
-      long playerId,
-      int cardIndex,
-      bool discarded,
-      string replacementId,
-      bool clearGraveyard,
-      int[] redStats,
-      int[] blueStats)
+   private async Task AnimateRemoteCardPlayAsync(string json)
    {
       try
       {
          if (IsAuthority())
             return;
 
-         var deck = GetDeckForPlayer(playerId);
-         var cards = deck?.GetChildren().OfType<CardControl>().ToList();
+         var cue = SnapshotJson.Deserialize<CardPlayCue>(json);
+         if (cue == null)
+            return;
 
-         var before = CaptureStatSnapshots();
-         if (!discarded && cards != null && cardIndex >= 0 && cardIndex < cards.Count)
-            ApplyPayCostToSnapshot(before, playerId, cards[cardIndex]);
-
-         ApplyPlayerStats(_redPlayerId, redStats);
-         ApplyPlayerStats(_bluePlayerId, blueStats);
+         ApplyPlayerSnapshots(cue.Players);
          UpdateStatPanelUi();
+
+         var deck = GetDeckForPlayer(cue.PlayerId);
+         var cards = deck?.GetChildren().OfType<CardControl>().ToList();
+         var before = CaptureStatSnapshots();
+         if (!cue.Discarded && cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
+            ApplyPayCostToSnapshot(before, cue.PlayerId, cards[cue.CardIndex]);
+
          PlayStatChangeFeedback(before);
 
-         if (deck == null || cardIndex < 0 || cardIndex >= cards.Count)
+         CardControl flying = null;
+         if (cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
+            flying = cards[cue.CardIndex];
+         else if (!string.IsNullOrEmpty(cue.PlayedCardId))
+            flying = (CardControl)CreateCard(cue.PlayedCardId);
+
+         if (flying == null)
             return;
 
          _animating = true;
@@ -291,11 +295,11 @@ public partial class Table
 
          try
          {
-            await AnimateCardPlay(deck, cards[cardIndex], discarded, replacementId);
+            await AnimateCardPlay(deck ?? RedDeck, flying, cue.Discarded, cue.ReplacementId);
             if (!IsInsideTree())
                return;
 
-            if (clearGraveyard)
+            if (cue.ClearGraveyard)
                await ClearGraveyardAnimated();
          }
          finally
@@ -331,7 +335,8 @@ public partial class Table
       }
 
       player.PlayAgain = false;
-      var nextId = GetOpponentId(player.Id);
+      var nextId = GetNextLivingPlayerId(player.Id);
+
       AddResources(nextId);
       SetTurn(nextId);
 
@@ -394,21 +399,22 @@ public partial class Table
       if (player.Discarding)
       {
          var discardIndex = FindDiscardIndex(cards);
-         ResolveCardPlay(player.Id, discardIndex, cards[discardIndex].CardId, discarded: true);
+         ResolveCardPlay(player.Id, discardIndex, cards[discardIndex].CardId, discarded: true, GetDefaultEnemyId(player));
          return;
       }
 
+      player.SelectedTargetId = GetDefaultEnemyId(player);
       for (var i = 0; i < cards.Count; i++)
       {
          if (!CanAfford(player, cards[i]))
             continue;
 
-         ResolveCardPlay(player.Id, i, cards[i].CardId, discarded: false);
+         ResolveCardPlay(player.Id, i, cards[i].CardId, discarded: false, player.SelectedTargetId);
          return;
       }
 
       var fallbackIndex = FindDiscardIndex(cards);
-      ResolveCardPlay(player.Id, fallbackIndex, cards[fallbackIndex].CardId, discarded: true);
+      ResolveCardPlay(player.Id, fallbackIndex, cards[fallbackIndex].CardId, discarded: true, player.SelectedTargetId);
    }
 
    /// <summary>
@@ -429,58 +435,36 @@ public partial class Table
    /// <param name="peerId">Target peer id, or <c>0</c> to broadcast to all clients.</param>
    private void SendGameState(long peerId = 0)
    {
-      var discarding = GetCurrentPlayer()?.Discarding == true;
-      if (peerId == 0)
+      if (peerId != 0)
       {
-         Rpc(nameof(ApplyRemoteGameState),
-            _turnPlayerId, _redPlayerId, _bluePlayerId,
-            SerializePlayer(_redPlayerId), SerializePlayer(_bluePlayerId),
-            GetHandIds(RedDeck), GetHandIds(BlueDeck),
-            discarding, _gameOver, _winnerId, _winReasonKey);
-
+         RpcId(peerId, nameof(ApplyRemoteGameState), SnapshotJson.Serialize(BuildSnapshot(peerId)));
          return;
       }
 
-      RpcId(peerId, nameof(ApplyRemoteGameState),
-         _turnPlayerId, _redPlayerId, _bluePlayerId,
-         SerializePlayer(_redPlayerId), SerializePlayer(_bluePlayerId),
-         GetHandIds(RedDeck), GetHandIds(BlueDeck),
-         discarding, _gameOver, _winnerId, _winReasonKey);
+      var peers = Multiplayer.GetPeers().Select(id => (long)id).ToList();
+      if (peers.Count == 0)
+         peers = [.. Players.Keys.Where(id => id != Multiplayer.GetUniqueId() && id > 0 && id < 100)];
+
+      foreach (var id in peers)
+         RpcId(id, nameof(ApplyRemoteGameState), SnapshotJson.Serialize(BuildSnapshot(id)));
    }
 
-   /// <summary>
-   /// Applies a server snapshot on a client: player stats, hands, current turn, and match result.
-   /// </summary>
    [Rpc]
-   private void ApplyRemoteGameState(
-      long turnPlayerId,
-      long redId,
-      long blueId,
-      int[] redStats,
-      int[] blueStats,
-      string[] redHand,
-      string[] blueHand,
-      bool discarding,
-      bool gameOver,
-      long winnerId,
-      string winReason)
+   private void ApplyRemoteGameState(string json)
    {
+      var snapshot = SnapshotJson.Deserialize<GameSnapshot>(json);
+      if (snapshot == null)
+         return;
+
       if (_animating)
       {
-         _pendingRemoteState = new RemoteGameState(
-            turnPlayerId, redId, blueId, redStats, blueStats,
-            redHand, blueHand, discarding, gameOver, winnerId, winReason);
-
-         ApplyPlayerStats(_redPlayerId, redStats);
-         ApplyPlayerStats(_bluePlayerId, blueStats);
+         _pendingRemoteState = snapshot;
+         ApplyPlayerSnapshots(snapshot.Players);
          UpdateStatPanelUi();
-
          return;
       }
 
-      ApplyRemoteGameStateNow(
-         turnPlayerId, redId, blueId, redStats, blueStats,
-         redHand, blueHand, discarding, gameOver, winnerId, winReason);
+      ApplyRemoteGameStateNow(snapshot);
    }
 
    private void ApplyPendingRemoteState()
@@ -493,72 +477,128 @@ public partial class Table
 
       var pending = _pendingRemoteState;
       _pendingRemoteState = null;
-      ApplyRemoteGameStateNow(
-         pending.TurnPlayerId, pending.RedId, pending.BlueId,
-         pending.RedStats, pending.BlueStats,
-         pending.RedHand, pending.BlueHand,
-         pending.Discarding, pending.GameOver, pending.WinnerId, pending.WinReason);
+      ApplyRemoteGameStateNow(pending);
    }
 
-   private void ApplyRemoteGameStateNow(
-      long turnPlayerId,
-      long redId,
-      long blueId,
-      int[] redStats,
-      int[] blueStats,
-      string[] redHand,
-      string[] blueHand,
-      bool discarding,
-      bool gameOver,
-      long winnerId,
-      string winReason)
+   private void ApplyRemoteGameStateNow(GameSnapshot snapshot)
    {
-      _redPlayerId = redId;
-      _bluePlayerId = blueId;
-      EnsurePlayer(redId);
-      EnsurePlayer(blueId);
-      ApplyPlayerStats(_redPlayerId, redStats);
-      ApplyPlayerStats(_bluePlayerId, blueStats);
+      MatchMode = snapshot.Mode;
+      Ranked = snapshot.Ranked;
+      _seatOrder.Clear();
+      _seatOrder.AddRange(snapshot.SeatOrder ?? []);
+      foreach (var playerSnap in snapshot.Players)
+      {
+         EnsurePlayer(playerSnap.Id);
+         ApplyPlayerSnapshot(playerSnap);
+      }
 
-      if (Players.TryGetValue(turnPlayerId, out var current))
-         current.Discarding = discarding;
+      EnsureHandContainers();
+      BindSeatHuds();
 
-      if (!HandsMatch(redHand, blueHand))
-         SpawnInitialHands(redHand, blueHand);
+      var localId = GetLocalHumanId();
+      foreach (var playerSnap in snapshot.Players)
+      {
+         if (playerSnap.Id == localId && playerSnap.Hand is { Length: > 0 })
+            ApplyHand(playerSnap.Id, playerSnap.Hand);
+      }
+
+      if (Players.TryGetValue(snapshot.TurnPlayerId, out var current))
+         current.Discarding = snapshot.Discarding;
 
       _gameStarted = true;
-      _gameOver = gameOver;
-      SetTurn(turnPlayerId);
+      _gameOver = snapshot.GameOver;
+      SetTurn(snapshot.TurnPlayerId);
 
-      if (!gameOver || winnerId == 0)
+      if (!snapshot.GameOver || snapshot.WinnerId == 0)
          return;
 
-      if (Players.TryGetValue(winnerId, out var winner))
-         ShowEndGame(winner, winReason);
+      if (Players.TryGetValue(snapshot.WinnerId, out var winner))
+         ShowEndGame(winner, snapshot.WinReason);
    }
 
-   private bool HandsMatch(string[] redHand, string[] blueHand)
+   private GameSnapshot _pendingRemoteState;
+
+   private GameSnapshot BuildSnapshot(long viewerId)
    {
-      return redHand != null
-         && blueHand != null
-         && GetHandIds(RedDeck).SequenceEqual(redHand)
-         && GetHandIds(BlueDeck).SequenceEqual(blueHand);
+      var discarding = GetCurrentPlayer()?.Discarding == true;
+      return new GameSnapshot
+      {
+         TurnPlayerId = _turnPlayerId,
+         Mode = MatchMode,
+         Ranked = Ranked,
+         Discarding = discarding,
+         GameOver = _gameOver,
+         WinnerId = _winnerId,
+         WinReason = _winReasonKey,
+         SeatOrder = [.. _seatOrder],
+         Players = BuildPlayerSnapshots(viewerId)
+      };
    }
 
-   private RemoteGameState _pendingRemoteState;
+   private List<PlayerSnapshot> BuildPlayerSnapshots(long viewerId)
+   {
+      var list = new List<PlayerSnapshot>();
+      foreach (var player in Players.Values)
+      {
+         var hand = GetHandIds(GetDeckForPlayer(player.Id));
+         var hide = viewerId != 0 && viewerId != player.Id && !IsOffline;
+         list.Add(new PlayerSnapshot
+         {
+            Id = player.Id,
+            Name = player.Name,
+            SeatIndex = player.SeatIndex,
+            TeamId = player.TeamId,
+            Eliminated = player.Eliminated,
+            Ai = player.Ai,
+            Host = player.Host,
+            TowerHp = player.TowerHp,
+            WallHp = player.WallHp,
+            Quarries = player.Quarries,
+            Bricks = player.Bricks,
+            Magic = player.Magic,
+            Gems = player.Gems,
+            Dungeons = player.Dungeons,
+            Recruits = player.Recruits,
+            Hand = hide ? [] : hand,
+            HandCount = hand.Length
+         });
+      }
 
-   private sealed record RemoteGameState(
-      long TurnPlayerId,
-      long RedId,
-      long BlueId,
-      int[] RedStats,
-      int[] BlueStats,
-      string[] RedHand,
-      string[] BlueHand,
-      bool Discarding,
-      bool GameOver,
-      long WinnerId,
-      string WinReason);
+      return list;
+   }
+
+   private void ApplyPlayerSnapshots(List<PlayerSnapshot> snapshots)
+   {
+      if (snapshots == null)
+         return;
+
+      foreach (var snapshot in snapshots)
+      {
+         EnsurePlayer(snapshot.Id);
+         ApplyPlayerSnapshot(snapshot);
+      }
+   }
+
+   private void ApplyPlayerSnapshot(PlayerSnapshot snapshot)
+   {
+      if (!Players.TryGetValue(snapshot.Id, out var player))
+         return;
+
+      player.SeatIndex = snapshot.SeatIndex;
+      player.TeamId = snapshot.TeamId;
+      player.Eliminated = snapshot.Eliminated;
+      player.TowerHp = snapshot.TowerHp;
+      player.WallHp = snapshot.WallHp;
+      player.Quarries = snapshot.Quarries;
+      player.Bricks = snapshot.Bricks;
+      player.Magic = snapshot.Magic;
+      player.Gems = snapshot.Gems;
+      player.Dungeons = snapshot.Dungeons;
+      player.Recruits = snapshot.Recruits;
+
+      if (!string.IsNullOrEmpty(snapshot.Name))
+         player.Name = snapshot.Name;
+   }
 
    /// <summary>
    /// Rebuilds nameplates, hand visibility, and resource panels after a local state change.
@@ -576,8 +616,8 @@ public partial class Table
    private void UpdateCardAffordability()
    {
       var current = GetCurrentPlayer();
-      UpdateDeckAffordability(RedDeck, current, _turnPlayerId == _redPlayerId);
-      UpdateDeckAffordability(BlueDeck, current, _turnPlayerId == _bluePlayerId);
+      foreach (var (playerId, deck) in _handByPlayer)
+         UpdateDeckAffordability(deck, current, _turnPlayerId == playerId);
    }
 
    /// <summary>
@@ -639,16 +679,7 @@ public partial class Table
       if (actingPlayer == null)
          return false;
 
-      var opponent = GetOpponent(actingPlayer);
-      if (opponent == null)
-         return false;
-
-      if (opponent.TowerHp <= 0)
-      {
-         winner = actingPlayer;
-         reasonKey = "TOWER_DESTROY_MSG";
-         return true;
-      }
+      EliminateDestroyedTowers(actingPlayer);
 
       if (actingPlayer.TowerHp >= Config.Settings.TowerVictory)
       {
@@ -661,6 +692,33 @@ public partial class Table
       {
          winner = actingPlayer;
          reasonKey = "RESOURCE_VICTORY_MSG";
+         return true;
+      }
+
+      if (MatchMode == MatchMode.TwoVsTwo)
+         return TryGetTeamMatchResult(actingPlayer, out winner, out reasonKey);
+
+      var living = LivingPlayers().ToList();
+      if (MatchMode == MatchMode.FreeForAll)
+      {
+         if (living.Count == 1)
+         {
+            winner = living[0];
+            reasonKey = "TOWER_DESTROY_MSG";
+            return true;
+         }
+
+         return false;
+      }
+
+      var opponent = GetOpponent(actingPlayer);
+      if (opponent == null)
+         return false;
+
+      if (opponent.TowerHp <= 0)
+      {
+         winner = actingPlayer;
+         reasonKey = "TOWER_DESTROY_MSG";
          return true;
       }
 
@@ -688,6 +746,43 @@ public partial class Table
       return false;
    }
 
+   private void EliminateDestroyedTowers(Player actingPlayer)
+   {
+      if (MatchMode == MatchMode.OneVsOne)
+         return;
+
+      foreach (var player in Players.Values)
+      {
+         if (!player.Eliminated && player.TowerHp <= 0)
+            player.Eliminated = true;
+      }
+   }
+
+   private bool TryGetTeamMatchResult(Player actingPlayer, out Player winner, out string reasonKey)
+   {
+      winner = null;
+      reasonKey = string.Empty;
+
+      var team = actingPlayer.TeamId;
+      var enemies = Players.Values.Where(player => player.TeamId != team).ToList();
+      if (enemies.Count > 0 && enemies.All(player => player.Eliminated || player.TowerHp <= 0))
+      {
+         winner = actingPlayer;
+         reasonKey = "TOWER_DESTROY_MSG";
+         return true;
+      }
+
+      var allies = Players.Values.Where(player => player.TeamId == team).ToList();
+      if (allies.All(player => player.Eliminated || player.TowerHp <= 0))
+      {
+         winner = enemies.FirstOrDefault(player => !player.Eliminated) ?? enemies.FirstOrDefault();
+         reasonKey = "TOWER_DESTROY_MSG";
+         return winner != null;
+      }
+
+      return false;
+   }
+
    /// <summary>
    /// Shows the match-result overlay and stops further plays.
    /// </summary>
@@ -706,7 +801,48 @@ public partial class Table
       MatchResult.Show();
       MatchResult.GetNode<AnimationPlayer>("Anim").Play("hint_anim");
       DeckLocker.Show();
+
+      if (Ranked && IsAuthority())
+         _ = ApplyRankedRatings(winner);
+
       return true;
+   }
+
+   private async Task ApplyRankedRatings(Player winner)
+   {
+      if (Global.Online == null)
+         return;
+
+      try
+      {
+         var ratings = new Dictionary<long, int>();
+         foreach (var player in Players.Values.Where(player => !player.Ai))
+            ratings[player.Id] = 1000;
+
+         var local = GetLocalHumanId();
+         if (local > 0)
+            ratings[local] = await Global.Online.LoadRating();
+
+         var winners = MatchMode == MatchMode.TwoVsTwo
+            ? Players.Values.Where(player => player.TeamId == winner.TeamId).Select(player => player.Id).ToHashSet()
+            : new HashSet<long> { winner.Id };
+
+         foreach (var player in Players.Values.Where(player => !player.Ai))
+         {
+            var score = winners.Contains(player.Id) ? 1.0 : 0.0;
+            var opponentAvg = Players.Values.Where(other => other.Id != player.Id && !other.Ai)
+               .Select(other => ratings.GetValueOrDefault(other.Id, 1000)).DefaultIfEmpty(1000).Average();
+
+            var expected = 1.0 / (1.0 + Math.Pow(10, (opponentAvg - ratings.GetValueOrDefault(player.Id, 1000)) / 400.0));
+            var next = (int)Math.Round(ratings.GetValueOrDefault(player.Id, 1000) + 32 * (score - expected));
+            if (player.Id == local)
+               await Global.Online.SubmitRating(Math.Max(100, next));
+         }
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Failed to apply ranked rating");
+      }
    }
 
    /// <summary>
@@ -760,6 +896,9 @@ public partial class Table
    /// </summary>
    private string[] GetHandIds(HBoxContainer deck)
    {
+      if (deck == null)
+         return [];
+
       return [.. deck.GetChildren().OfType<CardControl>().Select(card => card.CardId ?? string.Empty)];
    }
 
@@ -833,22 +972,25 @@ public partial class Table
    /// <returns>Red or blue player id, or <c>-1</c> if the card is not in a hand.</returns>
    private long GetOwnerId(CardControl card)
    {
+      foreach (var (playerId, deck) in _handByPlayer)
+      {
+         if (card.GetParent() == deck)
+            return playerId;
+      }
+
       if (card.GetParent() == RedDeck)
-         return _redPlayerId;
-      if (card.GetParent() == BlueDeck)
-         return _bluePlayerId;
+         return GetLocalHumanId();
       return -1;
    }
 
-   /// <summary>
-   /// Returns the hand container for <paramref name="playerId"/>.
-   /// </summary>
-   private HBoxContainer GetDeckForPlayer(long playerId) => playerId == _redPlayerId ? RedDeck : BlueDeck;
+   private HBoxContainer GetDeckForPlayer(long playerId)
+   {
+      if (_handByPlayer.TryGetValue(playerId, out var deck))
+         return deck;
 
-   /// <summary>
-   /// Returns the opposing seat for <paramref name="playerId"/>.
-   /// </summary>
-   private long GetOpponentId(long playerId) => playerId == _redPlayerId ? _bluePlayerId : _redPlayerId;
+      EnsureHandContainers();
+      return _handByPlayer.GetValueOrDefault(playerId);
+   }
 
    /// <summary>
    /// Whether this instance may mutate match state (offline play or the multiplayer host).

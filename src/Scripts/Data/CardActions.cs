@@ -215,8 +215,8 @@ internal static class ActionEnumHelpers
 
    public static int GetAggregateValue(Table gameState, ResourceTypes resource)
    {
-      var players = gameState.Players.Values;
-      if (players.Count == 0)
+      var players = gameState.LivingPlayers().ToArray();
+      if (players.Length == 0)
          return 0;
 
       return resource switch
