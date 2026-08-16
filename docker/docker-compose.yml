@@ -1,3 +1,5 @@
+name: arcomage
+
 services:
   postgres:
     container_name: arcomage-postgres
