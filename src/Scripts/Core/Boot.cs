@@ -27,12 +27,12 @@ public partial class Boot : Node
       if (!Config.Settings.IntroSkip)
       {
          _logger.Debug("Loading from Boot to Intro...");
-         GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/Intro.tscn");
+         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://Scenes/Main/Intro.tscn");
       }
       else
       {
          _logger.Debug("Loading from Boot to Main menu...");
-         GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/MainMenu.tscn");
+         GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://Scenes/Main/MainMenu.tscn");
       }
    }
 

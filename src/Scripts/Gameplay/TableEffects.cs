@@ -18,6 +18,8 @@ public partial class Table
    private const string DealSoundPath = "res://Sounds/deal.ogg";
    private const string SoundsBus = "Sounds";
 
+   private static readonly Dictionary<string, AudioStream> _sfxCache = new();
+
    private PackedScene _damageParticlesScene;
    private PackedScene _healParticlesScene;
 
@@ -144,14 +146,17 @@ public partial class Table
       Particles.AddChild(particles);
       particles.GlobalPosition = GetControlVisualCenter(target);
       particles.Restart();
-      particles.Finished += particles.QueueFree;
+      particles.Finished += OnParticlesFinished;
 
       var lifetime = particles.Lifetime / Mathf.Max(particles.SpeedScale, 0.01f) + 0.25f;
-      GetTree().CreateTimer(lifetime).Timeout += () =>
+      GetTree().CreateTimer(lifetime).Timeout += OnParticlesFinished;
+      return;
+
+      void OnParticlesFinished()
       {
          if (IsInstanceValid(particles))
             particles.QueueFree();
-      };
+      }
    }
 
    /// <summary>
@@ -166,7 +171,13 @@ public partial class Table
 
    private void PlaySfx(string path)
    {
-      var stream = GD.Load<AudioStream>(path);
+      if (!_sfxCache.TryGetValue(path, out var stream))
+      {
+         stream = ResourceLoader.Load<AudioStream>(path);
+         if (stream != null)
+            _sfxCache[path] = stream;
+      }
+
       if (stream == null)
          return;
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Arcomage.Core;
@@ -14,9 +15,12 @@ public partial class Table
    private readonly List<long> _seatOrder = [];
    private readonly Dictionary<long, HBoxContainer> _handByPlayer = new();
    private readonly Dictionary<long, SeatHud> _hudByPlayer = new();
+
    private Node _handsRoot;
    private Control _extraSeatsRoot;
    private long _selectedTargetId;
+   private Control _seatClickControl;
+   private GuiInputEventHandler _seatClickHandler;
 
    public IReadOnlyList<long> SeatOrder => _seatOrder;
 
@@ -215,15 +219,35 @@ public partial class Table
       if (control == null)
          return;
 
-      if (control.HasMeta("seat_click"))
+      control.SetMeta("seat_click", playerId);
+
+      if (_seatClickHandler != null && _seatClickControl == control)
          return;
 
-      control.SetMeta("seat_click", playerId);
-      control.GuiInput += @event =>
-      {
-         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
-            OnSeatHudClicked(playerId);
-      };
+      DisconnectExistingSeatClick();
+      _seatClickControl = control;
+      _seatClickHandler = OnExistingSeatGuiInput;
+      control.GuiInput += _seatClickHandler;
+   }
+
+   private void DisconnectExistingSeatClick()
+   {
+      if (_seatClickControl != null && _seatClickHandler != null && GodotObject.IsInstanceValid(_seatClickControl))
+         _seatClickControl.GuiInput -= _seatClickHandler;
+
+      _seatClickControl = null;
+      _seatClickHandler = null;
+   }
+
+   private void OnExistingSeatGuiInput(InputEvent @event)
+   {
+      if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+         return;
+
+      if (_seatClickControl == null || !_seatClickControl.HasMeta("seat_click"))
+         return;
+
+      OnSeatHudClicked(_seatClickControl.GetMeta("seat_click").AsInt64());
    }
 
    private void OnSeatHudClicked(long playerId)
@@ -326,7 +350,8 @@ public sealed class SeatHud
    public Control Root { get; init; }
    public bool Local { get; init; }
 
-   public event System.Action<long> Clicked;
+   public event Action<long> Clicked;
+   private Control.GuiInputEventHandler _guiInputHandler;
 
    public static SeatHud FromExisting(Table table, bool local)
    {
@@ -396,16 +421,24 @@ public sealed class SeatHud
          GemsTotal = resources,
          RecruitsTotal = resources
       };
-      panel.GuiInput += @event =>
-      {
-         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
-            hud.Clicked?.Invoke(hud.PlayerId);
-      };
+
+      hud._guiInputHandler = hud.OnRootGuiInput;
+      panel.GuiInput += hud._guiInputHandler;
+
       return hud;
+   }
+
+   private void OnRootGuiInput(InputEvent @event)
+   {
+      if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+         Clicked?.Invoke(PlayerId);
    }
 
    public void QueueFree()
    {
+      if (Root != null && _guiInputHandler != null && GodotObject.IsInstanceValid(Root))
+         Root.GuiInput -= _guiInputHandler;
+
       Root?.QueueFree();
    }
 

@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using Arcomage.Core;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
@@ -8,13 +10,21 @@ public partial class MainMenu : Control
 {
    private static readonly Logger _logger = Logger.GetOrCreateLogger("MainMenu");
 
-   private Control Settings => GetNode<Control>("Settings");
-   private Control NetworkSetup => GetNode<Control>("NetworkSetup");
-   private AnimationPlayer StartupAnim => GetNode<AnimationPlayer>("StartupAnim");
-   private AnimationPlayer MenuAnim => GetNode<AnimationPlayer>("MenuAnim");
-   private Control Credits => GetNode<Control>("Credits");
-   private Label Version => GetNode<Label>("Logo/Ver");
-   private Label BuildNumber => GetNode<Label>("BuildNumber");
+   private Settings _settingsMenu;
+   private Control _networkSetup;
+   private AnimationPlayer _startupAnim;
+   private AnimationPlayer _menuAnim;
+   private Control _credits;
+   private Label _version;
+   private Label _buildNumber;
+
+   private Settings SettingsMenu => _settingsMenu ??= GetNode<Settings>("Settings");
+   private Control NetworkSetup => _networkSetup ??= GetNode<Control>("NetworkSetup");
+   private AnimationPlayer StartupAnim => _startupAnim ??= GetNode<AnimationPlayer>("StartupAnim");
+   private AnimationPlayer MenuAnim => _menuAnim ??= GetNode<AnimationPlayer>("MenuAnim");
+   private Control Credits => _credits ??= GetNode<Control>("Credits");
+   private Label Version => _version ??= GetNode<Label>("Logo/Ver");
+   private Label BuildNumber => _buildNumber ??= GetNode<Label>("BuildNumber");
 
    public override void _EnterTree()
    {
@@ -33,7 +43,7 @@ public partial class MainMenu : Control
       creditsButton.Pressed += OnCreditsPressed;
       devToolsButton.Pressed += OnDevToolsPressed;
       exitButton.Pressed += OnExitPressed;
-        
+
       if (OS.IsDebugBuild())
       {
          devToolsButton.Visible = true;
@@ -50,7 +60,7 @@ public partial class MainMenu : Control
    {
       Version.Text = $"{ProjectSettings.GetSetting("application/config/version")}";
       BuildNumber.Text = $"Build: {Global.BuildNumber}";
-      if (OS.IsDebugBuild()) 
+      if (OS.IsDebugBuild())
          BuildNumber.Text += "-dev";
 
       GetTree().Paused = false;
@@ -58,22 +68,34 @@ public partial class MainMenu : Control
       ReadCommandLine();
    }
 
-   private async void OnNewGamePressed()
+   private void OnNewGamePressed() => _ = FadeThenStartGame();
+
+   private async Task FadeThenStartGame()
    {
-      MenuAnim.Play("fade_out");
-      await ToSignal(MenuAnim, "animation_finished");
-      GetTree().ChangeSceneToFile("res://Scenes/Gameplay/Table.tscn");
+      try
+      {
+         MenuAnim.Play("fade_out");
+         await ToSignal(MenuAnim, AnimationMixer.SignalName.AnimationFinished);
+         if (!IsInsideTree())
+            return;
+
+         GetTree().ChangeSceneToFile("res://Scenes/Gameplay/Table.tscn");
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Failed to start a new game");
+      }
    }
 
    private void OnSettingsPressed()
    {
-      Settings.Show();
+      SettingsMenu.Show();
       MenuAnim.Play("settings_show");
    }
 
    private void OnMultiplayerGamePressed() => NetworkSetup.Show();
    private void OnCreditsPressed() => Credits.Show();
-   private void OnDevToolsPressed() => GetTree().CallDeferred("change_scene_to_file", "res://Scenes/UI/Debug/CardsViewer.tscn");
+   private void OnDevToolsPressed() => GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://Scenes/UI/Debug/CardsViewer.tscn");
    private void OnExitPressed() => GetTree().Quit();
 
    private void ReadCommandLine()
@@ -84,7 +106,7 @@ public partial class MainMenu : Control
 
       _logger.Debug("Player name from command line: " + name);
       Config.Settings.Nickname = name;
-      Settings.Call("UpdateControls");
+      SettingsMenu.UpdateControls();
       DisplayServer.WindowSetTitle($"Arcomage - {name}");
    }
 }

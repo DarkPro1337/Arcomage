@@ -5,11 +5,17 @@ namespace Arcomage.UI;
 
 public partial class InGameMenu : Control
 {
-   private Settings Settings => GetNode<Settings>("Settings");
-   private Button ResumeButton => GetNode<Button>("Container/Resume");
-   private Button SettingsButton => GetNode<Button>("Container/Settings");
-   private Button StatsButton => GetNode<Button>("Container/Stats");
-   private Button ExitButton => GetNode<Button>("Container/Exit");
+   private Settings _settings;
+   private Button _resumeButton;
+   private Button _settingsButton;
+   private Button _statsButton;
+   private Button _exitButton;
+
+   private Settings Settings => _settings ??= GetNode<Settings>("Settings");
+   private Button ResumeButton => _resumeButton ??= GetNode<Button>("Container/Resume");
+   private Button SettingsButton => _settingsButton ??= GetNode<Button>("Container/Settings");
+   private Button StatsButton => _statsButton ??= GetNode<Button>("Container/Stats");
+   private Button ExitButton => _exitButton ??= GetNode<Button>("Container/Exit");
 
    public override void _Ready()
    {

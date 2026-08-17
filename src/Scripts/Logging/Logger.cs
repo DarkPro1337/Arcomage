@@ -13,10 +13,20 @@ public sealed class MessageTemplateFormatMethodAttribute(string parameterName) :
    public string ParameterName { get; } = parameterName;
 }
 
-public class Logger
+public partial class Logger
 {
    private static readonly Dictionary<string, Logger> _loggers = new();
+   private static readonly Regex _placeholderPattern = PlaceholderRegex();
+
+   private static LogLevel? _minimumLevel;
+
    public static event Action<string> NewLogAdded;
+
+   public static LogLevel MinimumLevel
+   {
+      get => _minimumLevel ??= OS.IsDebugBuild() ? LogLevel.Debug : LogLevel.Info;
+      set => _minimumLevel = value;
+   }
 
    private readonly string _name;
    private Logger(string name) => _name = name;
@@ -39,8 +49,13 @@ public class Logger
       Error
    }
 
+   private static bool ShouldLog(LogLevel level) => level >= MinimumLevel;
+
    private void Log(string message, LogLevel level, Exception ex = null)
    {
+      if (!ShouldLog(level))
+         return;
+
       var now = DateTime.Now;
       var formattedMessage = $"[{now:HH:mm:ss}] {level} {_name} {message}";
       if (ex is not null)
@@ -50,28 +65,36 @@ public class Logger
             formattedMessage += $"\nInner Exception: {ex.InnerException.GetType().Name}: {ex.InnerException.Message}\nInner Stack Trace: {ex.InnerException.StackTrace}";
       }
 
-      NewLogAdded?.Invoke(message);
+      NewLogAdded?.Invoke(formattedMessage);
 
-      if (level == LogLevel.Error)
-         GD.PrintErr(formattedMessage);
-      else
-         GD.Print(formattedMessage);
+      switch (level)
+      {
+         case LogLevel.Error:
+            GD.PrintErr(formattedMessage);
+            break;
+         case LogLevel.Warn:
+            GD.PushWarning(formattedMessage);
+            break;
+         default:
+            GD.Print(formattedMessage);
+            break;
+      }
    }
 
    [MessageTemplateFormatMethod("message")]
    public void Error(Exception ex, string message, params object[] args)
    {
-      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
-      Log(formattedMessage, LogLevel.Error, ex);
+      if (!ShouldLog(LogLevel.Error))
+         return;
+
+      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Error, ex);
    }
 
    private static string FormatMessageWithNamedPlaceholders(string message, params object[] args)
    {
-      var placeholderPattern = new Regex(@"\{(\w+)\}");
       var matchIndex = 0;
-      message = placeholderPattern.Replace(message, match => matchIndex < args.Length ? ConvertToString(args[matchIndex++]) : match.Value);
-
-      return message;
+      return _placeholderPattern.Replace(message, match =>
+         matchIndex < args.Length ? ConvertToString(args[matchIndex++]) : match.Value);
    }
 
    private static string ConvertToString(object arg)
@@ -91,8 +114,10 @@ public class Logger
    [MessageTemplateFormatMethod("message")]
    public void Error(string message, params object[] args)
    {
-      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
-      Log(formattedMessage, LogLevel.Error);
+      if (!ShouldLog(LogLevel.Error))
+         return;
+
+      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Error);
    }
 
    public void Debug(string message) => Log(message, LogLevel.Debug);
@@ -102,8 +127,10 @@ public class Logger
    [MessageTemplateFormatMethod("message")]
    public void Debug(string message, params object[] args)
    {
-      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
-      Log(formattedMessage, LogLevel.Debug);
+      if (!ShouldLog(LogLevel.Debug))
+         return;
+
+      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Debug);
    }
 
    public void Info(string message) => Log(message, LogLevel.Info);
@@ -113,8 +140,10 @@ public class Logger
    [MessageTemplateFormatMethod("message")]
    public void Info(string message, params object[] args)
    {
-      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
-      Log(formattedMessage, LogLevel.Info);
+      if (!ShouldLog(LogLevel.Info))
+         return;
+
+      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Info);
    }
 
    public void Warn(string message) => Log(message, LogLevel.Warn);
@@ -124,7 +153,12 @@ public class Logger
    [MessageTemplateFormatMethod("message")]
    public void Warn(string message, params object[] args)
    {
-      var formattedMessage = FormatMessageWithNamedPlaceholders(message, args);
-      Log(formattedMessage, LogLevel.Warn);
+      if (!ShouldLog(LogLevel.Warn))
+         return;
+
+      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Warn);
    }
+
+    [GeneratedRegex(@"\{(\w+)\}", RegexOptions.Compiled)]
+    private static partial Regex PlaceholderRegex();
 }

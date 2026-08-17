@@ -10,15 +10,30 @@ namespace Arcomage.Gameplay;
 public partial class CardControl : Control
 {
    private static readonly Logger _logger = Logger.GetOrCreateLogger("CardControl");
+   private static readonly Color _unaffordableModulate = new(0.5f, 0.5f, 0.5f);
 
-   private Panel Selector => GetNode<Panel>("Selector");
-   private TextureRect CardBack => GetNode<TextureRect>("CardBack");
-   private Label NameLabel => GetNode<Label>("Name");
-   private TextureRect Art => GetNode<TextureRect>("Art");
-   private Label Description =>  GetNode<Label>("Description");
-   private Label Cost => GetNode<Label>("Cost");
-   private TextureRect Layout => GetNode<TextureRect>("Layout");
-   private Label Discarded => GetNode<Label>("Discarded");
+   private static Texture2D _redLayout;
+   private static Texture2D _blueLayout;
+   private static Texture2D _greenLayout;
+   private static Texture2D _nullLayout;
+
+   private Panel _selector;
+   private TextureRect _cardBack;
+   private Label _nameLabel;
+   private TextureRect _art;
+   private Label _description;
+   private Label _cost;
+   private TextureRect _layout;
+   private Label _discarded;
+
+   private Panel Selector => _selector ??= GetNode<Panel>("Selector");
+   private TextureRect CardBack => _cardBack ??= GetNode<TextureRect>("CardBack");
+   private Label NameLabel => _nameLabel ??= GetNode<Label>("Name");
+   private TextureRect Art => _art ??= GetNode<TextureRect>("Art");
+   private Label Description => _description ??= GetNode<Label>("Description");
+   private Label Cost => _cost ??= GetNode<Label>("Cost");
+   private TextureRect Layout => _layout ??= GetNode<TextureRect>("Layout");
+   private Label Discarded => _discarded ??= GetNode<Label>("Discarded");
 
    private readonly RandomNumberGenerator _rng = new();
    private bool _faceDown;
@@ -45,7 +60,7 @@ public partial class CardControl : Control
       GuiInput += OnGuiInput;
       MouseEntered += OnMouseEntered;
       MouseExited += OnMouseExited;
-        
+
       _rng.Randomize();
 
       var cards = Global.DeckManager.GetAllCards();
@@ -65,7 +80,7 @@ public partial class CardControl : Control
          _logger.Warn("No cards available to initialize card control.");
          return;
       }
-            
+
       CardId = selectedCard.Id;
       CardName = selectedCard.Id.ToUpper();
       CardArt = selectedCard.Pic.Replace("../", "res://");
@@ -85,25 +100,10 @@ public partial class CardControl : Control
       if (CardFeatures != null && CardFeatures.Contains(CardFeature.NotDiscardable))
          Discardable = false;
 
-      switch (CardLayout)
-      {
-         case CardType.Brick:
-            Layout.Texture = GD.Load<Texture2D>("res://Sprites/RedCardLayout.png");
-            break;
-         case CardType.Gem:
-            Layout.Texture = GD.Load<Texture2D>("res://Sprites/BlueCardLayout.png");
-            break;
-         case CardType.Recruit:
-            Layout.Texture = GD.Load<Texture2D>("res://Sprites/GreenCardLayout.png");
-            break;
-         case CardType.None:
-         default:
-            _logger.Warn("CardLayout out of range");
-            Layout.Texture = GD.Load<Texture2D>("res://Sprites/NullCardLayout.png");
-            break;
-      }
+      Layout.Texture = LoadLayoutTexture(CardLayout);
+      ApplyAffordabilityVisual();
    }
-    
+
    public void SetFaceDown(bool faceDown)
    {
       _faceDown = faceDown;
@@ -115,6 +115,8 @@ public partial class CardControl : Control
       Cost.Visible = !faceDown;
       Discarded.Visible = !faceDown && Discarded.Visible;
       MouseFilter = faceDown ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
+
+      ApplyAffordabilityVisual();
    }
 
    /// <summary>
@@ -129,27 +131,43 @@ public partial class CardControl : Control
       Selector.Hide();
       SetFaceDown(false);
       MouseFilter = MouseFilterEnum.Ignore;
-      MouseDefaultCursorShape = CursorShape.Arrow;
       Discarded.Visible = discarded;
+      ApplyAffordabilityVisual();
    }
-    
+
+   /// <summary>
+   /// Dims the card and sets the cursor when it cannot be played, matching the original
+   /// GDScript affordability highlight without polling <c>_PhysicsProcess</c>.
+   /// </summary>
+   public void ApplyAffordabilityVisual()
+   {
+      if (Preview || _faceDown || Used)
+      {
+         Modulate = Colors.White;
+         MouseDefaultCursorShape = CursorShape.Arrow;
+         return;
+      }
+
+      if (Usable)
+      {
+         Modulate = Colors.White;
+         MouseDefaultCursorShape = CursorShape.PointingHand;
+         return;
+      }
+
+      Modulate = _unaffordableModulate;
+      MouseDefaultCursorShape = CursorShape.Forbidden;
+   }
+
    private void OnMouseEntered()
    {
       if (_faceDown)
          return;
 
-      if (Usable)
-      {
-         Selector.SelfModulate = new Color(1, 1, 1);
-         Selector.Show();
-      }
-      else
-      {
-         Selector.SelfModulate = new Color(1, 0, 0);
-         Selector.Show();
-      }
+      Selector.SelfModulate = Usable ? new Color(1, 1, 1) : new Color(1, 0, 0);
+      Selector.Show();
    }
-    
+
    private void OnMouseExited()
    {
       if (_faceDown)
@@ -176,9 +194,23 @@ public partial class CardControl : Control
       }
    }
 
-   public override void _PhysicsProcess(double delta)
+   private static Texture2D LoadLayoutTexture(CardType layout)
    {
-      base._PhysicsProcess(delta);
+      return layout switch
+      {
+         CardType.Brick => _redLayout ??= ResourceLoader.Load<Texture2D>("res://Sprites/RedCardLayout.png"),
+         CardType.Gem => _blueLayout ??= ResourceLoader.Load<Texture2D>("res://Sprites/BlueCardLayout.png"),
+         CardType.Recruit => _greenLayout ??= ResourceLoader.Load<Texture2D>("res://Sprites/GreenCardLayout.png"),
+         _ => LoadNullLayout(layout)
+      };
+   }
+
+   private static Texture2D LoadNullLayout(CardType layout)
+   {
+      if (layout != CardType.None)
+         _logger.Warn("CardLayout out of range");
+
+      return _nullLayout ??= ResourceLoader.Load<Texture2D>("res://Sprites/NullCardLayout.png");
    }
 
    /// <summary>

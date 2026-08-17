@@ -22,64 +22,110 @@ public partial class Settings : Control
 
    #region Control vars
 
-   private AnimationPlayer Anim => GetNode<AnimationPlayer>("AnimationPlayer");
-   private Button Reset => GetNode<Button>("Reset");
-   private Button Close => GetNode<Button>("Close");
-   private TabContainer Tab => GetNode<TabContainer>("Tab");
+   private AnimationPlayer _anim;
+   private Button _reset;
+   private Button _close;
+   private TabContainer _tab;
+   private Button _windowSettingsButton;
+   private HBoxContainer _fullscreen;
+   private CheckButton _fullscreenButton;
+   private CheckButton _borderlessButton;
+   private HBoxContainer _windowResolution;
+   private LineEdit _windowWidthEdit;
+   private LineEdit _windowHeightEdit;
+   private Button _windowResolutionApplyButton;
+   private CheckButton _vsyncButton;
+   private HBoxContainer _introSkip;
+   private CheckButton _introSkipButton;
+   private Button _soundSettingsButton;
+   private HSlider _masterVolume;
+   private HSlider _musicVolume;
+   private HSlider _soundVolume;
+   private CheckBox _muteSound;
+   private Button _startingConditionsButton;
+   private CheckBox _singleClickButton;
+   private SpinBox _towerLevels;
+   private SpinBox _wallLevels;
+   private SpinBox _quarryLevels;
+   private SpinBox _brickQuantity;
+   private SpinBox _magicLevels;
+   private SpinBox _gemQuantity;
+   private SpinBox _dungeonLevels;
+   private SpinBox _recruitQuantity;
+   private Button _playConditionsButton;
+   private SpinBox _autoBricks;
+   private SpinBox _autoGems;
+   private SpinBox _autoRecruits;
+   private SpinBox _cardsInHand;
+   private OptionButton _aiMode;
+   private Button _victoryConditionsButton;
+   private SpinBox _towerVictory;
+   private SpinBox _resourceVictory;
+   private Button _tavernPresetsButton;
+   private OptionButton _tavernPreset;
+   private Button _languageSettingsButton;
+   private OptionButton _language;
+   private Label _translationErrors;
+   private Button _playerSettingsButton;
+   private LineEdit _nickname;
 
-   private Button WindowSettingsButton => GetNode<Button>("Options/Grid/WindowSettings");
-   private HBoxContainer Fullscreen => GetNode<HBoxContainer>("Tab/Graphics/Container/Fullscreen");
-   private CheckButton FullscreenButton => GetNode<CheckButton>("Tab/Graphics/Container/Fullscreen/Toggle");
-   private CheckButton BorderlessButton => GetNode<CheckButton>("Tab/Graphics/Container/Borderless/Toggle");
-   private HBoxContainer WindowResolution => GetNode<HBoxContainer>("Tab/Graphics/Container/WindowResolution");
-   private LineEdit WindowWidthEdit => GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Width");
-   private LineEdit WindowHeightEdit => GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Height");
+   private AnimationPlayer Anim => _anim ??= GetNode<AnimationPlayer>("AnimationPlayer");
+   private Button Reset => _reset ??= GetNode<Button>("Reset");
+   private Button Close => _close ??= GetNode<Button>("Close");
+   private TabContainer Tab => _tab ??= GetNode<TabContainer>("Tab");
 
+   private Button WindowSettingsButton => _windowSettingsButton ??= GetNode<Button>("Options/Grid/WindowSettings");
+   private HBoxContainer Fullscreen => _fullscreen ??= GetNode<HBoxContainer>("Tab/Graphics/Container/Fullscreen");
+   private CheckButton FullscreenButton => _fullscreenButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Fullscreen/Toggle");
+   private CheckButton BorderlessButton => _borderlessButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Borderless/Toggle");
+   private HBoxContainer WindowResolution => _windowResolution ??= GetNode<HBoxContainer>("Tab/Graphics/Container/WindowResolution");
+   private LineEdit WindowWidthEdit => _windowWidthEdit ??= GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Width");
+   private LineEdit WindowHeightEdit => _windowHeightEdit ??= GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Height");
    private Button WindowResolutionApplyButton =>
-      GetNode<Button>("Tab/Graphics/Container/WindowResolution/ApplyButton");
+      _windowResolutionApplyButton ??= GetNode<Button>("Tab/Graphics/Container/WindowResolution/ApplyButton");
 
-   private CheckButton VsyncButton => GetNode<CheckButton>("Tab/Graphics/Container/Vsync/Toggle");
-   private HBoxContainer IntroSkip => GetNode<HBoxContainer>("Tab/Graphics/Container/IntroSkip");
-   private CheckButton IntroSkipButton => GetNode<CheckButton>("Tab/Graphics/Container/IntroSkip/Toggle");
+   private CheckButton VsyncButton => _vsyncButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Vsync/Toggle");
+   private HBoxContainer IntroSkip => _introSkip ??= GetNode<HBoxContainer>("Tab/Graphics/Container/IntroSkip");
+   private CheckButton IntroSkipButton => _introSkipButton ??= GetNode<CheckButton>("Tab/Graphics/Container/IntroSkip/Toggle");
 
-   private Button SoundSettingsButton => GetNode<Button>("Options/Grid/SoundSettings");
-   private HSlider MasterVolume => GetNode<HSlider>("Tab/Sound/Container/Master/Slider");
-   private HSlider MusicVolume => GetNode<HSlider>("Tab/Sound/Container/Music/Slider");
-   private HSlider SoundVolume => GetNode<HSlider>("Tab/Sound/Container/Sounds/Slider");
-   private CheckBox MuteSound => GetNode<CheckBox>("Tab/Sound/Container/Mute/Toggle");
+   private Button SoundSettingsButton => _soundSettingsButton ??= GetNode<Button>("Options/Grid/SoundSettings");
+   private HSlider MasterVolume => _masterVolume ??= GetNode<HSlider>("Tab/Sound/Container/Master/Slider");
+   private HSlider MusicVolume => _musicVolume ??= GetNode<HSlider>("Tab/Sound/Container/Music/Slider");
+   private HSlider SoundVolume => _soundVolume ??= GetNode<HSlider>("Tab/Sound/Container/Sounds/Slider");
+   private CheckBox MuteSound => _muteSound ??= GetNode<CheckBox>("Tab/Sound/Container/Mute/Toggle");
 
-   private Button StartingConditionsButton => GetNode<Button>("Options/Grid/StartingConditions");
+   private Button StartingConditionsButton => _startingConditionsButton ??= GetNode<Button>("Options/Grid/StartingConditions");
 
-   private CheckBox SingleClickButton => GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/SingleClick/Toggle");
-   private SpinBox TowerLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels/Level");
-   private SpinBox WallLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/WallLevels/Level");
-   private SpinBox QuarryLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry/Level");
-   private SpinBox BrickQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks/Level");
-   private SpinBox MagicLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic/Level");
-   private SpinBox GemQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems/Level");
-   private SpinBox DungeonLevels => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon/Level");
-   private SpinBox RecruitQuantity => GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits/Level");
+   private CheckBox SingleClickButton => _singleClickButton ??= GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/SingleClick/Toggle");
+   private SpinBox TowerLevels => _towerLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels/Level");
+   private SpinBox WallLevels => _wallLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/WallLevels/Level");
+   private SpinBox QuarryLevels => _quarryLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry/Level");
+   private SpinBox BrickQuantity => _brickQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks/Level");
+   private SpinBox MagicLevels => _magicLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic/Level");
+   private SpinBox GemQuantity => _gemQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems/Level");
+   private SpinBox DungeonLevels => _dungeonLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon/Level");
+   private SpinBox RecruitQuantity => _recruitQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits/Level");
 
-   private Button PlayConditionsButton => GetNode<Button>("Options/Grid/PlayConditions");
-   private SpinBox AutoBricks => GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Bricks/Level");
-   private SpinBox AutoGems => GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Gems/Level");
-   private SpinBox AutoRecruits => GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Recruits/Level");
-   private SpinBox CardsInHand => GetNode<SpinBox>("Tab/PlayConditions/Container/Other/CardsInHand/Level");
-   private OptionButton AiMode => GetNode<OptionButton>("Tab/PlayConditions/Container/Other/Ai/Mode");
+   private Button PlayConditionsButton => _playConditionsButton ??= GetNode<Button>("Options/Grid/PlayConditions");
+   private SpinBox AutoBricks => _autoBricks ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Bricks/Level");
+   private SpinBox AutoGems => _autoGems ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Gems/Level");
+   private SpinBox AutoRecruits => _autoRecruits ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Recruits/Level");
+   private SpinBox CardsInHand => _cardsInHand ??= GetNode<SpinBox>("Tab/PlayConditions/Container/Other/CardsInHand/Level");
+   private OptionButton AiMode => _aiMode ??= GetNode<OptionButton>("Tab/PlayConditions/Container/Other/Ai/Mode");
 
-   private Button VictoryConditionsButton => GetNode<Button>("Options/Grid/VictoryConditions");
-   private SpinBox TowerVictory => GetNode<SpinBox>("Tab/VictoryConditions/Container/TowerVictory/Level");
-   private SpinBox ResourceVictory => GetNode<SpinBox>("Tab/VictoryConditions/Container/ResourceVictory/Level");
+   private Button VictoryConditionsButton => _victoryConditionsButton ??= GetNode<Button>("Options/Grid/VictoryConditions");
+   private SpinBox TowerVictory => _towerVictory ??= GetNode<SpinBox>("Tab/VictoryConditions/Container/TowerVictory/Level");
+   private SpinBox ResourceVictory => _resourceVictory ??= GetNode<SpinBox>("Tab/VictoryConditions/Container/ResourceVictory/Level");
 
-   private Button TavernPresetsButton => GetNode<Button>("Options/Grid/TavernPresets");
-   private OptionButton TavernPreset => GetNode<OptionButton>("Tab/TavernPresets/Container/Preset/Option");
+   private Button TavernPresetsButton => _tavernPresetsButton ??= GetNode<Button>("Options/Grid/TavernPresets");
+   private OptionButton TavernPreset => _tavernPreset ??= GetNode<OptionButton>("Tab/TavernPresets/Container/Preset/Option");
 
-   private Button LanguageSettingsButton => GetNode<Button>("Options/Grid/LanguageSettings");
-   private OptionButton Language => GetNode<OptionButton>("Tab/LanguageSettings/Container/Language/Option");
-   private Label TranslationErrors => GetNode<Label>("Tab/LanguageSettings/Container/TranslationErrors");
+   private Button LanguageSettingsButton => _languageSettingsButton ??= GetNode<Button>("Options/Grid/LanguageSettings");
+   private OptionButton Language => _language ??= GetNode<OptionButton>("Tab/LanguageSettings/Container/Language/Option");
+   private Label TranslationErrors => _translationErrors ??= GetNode<Label>("Tab/LanguageSettings/Container/TranslationErrors");
 
-   private Button PlayerSettingsButton => GetNode<Button>("Options/Grid/PlayerSettings");
-   private LineEdit Nickname => GetNode<LineEdit>("Tab/PlayerSettings/Container/Nickname/Edit");
+   private Button PlayerSettingsButton => _playerSettingsButton ??= GetNode<Button>("Options/Grid/PlayerSettings");
+   private LineEdit Nickname => _nickname ??= GetNode<LineEdit>("Tab/PlayerSettings/Container/Nickname/Edit");
 
    #endregion
 
@@ -182,7 +228,7 @@ public partial class Settings : Control
       {
          Config.SaveSettings();
          Anim.Play("hide");
-         await ToSignal(Anim, "animation_finished");
+         await ToSignal(Anim, AnimationMixer.SignalName.AnimationFinished);
          Hide();
       }
       catch (Exception ex)
@@ -203,7 +249,7 @@ public partial class Settings : Control
       UpdateControls();
    }
 
-   private void UpdateControls()
+   public void UpdateControls()
    {
       FullscreenButton.ButtonPressed = Config.Settings.Fullscreen;
       BorderlessButton.ButtonPressed = Config.Settings.Borderless;

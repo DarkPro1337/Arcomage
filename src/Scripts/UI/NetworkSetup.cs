@@ -14,17 +14,29 @@ public partial class NetworkSetup : Control
 
    private const int Port = 8070;
 
-   private VBoxContainer MultiplayerConfigUi => GetNode<VBoxContainer>("Container");
-   private VBoxContainer Lobby => GetNode<VBoxContainer>("Lobby");
-   private Tree PlayersList => GetNode<Tree>("Lobby/PlayersList");
-   private LineEdit ServerIpAddress => GetNode<LineEdit>("Container/IpAddress");
-   private Label DeviceIpAddress => GetNode<Label>("DeviceIpAddress");
-   private Button CreateServerButton => GetNode<Button>("Container/CreateServer");
-   private Button JoinServerButton => GetNode<Button>("Container/JoinServer");
-   private Button CancelButton => GetNode<Button>("Cancel");
-   private Button ReadyButton => GetNode<Button>("Lobby/Ready");
-   private Button StartGameButton => GetNode<Button>("Lobby/StartGame");
-   private Node Level => GetNode<Node>("Level");
+   private VBoxContainer _multiplayerConfigUi;
+   private VBoxContainer _lobby;
+   private Tree _playersList;
+   private LineEdit _serverIpAddress;
+   private Label _deviceIpAddress;
+   private Button _createServerButton;
+   private Button _joinServerButton;
+   private Button _cancelButton;
+   private Button _readyButton;
+   private Button _startGameButton;
+   private Node _level;
+
+   private VBoxContainer MultiplayerConfigUi => _multiplayerConfigUi ??= GetNode<VBoxContainer>("Container");
+   private VBoxContainer Lobby => _lobby ??= GetNode<VBoxContainer>("Lobby");
+   private Tree PlayersList => _playersList ??= GetNode<Tree>("Lobby/PlayersList");
+   private LineEdit ServerIpAddress => _serverIpAddress ??= GetNode<LineEdit>("Container/IpAddress");
+   private Label DeviceIpAddress => _deviceIpAddress ??= GetNode<Label>("DeviceIpAddress");
+   private Button CreateServerButton => _createServerButton ??= GetNode<Button>("Container/CreateServer");
+   private Button JoinServerButton => _joinServerButton ??= GetNode<Button>("Container/JoinServer");
+   private Button CancelButton => _cancelButton ??= GetNode<Button>("Cancel");
+   private Button ReadyButton => _readyButton ??= GetNode<Button>("Lobby/Ready");
+   private Button StartGameButton => _startGameButton ??= GetNode<Button>("Lobby/StartGame");
+   private Node Level => _level ??= GetNode<Node>("Level");
     
    public Dictionary<long, Player> Players { get; } = new();
 
@@ -72,7 +84,7 @@ public partial class NetworkSetup : Control
       Multiplayer.ServerDisconnected += OnServerDisconnected;
       Multiplayer.ConnectedToServer += OnConnectedToServer;
 
-      Multiplayer.Set("server_relay", false);
+      ((SceneMultiplayer)Multiplayer).ServerRelay = false;
 
       if (DisplayServer.GetName() == "headless")
          return;
@@ -178,7 +190,7 @@ public partial class NetworkSetup : Control
 
    public void OnConnectPressed()
    {
-      var address = ServerIpAddress.Get("text").AsString();
+      var address = ServerIpAddress.Text;
       if (string.IsNullOrWhiteSpace(address))
       {
          _logger.Error("Need a remote to connect to.");
@@ -253,7 +265,7 @@ public partial class NetworkSetup : Control
       MultiplayerConfigUi.Hide();
       Lobby.Hide();
       GetTree().Paused = false;
-      CallDeferred(nameof(ChangeLevel), ResourceLoader.Load("res://Scenes/Gameplay/Table.tscn"));
+      CallDeferred(MethodName.ChangeLevel, ResourceLoader.Load("res://Scenes/Gameplay/Table.tscn"));
    }
 
    private void ChangeLevel(PackedScene scene)
@@ -322,7 +334,7 @@ public partial class NetworkSetup : Control
    {
       if (!GodotThread.IsMainThread())
       {
-         CallDeferred(nameof(UpdatePlayersList));
+         CallDeferred(MethodName.UpdatePlayersList);
          return;
       }
 

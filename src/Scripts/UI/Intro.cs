@@ -7,25 +7,39 @@ public partial class Intro : Control
 {
    private static readonly Logger _logger = Logger.GetOrCreateLogger("Intro");
 
+   private AnimationPlayer _anim;
+
    public override void _EnterTree()
    {
       base._EnterTree();
-      var anim = GetNode<AnimationPlayer>("Animator");
-      anim.Connect("animation_finished", new Callable(this, nameof(OnAnimPlayerAnimationFinished)));
+      _anim = GetNode<AnimationPlayer>("Animator");
+      _anim.AnimationFinished += OnAnimPlayerAnimationFinished;
    }
 
-   private void OnAnimPlayerAnimationFinished(string animName)
+   public override void _ExitTree()
    {
-      if (animName != "StartUp") return;
+      if (_anim != null)
+         _anim.AnimationFinished -= OnAnimPlayerAnimationFinished;
+
+      base._ExitTree();
+   }
+
+   private void OnAnimPlayerAnimationFinished(StringName animName)
+   {
+      if (animName != "StartUp")
+         return;
+
       _logger.Debug("Loading to the Main menu...");
-      GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/MainMenu.tscn");
+      GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://Scenes/Main/MainMenu.tscn");
    }
 
    public override void _Input(InputEvent @event)
    {
       base._Input(@event);
-      if (!Input.IsActionJustPressed("ui_cancel") && !Input.IsActionJustPressed("ui_select")) return;
+      if (!Input.IsActionJustPressed("ui_cancel") && !Input.IsActionJustPressed("ui_select"))
+         return;
+
       _logger.Debug("Skipping Intro to the Main menu...");
-      GetTree().CallDeferred("change_scene_to_file", "res://Scenes/Main/MainMenu.tscn");
+      GetTree().CallDeferred(SceneTree.MethodName.ChangeSceneToFile, "res://Scenes/Main/MainMenu.tscn");
    }
 }

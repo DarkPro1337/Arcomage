@@ -82,7 +82,7 @@ public partial class NetworkSetup
          if (!await Global.Online.FindMatch(_mode, _rankedCheck.ButtonPressed))
             return;
 
-         CallDeferred(nameof(ShowOnlineLobby), false);
+         CallDeferred(MethodName.ShowOnlineLobby, false);
       }
       catch (Exception ex)
       {
@@ -102,7 +102,7 @@ public partial class NetworkSetup
          if (string.IsNullOrEmpty(code))
             return;
 
-         CallDeferred(nameof(ShowCreatedRoom), code);
+         CallDeferred(MethodName.ShowCreatedRoom, code);
       }
       catch (Exception ex)
       {
@@ -122,7 +122,7 @@ public partial class NetworkSetup
          if (!await Global.Online.JoinRoom(code, _mode))
             return;
 
-         CallDeferred(nameof(ShowOnlineLobby), true);
+         CallDeferred(MethodName.ShowOnlineLobby, true);
       }
       catch (Exception ex)
       {
@@ -152,7 +152,7 @@ public partial class NetworkSetup
    {
       if (!GodotThread.IsMainThread())
       {
-         CallDeferred(nameof(OnNakamaPeersChanged));
+         CallDeferred(MethodName.OnNakamaPeersChanged);
          return;
       }
 
@@ -164,7 +164,7 @@ public partial class NetworkSetup
    {
       if (!GodotThread.IsMainThread())
       {
-         CallDeferred(nameof(OnNakamaMatchReady));
+         CallDeferred(MethodName.OnNakamaMatchReady);
          return;
       }
 
@@ -174,14 +174,14 @@ public partial class NetworkSetup
          player.Ready = true;
 
       if (_rankedCheck.ButtonPressed || Players.Count >= MatchModeRules.MinPlayers(_mode))
-         CallDeferred(nameof(StartGame));
+         CallDeferred(MethodName.StartGame);
    }
 
    private void OnOnlineStatusChanged()
    {
       if (!GodotThread.IsMainThread())
       {
-         CallDeferred(nameof(OnOnlineStatusChanged));
+         CallDeferred(MethodName.OnOnlineStatusChanged);
          return;
       }
 
@@ -199,7 +199,7 @@ public partial class NetworkSetup
    {
       if (!GodotThread.IsMainThread())
       {
-         CallDeferred(nameof(OnNakamaMatchLeft));
+         CallDeferred(MethodName.OnNakamaMatchLeft);
          return;
       }
 
@@ -218,7 +218,7 @@ public partial class NetworkSetup
       if (Multiplayer.MultiplayerPeer != Global.Online.Peer)
          Multiplayer.MultiplayerPeer = Global.Online.Peer;
 
-      Multiplayer.Set("server_relay", true);
+      ((SceneMultiplayer)Multiplayer).ServerRelay = true;
       Global.Online.NotifyGodotPeers();
    }
 

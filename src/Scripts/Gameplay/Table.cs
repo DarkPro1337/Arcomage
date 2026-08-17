@@ -84,7 +84,7 @@ public partial class Table : Control
       }
 
       if (_hostStateRetries++ < 10)
-         CallDeferred(nameof(RequestHostGameState));
+         CallDeferred(MethodName.RequestHostGameState);
    }
 
    private void OnSnapshotRetryTimeout()
@@ -194,7 +194,7 @@ public partial class Table : Control
 
       if (!Multiplayer.IsServer())
       {
-         CallDeferred(nameof(RequestHostGameState));
+         CallDeferred(MethodName.RequestHostGameState);
          return;
       }
 
@@ -216,6 +216,7 @@ public partial class Table : Control
    public override void _ExitTree()
    {
       TimeElapsed.Timeout -= OnTimeElapsedTimeout;
+      DisconnectExistingSeatClick();
 
       UnbindOnlineSync();
 
@@ -224,11 +225,6 @@ public partial class Table : Control
 
       Multiplayer.PeerConnected -= AddPlayer;
       Multiplayer.PeerDisconnected -= RemovePlayer;
-   }
-
-   public override void _PhysicsProcess(double delta)
-   {
-      UpdateStatPanelUi();
    }
 
    private string[] BuildRandomHandIds(int count)

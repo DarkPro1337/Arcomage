@@ -1,5 +1,8 @@
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Arcomage.Core;
+using Arcomage.Gameplay;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
 
@@ -22,32 +25,44 @@ public partial class DedicatedServer : Node
       return args.ContainsKey("dedicated");
    }
 
-   public override async void _Ready()
+   public override void _Ready() => _ = StartDedicatedAsync();
+
+   private async Task StartDedicatedAsync()
    {
-      var args = Global.GetCommandLineArgs();
-      if (args.TryGetValue("nakamaHost", out var host))
-         Config.Settings.NakamaHost = host;
-
-      if (args.TryGetValue("nakamaPort", out var port) && int.TryParse(port, out var parsed))
-         Config.Settings.NakamaPort = parsed;
-
-      Global.PendingMatchMode = MatchMode.OneVsOne;
-      Global.PendingRanked = true;
-      _logger.Debug("Starting dedicated ranked host");
-
-      if (Global.Online == null)
-         return;
-
-      await Global.Online.StartDedicated(MatchMode.OneVsOne);
-      if (Global.Online.Peer == null)
+      try
       {
-         _logger.Error("Dedicated Nakama peer was not created");
-         return;
-      }
+         var args = Global.GetCommandLineArgs();
+         if (args.TryGetValue("nakamaHost", out var host))
+            Config.Settings.NakamaHost = host;
 
-      GetTree().GetMultiplayer().MultiplayerPeer = Global.Online.Peer;
-      Global.Online.MatchReady += OnMatchReady;
-      Global.Online.PeersChanged += OnPeersChanged;
+         if (args.TryGetValue("nakamaPort", out var port) && int.TryParse(port, out var parsed))
+            Config.Settings.NakamaPort = parsed;
+
+         Global.PendingMatchMode = MatchMode.OneVsOne;
+         Global.PendingRanked = true;
+         _logger.Debug("Starting dedicated ranked host");
+
+         if (Global.Online == null)
+            return;
+
+         await Global.Online.StartDedicated(MatchMode.OneVsOne);
+         if (!IsInsideTree())
+            return;
+
+         if (Global.Online.Peer == null)
+         {
+            _logger.Error("Dedicated Nakama peer was not created");
+            return;
+         }
+
+         GetTree().GetMultiplayer().MultiplayerPeer = Global.Online.Peer;
+         Global.Online.MatchReady += OnMatchReady;
+         Global.Online.PeersChanged += OnPeersChanged;
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Dedicated host failed to start");
+      }
    }
 
    private void OnPeersChanged()
@@ -59,10 +74,10 @@ public partial class DedicatedServer : Node
       _logger.Debug("Dedicated lobby size: {Count}", humans);
 
       if (humans >= 2)
-         CallDeferred(nameof(StartDedicatedMatch));
+         CallDeferred(MethodName.StartDedicatedMatch);
    }
 
-   private void OnMatchReady() => CallDeferred(nameof(StartDedicatedMatch));
+   private void OnMatchReady() => CallDeferred(MethodName.StartDedicatedMatch);
 
    private void StartDedicatedMatch()
    {

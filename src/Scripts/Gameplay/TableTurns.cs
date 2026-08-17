@@ -653,7 +653,6 @@ public partial class Table
    {
       UpdateNamePanels();
       UpdateDeckVisibility();
-      UpdateStatPanelUi();
    }
 
    /// <summary>
@@ -680,6 +679,8 @@ public partial class Table
          card.Usable = isTurnOwner && current != null && (current.Discarding
             ? CanDiscard(card, cards)
             : CanAfford(current, card));
+
+         card.ApplyAffordabilityVisual();
       }
    }
 

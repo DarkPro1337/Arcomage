@@ -58,7 +58,7 @@ public class TranslationManager
       var header = lines[0].Split(',').Select(h => h.Trim()).ToArray();
       if (header.Length < 2 || !header[0].Equals("id", StringComparison.OrdinalIgnoreCase))
       {
-         GD.PrintErr("CSV header must start with 'id' and contain at least one language column.");
+         _logger.Error("CSV header must start with 'id' and contain at least one language column.");
          return null;
       }
 
