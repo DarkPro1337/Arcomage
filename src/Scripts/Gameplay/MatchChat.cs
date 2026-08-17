@@ -42,8 +42,8 @@ public partial class MatchChat : Control
 
    public void BuildUi()
    {
-      SetAnchorsPreset(LayoutPreset.FullRect);
       MouseFilter = MouseFilterEnum.Ignore;
+      ApplyPreset(this, LayoutPreset.FullRect);
 
       _log = new VBoxContainer
       {
@@ -51,28 +51,61 @@ public partial class MatchChat : Control
          MouseFilter = MouseFilterEnum.Ignore,
          Alignment = BoxContainer.AlignmentMode.End
       };
-      _log.SetAnchorsPreset(LayoutPreset.VcenterWide);
-      _log.OffsetLeft = 80;
-      _log.OffsetRight = -80;
-      _log.OffsetTop = -40;
-      _log.OffsetBottom = 80;
       AddChild(_log);
+      ApplyPreset(_log, LayoutPreset.FullRect);
+      _log.OffsetLeft = 48;
+      _log.OffsetRight = -48;
+      _log.OffsetTop = 72;
+      _log.OffsetBottom = -248;
 
       _input = new LineEdit
       {
          Name = "Input",
          Visible = false,
          PlaceholderText = Tr("CHAT_PLACEHOLDER"),
-         MaxLength = 120
+         MaxLength = 120,
+         CustomMinimumSize = new Vector2(0, 36)
       };
-      _input.SetAnchorsPreset(LayoutPreset.BottomWide);
+      AddChild(_input);
+      ApplyPreset(_input, LayoutPreset.BottomWide);
       _input.OffsetLeft = 120;
       _input.OffsetRight = -120;
-      _input.OffsetTop = -236;
+      _input.OffsetTop = -244;
       _input.OffsetBottom = -208;
+      _input.AddThemeFontSizeOverride("font_size", 16);
+      _input.AddThemeStyleboxOverride("normal", CreateInputStyle());
+      _input.AddThemeStyleboxOverride("focus", CreateInputStyle());
       _input.TextSubmitted += OnTextSubmitted;
       _input.FocusExited += OnInputFocusExited;
-      AddChild(_input);
+   }
+
+   private static void ApplyPreset(Control control, LayoutPreset preset)
+   {
+      control.SetAnchorsPreset(preset);
+      control.SetOffsetsPreset(preset);
+      control.GrowHorizontal = GrowDirection.Both;
+      control.GrowVertical = GrowDirection.Both;
+   }
+
+   private static StyleBoxFlat CreateInputStyle()
+   {
+      return new StyleBoxFlat
+      {
+         BgColor = new Color(0, 0, 0, 0.78f),
+         BorderColor = new Color(1, 1, 1, 0.35f),
+         BorderWidthLeft = 1,
+         BorderWidthTop = 1,
+         BorderWidthRight = 1,
+         BorderWidthBottom = 1,
+         CornerRadiusTopLeft = 4,
+         CornerRadiusTopRight = 4,
+         CornerRadiusBottomRight = 4,
+         CornerRadiusBottomLeft = 4,
+         ContentMarginLeft = 10,
+         ContentMarginTop = 6,
+         ContentMarginRight = 10,
+         ContentMarginBottom = 6
+      };
    }
 
    public void Bind(Table table)
@@ -149,6 +182,7 @@ public partial class MatchChat : Control
       _input.Text = string.Empty;
       if (_input.HasFocus())
          _input.ReleaseFocus();
+
       _input.Visible = false;
       _suppressFocusExit = false;
    }
@@ -184,8 +218,9 @@ public partial class MatchChat : Control
       var line = new Label
       {
          Text = $"{name}: {text}",
-         HorizontalAlignment = HorizontalAlignment.Center,
+         HorizontalAlignment = HorizontalAlignment.Left,
          AutowrapMode = TextServer.AutowrapMode.WordSmart,
+         SizeFlagsHorizontal = SizeFlags.ExpandFill,
          MouseFilter = MouseFilterEnum.Ignore
       };
 
