@@ -162,8 +162,9 @@ public partial class OnlineService : Node
          Socket.ReceivedMatchState += state => RunOnMainThread(() => OnMatchState(state));
          Socket.ReceivedMatchPresence += presence => RunOnMainThread(() => OnMatchPresence(presence));
          Socket.ReceivedChannelMessage += message => RunOnMainThread(() => OnChannelMessage(message));
-         Socket.Closed += () => RunOnMainThread(OnSocketClosed);
+         Socket.Closed += OnSocketClosed;
          await Socket.ConnectAsync(Session, true);
+
          _logger.Debug("Nakama session {UserId} as {Username} (device {DeviceId})", Session.UserId, username, deviceId);
          SetStatus("ONLINE_CONNECTED");
          return true;
@@ -865,9 +866,15 @@ public partial class OnlineService : Node
       ChatReceived?.Invoke(username, text);
    }
 
-   private void OnSocketClosed()
+   private void OnSocketClosed(string reason)
    {
-      SetStatus("ONLINE_UNAVAILABLE");
+      RunOnMainThread(() =>
+      {
+         if (!string.IsNullOrEmpty(reason))
+            _logger.Debug("Nakama socket closed: {Reason}", reason);
+
+         SetStatus("ONLINE_UNAVAILABLE");
+      });
    }
 
    private async Task<bool> TryJoinDedicated()

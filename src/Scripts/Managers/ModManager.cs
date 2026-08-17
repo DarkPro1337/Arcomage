@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using Arcomage.Data;
 using Godot;
 using Wasmtime;
@@ -200,11 +199,7 @@ public partial class ModManager : Node
                {
                   var memory = caller.GetMemory("memory");
                   if (memory != null)
-                  {
-                     var span = memory.GetSpan<byte>(0);
-                     var bytes = span.Slice(ptr, len).ToArray();
-                     _logger.Info("{ModName} :: {Message}", metadata.Name, Encoding.UTF8.GetString(bytes));
-                  }
+                     _logger.Info("{ModName} :: {Message}", metadata.Name, memory.ReadString(ptr, len));
                }));
 
                linker.Define("env", "abort", Function.FromCallback(store, (int msg, int file, int line, int column) =>

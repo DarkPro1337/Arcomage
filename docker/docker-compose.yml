@@ -19,7 +19,7 @@ services:
 
   nakama:
     container_name: arcomage-nakama
-    image: registry.heroiclabs.com/heroiclabs/nakama:3.37.0
+    image: registry.heroiclabs.com/heroiclabs/nakama:3.40.0
     entrypoint:
       - "/bin/sh"
       - "-ecx"

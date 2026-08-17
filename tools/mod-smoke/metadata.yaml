@@ -1,0 +1,7 @@
+name: smoke
+version: 0.1.0
+author: Arcomage
+description: Wasmtime host-contract smoke fixture
+entrypoint: smoke.wasm
+dependencies: []
+resources: []

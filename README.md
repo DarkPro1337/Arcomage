@@ -104,7 +104,7 @@ Useful URLs while Compose is running:
 * Game API / WebSocket: `http://127.0.0.1:7350`
 * Nakama Console: [http://127.0.0.1:7351](http://127.0.0.1:7351) (default login `admin` / `password`)
 
-Stop with `Ctrl+C`, or `docker compose down` in `docker/`.
+Stop with `Ctrl+C`, or `docker compose down` in `docker/`. After bumping the Nakama image, reset local data with `docker compose down -v` then `docker compose up -d` (`-v` drops the Postgres volume).
 
 ### Production (VDS)
 
