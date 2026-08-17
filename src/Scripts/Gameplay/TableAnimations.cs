@@ -11,8 +11,8 @@ namespace Arcomage.Gameplay;
 /// </summary>
 public partial class Table
 {
-   private static readonly Vector2 CardSize = new(135, 180);
-   private static readonly Vector2 PlayCenterOffset = new(0, -50);
+   private static readonly Vector2 _cardSize = new(135, 180);
+   private static readonly Vector2 _playCenterOffset = new(0, -50);
 
    private const float MoveToCenterDuration = 1.25f;
    private const float MoveToGraveyardDuration = 1.0f;
@@ -29,11 +29,7 @@ public partial class Table
    /// <param name="card">Card being played or discarded.</param>
    /// <param name="discarded"><see langword="true"/> to skip the center pause and stamp DISCARDED.</param>
    /// <param name="replacementId">Card drawn into the emptied slot, or empty when not replacing.</param>
-   private async Task AnimateCardPlay(
-      HBoxContainer deck,
-      CardControl card,
-      bool discarded,
-      string replacementId)
+   private async Task AnimateCardPlay(HBoxContainer deck, CardControl card, bool discarded, string replacementId)
    {
       var slotIndex = 0;
       var startPos = deck?.GlobalPosition ?? GetPlayCenterPosition();
@@ -181,6 +177,7 @@ public partial class Table
       CardAnimLayer.RemoveChild(dealt);
       PrepareCardForHand(dealt);
       deck.AddChild(dealt);
+
       if (slotIndex >= 0 && slotIndex < deck.GetChildCount() - 1)
          deck.MoveChild(dealt, slotIndex);
 
@@ -192,12 +189,14 @@ public partial class Table
    {
       var copy = (CardControl)CreateCard(cardId);
       copy.Preview = true;
-      copy.Modulate = Colors.Transparent;
-      copy.CustomMinimumSize = CardSize;
+      copy.CustomMinimumSize = _cardSize;
       copy.MouseFilter = MouseFilterEnum.Ignore;
       Graveyard.AddChild(copy);
       copy.BeginPlayAnimation(discarded);
+
+      copy.Modulate = Colors.Transparent;
       UpdateGraveyardSize();
+
       return copy;
    }
 
@@ -214,7 +213,8 @@ public partial class Table
       var vSep = Graveyard.GetThemeConstant("v_separation", "GridContainer");
       var col = index % columns;
       var row = index / columns;
-      return origin + new Vector2(col * (CardSize.X + hSep), row * (CardSize.Y + vSep));
+
+      return origin + new Vector2(col * (_cardSize.X + hSep), row * (_cardSize.Y + vSep));
    }
 
    private void UpdateGraveyardSize()
@@ -222,7 +222,7 @@ public partial class Table
       var columns = Mathf.Max(1, Graveyard.Columns);
       var rows = Mathf.Max(1, Mathf.CeilToInt(Graveyard.GetChildCount() / (float)columns));
       var vSep = Graveyard.GetThemeConstant("v_separation", "GridContainer");
-      var height = rows * CardSize.Y + Mathf.Max(0, rows - 1) * vSep;
+      var height = rows * _cardSize.Y + Mathf.Max(0, rows - 1) * vSep;
       var size = Graveyard.Size;
       size.Y = height;
       Graveyard.Size = size;
@@ -232,7 +232,7 @@ public partial class Table
    {
       return new Control
       {
-         CustomMinimumSize = CardSize,
+         CustomMinimumSize = _cardSize,
          SizeFlagsVertical = SizeFlags.ShrinkCenter,
          MouseFilter = MouseFilterEnum.Ignore,
          Modulate = Colors.Transparent
@@ -248,8 +248,9 @@ public partial class Table
    {
       var rect = slot.GetGlobalRect();
       var position = rect.Position;
-      if (rect.Size.Y > CardSize.Y)
-         position.Y += (rect.Size.Y - CardSize.Y) / 2f;
+      if (rect.Size.Y > _cardSize.Y)
+         position.Y += (rect.Size.Y - _cardSize.Y) / 2f;
+
       return position;
    }
 
@@ -258,7 +259,7 @@ public partial class Table
       card.ZIndex = 0;
       card.MouseFilter = MouseFilterEnum.Stop;
       card.SetAnchorsPreset(LayoutPreset.TopLeft);
-      card.CustomMinimumSize = CardSize;
+      card.CustomMinimumSize = _cardSize;
       card.Position = Vector2.Zero;
    }
 
@@ -267,15 +268,15 @@ public partial class Table
       CardAnimLayer.AddChild(card);
       card.MouseFilter = MouseFilterEnum.Ignore;
       card.SetAnchorsPreset(LayoutPreset.TopLeft);
-      card.CustomMinimumSize = CardSize;
-      card.Size = CardSize;
+      card.CustomMinimumSize = _cardSize;
+      card.Size = _cardSize;
       card.GlobalPosition = globalPosition;
       card.ZIndex = 20;
    }
 
    private Vector2 GetPlayCenterPosition()
    {
-      return GetViewportRect().Size / 2f - CardSize / 2f + PlayCenterOffset;
+      return GetViewportRect().Size / 2f - _cardSize / 2f + _playCenterOffset;
    }
 
    private bool ShouldShowHandFaces(HBoxContainer deck)
