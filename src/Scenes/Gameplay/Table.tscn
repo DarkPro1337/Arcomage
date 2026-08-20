@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://c3xwlecxrvu5f" path="res://Scenes/UI/InGameMenu.tscn" id="25_ln0tp"]
 [ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="25_obylu"]
 [ext_resource type="PackedScene" uid="uid://ca5d6s8ukswrf" path="res://Scenes/UI/MatchResults.tscn" id="26_7y44j"]
+[ext_resource type="PackedScene" uid="uid://d4kmatchchat1" path="res://Scenes/UI/MatchChat.tscn" id="27_chatui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jlbpg"]
 bg_color = Color(0, 0, 0, 1)
@@ -1096,6 +1097,9 @@ color = Color(0.0588235, 0.0588235, 0.0588235, 1)
 
 [node name="TimeElapsed" type="Timer" parent="." unique_id=283379168]
 autostart = true
+
+[node name="MatchChat" parent="." unique_id=1847293847 instance=ExtResource("27_chatui")]
+layout_mode = 1
 
 [node name="InGameMenu" parent="." unique_id=899424930 instance=ExtResource("25_ln0tp")]
 visible = false

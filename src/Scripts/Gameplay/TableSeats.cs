@@ -325,11 +325,47 @@ public partial class Table
 
       return GetPlayCenterPosition();
    }
+
+   public Color GetChatNameColor(string name)
+   {
+      if (string.IsNullOrEmpty(name))
+         return Colors.White;
+
+      foreach (var (id, hud) in _hudByPlayer)
+      {
+         if (!Players.TryGetValue(id, out var player))
+            continue;
+
+         if (NamesMatch(player.Name, name))
+            return hud.TowerColor;
+      }
+
+      return Colors.White;
+   }
+
+   private static bool NamesMatch(string playerName, string chatName)
+   {
+      if (string.Equals(playerName, chatName, StringComparison.OrdinalIgnoreCase))
+         return true;
+
+      var sanitized = new string((playerName ?? string.Empty).Where(char.IsLetterOrDigit).Take(18).ToArray());
+      return sanitized.Length > 0 &&
+             string.Equals(sanitized, chatName, StringComparison.OrdinalIgnoreCase);
+   }
 }
 
 public sealed class SeatHud
 {
+   public static readonly Color RedTowerColor = new(0.90f, 0.24f, 0.18f);
+   public static readonly Color BlueTowerColor = new(0.42f, 0.48f, 0.98f);
+   public static readonly Color[] ExtraTowerColors =
+   [
+      new(0.30f, 0.78f, 0.40f),
+      new(0.95f, 0.78f, 0.22f)
+   ];
+
    public long PlayerId { get; set; }
+   public Color TowerColor { get; init; }
    public Control Tower { get; init; }
    public Control Wall { get; init; }
    public Label NameLabel { get; init; }
@@ -358,6 +394,7 @@ public sealed class SeatHud
       return new SeatHud
       {
          Local = local,
+         TowerColor = local ? RedTowerColor : BlueTowerColor,
          Tower = table.GetSeatControl(local ? "RedTower" : "BlueTower"),
          Wall = table.GetSeatControl(local ? "RedWall" : "BlueWall"),
          NameLabel = table.GetSeatLabel(local ? "RedPanel/Name" : "BluePanel/Name"),
@@ -413,6 +450,7 @@ public sealed class SeatHud
       var hud = new SeatHud
       {
          Local = false,
+         TowerColor = ExtraTowerColors[Math.Min(extraIndex, ExtraTowerColors.Length - 1)],
          Root = panel,
          NameLabel = name,
          TowerHp = stats,
