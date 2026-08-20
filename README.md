@@ -77,6 +77,8 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 LAN still works from **Multiplayer Game** with Create/Join Server and an IP. Global matchmaking, room codes, in-match chat, and ranked play go through a self-hosted [Nakama](https://heroiclabs.com/nakama/) server. itch.io / GameJolt / GitHub are only storefronts — they do not provide the network.
 
+Online matches can be **1v1**, **2v2**, or **free-for-all** (3–4 players). Choose the mode in **Multiplayer Game** before **Find Match**, **Create Room**, or **Join Room**.
+
 ### Local development
 
 1. Install Docker Desktop and start it.

@@ -5,54 +5,61 @@ namespace Arcomage.Networking;
 
 public sealed class GameSnapshot
 {
-   public long TurnPlayerId { get; set; }
-   public MatchMode Mode { get; set; }
-   public bool Ranked { get; set; }
-   public bool Discarding { get; set; }
-   public bool GameOver { get; set; }
-   public long WinnerId { get; set; }
-   public string WinReason { get; set; } = string.Empty;
-   public long[] SeatOrder { get; set; } = [];
-   public List<PlayerSnapshot> Players { get; set; } = [];
+   public long TurnPlayerId { get; init; }
+   public MatchMode Mode { get; init; }
+   public bool Ranked { get; init; }
+   public bool Discarding { get; init; }
+   public bool GameOver { get; init; }
+   public long WinnerId { get; init; }
+   public string WinReason { get; init; } = string.Empty;
+   public long[] SeatOrder { get; init; } = [];
+   public List<PlayerSnapshot> Players { get; init; } = [];
 }
 
 public sealed class PlayerSnapshot
 {
-   public long Id { get; set; }
-   public string Name { get; set; } = string.Empty;
-   public int SeatIndex { get; set; }
-   public int TeamId { get; set; }
-   public bool Eliminated { get; set; }
-   public bool Ai { get; set; }
-   public bool Host { get; set; }
-   public int TowerHp { get; set; }
-   public int WallHp { get; set; }
-   public int Quarries { get; set; }
-   public int Bricks { get; set; }
-   public int Magic { get; set; }
-   public int Gems { get; set; }
-   public int Dungeons { get; set; }
-   public int Recruits { get; set; }
-   public string[] Hand { get; set; } = [];
-   public int HandCount { get; set; }
+   public long Id { get; init; }
+   public string Name { get; init; } = string.Empty;
+   public int SeatIndex { get; init; }
+   public int TeamId { get; init; }
+   public bool Eliminated { get; init; }
+   public bool Ai { get; init; }
+   public bool Host { get; init; }
+   public int TowerHp { get; init; }
+   public int WallHp { get; init; }
+   public int Quarries { get; init; }
+   public int Bricks { get; init; }
+   public int Magic { get; init; }
+   public int Gems { get; init; }
+   public int Dungeons { get; init; }
+   public int Recruits { get; init; }
+   public string[] Hand { get; init; } = [];
+   public int HandCount { get; init; }
 }
 
 public sealed class CardPlayCue
 {
-   public long PlayerId { get; set; }
-   public int CardIndex { get; set; }
-   public bool Discarded { get; set; }
-   public string ReplacementId { get; set; } = string.Empty;
-   public bool ClearGraveyard { get; set; }
-   public string PlayedCardId { get; set; } = string.Empty;
-   public List<PlayerSnapshot> Players { get; set; } = [];
+   public long PlayerId { get; init; }
+   public long TargetId { get; init; }
+   public int CardIndex { get; init; }
+   public bool Discarded { get; init; }
+   public string ReplacementId { get; init; } = string.Empty;
+   public bool ClearGraveyard { get; init; }
+   public string PlayedCardId { get; init; } = string.Empty;
+   public List<PlayerSnapshot> Players { get; init; } = [];
 }
 
 public static class SnapshotJson
 {
    public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-   public static string Serialize<T>(T value) => JsonSerializer.Serialize(value, Options);
+   public static string Serialize<T>(T value)
+   {
+      return JsonSerializer.Serialize(value, Options);
+   }
 
-   public static T Deserialize<T>(string json) => JsonSerializer.Deserialize<T>(json, Options);
+   public static T Deserialize<T>(string json)
+   {
+      return JsonSerializer.Deserialize<T>(json, Options);
+   }
 }

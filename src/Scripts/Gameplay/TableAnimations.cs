@@ -29,15 +29,18 @@ public partial class Table
    /// <param name="card">Card being played or discarded.</param>
    /// <param name="discarded"><see langword="true"/> to skip the center pause and stamp DISCARDED.</param>
    /// <param name="replacementId">Card drawn into the emptied slot, or empty when not replacing.</param>
-   private async Task AnimateCardPlay(HBoxContainer deck, CardControl card, bool discarded, string replacementId)
+   /// <param name="startOverride">Laid-out hand slot position, used when the flying card was just replaced and has no layout yet.</param>
+   private async Task AnimateCardPlay(HBoxContainer deck, CardControl card, bool discarded, string replacementId, Vector2? startOverride = null)
    {
       var slotIndex = 0;
-      var startPos = deck?.GlobalPosition ?? GetPlayCenterPosition();
+      var startPos = startOverride ?? GetPlayCenterPosition();
       if (card.GetParent() == deck)
       {
          slotIndex = card.GetIndex();
-         startPos = card.GlobalPosition;
+         startPos = startOverride ?? GetHandSlotPosition(card);
       }
+      else if (startOverride == null && deck != null)
+         startPos = deck.GlobalPosition;
 
       card.BeginPlayAnimation(discarded);
 

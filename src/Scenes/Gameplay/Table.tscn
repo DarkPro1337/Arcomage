@@ -27,6 +27,7 @@
 [ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="25_obylu"]
 [ext_resource type="PackedScene" uid="uid://ca5d6s8ukswrf" path="res://Scenes/UI/MatchResults.tscn" id="26_7y44j"]
 [ext_resource type="PackedScene" uid="uid://d4kmatchchat1" path="res://Scenes/UI/MatchChat.tscn" id="27_chatui"]
+[ext_resource type="Script" uid="uid://c8pseatcoord1" path="res://Scripts/Gameplay/PlayerSeat.cs" id="28_seat"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jlbpg"]
 bg_color = Color(0, 0, 0, 1)
@@ -983,16 +984,6 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
-[node name="Particles" type="Control" parent="." unique_id=1079446313]
-clip_contents = false
-anchors_preset = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -0.5
-offset_bottom = -0.5
-mouse_filter = 2
-metadata/_edit_lock_ = true
-
 [node name="DeckBg" type="TextureRect" parent="." unique_id=1505110332]
 layout_mode = 0
 anchor_top = 1.0
@@ -1012,6 +1003,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0uddb")
+
+[node name="Particles" type="Control" parent="." unique_id=1079446313]
+clip_contents = false
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = -0.5
+mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="DrawCardLabel" type="Label" parent="." unique_id=1634429126]
 visible = false
@@ -1108,3 +1109,57 @@ layout_mode = 1
 [node name="MatchResult" parent="." unique_id=1610393094 instance=ExtResource("26_7y44j")]
 visible = false
 layout_mode = 1
+
+[node name="LeftSeat" type="Node" parent="." unique_id=1848000001]
+script = ExtResource("28_seat")
+Tower = NodePath("../RedTower")
+TowerHead = NodePath("../RedTower/TowerHead")
+Wall = NodePath("../RedWall")
+NameLabel = NodePath("../RedPanel/Name")
+TowerHp = NodePath("../RedTowerPanel/Hp")
+WallHp = NodePath("../RedWallPanel/Hp")
+BricksPanel = NodePath("../RedBricksPanel")
+BricksPerTurn = NodePath("../RedBricksPanel/PerTurn")
+BricksTotal = NodePath("../RedBricksPanel/Total")
+BricksAltPanel = NodePath("../RedBricksPanelAlt")
+BricksAltPerTurn = NodePath("../RedBricksPanelAlt/PerTurn")
+BricksAltTotal = NodePath("../RedBricksPanelAlt/Total")
+GemsPanel = NodePath("../RedGemsPanel")
+GemsPerTurn = NodePath("../RedGemsPanel/PerTurn")
+GemsTotal = NodePath("../RedGemsPanel/Total")
+GemsAltPanel = NodePath("../RedGemsPanelAlt")
+GemsAltPerTurn = NodePath("../RedGemsPanelAlt/PerTurn")
+GemsAltTotal = NodePath("../RedGemsPanelAlt/Total")
+RecruitsPanel = NodePath("../RedRecruitsPanel")
+RecruitsPerTurn = NodePath("../RedRecruitsPanel/PerTurn")
+RecruitsTotal = NodePath("../RedRecruitsPanel/Total")
+RecruitsAltPanel = NodePath("../RedRecruitsPanelAlt")
+RecruitsAltPerTurn = NodePath("../RedRecruitsPanelAlt/PerTurn")
+RecruitsAltTotal = NodePath("../RedRecruitsPanelAlt/Total")
+
+[node name="RightSeat" type="Node" parent="." unique_id=1848000002]
+script = ExtResource("28_seat")
+Tower = NodePath("../BlueTower")
+TowerHead = NodePath("../BlueTower/TowerHead")
+Wall = NodePath("../BlueWall")
+NameLabel = NodePath("../BluePanel/Name")
+TowerHp = NodePath("../BlueTowerPanel/Hp")
+WallHp = NodePath("../BlueWallPanel/Hp")
+BricksPanel = NodePath("../BlueBricksPanel")
+BricksPerTurn = NodePath("../BlueBricksPanel/PerTurn")
+BricksTotal = NodePath("../BlueBricksPanel/Total")
+BricksAltPanel = NodePath("../BlueBricksPanelAlt")
+BricksAltPerTurn = NodePath("../BlueBricksPanelAlt/PerTurn")
+BricksAltTotal = NodePath("../BlueBricksPanelAlt/Total")
+GemsPanel = NodePath("../BlueGemsPanel")
+GemsPerTurn = NodePath("../BlueGemsPanel/PerTurn")
+GemsTotal = NodePath("../BlueGemsPanel/Total")
+GemsAltPanel = NodePath("../BlueGemsPanelAlt")
+GemsAltPerTurn = NodePath("../BlueGemsPanelAlt/PerTurn")
+GemsAltTotal = NodePath("../BlueGemsPanelAlt/Total")
+RecruitsPanel = NodePath("../BlueRecruitsPanel")
+RecruitsPerTurn = NodePath("../BlueRecruitsPanel/PerTurn")
+RecruitsTotal = NodePath("../BlueRecruitsPanel/Total")
+RecruitsAltPanel = NodePath("../BlueRecruitsPanelAlt")
+RecruitsAltPerTurn = NodePath("../BlueRecruitsPanelAlt/PerTurn")
+RecruitsAltTotal = NodePath("../BlueRecruitsPanelAlt/Total")

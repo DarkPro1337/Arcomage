@@ -14,13 +14,17 @@ public partial class Table
 
    private readonly List<long> _seatOrder = [];
    private readonly Dictionary<long, HBoxContainer> _handByPlayer = new();
-   private readonly Dictionary<long, SeatHud> _hudByPlayer = new();
+   private readonly Dictionary<long, PlayerSeat> _hudByPlayer = new();
+   private readonly List<PlayerSeat> _extraSeats = [];
 
    private Node _handsRoot;
    private Control _extraSeatsRoot;
+   private PlayerSeat _leftSeat;
+   private PlayerSeat _rightSeat;
    private long _selectedTargetId;
-   private Control _seatClickControl;
-   private GuiInputEventHandler _seatClickHandler;
+
+   private PlayerSeat LeftSeat => _leftSeat ??= GetNode<PlayerSeat>("LeftSeat");
+   private PlayerSeat RightSeat => _rightSeat ??= GetNode<PlayerSeat>("RightSeat");
 
    public IReadOnlyList<long> SeatOrder => _seatOrder;
 
@@ -175,79 +179,107 @@ public partial class Table
       }
    }
 
-   private void BindSeatHuds()
+   private void BindSeatHuds(bool apply = true)
    {
       EnsureHandsRoot();
-      foreach (var hud in _hudByPlayer.Values)
-         hud.QueueFree();
+      ClearSeatBindings();
 
-      _hudByPlayer.Clear();
+      var (leftId, rightId) = GetVisiblePair();
+      BindMainSeat(LeftSeat, leftId);
+      BindMainSeat(RightSeat, rightId);
 
-      var localId = GetLocalHumanId();
-      var others = _seatOrder.Where(id => id != localId).ToList();
-      if (localId < 0)
-         others = [.. _seatOrder];
-
-      if (localId > 0 && Players.ContainsKey(localId))
-         _hudByPlayer[localId] = SeatHud.FromExisting(this, true);
-
-      if (others.Count > 0)
-         _hudByPlayer[others[0]] = SeatHud.FromExisting(this, false);
-
-      for (var i = 1; i < others.Count; i++)
+      var extraIndex = 0;
+      foreach (var id in _seatOrder)
       {
-         var hud = SeatHud.CreateExtra(_extraSeatsRoot, i - 1);
-         _hudByPlayer[others[i]] = hud;
+         if (id == leftId || id == rightId)
+            continue;
+
+         var extra = PlayerSeat.CreateExtra(_extraSeatsRoot, extraIndex++);
+         extra.PlayerId = id;
+         extra.ApplyIdentity(SeatIndexOf(id));
+         extra.Clicked += OnSeatHudClicked;
+         _extraSeats.Add(extra);
+         _hudByPlayer[id] = extra;
       }
 
-      foreach (var (id, hud) in _hudByPlayer)
-      {
-         hud.PlayerId = id;
-         if (id != localId)
-            hud.Clicked += OnSeatHudClicked;
-      }
+      if (!apply)
+         return;
 
-      if (others.Count > 0)
-         ConnectExistingSeatClick(BlueTower, others[0]);
-
+      ApplyResourcePanelLocale();
       UpdateNamePanels();
       HighlightSelectedTarget();
    }
 
-   private void ConnectExistingSeatClick(Control control, long playerId)
+   private void RefreshVisibleSeats()
    {
-      if (control == null)
+      var (leftId, rightId) = GetVisiblePair();
+      var extraCount = _seatOrder.Count(id => id != leftId && id != rightId);
+      if (LeftSeat.PlayerId == leftId && RightSeat.PlayerId == rightId &&
+          _hudByPlayer.Count == _seatOrder.Count && _extraSeats.Count == extraCount)
+      {
+         UpdateNamePanels();
+         HighlightSelectedTarget();
          return;
+      }
 
-      control.SetMeta("seat_click", playerId);
-
-      if (_seatClickHandler != null && _seatClickControl == control)
-         return;
-
-      DisconnectExistingSeatClick();
-      _seatClickControl = control;
-      _seatClickHandler = OnExistingSeatGuiInput;
-      control.GuiInput += _seatClickHandler;
+      BindSeatHuds();
    }
 
-   private void DisconnectExistingSeatClick()
+   private (long LeftId, long RightId) GetVisiblePair()
    {
-      if (_seatClickControl != null && _seatClickHandler != null && GodotObject.IsInstanceValid(_seatClickControl))
-         _seatClickControl.GuiInput -= _seatClickHandler;
+      if (_seatOrder.Count == 0)
+         return (0, 0);
 
-      _seatClickControl = null;
-      _seatClickHandler = null;
+      if (_seatOrder.Count <= 2)
+         return (_seatOrder[0], _seatOrder.Count > 1 ? _seatOrder[1] : 0);
+
+      var actorId = _seatOrder.Contains(_turnPlayerId) ? _turnPlayerId : _seatOrder[0];
+      Players.TryGetValue(actorId, out var actor);
+      var enemyId = actor != null ? GetDefaultEnemyId(actor) : 0;
+      if (enemyId == 0)
+         enemyId = _seatOrder.FirstOrDefault(id => id != actorId);
+
+      return SeatIndexOf(actorId) <= SeatIndexOf(enemyId)
+         ? (actorId, enemyId)
+         : (enemyId, actorId);
    }
 
-   private void OnExistingSeatGuiInput(InputEvent @event)
+   private int SeatIndexOf(long playerId)
    {
-      if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+      if (Players.TryGetValue(playerId, out var player))
+         return player.SeatIndex;
+
+      var index = _seatOrder.IndexOf(playerId);
+      return index < 0 ? 0 : index;
+   }
+
+   private void BindMainSeat(PlayerSeat seat, long playerId)
+   {
+      if (seat == null)
          return;
 
-      if (_seatClickControl == null || !_seatClickControl.HasMeta("seat_click"))
+      seat.Clicked -= OnSeatHudClicked;
+      seat.PlayerId = playerId;
+      if (playerId == 0)
          return;
 
-      OnSeatHudClicked(_seatClickControl.GetMeta("seat_click").AsInt64());
+      seat.ApplyIdentity(SeatIndexOf(playerId));
+      seat.Clicked += OnSeatHudClicked;
+      _hudByPlayer[playerId] = seat;
+   }
+
+   private void ClearSeatBindings()
+   {
+      LeftSeat.Clicked -= OnSeatHudClicked;
+      RightSeat.Clicked -= OnSeatHudClicked;
+      foreach (var extra in _extraSeats)
+      {
+         extra.Clicked -= OnSeatHudClicked;
+         extra.ReleaseExtra();
+      }
+
+      _extraSeats.Clear();
+      _hudByPlayer.Clear();
    }
 
    private void OnSeatHudClicked(long playerId)
@@ -258,6 +290,7 @@ public partial class Table
 
       _selectedTargetId = playerId;
       local.SelectedTargetId = playerId;
+      RefreshVisibleSeats();
       HighlightSelectedTarget();
    }
 
@@ -331,13 +364,12 @@ public partial class Table
       if (string.IsNullOrEmpty(name))
          return Colors.White;
 
-      foreach (var (id, hud) in _hudByPlayer)
+      foreach (var player in Players.Values)
       {
-         if (!Players.TryGetValue(id, out var player))
+         if (!NamesMatch(player.Name, name))
             continue;
 
-         if (NamesMatch(player.Name, name))
-            return hud.TowerColor;
+         return PlayerSeat.ColorForSeat(player.SeatIndex);
       }
 
       return Colors.White;
@@ -354,210 +386,7 @@ public partial class Table
    }
 }
 
-public sealed class SeatHud
-{
-   public static readonly Color RedTowerColor = new(0.90f, 0.24f, 0.18f);
-   public static readonly Color BlueTowerColor = new(0.42f, 0.48f, 0.98f);
-   public static readonly Color[] ExtraTowerColors =
-   [
-      new(0.30f, 0.78f, 0.40f),
-      new(0.95f, 0.78f, 0.22f)
-   ];
-
-   public long PlayerId { get; set; }
-   public Color TowerColor { get; init; }
-   public Control Tower { get; init; }
-   public Control Wall { get; init; }
-   public Label NameLabel { get; init; }
-   public Label TowerHp { get; init; }
-   public Label WallHp { get; init; }
-   public Label BricksPerTurn { get; init; }
-   public Label BricksTotal { get; init; }
-   public Label BricksAltPerTurn { get; init; }
-   public Label BricksAltTotal { get; init; }
-   public Label GemsPerTurn { get; init; }
-   public Label GemsTotal { get; init; }
-   public Label GemsAltPerTurn { get; init; }
-   public Label GemsAltTotal { get; init; }
-   public Label RecruitsPerTurn { get; init; }
-   public Label RecruitsTotal { get; init; }
-   public Label RecruitsAltPerTurn { get; init; }
-   public Label RecruitsAltTotal { get; init; }
-   public Control Root { get; init; }
-   public bool Local { get; init; }
-
-   public event Action<long> Clicked;
-   private Control.GuiInputEventHandler _guiInputHandler;
-
-   public static SeatHud FromExisting(Table table, bool local)
-   {
-      return new SeatHud
-      {
-         Local = local,
-         TowerColor = local ? RedTowerColor : BlueTowerColor,
-         Tower = table.GetSeatControl(local ? "RedTower" : "BlueTower"),
-         Wall = table.GetSeatControl(local ? "RedWall" : "BlueWall"),
-         NameLabel = table.GetSeatLabel(local ? "RedPanel/Name" : "BluePanel/Name"),
-         TowerHp = table.GetSeatLabel(local ? "RedTowerPanel/Hp" : "BlueTowerPanel/Hp"),
-         WallHp = table.GetSeatLabel(local ? "RedWallPanel/Hp" : "BlueWallPanel/Hp"),
-         BricksPerTurn = table.GetSeatLabel(local ? "RedBricksPanel/PerTurn" : "BlueBricksPanel/PerTurn"),
-         BricksTotal = table.GetSeatLabel(local ? "RedBricksPanel/Total" : "BlueBricksPanel/Total"),
-         BricksAltPerTurn = table.GetSeatLabel(local ? "RedBricksPanelAlt/PerTurn" : "BlueBricksPanelAlt/PerTurn"),
-         BricksAltTotal = table.GetSeatLabel(local ? "RedBricksPanelAlt/Total" : "BlueBricksPanelAlt/Total"),
-         GemsPerTurn = table.GetSeatLabel(local ? "RedGemsPanel/PerTurn" : "BlueGemsPanel/PerTurn"),
-         GemsTotal = table.GetSeatLabel(local ? "RedGemsPanel/Total" : "BlueGemsPanel/Total"),
-         GemsAltPerTurn = table.GetSeatLabel(local ? "RedGemsPanelAlt/PerTurn" : "BlueGemsPanelAlt/PerTurn"),
-         GemsAltTotal = table.GetSeatLabel(local ? "RedGemsPanelAlt/Total" : "BlueGemsPanelAlt/Total"),
-         RecruitsPerTurn = table.GetSeatLabel(local ? "RedRecruitsPanel/PerTurn" : "BlueRecruitsPanel/PerTurn"),
-         RecruitsTotal = table.GetSeatLabel(local ? "RedRecruitsPanel/Total" : "BlueRecruitsPanel/Total"),
-         RecruitsAltPerTurn = table.GetSeatLabel(local ? "RedRecruitsPanelAlt/PerTurn" : "BlueRecruitsPanelAlt/PerTurn"),
-         RecruitsAltTotal = table.GetSeatLabel(local ? "RedRecruitsPanelAlt/Total" : "BlueRecruitsPanelAlt/Total")
-      };
-   }
-
-   public static SeatHud CreateExtra(Control parent, int extraIndex)
-   {
-      var panel = new Panel
-      {
-         Name = $"ExtraSeat_{extraIndex}",
-         CustomMinimumSize = new Vector2(220, 96)
-      };
-
-      panel.SetAnchorsPreset(extraIndex == 0 ? Control.LayoutPreset.TopLeft : Control.LayoutPreset.TopRight);
-      panel.OffsetLeft = extraIndex == 0 ? 8 : -228;
-      panel.OffsetTop = 8;
-      panel.OffsetRight = extraIndex == 0 ? 228 : -8;
-      panel.OffsetBottom = 104;
-
-      var name = new Label { Name = "Name", Text = "Player", HorizontalAlignment = HorizontalAlignment.Center };
-      name.SetAnchorsPreset(Control.LayoutPreset.TopWide);
-      name.OffsetBottom = 22;
-
-      var stats = new Label { Name = "Stats", Text = "T 0  W 0", HorizontalAlignment = HorizontalAlignment.Center };
-      stats.SetAnchorsPreset(Control.LayoutPreset.Center);
-      stats.OffsetTop = -10;
-      stats.OffsetBottom = 12;
-
-      var resources = new Label { Name = "Resources", Text = "", HorizontalAlignment = HorizontalAlignment.Center };
-      resources.SetAnchorsPreset(Control.LayoutPreset.BottomWide);
-      resources.OffsetTop = -28;
-
-      panel.AddChild(name);
-      panel.AddChild(stats);
-      panel.AddChild(resources);
-      parent.AddChild(panel);
-
-      var hud = new SeatHud
-      {
-         Local = false,
-         TowerColor = ExtraTowerColors[Math.Min(extraIndex, ExtraTowerColors.Length - 1)],
-         Root = panel,
-         NameLabel = name,
-         TowerHp = stats,
-         WallHp = stats,
-         BricksTotal = resources,
-         GemsTotal = resources,
-         RecruitsTotal = resources
-      };
-
-      hud._guiInputHandler = hud.OnRootGuiInput;
-      panel.GuiInput += hud._guiInputHandler;
-
-      return hud;
-   }
-
-   private void OnRootGuiInput(InputEvent @event)
-   {
-      if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
-         Clicked?.Invoke(PlayerId);
-   }
-
-   public void QueueFree()
-   {
-      if (Root != null && _guiInputHandler != null && GodotObject.IsInstanceValid(Root))
-         Root.GuiInput -= _guiInputHandler;
-
-      Root?.QueueFree();
-   }
-
-   public void SetSelected(bool selected)
-   {
-      if (Root != null)
-         Root.Modulate = selected ? new Color(1.2f, 1.1f, 0.6f) : Colors.White;
-      else
-         NameLabel?.Modulate = selected ? new Color(1f, 0.85f, 0.3f) : Colors.White;
-   }
-
-   public void Apply(Player player)
-   {
-      if (player == null)
-         return;
-
-      NameLabel?.Text = player.Name + (player.Eliminated ? " ✕" : string.Empty) + (player.TeamId > 0 ? $"  [{player.TeamId}]" : string.Empty);
-
-      if (TowerHp != null && WallHp != null && TowerHp == WallHp && Root != null)
-      {
-         TowerHp.Text = $"T {player.TowerHp}   W {player.WallHp}";
-         BricksTotal?.Text = $"{player.Bricks}/{player.Quarries}  {player.Gems}/{player.Magic}  {player.Recruits}/{player.Dungeons}";
-         Root.Modulate = player.Eliminated ? new Color(1, 1, 1, 0.45f) : Root.Modulate;
-         return;
-      }
-
-      TowerHp?.Text = player.TowerHp.ToString();
-      WallHp?.Text = player.WallHp.ToString();
-
-      SetPair(BricksPerTurn, BricksAltPerTurn, player.Quarries.ToString());
-      SetPair(BricksTotal, BricksAltTotal, player.Bricks.ToString());
-      SetPair(GemsPerTurn, GemsAltPerTurn, player.Magic.ToString());
-      SetPair(GemsTotal, GemsAltTotal, player.Gems.ToString());
-      SetPair(RecruitsPerTurn, RecruitsAltPerTurn, player.Dungeons.ToString());
-      SetPair(RecruitsTotal, RecruitsAltTotal, player.Recruits.ToString());
-
-      if (Tower != null)
-         Table.SetStructureHeightPublic(Tower, player.TowerHp);
-
-      if (Wall != null)
-         Table.SetStructureHeightPublic(Wall, player.WallHp);
-   }
-
-   public Vector2 GetPlayOrigin()
-   {
-      if (Tower != null)
-         return Tower.GlobalPosition;
-
-      if (Root != null)
-         return Root.GlobalPosition;
-
-      return Vector2.Zero;
-   }
-
-   public Control GetResourceControl(Data.ResourceTypes resource, bool english)
-   {
-      return resource switch
-      {
-         Data.ResourceTypes.Tower => Tower,
-         Data.ResourceTypes.Wall => Wall,
-         Data.ResourceTypes.Quarry => english ? BricksPerTurn : BricksAltPerTurn,
-         Data.ResourceTypes.Bricks => english ? BricksTotal : BricksAltTotal,
-         Data.ResourceTypes.Magic => english ? GemsPerTurn : GemsAltPerTurn,
-         Data.ResourceTypes.Gems => english ? GemsTotal : GemsAltTotal,
-         Data.ResourceTypes.Dungeon => english ? RecruitsPerTurn : RecruitsAltPerTurn,
-         Data.ResourceTypes.Recruits => english ? RecruitsTotal : RecruitsAltTotal,
-         _ => null
-      };
-   }
-
-   private static void SetPair(Label primary, Label alt, string text)
-   {
-      primary?.Text = text;
-      alt?.Text = text;
-   }
-}
-
 public partial class Table
 {
-   public Control GetSeatControl(string path) => GetNode<Control>(path);
-   public Label GetSeatLabel(string path) => GetNode<Label>(path);
-
    public static void SetStructureHeightPublic(Control structure, int hp) => SetStructureHeight(structure, hp);
 }

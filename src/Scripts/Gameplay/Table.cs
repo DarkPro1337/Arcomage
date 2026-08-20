@@ -184,7 +184,7 @@ public partial class Table : Control
       Global.Table = this;
       ConfigureMatchRules();
 
-      LocaleStatPanels();
+      ApplyResourcePanelLocale();
 
       BindOnlineSync();
       if (Multiplayer.IsServer())
@@ -216,7 +216,8 @@ public partial class Table : Control
    public override void _ExitTree()
    {
       TimeElapsed.Timeout -= OnTimeElapsedTimeout;
-      DisconnectExistingSeatClick();
+      if (IsNodeReady())
+         ClearSeatBindings();
 
       UnbindOnlineSync();
 
@@ -499,6 +500,7 @@ public partial class Table : Control
 
       _logger.Debug("Setting turn to {PlayerName}", player.Name);
       _turnPlayerId = playerId;
+      RefreshVisibleSeats();
       UpdateDeckVisibility();
       HighlightCurrentTurn();
    }
@@ -543,42 +545,11 @@ public partial class Table : Control
       }
    }
 
-   private void LocaleStatPanels() => SwitchStatPanel(TranslationServer.GetLocale() == "en");
-
-   private void SwitchStatPanel(bool toggle)
+   private void ApplyResourcePanelLocale()
    {
-      if (toggle)
-      {
-         RedBricksPanel.Show();
-         RedGemsPanel.Show();
-         RedRecruitsPanel.Show();
-         BlueBricksPanel.Show();
-         BlueGemsPanel.Show();
-         BlueRecruitsPanel.Show();
-
-         RedBricksAltPanel.Hide();
-         RedGemsAltPanel.Hide();
-         RedRecruitsAltPanel.Hide();
-         BlueBricksAltPanel.Hide();
-         BlueGemsAltPanel.Hide();
-         BlueRecruitsAltPanel.Hide();
-      }
-      else
-      {
-         RedBricksPanel.Hide();
-         RedGemsPanel.Hide();
-         RedRecruitsPanel.Hide();
-         BlueBricksPanel.Hide();
-         BlueGemsPanel.Hide();
-         BlueRecruitsPanel.Hide();
-
-         RedBricksAltPanel.Show();
-         RedGemsAltPanel.Show();
-         RedRecruitsAltPanel.Show();
-         BlueBricksAltPanel.Show();
-         BlueGemsAltPanel.Show();
-         BlueRecruitsAltPanel.Show();
-      }
+      var showPrimary = TranslationServer.GetLocale() == "en";
+      LeftSeat.ShowPrimaryResourcePanels(showPrimary);
+      RightSeat.ShowPrimaryResourcePanels(showPrimary);
    }
 
    private void UpdateStatPanelUi() => UpdateNamePanels();

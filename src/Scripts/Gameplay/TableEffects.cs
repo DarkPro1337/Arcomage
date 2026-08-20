@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Arcomage.Core;
 using Arcomage.Data;
 using Godot;
 
@@ -57,17 +59,23 @@ public partial class Table
    /// <summary>
    /// Pretends the card cost was already paid in <paramref name="snapshots"/>, so the cost
    /// itself does not count as a stat change for particles and SFX.
+   /// Looks up cost from deck data: a freshly instantiated <see cref="CardControl"/> has
+   /// <c>CardCost</c> / <c>CardLayout</c> only after <c>_Ready</c>.
    /// </summary>
-   private static void ApplyPayCostToSnapshot(Dictionary<long, StatSnapshot> snapshots, long playerId, CardControl card)
+   private static void ApplyPayCostToSnapshot(Dictionary<long, StatSnapshot> snapshots, long playerId, string cardId)
    {
-      if (card == null || !snapshots.TryGetValue(playerId, out var snapshot))
+      if (string.IsNullOrEmpty(cardId) || !snapshots.TryGetValue(playerId, out var snapshot))
          return;
 
-      snapshots[playerId] = card.CardLayout switch
+      var def = Global.DeckManager.GetAllCards().FirstOrDefault(card => card.Id == cardId);
+      if (def == null)
+         return;
+
+      snapshots[playerId] = def.Type switch
       {
-         CardType.Brick => snapshot with { Bricks = snapshot.Bricks - card.CardCost },
-         CardType.Gem => snapshot with { Gems = snapshot.Gems - card.CardCost },
-         CardType.Recruit => snapshot with { Recruits = snapshot.Recruits - card.CardCost },
+         CardType.Brick => snapshot with { Bricks = snapshot.Bricks - def.Cost },
+         CardType.Gem => snapshot with { Gems = snapshot.Gems - def.Cost },
+         CardType.Recruit => snapshot with { Recruits = snapshot.Recruits - def.Cost },
          _ => snapshot
       };
    }
@@ -112,15 +120,7 @@ public partial class Table
       if (!_hudByPlayer.TryGetValue(player.Id, out var hud))
          return null;
 
-      var english = TranslationServer.GetLocale() == "en";
-      return hud.GetResourceControl(resource, english);
-   }
-
-   private static Control VisibleControl(Control primary, Control alt)
-   {
-      return primary.IsVisibleInTree()
-         ? primary
-         : alt;
+      return hud.GetFeedbackControl(resource);
    }
 
    private static string GetStatSoundPath(ResourceTypes resource, bool increased)

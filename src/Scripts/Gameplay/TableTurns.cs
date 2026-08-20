@@ -169,6 +169,7 @@ public partial class Table
                   action.Execute(this);
             }
 
+            BindSeatHuds(apply: false);
             PlayStatChangeFeedback(before);
 
             playAgain = HasFeature(card, CardFeature.PlayAgain);
@@ -217,6 +218,7 @@ public partial class Table
          Rpc(nameof(AnimateRemoteCardPlay), SnapshotJson.Serialize(new CardPlayCue
          {
             PlayerId = player.Id,
+            TargetId = player.SelectedTargetId,
             CardIndex = cardIndex,
             Discarded = discarded,
             ReplacementId = replacementId,
@@ -278,16 +280,28 @@ public partial class Table
          if (cue == null)
             return;
 
-         ApplyPlayerSnapshots(cue.Players);
-         UpdateStatPanelUi();
-
          var deck = GetDeckForPlayer(cue.PlayerId);
          var cards = deck?.GetChildren().OfType<CardControl>().ToList();
+         Vector2? startPos = null;
+
+         if (cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
+            startPos = GetHandSlotPosition(cards[cue.CardIndex]);
+         else if (deck != null && deck.GetChildCount() > 0)
+            startPos = GetHandSlotPosition((Control)deck.GetChild(0));
+
          var before = CaptureStatSnapshots();
-         if (!cue.Discarded && cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
-            ApplyPayCostToSnapshot(before, cue.PlayerId, cards[cue.CardIndex]);
+         if (!cue.Discarded)
+            ApplyPayCostToSnapshot(before, cue.PlayerId, cue.PlayedCardId);
+
+         ApplyPlayerSnapshots(cue.Players);
+         if (Players.TryGetValue(cue.PlayerId, out var actor))
+            actor.SelectedTargetId = cue.TargetId;
+
+         _selectedTargetId = cue.TargetId;
+         BindSeatHuds(apply: false);
 
          PlayStatChangeFeedback(before);
+         UpdateStatPanelUi();
 
          CardControl flying = null;
          if (cards != null && cue.CardIndex >= 0 && cue.CardIndex < cards.Count)
@@ -310,7 +324,7 @@ public partial class Table
 
          try
          {
-            await AnimateCardPlay(deck ?? RedDeck, flying, cue.Discarded, cue.ReplacementId);
+            await AnimateCardPlay(deck ?? RedDeck, flying, cue.Discarded, cue.ReplacementId, startPos);
             if (!IsInsideTree())
                return;
 
@@ -534,10 +548,7 @@ public partial class Table
       }
 
       EnsureHandContainers();
-      if (_hudByPlayer.Count != _seatOrder.Count)
-         BindSeatHuds();
-      else
-         UpdateNamePanels();
+      RefreshVisibleSeats();
 
       var localId = GetLocalHumanId();
       foreach (var playerSnap in snapshot.Players)
