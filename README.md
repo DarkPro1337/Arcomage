@@ -13,7 +13,7 @@
 
 ![Arcomage Screenshot](res/ArcomageTn.png)
 
-Arcomage is a computer card game for two players. Each player has a random set of 6 cards, a tower, a wall, three types of resources and their generators.
+Arcomage is a computer card game for two players. Each player has a random set of six cards, a tower, a wall, three types of resources, and their generators.
 
 **Resources:**
 * bricks
@@ -25,11 +25,11 @@ Arcomage is a computer card game for two players. Each player has a random set o
 * magic
 * dungeon
 
-At the beginning of each turn, the generators increase the amount of the player's corresponding resources by the current levels of these generators. Each turn a player must use or discard one of his cards. To use the card, a certain amount of one of the resources is required. After using the card, it performs a combination of some actions and instead of it the player is randomly given another. Further, if the card does not prescribe otherwise, the move goes to the other player.
+At the beginning of each turn, the generators increase the number of the player's corresponding resources by the current levels of these generators. Each turn a player must use or discard one of his cards. To use the card, a certain amount of one of the resources is required. After using the card, it performs a combination of some actions and instead of it, the player is randomly given another. Further, if the card does not prescribe otherwise, the move goes to the other player.
 
 **Card actions:**
 * causing damage to the wall and/or tower (enemy or both the enemy and his own)
-* changing the amount of resources or the levels of their generators in oneself and/or the enemy
+* changing the number of resources or the levels of their generators in oneself and/or the enemy
 * increasing your own wall and/or tower
 
 **The rules of the game allow victory in any of the following ways:**
@@ -37,7 +37,7 @@ At the beginning of each turn, the generators increase the amount of the player'
 * accumulation of any resource to the required minimum
 * destruction of the enemy tower
 
-As a rule, cards that require the same type of resources are similar in action. Gems - increase the tower, bricks - walls, animals - to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
+As a rule, cards that require the same type of resources are similar in action. Gems – increase the tower, bricks – walls, animals – to deal damage to the enemy. The damage can be directed specifically at a tower or wall, or be of a general nature. In the second case, the wall takes the damage first, then the tower.
 
 ## Localizations
 English, Русский, Українська, Polski, Dansk, Deutsch, français  
@@ -47,7 +47,7 @@ Thanks to the following people for their help in translating the game:
 * **[Zmeonysh](https://www.youtube.com/@Zmeonysh)** (Українська, Polski)
 * **[TimawaViking](https://www.reddit.com/user/TimawaViking/)** (Dansk)  
 
-If you want to help with the translation, please [contact me](https://darkpro1337.github.io/), I will be very grateful for your help.
+If you want to help with the translation, please [contact me](https://darkpro1337.github.io/). I will be very grateful for your help.
 
 ## Also, available at
 [![itch.io game page](https://img.shields.io/badge/itch.io-%23FA5C5C.svg?style=for-the-badge&logo=itchdotio&logoColor=white)](https://darkpro1337.itch.io/arcomage)
@@ -71,7 +71,7 @@ If you want to help with the translation, please [contact me](https://darkpro133
 2. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.7.1-stable/)
 3. Press `F5` to run the project
 
-**Optional:** Export the project to your desired platform (Project -> Export...)
+**Optional:** Export the project to your desired platform (Project → Export...)
 
 ## Online multiplayer (Nakama)
 
