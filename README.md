@@ -1,4 +1,4 @@
-[![Godot Engine](https://img.shields.io/badge/GODOT_4.7.1-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
+[![Godot Engine](https://img.shields.io/badge/GODOT_4.7.2-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine)](https://godotengine.org/)
 ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET_10-%235C2D91.svg?style=for-the-badge&logo=.net&logoColor=white)
 ![GitHub license](https://img.shields.io/github/license/DarkPro1337/Arcomage?style=for-the-badge)
@@ -61,14 +61,14 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Building and editing
 ### Prerequisites
-* [**Godot** v.4.7.1-stable .NET](https://godotengine.org/download/archive/4.7.1-stable/)
+* [**Godot** v.4.7.2-stable .NET](https://godotengine.org/download/archive/4.7.2-stable/)
 * [**.NET** 10 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 * Recommended [**Rider**](https://www.jetbrains.com/rider/download) or [**VS Code**](https://code.visualstudio.com/download) external editors with Godot C# extensions ([learn here](https://docs.godotengine.org/en/latest/tutorials/scripting/c_sharp/c_sharp_basics.html#configuring-an-external-editor)).
 * Optional, for online multiplayer: [**Docker Desktop**](https://www.docker.com/products/docker-desktop/) (or Docker Engine + Compose)
 
 ### How to run the project
 1. Clone the repository with `git clone https://github.com/DarkPro1337/arcomage.git` or [download repo ZIP](https://github.com/DarkPro1337/arcomage/archive/refs/heads/mono.zip).
-2. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.7.1-stable/)
+2. Open the project in [**Godot Engine .NET**](https://godotengine.org/download/archive/4.7.2-stable/)
 3. Press `F5` to run the project
 
 **Optional:** Export the project to your desired platform (Project → Export...)
