@@ -1,100 +1,243 @@
-[gd_scene format=4 uid="uid://m4q7lb4q18an"]
+[gd_scene format=3 uid="uid://m4q7lb4q18an"]
 
 [ext_resource type="Script" uid="uid://b78e0aavipeb1" path="res://Scripts/UI/NetworkSetup.cs" id="2_waa7a"]
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="3_1jcld"]
-[ext_resource type="FontFile" uid="uid://c557qqmpne6kp" path="res://Fonts/InterVariable.ttf" id="4_0xkst"]
+[ext_resource type="Theme" uid="uid://vfnrm17ifja3" path="res://Themes/Theme.tres" id="3_theme"]
 [ext_resource type="LabelSettings" uid="uid://ddmn6mo77w83e" path="res://Themes/LabelHeading.tres" id="4_qrbr7"]
+[ext_resource type="LabelSettings" uid="uid://pe8pbs72c1un" path="res://Themes/LabelHeading2.tres" id="5_heading2"]
 
-[sub_resource type="Theme" id="Theme_hvcqr"]
-default_font_size = 18
-
-[node name="NetworkSetup" type="Control" unique_id=1936637719]
+[node name="NetworkSetup" type="Control" unique_id=1375676]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_hvcqr")
+theme = ExtResource("3_theme")
 script = ExtResource("2_waa7a")
 metadata/_edit_lock_ = true
 
-[node name="Background" type="TextureRect" parent="." unique_id=1263246961]
+[node name="Background" type="TextureRect" parent="." unique_id=526170528]
 self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource("3_1jcld")
-expand_mode = 1
-metadata/_edit_lock_ = true
-
-[node name="Container" type="VBoxContainer" parent="." unique_id=735671609]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -215.5
-offset_top = -77.0
-offset_right = 215.5
-offset_bottom = 77.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("3_1jcld")
+expand_mode = 1
+stretch_mode = 6
+metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="Container" unique_id=423824788]
+[node name="SetupCenter" type="CenterContainer" parent="." unique_id=547651296]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SetupPanel" type="VBoxContainer" parent="SetupCenter" unique_id=1354635108]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="SetupCenter/SetupPanel" unique_id=1219440551]
 layout_mode = 2
 text = "CONNECTION"
 label_settings = ExtResource("4_qrbr7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IpAddress" type="LineEdit" parent="Container" unique_id=134723164]
+[node name="MatchMode" type="OptionButton" parent="SetupCenter/SetupPanel" unique_id=728077453]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_0xkst")
+selected = 0
+item_count = 3
+popup/item_0/text = "MODE_1V1"
+popup/item_0/id = 0
+popup/item_1/text = "MODE_FFA"
+popup/item_1/id = 1
+popup/item_2/text = "MODE_2V2"
+popup/item_2/id = 2
+
+[node name="Tabs" type="TabContainer" parent="SetupCenter/SetupPanel" unique_id=570283087]
+unique_name_in_owner = true
+layout_mode = 2
+current_tab = 0
+
+[node name="Online" type="VBoxContainer" parent="SetupCenter/SetupPanel/Tabs" unique_id=1213035075]
+layout_mode = 2
+theme_override_constants/separation = 8
+metadata/_tab_index = 0
+
+[node name="StatusRow" type="HBoxContainer" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=208433452]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="OnlineStatus" type="Label" parent="SetupCenter/SetupPanel/Tabs/Online/StatusRow" unique_id=1839656338]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="RetryOnline" type="Button" parent="SetupCenter/SetupPanel/Tabs/Online/StatusRow" unique_id=266272046]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "RETRY"
+
+[node name="FindMatch" type="Button" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=1043467540]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FIND_MATCH"
+
+[node name="RankedRow" type="HBoxContainer" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=577776286]
+layout_mode = 2
+alignment = 1
+
+[node name="Ranked" type="CheckBox" parent="SetupCenter/SetupPanel/Tabs/Online/RankedRow" unique_id=920278362]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RANKED"
+
+[node name="RoomSeparator" type="HSeparator" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=1973083711]
+layout_mode = 2
+
+[node name="RoomCode" type="LineEdit" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=346052684]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "ROOM_CODE"
+alignment = 1
+max_length = 8
+caret_blink = true
+
+[node name="RoomRow" type="HBoxContainer" parent="SetupCenter/SetupPanel/Tabs/Online" unique_id=1003792948]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CreateRoom" type="Button" parent="SetupCenter/SetupPanel/Tabs/Online/RoomRow" unique_id=779197906]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CREATE_ROOM"
+
+[node name="JoinRoom" type="Button" parent="SetupCenter/SetupPanel/Tabs/Online/RoomRow" unique_id=139040665]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "JOIN_ROOM"
+
+[node name="LAN" type="VBoxContainer" parent="SetupCenter/SetupPanel/Tabs" unique_id=321474769]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+metadata/_tab_index = 1
+
+[node name="LanAddressHint" type="Label" parent="SetupCenter/SetupPanel/Tabs/LAN" unique_id=2117234942]
+unique_name_in_owner = true
+layout_mode = 2
+text = "YOUR_LAN_ADDRESS"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="IpAddress" type="LineEdit" parent="SetupCenter/SetupPanel/Tabs/LAN" unique_id=1567333589]
+unique_name_in_owner = true
+layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "ENTER_IP_ADDRESS"
+alignment = 1
 
-[node name="Splitter" type="VSplitContainer" parent="Container" unique_id=755145406]
-custom_minimum_size = Vector2(0, 16)
+[node name="CreateServer" type="Button" parent="SetupCenter/SetupPanel/Tabs/LAN" unique_id=1835196080]
+unique_name_in_owner = true
 layout_mode = 2
-dragger_visibility = 2
-
-[node name="CreateServer" type="Button" parent="Container" unique_id=559232333]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_0xkst")
 text = "CREATE_SERVER"
 
-[node name="JoinServer" type="Button" parent="Container" unique_id=1355993294]
+[node name="JoinServer" type="Button" parent="SetupCenter/SetupPanel/Tabs/LAN" unique_id=1204647524]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_0xkst")
 text = "JOIN_SERVER"
 
-[node name="Lobby" type="VBoxContainer" parent="." unique_id=172976740]
+[node name="Cancel" type="Button" parent="SetupCenter/SetupPanel" unique_id=1272589777]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CANCEL"
+
+[node name="LobbyCenter" type="CenterContainer" parent="." unique_id=333405557]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -215.5
-offset_right = 215.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="Label" type="Label" parent="Lobby" unique_id=1253790311]
+[node name="Lobby" type="VBoxContainer" parent="LobbyCenter" unique_id=328406613]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="LobbyCenter/Lobby" unique_id=1292810987]
 layout_mode = 2
 text = "LOBBY"
 label_settings = ExtResource("4_qrbr7")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayersList" type="Tree" parent="Lobby" unique_id=1299293499]
-custom_minimum_size = Vector2(0, 105)
+[node name="LobbyMeta" type="Label" parent="LobbyCenter/Lobby" unique_id=2086199035]
+unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 4
-theme_override_fonts/font = ExtResource("4_0xkst")
+label_settings = ExtResource("5_heading2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoomCodeRow" type="HBoxContainer" parent="LobbyCenter/Lobby" unique_id=547184302]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="RoomCodeCaption" type="Label" parent="LobbyCenter/Lobby/RoomCodeRow" unique_id=510132005]
+layout_mode = 2
+text = "ROOM_CODE"
+vertical_alignment = 1
+
+[node name="LobbyRoomCode" type="Label" parent="LobbyCenter/Lobby/RoomCodeRow" unique_id=1905778067]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+label_settings = ExtResource("4_qrbr7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CopyRoomCode" type="Button" parent="LobbyCenter/Lobby/RoomCodeRow" unique_id=58838750]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COPY"
+
+[node name="LobbyStatus" type="Label" parent="LobbyCenter/Lobby" unique_id=1048729119]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PlayersList" type="Tree" parent="LobbyCenter/Lobby" unique_id=494137155]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
 columns = 2
 column_titles_visible = true
 allow_search = false
@@ -102,30 +245,23 @@ hide_folding = true
 enable_recursive_folding = false
 hide_root = true
 scroll_horizontal_enabled = false
-scroll_vertical_enabled = false
 
-[node name="Ready" type="Button" parent="Lobby" unique_id=896993609]
+[node name="Ready" type="Button" parent="LobbyCenter/Lobby" unique_id=45843924]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_0xkst")
 toggle_mode = true
 text = "NOT_READY"
 
-[node name="StartGame" type="Button" parent="Lobby" unique_id=267725519]
+[node name="StartGame" type="Button" parent="LobbyCenter/Lobby" unique_id=1660559579]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "START_GAME"
 
-[node name="Cancel" type="Button" parent="." unique_id=955859525]
-layout_mode = 0
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -126.0
-offset_top = -53.0
-offset_right = 126.0
-offset_bottom = -16.0
-theme_override_fonts/font = ExtResource("4_0xkst")
-text = "CANCEL"
+[node name="LeaveLobby" type="Button" parent="LobbyCenter/Lobby" unique_id=1842339987]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LEAVE_LOBBY"
 
-[node name="Level" type="Node" parent="." unique_id=335797215]
+[node name="Level" type="Node" parent="." unique_id=1578378637]
+unique_name_in_owner = true

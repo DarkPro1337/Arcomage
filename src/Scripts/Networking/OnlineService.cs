@@ -58,6 +58,7 @@ public partial class OnlineService : Node
    private string _hostUserId = string.Empty;
    private IMatchmakerTicket _ticket;
    private bool _forceHost;
+   private bool _socketBound;
 
    public IReadOnlyDictionary<string, int> UserToPeer => _userToPeer;
    public IReadOnlyDictionary<int, string> PeerToUser => _peerToUser;
@@ -137,6 +138,8 @@ public partial class OnlineService : Node
          if (HasSession)
             return true;
 
+         DropSession();
+
          var host = Config.Settings.NakamaHost;
          var port = Config.Settings.NakamaPort;
          var scheme = Config.Settings.NakamaUseSsl ? "https" : "http";
@@ -158,11 +161,7 @@ public partial class OnlineService : Node
          }
 
          Socket = Nakama.Socket.From(Client);
-         Socket.ReceivedMatchmakerMatched += matched => RunOnMainThread(() => OnMatchmakerMatched(matched));
-         Socket.ReceivedMatchState += state => RunOnMainThread(() => OnMatchState(state));
-         Socket.ReceivedMatchPresence += presence => RunOnMainThread(() => OnMatchPresence(presence));
-         Socket.ReceivedChannelMessage += message => RunOnMainThread(() => OnChannelMessage(message));
-         Socket.Closed += OnSocketClosed;
+         BindSocketEvents();
          await Socket.ConnectAsync(Session, true);
 
          _logger.Debug("Nakama session {UserId} as {Username} (device {DeviceId})", Session.UserId, username, deviceId);
@@ -172,6 +171,7 @@ public partial class OnlineService : Node
       catch (Exception ex)
       {
          _logger.Error(ex, "Nakama session failed");
+         DropSession();
          SetStatus("ONLINE_UNAVAILABLE");
          return false;
       }
@@ -182,11 +182,7 @@ public partial class OnlineService : Node
       await LeaveMatch();
       if (Socket != null)
       {
-         Socket.ReceivedMatchmakerMatched -= OnMatchmakerMatched;
-         Socket.ReceivedMatchState -= OnMatchState;
-         Socket.ReceivedMatchPresence -= OnMatchPresence;
-         Socket.ReceivedChannelMessage -= OnChannelMessage;
-         Socket.Closed -= OnSocketClosed;
+         UnbindSocketEvents();
          try
          {
             await Socket.CloseAsync();
@@ -197,8 +193,7 @@ public partial class OnlineService : Node
          }
       }
 
-      Socket = null;
-      Session = null;
+      DropSession();
       SetStatus(string.Empty);
    }
 
@@ -332,6 +327,9 @@ public partial class OnlineService : Node
       _hostUserId = string.Empty;
       MatchCode = string.Empty;
       MatchLeft?.Invoke();
+
+      if (HasSession)
+         SetStatus("ONLINE_CONNECTED");
    }
 
    public IEnumerable<(int PeerId, string Name)> ListPeers()
@@ -340,6 +338,7 @@ public partial class OnlineService : Node
       {
          foreach (var (peerId, userId) in _peerToUser.OrderBy(pair => pair.Key))
             yield return (peerId, ResolvePeerName(userId, string.Empty));
+
          yield break;
       }
 
@@ -548,9 +547,9 @@ public partial class OnlineService : Node
                continue;
 
             RememberPresence(user.Presence);
-            _userNames[user.Presence.UserId] = string.IsNullOrEmpty(user.Presence.Username)
-               ? user.Presence.UserId
-               : user.Presence.Username;
+            _userNames[user.Presence.UserId] = !string.IsNullOrEmpty(user.Presence.Username)
+               ? user.Presence.Username
+               : user.Presence.UserId;
          }
 
          _userNames[Session.UserId] = Config.Settings.Nickname;
@@ -590,9 +589,11 @@ public partial class OnlineService : Node
    {
       _hostUserId = Session.UserId;
       _userNames[Session.UserId] = Config.Settings.Nickname;
+
       TrackMatchPresences();
       BuildPeerMap(new[] { Session.UserId }.Concat(_presences.Keys));
       BindPeer();
+
       _ = SendHostClaim();
       _ = SendPeerAssignments();
    }
@@ -687,22 +688,17 @@ public partial class OnlineService : Node
          _userNames[joined.UserId] = joined.Username;
       }
 
+      NotifyPeerChanges(presence);
+
       foreach (var left in presence.Leaves)
          _presences.Remove(left.UserId);
 
       if (_forceHost)
       {
-         var ids = new[] { Session.UserId }.Concat(_presences.Keys);
-         foreach (var left in presence.Leaves)
-            ids = ids.Where(id => id != left.UserId);
-
-         BuildPeerMap(ids);
-         NotifyPeerChanges(presence);
+         BuildPeerMap(new[] { Session.UserId }.Concat(_presences.Keys));
          _ = SendPeerAssignments();
-         return;
       }
 
-      NotifyPeerChanges(presence);
       PeersChanged?.Invoke();
    }
 
@@ -866,6 +862,65 @@ public partial class OnlineService : Node
       ChatReceived?.Invoke(username, text);
    }
 
+   private void OnSocketMatchmakerMatched(IMatchmakerMatched matched)
+   {
+      RunOnMainThread(() => OnMatchmakerMatched(matched));
+   }
+
+   private void OnSocketMatchState(IMatchState state)
+   {
+      RunOnMainThread(() => OnMatchState(state));
+   }
+
+   private void OnSocketMatchPresence(IMatchPresenceEvent presence)
+   {
+      RunOnMainThread(() => OnMatchPresence(presence));
+   }
+
+   private void OnSocketChannelMessage(IApiChannelMessage message)
+   {
+      RunOnMainThread(() => OnChannelMessage(message));
+   }
+
+   private void BindSocketEvents()
+   {
+      if (Socket == null || _socketBound)
+         return;
+
+      Socket.ReceivedMatchmakerMatched += OnSocketMatchmakerMatched;
+      Socket.ReceivedMatchState += OnSocketMatchState;
+      Socket.ReceivedMatchPresence += OnSocketMatchPresence;
+      Socket.ReceivedChannelMessage += OnSocketChannelMessage;
+      Socket.Closed += OnSocketClosed;
+
+      _socketBound = true;
+   }
+
+   private void UnbindSocketEvents()
+   {
+      if (Socket == null || !_socketBound)
+      {
+         _socketBound = false;
+         return;
+      }
+
+      Socket.ReceivedMatchmakerMatched -= OnSocketMatchmakerMatched;
+      Socket.ReceivedMatchState -= OnSocketMatchState;
+      Socket.ReceivedMatchPresence -= OnSocketMatchPresence;
+      Socket.ReceivedChannelMessage -= OnSocketChannelMessage;
+      Socket.Closed -= OnSocketClosed;
+
+      _socketBound = false;
+   }
+
+   private void DropSession()
+   {
+      UnbindSocketEvents();
+      Socket = null;
+      Session = null;
+      Client = null;
+   }
+
    private void OnSocketClosed(string reason)
    {
       RunOnMainThread(() =>
@@ -873,6 +928,7 @@ public partial class OnlineService : Node
          if (!string.IsNullOrEmpty(reason))
             _logger.Debug("Nakama socket closed: {Reason}", reason);
 
+         DropSession();
          SetStatus("ONLINE_UNAVAILABLE");
       });
    }

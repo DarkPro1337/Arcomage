@@ -984,6 +984,15 @@ text = "20"
 label_settings = ExtResource("18_ii8jn")
 clip_text = true
 
+[node name="Particles" type="Control" parent="." unique_id=1079446313]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.5
+offset_bottom = -0.5
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
 [node name="DeckBg" type="TextureRect" parent="." unique_id=1505110332]
 layout_mode = 0
 anchor_top = 1.0
@@ -1003,16 +1012,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0uddb")
-
-[node name="Particles" type="Control" parent="." unique_id=1079446313]
-clip_contents = false
-anchors_preset = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -0.5
-offset_bottom = -0.5
-mouse_filter = 2
-metadata/_edit_lock_ = true
 
 [node name="DrawCardLabel" type="Label" parent="." unique_id=1634429126]
 visible = false

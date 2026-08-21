@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Arcomage.Core;
+using Arcomage.Networking;
 using Godot;
 using Logger = Arcomage.Logging.Logger;
 
@@ -54,8 +56,13 @@ public partial class Table : Control
       if (!Input.IsActionJustPressed("ui_cancel"))
          return;
 
-      InGameMenu.Show();
-      GetTree().Paused = true;
+      if (InGameMenu.Visible)
+      {
+         InGameMenu.Close();
+         return;
+      }
+
+      InGameMenu.Open(pauseTree: IsOffline);
    }
 
    private int _hostStateRetries;
@@ -104,6 +111,7 @@ public partial class Table : Control
       Global.Online.SnapshotReceived += OnNakamaSnapshot;
       Global.Online.SnapshotRequested += OnNakamaSnapshotRequested;
       Global.Online.CardPlayReceived += OnNakamaCardPlay;
+      Global.Online.PeersChanged += OnOnlinePeersChanged;
    }
 
    private void UnbindOnlineSync()
@@ -114,6 +122,25 @@ public partial class Table : Control
       Global.Online.SnapshotReceived -= OnNakamaSnapshot;
       Global.Online.SnapshotRequested -= OnNakamaSnapshotRequested;
       Global.Online.CardPlayReceived -= OnNakamaCardPlay;
+      Global.Online.PeersChanged -= OnOnlinePeersChanged;
+   }
+
+   private void OnOnlinePeersChanged()
+   {
+      if (!GodotThread.IsMainThread())
+      {
+         CallDeferred(MethodName.OnOnlinePeersChanged);
+         return;
+      }
+
+      if (_leavingMatch || _gameOver || Global.Online == null)
+         return;
+
+      var present = Global.Online.ListPeers().Select(peer => (long)peer.PeerId).ToHashSet();
+      foreach (var id in Players.Keys.Where(id => !Players[id].Ai && !present.Contains(id)).ToList())
+         Players.Remove(id);
+
+      TryEndMatchAfterDisconnect();
    }
 
    private void OnNakamaSnapshot(string json) => ApplyRemoteGameState(json);
@@ -147,22 +174,41 @@ public partial class Table : Control
 
    private async void LeaveMatch()
    {
+      if (_leavingMatch)
+         return;
+
       try
       {
-         if (_leavingMatch)
-            return;
-
-         _leavingMatch = true;
          var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
          anim.Play("fade_out");
          await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
-         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Leave match");
-         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
       }
+
+      await ReturnToMenu();
+   }
+
+   public async Task ReturnToMenu()
+   {
+      _leavingMatch = true;
+      if (IsInsideTree())
+         GetTree().Paused = false;
+
+      UnbindOnlineSync();
+      UnbindDisconnectSignals();
+      UnbindPeerConnected();
+
+      if (Multiplayer.MultiplayerPeer is not OfflineMultiplayerPeer)
+         Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
+
+      if (Global.Online != null)
+         await Global.Online.LeaveMatch();
+
+      if (IsInsideTree())
+         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
    }
 
    public override void _EnterTree()
@@ -187,6 +233,8 @@ public partial class Table : Control
       ApplyResourcePanelLocale();
 
       BindOnlineSync();
+      BindDisconnectSignals();
+
       if (Multiplayer.IsServer())
          SpawnLocalPlayer();
 
@@ -199,7 +247,7 @@ public partial class Table : Control
       }
 
       Multiplayer.PeerConnected += AddPlayer;
-      Multiplayer.PeerDisconnected += RemovePlayer;
+      _peerConnectedBound = true;
 
       SpawnConnectedPlayers();
 
@@ -220,12 +268,16 @@ public partial class Table : Control
          ClearSeatBindings();
 
       UnbindOnlineSync();
+      UnbindDisconnectSignals();
+      UnbindPeerConnected();
 
-      if (!Multiplayer.IsServer())
-         return;
+      if (!_leavingMatch && Global.Online is { IsInMatch: true })
+      {
+         if (Multiplayer.MultiplayerPeer is not OfflineMultiplayerPeer)
+            Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
 
-      Multiplayer.PeerConnected -= AddPlayer;
-      Multiplayer.PeerDisconnected -= RemovePlayer;
+         _ = Global.Online.LeaveMatch();
+      }
    }
 
    private string[] BuildRandomHandIds(int count)
@@ -253,16 +305,7 @@ public partial class Table : Control
       var current = GetHandIds(deck);
       if (current.Length == cardIds.Length)
       {
-         var same = true;
-         for (var i = 0; i < cardIds.Length; i++)
-         {
-            if (current[i] == cardIds[i])
-               continue;
-
-            same = false;
-            break;
-         }
-
+         var same = !cardIds.Where((t, i) => current[i] != t).Any();
          if (same)
             return;
       }
@@ -474,7 +517,68 @@ public partial class Table : Control
          RpcId(id, nameof(RequestNickname));
    }
 
-   private void RemovePlayer(long id) => Players.Remove(id);
+   private bool _disconnectSignalsBound;
+   private bool _peerConnectedBound;
+
+   private void UnbindPeerConnected()
+   {
+      if (!_peerConnectedBound)
+         return;
+
+      Multiplayer.PeerConnected -= AddPlayer;
+
+      _peerConnectedBound = false;
+   }
+
+   private void BindDisconnectSignals()
+   {
+      if (_disconnectSignalsBound)
+         return;
+
+      Multiplayer.PeerDisconnected += OnRemotePlayerLeft;
+      Multiplayer.ServerDisconnected += OnMatchServerDisconnected;
+
+      _disconnectSignalsBound = true;
+   }
+
+   private void UnbindDisconnectSignals()
+   {
+      if (!_disconnectSignalsBound)
+         return;
+
+      Multiplayer.PeerDisconnected -= OnRemotePlayerLeft;
+      Multiplayer.ServerDisconnected -= OnMatchServerDisconnected;
+
+      _disconnectSignalsBound = false;
+   }
+
+   private void OnMatchServerDisconnected()
+   {
+      Players.Remove(1);
+      TryEndMatchAfterDisconnect();
+   }
+
+   private void OnRemotePlayerLeft(long id)
+   {
+      Players.Remove(id);
+      TryEndMatchAfterDisconnect();
+   }
+
+   private void TryEndMatchAfterDisconnect()
+   {
+      if (_gameOver || _leavingMatch)
+         return;
+
+      var humans = Players.Values.Count(player => !player.Ai);
+      if (humans >= MatchModeRules.MinPlayers(MatchMode) && humans >= 2)
+         return;
+
+      var winner = Players.Values.FirstOrDefault(player => !player.Ai);
+      if (winner == null)
+         return;
+
+      ShowEndGame(winner, "OPPONENT_LEFT_MSG");
+   }
 
    private void AddResources(long playerId)
    {

@@ -10,12 +10,14 @@ public partial class InGameMenu : Control
    private Button _settingsButton;
    private Button _statsButton;
    private Button _exitButton;
+   private Label _pauseLabel;
 
    private Settings Settings => _settings ??= GetNode<Settings>("Settings");
    private Button ResumeButton => _resumeButton ??= GetNode<Button>("Container/Resume");
    private Button SettingsButton => _settingsButton ??= GetNode<Button>("Container/Settings");
    private Button StatsButton => _statsButton ??= GetNode<Button>("Container/Stats");
    private Button ExitButton => _exitButton ??= GetNode<Button>("Container/Exit");
+   private Label PauseLabel => _pauseLabel ??= GetNode<Label>("Container/PauseLabel");
 
    public override void _Ready()
    {
@@ -27,16 +29,41 @@ public partial class InGameMenu : Control
       ExitButton.Pressed += ExitButtonOnPressed;
    }
 
-   private void ResumeButtonOnPressed()
+   public void Open(bool pauseTree)
+   {
+      PauseLabel.Visible = pauseTree;
+      Show();
+
+      if (pauseTree)
+         GetTree().Paused = true;
+   }
+
+   public void Close()
    {
       Hide();
-      Global.Table.GetTree().Paused = false;
+      GetTree().Paused = false;
    }
+
+   private void ResumeButtonOnPressed() => Close();
 
    private void StatsButtonOnPressed()
    {
    }
 
    private void SettingsButtonOnPressed() => Settings.Show();
-   private void ExitButtonOnPressed() => GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+
+   private async void ExitButtonOnPressed()
+   {
+      GetTree().Paused = false;
+      if (Global.Table != null)
+      {
+         await Global.Table.ReturnToMenu();
+         return;
+      }
+
+      if (Global.Online != null)
+         await Global.Online.LeaveMatch();
+
+      GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+   }
 }

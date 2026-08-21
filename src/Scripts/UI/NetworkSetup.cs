@@ -14,30 +14,62 @@ public partial class NetworkSetup : Control
 
    private const int Port = 8070;
 
-   private VBoxContainer _multiplayerConfigUi;
+   private Control _setupCenter;
+   private Control _lobbyCenter;
    private VBoxContainer _lobby;
    private Tree _playersList;
    private LineEdit _serverIpAddress;
-   private Label _deviceIpAddress;
+   private Label _lanAddressHint;
    private Button _createServerButton;
    private Button _joinServerButton;
    private Button _cancelButton;
    private Button _readyButton;
    private Button _startGameButton;
+   private Button _leaveLobbyButton;
+   private Label _lobbyMeta;
+   private HBoxContainer _roomCodeRow;
+   private Label _lobbyRoomCode;
+   private Button _copyRoomCodeButton;
+   private Label _lobbyStatus;
    private Node _level;
+   private OptionButton _modeSelect;
+   private LineEdit _roomCode;
+   private Label _onlineStatus;
+   private CheckBox _rankedCheck;
+   private Button _findMatchButton;
+   private Button _createRoomButton;
+   private Button _joinRoomButton;
+   private Button _retryOnlineButton;
+   private TabContainer _tabs;
 
-   private VBoxContainer MultiplayerConfigUi => _multiplayerConfigUi ??= GetNode<VBoxContainer>("Container");
-   private VBoxContainer Lobby => _lobby ??= GetNode<VBoxContainer>("Lobby");
-   private Tree PlayersList => _playersList ??= GetNode<Tree>("Lobby/PlayersList");
-   private LineEdit ServerIpAddress => _serverIpAddress ??= GetNode<LineEdit>("Container/IpAddress");
-   private Label DeviceIpAddress => _deviceIpAddress ??= GetNode<Label>("DeviceIpAddress");
-   private Button CreateServerButton => _createServerButton ??= GetNode<Button>("Container/CreateServer");
-   private Button JoinServerButton => _joinServerButton ??= GetNode<Button>("Container/JoinServer");
-   private Button CancelButton => _cancelButton ??= GetNode<Button>("Cancel");
-   private Button ReadyButton => _readyButton ??= GetNode<Button>("Lobby/Ready");
-   private Button StartGameButton => _startGameButton ??= GetNode<Button>("Lobby/StartGame");
-   private Node Level => _level ??= GetNode<Node>("Level");
-    
+   private Control SetupCenter => _setupCenter ??= GetNode<Control>("%SetupCenter");
+   private Control LobbyCenter => _lobbyCenter ??= GetNode<Control>("%LobbyCenter");
+   private VBoxContainer Lobby => _lobby ??= GetNode<VBoxContainer>("%Lobby");
+   private Tree PlayersList => _playersList ??= GetNode<Tree>("%PlayersList");
+   private LineEdit ServerIpAddress => _serverIpAddress ??= GetNode<LineEdit>("%IpAddress");
+   private Label LanAddressHint => _lanAddressHint ??= GetNode<Label>("%LanAddressHint");
+   private Button CreateServerButton => _createServerButton ??= GetNode<Button>("%CreateServer");
+   private Button JoinServerButton => _joinServerButton ??= GetNode<Button>("%JoinServer");
+   private Button CancelButton => _cancelButton ??= GetNode<Button>("%Cancel");
+   private Button ReadyButton => _readyButton ??= GetNode<Button>("%Ready");
+   private Button StartGameButton => _startGameButton ??= GetNode<Button>("%StartGame");
+   private Button LeaveLobbyButton => _leaveLobbyButton ??= GetNode<Button>("%LeaveLobby");
+   private Label LobbyMeta => _lobbyMeta ??= GetNode<Label>("%LobbyMeta");
+   private HBoxContainer RoomCodeRow => _roomCodeRow ??= GetNode<HBoxContainer>("%RoomCodeRow");
+   private Label LobbyRoomCode => _lobbyRoomCode ??= GetNode<Label>("%LobbyRoomCode");
+   private Button CopyRoomCodeButton => _copyRoomCodeButton ??= GetNode<Button>("%CopyRoomCode");
+   private Label LobbyStatus => _lobbyStatus ??= GetNode<Label>("%LobbyStatus");
+   private Node Level => _level ??= GetNode<Node>("%Level");
+   private OptionButton ModeSelect => _modeSelect ??= GetNode<OptionButton>("%MatchMode");
+   private LineEdit RoomCodeEdit => _roomCode ??= GetNode<LineEdit>("%RoomCode");
+   private Label OnlineStatus => _onlineStatus ??= GetNode<Label>("%OnlineStatus");
+   private CheckBox RankedCheck => _rankedCheck ??= GetNode<CheckBox>("%Ranked");
+   private Button FindMatchButton => _findMatchButton ??= GetNode<Button>("%FindMatch");
+   private Button CreateRoomButton => _createRoomButton ??= GetNode<Button>("%CreateRoom");
+   private Button JoinRoomButton => _joinRoomButton ??= GetNode<Button>("%JoinRoom");
+   private Button RetryOnlineButton => _retryOnlineButton ??= GetNode<Button>("%RetryOnline");
+   private TabContainer Tabs => _tabs ??= GetNode<TabContainer>("%Tabs");
+
    public Dictionary<long, Player> Players { get; } = new();
 
    public override void _EnterTree()
@@ -49,6 +81,13 @@ public partial class NetworkSetup : Control
       CancelButton.Pressed += OnCancelPressed;
       ReadyButton.Toggled += OnReadyPressed;
       StartGameButton.Pressed += OnStartGamePressed;
+      LeaveLobbyButton.Pressed += OnLeaveLobbyPressed;
+      ModeSelect.ItemSelected += OnModeSelected;
+      FindMatchButton.Pressed += OnFindMatchPressed;
+      CreateRoomButton.Pressed += OnCreateRoomPressed;
+      JoinRoomButton.Pressed += OnJoinRoomPressed;
+      RetryOnlineButton.Pressed += OnRetryOnlinePressed;
+      CopyRoomCodeButton.Pressed += OnCopyRoomCodePressed;
    }
 
    public override void _ExitTree()
@@ -60,6 +99,13 @@ public partial class NetworkSetup : Control
       CancelButton.Pressed -= OnCancelPressed;
       ReadyButton.Toggled -= OnReadyPressed;
       StartGameButton.Pressed -= OnStartGamePressed;
+      LeaveLobbyButton.Pressed -= OnLeaveLobbyPressed;
+      ModeSelect.ItemSelected -= OnModeSelected;
+      FindMatchButton.Pressed -= OnFindMatchPressed;
+      CreateRoomButton.Pressed -= OnCreateRoomPressed;
+      JoinRoomButton.Pressed -= OnJoinRoomPressed;
+      RetryOnlineButton.Pressed -= OnRetryOnlinePressed;
+      CopyRoomCodeButton.Pressed -= OnCopyRoomCodePressed;
 
       UnbindLanPeerSignals();
 
@@ -91,36 +137,87 @@ public partial class NetworkSetup : Control
 
       PlayersList.SetColumnTitle(0, Tr("PLAYERS"));
       PlayersList.SetColumnTitle(1, Tr("STATUS"));
-      BuildOnlineUi();
+      Tabs.SetTabTitle(0, Tr("TAB_ONLINE"));
+      Tabs.SetTabTitle(1, Tr("TAB_LAN"));
+      FillLanAddress();
+      ApplyOnlineAvailability();
 
-      _ = Global.Online?.EnsureSession();
+      if (Global.Online != null)
+      {
+         Global.Online.StatusChanged += OnOnlineStatusChanged;
+         Global.Online.MatchReady += OnNakamaMatchReady;
+         Global.Online.PeersChanged += OnNakamaPeersChanged;
+         Global.Online.MatchLeft += OnNakamaMatchLeft;
+      }
+
+      _ = ConnectOnlineSession();
+   }
+
+   private void FillLanAddress()
+   {
+      var ips = IP.GetLocalAddresses()
+         .Where(ip => ip.Contains('.') && ip != "127.0.0.1" && !ip.StartsWith("169.254."))
+         .Distinct();
+
+      var joined = string.Join(", ", ips);
+      LanAddressHint.Text = !string.IsNullOrEmpty(joined)
+         ? $"{Tr("YOUR_LAN_ADDRESS")}: {joined}"
+         : Tr("YOUR_LAN_ADDRESS");
+   }
+
+   private void ShowSetupPanel()
+   {
+      LobbyCenter.Hide();
+      SetupCenter.Show();
+      RoomCodeRow.Hide();
+
+      LobbyRoomCode.Text = string.Empty;
+      CopyRoomCodeButton.Text = Tr("COPY");
+
+      ApplyOnlineAvailability();
+      OnOnlineStatusChanged();
+   }
+
+   private void ShowLanLobby()
+   {
+      SetupCenter.Hide();
+      LobbyCenter.Show();
+      RoomCodeRow.Hide();
+      ReadyButton.Show();
+      StartGameButton.Hide();
+
+      UpdateLobbyMeta();
+      LobbyStatus.Text = LanAddressHint.Text;
+   }
+
+   private void OnLeaveLobbyPressed()
+   {
+      CloseMultiplayerSession();
+      ShowSetupPanel();
    }
 
    private void OnCancelPressed()
    {
       CloseMultiplayerSession();
-      Lobby.Hide();
-      MultiplayerConfigUi.Show();
+      ShowSetupPanel();
       Hide();
    }
-        
+
    private void OnConnectionFailed()
    {
       _logger.Error("Connection failed.");
       CloseMultiplayerSession();
-      Lobby.Hide();
-      MultiplayerConfigUi.Show();
+      ShowSetupPanel();
    }
-        
+
    private void OnServerDisconnected()
    {
+      if (Level.GetChildCount() > 0)
+         return;
+
       _logger.Debug("Server disconnected.");
       CloseMultiplayerSession();
-      Lobby.Hide();
-      MultiplayerConfigUi.Show();
-
-      if (Level.GetChild(0) is { } child && child.Name == "Table")
-         child.QueueFree();
+      ShowSetupPanel();
    }
 
    private void OnConnectedToServer()
@@ -129,8 +226,7 @@ public partial class NetworkSetup : Control
          return;
 
       _logger.Debug("Connected to server.");
-      MultiplayerConfigUi.Hide();
-      Lobby.Show();
+      ShowLanLobby();
 
       RpcId(1, nameof(RequestNickname));
       RpcId(1, nameof(RequestReadyStatuses));
@@ -160,13 +256,11 @@ public partial class NetworkSetup : Control
 
       _logger.Debug("Server started.");
       Multiplayer.MultiplayerPeer = peer;
-      MultiplayerConfigUi.Hide();
-      Lobby.Show();
-
       RegisterPlayer(1, Config.Settings.Nickname);
+      ShowLanLobby();
       UpdatePlayersList();
    }
-    
+
    private void OnPeerConnected(long id)
    {
       _logger.Debug($"Peer connected: {id}");
@@ -208,9 +302,9 @@ public partial class NetworkSetup : Control
       }
 
       Multiplayer.MultiplayerPeer = peer;
-      MultiplayerConfigUi.Hide();
+      SetupCenter.Hide();
    }
-    
+
    private void OnReadyPressed(bool toggle)
    {
       ReadyButton.Text = Tr(toggle ? "READY" : "NOT_READY");
@@ -218,6 +312,7 @@ public partial class NetworkSetup : Control
       var id = Multiplayer.GetUniqueId();
       if (!Players.TryGetValue(id, out var player))
          return;
+
       player.Ready = toggle;
       UpdatePlayersList();
 
@@ -232,9 +327,10 @@ public partial class NetworkSetup : Control
    {
       if (Players.Count == 0)
          return;
-        
+
       if (!Players.TryGetValue(id, out var player))
          return;
+
       player.Ready = ready;
       UpdatePlayersList();
    }
@@ -246,6 +342,7 @@ public partial class NetworkSetup : Control
       {
          if (!_usingNakama)
             return;
+
          FillCasualWithAi();
       }
 
@@ -262,8 +359,9 @@ public partial class NetworkSetup : Control
    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
    private void StartGame()
    {
-      MultiplayerConfigUi.Hide();
-      Lobby.Hide();
+      SetupCenter.Hide();
+      LobbyCenter.Hide();
+
       GetTree().Paused = false;
       CallDeferred(MethodName.ChangeLevel, ResourceLoader.Load("res://Scenes/Gameplay/Table.tscn"));
    }
@@ -304,6 +402,7 @@ public partial class NetworkSetup : Control
       _logger.Debug($"Registering player with id {id} and name {name}");
       if (Players.ContainsKey(id))
          return;
+
       var isHost = id == 1;
       Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       Rpc(nameof(AddRemotePlayer), id, name);
@@ -316,6 +415,7 @@ public partial class NetworkSetup : Control
       _logger.Debug($"Adding remote player with id {id} and name {name}");
       if (Players.ContainsKey(id))
          return;
+
       var isHost = id == 1;
       Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       UpdatePlayersList();
@@ -325,8 +425,9 @@ public partial class NetworkSetup : Control
    public void RequestReadyStatuses()
    {
       long requesterId = Multiplayer.GetRemoteSenderId();
-      foreach (var player in Players.Values) 
+      foreach (var player in Players.Values)
          RpcId(requesterId, nameof(UpdateReadyStatus), player.Id, player.Ready);
+
       UpdatePlayersList();
    }
 
@@ -345,7 +446,12 @@ public partial class NetworkSetup : Control
       var orderedPlayers = Players.Values.OrderBy(x => !x.Host);
       var players = new Dictionary<string, bool>();
       foreach (var player in orderedPlayers)
-         players.TryAdd(string.IsNullOrEmpty(player.Name) ? $"Player {player.Id}" : player.Name, player.Ready);
+      {
+         if (string.IsNullOrEmpty(player.Name))
+            players.TryAdd($"Player {player.Id}", player.Ready);
+         else
+            players.TryAdd(player.Name, player.Ready);
+      }
 
       var root = PlayersList.GetRoot() ?? PlayersList.CreateItem();
       if (root == null)
@@ -362,6 +468,8 @@ public partial class NetworkSetup : Control
 
       if (StartGameButton != null && IsInstanceValid(StartGameButton))
          StartGameButton.Disabled = Players.Values.Count(x => x.Ready) < MatchModeRules.MinPlayers(_mode) && Players.Count < _maxPlayers;
+
+      RefreshLobbyStatus();
    }
 
    private bool _lanPeerSignalsBound;

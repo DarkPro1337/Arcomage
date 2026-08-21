@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Arcomage.Core;
 using Arcomage.Gameplay;
 using Arcomage.Networking;
@@ -8,90 +9,80 @@ namespace Arcomage.UI;
 
 public partial class NetworkSetup
 {
-   private OptionButton _modeSelect;
-   private LineEdit _roomCode;
-   private Label _onlineStatus;
-   private CheckBox _rankedCheck;
    private bool _usingNakama;
+   private bool _onlineBusy;
    private int _maxPlayers = 2;
    private MatchMode _mode = MatchMode.OneVsOne;
 
-   private void BuildOnlineUi()
+   private async Task ConnectOnlineSession()
    {
-      var box = MultiplayerConfigUi;
-      box.AddChild(new HSeparator());
+      if (Global.Online == null)
+         return;
 
-      _modeSelect = new OptionButton { Name = "MatchMode" };
-      _modeSelect.AddItem(Tr("MODE_1V1"), (int)MatchMode.OneVsOne);
-      _modeSelect.AddItem(Tr("MODE_FFA"), (int)MatchMode.FreeForAll);
-      _modeSelect.AddItem(Tr("MODE_2V2"), (int)MatchMode.TwoVsTwo);
-      _modeSelect.ItemSelected += OnModeSelected;
-      box.AddChild(_modeSelect);
-
-      _rankedCheck = new CheckBox { Text = Tr("RANKED") };
-      box.AddChild(_rankedCheck);
-
-      var find = new Button { Text = Tr("FIND_MATCH") };
-      find.Pressed += OnFindMatchPressed;
-      box.AddChild(find);
-
-      _roomCode = new LineEdit { PlaceholderText = Tr("ROOM_CODE") };
-      box.AddChild(_roomCode);
-
-      var roomRow = new HBoxContainer();
-      var createRoom = new Button { Text = Tr("CREATE_ROOM"), SizeFlagsHorizontal = SizeFlags.ExpandFill };
-      createRoom.Pressed += OnCreateRoomPressed;
-      var joinRoom = new Button { Text = Tr("JOIN_ROOM"), SizeFlagsHorizontal = SizeFlags.ExpandFill };
-      joinRoom.Pressed += OnJoinRoomPressed;
-      roomRow.AddChild(createRoom);
-      roomRow.AddChild(joinRoom);
-      box.AddChild(roomRow);
-
-      _onlineStatus = new Label
+      SetOnlineBusy(true);
+      try
       {
-         Text = string.Empty,
-         HorizontalAlignment = HorizontalAlignment.Center,
-         AutowrapMode = TextServer.AutowrapMode.WordSmart
-      };
-      box.AddChild(_onlineStatus);
-
-      if (Global.Online != null)
+         await Global.Online.EnsureSession();
+      }
+      catch (Exception ex)
       {
-         Global.Online.StatusChanged += OnOnlineStatusChanged;
-         Global.Online.MatchReady += OnNakamaMatchReady;
-         Global.Online.PeersChanged += OnNakamaPeersChanged;
-         Global.Online.MatchLeft += OnNakamaMatchLeft;
+         _logger.Error(ex, "Online session");
+      }
+      finally
+      {
+         SetOnlineBusy(false);
+         ApplyOnlineAvailability();
+         OnOnlineStatusChanged();
       }
    }
 
    private void OnModeSelected(long index)
    {
-      _mode = (MatchMode)_modeSelect.GetItemId((int)index);
+      _mode = (MatchMode)ModeSelect.GetItemId((int)index);
       _maxPlayers = MatchModeRules.MaxPlayers(_mode);
       Global.PendingMatchMode = _mode;
+      UpdateLobbyMeta();
    }
 
    private async void OnFindMatchPressed()
    {
+      if (_onlineBusy || Global.Online == null)
+         return;
+
+      SetOnlineBusy(true);
       try
       {
          _usingNakama = true;
          Global.PendingMatchMode = _mode;
-         Global.PendingRanked = _rankedCheck.ButtonPressed;
+         Global.PendingRanked = RankedCheck.ButtonPressed;
          _maxPlayers = MatchModeRules.MaxPlayers(_mode);
-         if (!await Global.Online.FindMatch(_mode, _rankedCheck.ButtonPressed))
+         if (!await Global.Online.FindMatch(_mode, RankedCheck.ButtonPressed))
+         {
+            _usingNakama = false;
+            OnOnlineStatusChanged();
             return;
+         }
 
          CallDeferred(MethodName.ShowOnlineLobby, false);
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Find match");
+         _usingNakama = false;
+         SetUiStatus("ONLINE_UNAVAILABLE");
+      }
+      finally
+      {
+         SetOnlineBusy(false);
       }
    }
 
    private async void OnCreateRoomPressed()
    {
+      if (_onlineBusy || Global.Online == null)
+         return;
+
+      SetOnlineBusy(true);
       try
       {
          _usingNakama = true;
@@ -100,50 +91,117 @@ public partial class NetworkSetup
 
          var code = await Global.Online.CreateRoom(_mode);
          if (string.IsNullOrEmpty(code))
+         {
+            _usingNakama = false;
+            SetUiStatus("ONLINE_UNAVAILABLE");
             return;
+         }
 
          CallDeferred(MethodName.ShowCreatedRoom, code);
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Create room");
+         _usingNakama = false;
+         SetUiStatus("ONLINE_UNAVAILABLE");
+      }
+      finally
+      {
+         SetOnlineBusy(false);
       }
    }
 
    private async void OnJoinRoomPressed()
    {
+      if (_onlineBusy || Global.Online == null)
+         return;
+
+      var code = RoomCodeEdit.Text;
+      if (string.IsNullOrWhiteSpace(code))
+      {
+         SetUiStatus("ONLINE_JOIN_FAILED");
+         return;
+      }
+
+      SetOnlineBusy(true);
       try
       {
          _usingNakama = true;
          Global.PendingMatchMode = _mode;
          Global.PendingRanked = false;
 
-         var code = _roomCode.Text;
          if (!await Global.Online.JoinRoom(code, _mode))
+         {
+            _usingNakama = false;
+            SetUiStatus("ONLINE_JOIN_FAILED");
             return;
+         }
 
          CallDeferred(MethodName.ShowOnlineLobby, true);
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Join room");
+         _usingNakama = false;
+         SetUiStatus("ONLINE_JOIN_FAILED");
       }
+      finally
+      {
+         SetOnlineBusy(false);
+      }
+   }
+
+   private async void OnRetryOnlinePressed()
+   {
+      if (_onlineBusy || Global.Online == null)
+         return;
+
+      await ConnectOnlineSession();
+   }
+
+   private void OnCopyRoomCodePressed()
+   {
+      var code = LobbyRoomCode.Text;
+      if (string.IsNullOrWhiteSpace(code))
+         return;
+
+      DisplayServer.ClipboardSet(code);
+      CopyRoomCodeButton.Text = Tr("COPIED");
+      var timer = GetTree().CreateTimer(1.5);
+      timer.Timeout += RestoreCopyButtonText;
+   }
+
+   private void RestoreCopyButtonText()
+   {
+      if (IsInstanceValid(CopyRoomCodeButton))
+         CopyRoomCodeButton.Text = Tr("COPY");
    }
 
    private void ShowCreatedRoom(string code)
    {
-      if (_roomCode != null && IsInstanceValid(_roomCode))
-         _roomCode.Text = code;
-
+      LobbyRoomCode.Text = code ?? string.Empty;
       ShowOnlineLobby(true);
    }
 
    private void ShowOnlineLobby(bool showStart)
    {
       AttachNakamaPeer();
-      MultiplayerConfigUi.Hide();
-      Lobby.Show();
+      SetupCenter.Hide();
+      LobbyCenter.Show();
+      ReadyButton.Hide();
       StartGameButton.Visible = showStart;
+
+      var code = !string.IsNullOrEmpty(LobbyRoomCode.Text)
+         ? LobbyRoomCode.Text
+         : Global.Online?.MatchCode;
+
+      var hasCode = !string.IsNullOrEmpty(code);
+      RoomCodeRow.Visible = hasCode;
+      if (hasCode)
+         LobbyRoomCode.Text = code;
+
+      CopyRoomCodeButton.Text = Tr("COPY");
+      UpdateLobbyMeta();
       SyncNakamaPlayers();
       OnOnlineStatusChanged();
    }
@@ -157,7 +215,11 @@ public partial class NetworkSetup
       }
 
       AttachNakamaPeer();
+      var previous = Players.Count;
       SyncNakamaPlayers();
+
+      if (Lobby.IsVisibleInTree() && Players.Count < previous)
+         SetUiStatus("PLAYER_LEFT");
    }
 
    private void OnNakamaMatchReady()
@@ -173,7 +235,7 @@ public partial class NetworkSetup
       foreach (var player in Players.Values)
          player.Ready = true;
 
-      if (_rankedCheck.ButtonPressed || Players.Count >= MatchModeRules.MinPlayers(_mode))
+      if (RankedCheck.ButtonPressed || Players.Count >= MatchModeRules.MinPlayers(_mode))
          CallDeferred(MethodName.StartGame);
    }
 
@@ -185,14 +247,83 @@ public partial class NetworkSetup
          return;
       }
 
-      if (_onlineStatus == null || Global.Online == null || !IsInstanceValid(_onlineStatus))
+      ApplyOnlineAvailability();
+      RefreshLobbyStatus();
+   }
+
+   private void SetUiStatus(string key)
+   {
+      var text = string.IsNullOrEmpty(key) ? string.Empty : Tr(key);
+      if (IsInstanceValid(OnlineStatus))
+         OnlineStatus.Text = text;
+
+      if (IsInstanceValid(LobbyStatus) && Lobby.IsVisibleInTree() && _usingNakama)
+         LobbyStatus.Text = text;
+   }
+
+   private void RefreshLobbyStatus()
+   {
+      if (!IsInsideTree() || Global.Online == null)
          return;
 
       var key = Global.Online.StatusMessage;
-      _onlineStatus.Text = string.IsNullOrEmpty(key) ? string.Empty : Tr(key);
+      var text = string.IsNullOrEmpty(key) ? string.Empty : Tr(key);
+      if (IsInstanceValid(OnlineStatus))
+         OnlineStatus.Text = text;
 
-      if (!string.IsNullOrEmpty(Global.Online.MatchCode))
-         _onlineStatus.Text += $"  {Global.Online.MatchCode}";
+      if (!IsInstanceValid(LobbyStatus) || !Lobby.IsVisibleInTree())
+         return;
+
+      if (!_usingNakama)
+         return;
+
+      if (!string.IsNullOrEmpty(Global.Online.MatchCode) &&
+          Players.Count < MatchModeRules.MinPlayers(_mode) &&
+          key is "ONLINE_ROOM" or "ONLINE_CONNECTED")
+      {
+         LobbyStatus.Text = Tr("WAITING_FOR_PLAYERS");
+         return;
+      }
+
+      LobbyStatus.Text = text;
+   }
+
+   private void ApplyOnlineAvailability()
+   {
+      if (!IsInsideTree() || DisplayServer.GetName() == "headless")
+         return;
+
+      var available = Global.Online?.HasSession == true && !_onlineBusy;
+      FindMatchButton.Disabled = !available;
+      CreateRoomButton.Disabled = !available;
+      JoinRoomButton.Disabled = !available;
+      RankedCheck.Disabled = !available;
+      RoomCodeEdit.Editable = available;
+      RetryOnlineButton.Disabled = available || _onlineBusy;
+   }
+
+   private void SetOnlineBusy(bool busy)
+   {
+      _onlineBusy = busy;
+      ApplyOnlineAvailability();
+   }
+
+   private void UpdateLobbyMeta()
+   {
+      if (!IsInstanceValid(LobbyMeta))
+         return;
+
+      var mode = _mode switch
+      {
+         MatchMode.FreeForAll => Tr("MODE_FFA"),
+         MatchMode.TwoVsTwo => Tr("MODE_2V2"),
+         _ => Tr("MODE_1V1")
+      };
+
+      if (_usingNakama && RankedCheck.ButtonPressed)
+         mode = $"{mode} · {Tr("RANKED")}";
+
+      LobbyMeta.Text = mode;
    }
 
    private void OnNakamaMatchLeft()
@@ -232,6 +363,7 @@ public partial class NetworkSetup
       {
          if (Global.Online.IsDedicated && peerId == 1)
             continue;
+
          Players[peerId] = new Player
          {
             Id = peerId,

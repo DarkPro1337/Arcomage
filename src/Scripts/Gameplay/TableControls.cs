@@ -1,3 +1,4 @@
+using Arcomage.UI;
 using Godot;
 
 namespace Arcomage.Gameplay;
@@ -14,7 +15,7 @@ public partial class Table
    private HBoxContainer _blueDeck;
    private ColorRect _deckLocker;
    private Control _cardAnimLayer;
-   private Control _inGameMenu;
+   private InGameMenu _inGameMenu;
 
    private Control Particles => _particles ??= GetNode<Control>("Particles");
    private TextureRect GraveyardCardBack => _graveyardCardBack ??= GetNode<TextureRect>("Graveyard/CardBack");
@@ -26,5 +27,5 @@ public partial class Table
    private HBoxContainer BlueDeck => _blueDeck ??= GetNode<HBoxContainer>("BlueDeck");
    private ColorRect DeckLocker => _deckLocker ??= GetNode<ColorRect>("DeckLocker");
    private Control CardAnimLayer => _cardAnimLayer ??= GetNode<Control>("CardAnimLayer");
-   private Control InGameMenu => _inGameMenu ??= GetNode<Control>("InGameMenu");
+   private InGameMenu InGameMenu => _inGameMenu ??= GetNode<InGameMenu>("InGameMenu");
 }

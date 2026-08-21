@@ -13,4 +13,14 @@ ONLINE_MATCHED,Match found,Матч найден,Матч знайдено,Znale
 ONLINE_ROOM,Room ready,Комната готова,Кімната готова,Pokój gotowy,Raum bereit,Raum bereit,Salle prête
 ONLINE_DEDICATED,Dedicated host running,Выделенный сервер запущен,Виділений сервер запущено,Serwer dedykowany działa,Dedikeret vært kører,Dedizierter Host läuft,Hôte dédié en cours
 ONLINE_UNAVAILABLE,Online unavailable,Онлайн недоступен,Онлайн недоступний,Online niedostępny,Online utilgængelig,Online nicht verfügbar,Hors ligne
+ONLINE_JOIN_FAILED,Could not join room,Не удалось войти в комнату,Не вдалося увійти до кімнати,Nie udało się dołączyć do pokoju,Kunne ikke deltage i rum,Raumbeitritt fehlgeschlagen,Impossible de rejoindre la salle
+TAB_ONLINE,Online,Онлайн,Онлайн,Online,Online,Online,En ligne
+TAB_LAN,LAN,LAN,LAN,LAN,LAN,LAN,LAN
+RETRY,Retry,Повторить,Повторити,Ponów,Prøv igen,Wiederholen,Réessayer
+COPY,Copy,Копировать,Копіювати,Kopiuj,Kopiér,Kopieren,Copier
+COPIED,Copied,Скопировано,Скопійовано,Skopiowano,Kopieret,Kopiert,Copié
+LEAVE_LOBBY,Leave,Выйти,Вийти,Wyjdź,Forlad,Verlassen,Quitter
+YOUR_LAN_ADDRESS,Your address,Ваш адрес,Ваша адреса,Twój adres,Din adresse,Deine Adresse,Votre adresse
+WAITING_FOR_PLAYERS,Waiting for players...,Ожидание игроков...,Очікування гравців...,Oczekiwanie na graczy...,Venter på spillere...,Warten auf Spieler...,En attente de joueurs...
+PLAYER_LEFT,A player left the room,Игрок вышел из комнаты,Гравець вийшов з кімнати,Gracz opuścił pokój,En spiller forlod rummet,Ein Spieler hat den Raum verlassen,Un joueur a quitté la salle
 CHAT_PLACEHOLDER,Chat...,Чат...,Чат...,Czat...,Chat...,Chat...,Chat...

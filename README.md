@@ -75,9 +75,9 @@ If you want to help with the translation, please [contact me](https://darkpro133
 
 ## Online multiplayer (Nakama)
 
-LAN still works from **Multiplayer Game** with Create/Join Server and an IP. Global matchmaking, room codes, in-match chat, and ranked play go through a self-hosted [Nakama](https://heroiclabs.com/nakama/) server. itch.io / GameJolt / GitHub are only storefronts — they do not provide the network.
+LAN still works from **Multiplayer Game** on the **LAN** tab (Create/Join Server and an IP). Global matchmaking, private rooms, in-match chat, and ranked play go through a self-hosted [Nakama](https://heroiclabs.com/nakama/) server on the **Online** tab.
 
-Online matches can be **1v1**, **2v2**, or **free-for-all** (3–4 players). Choose the mode in **Multiplayer Game** before **Find Match**, **Create Room**, or **Join Room**.
+Online matches can be **1v1**, **2v2**, or **free-for-all** (3–4 players). Choose the mode at the top of **Multiplayer Game**, then **Find Match**, **Create Room**, or **Join Room**. After **Create Room**, the host sees the room code in the lobby (with Copy). If Nakama is down, online actions stay disabled and **Retry** reconnects; LAN is unaffected.
 
 ### Local development
 
@@ -90,7 +90,7 @@ docker compose up
 ```
 
 3. Wait until the log shows `Startup done`. The game already defaults to `127.0.0.1:7350` (`defaultkey`).
-4. In the game, open **Multiplayer Game**: **Find Match**, **Create Room**, or **Join Room**. Create/Join Server is the old LAN path and does not need Nakama.
+4. In the game, open **Multiplayer Game**. The **Online** tab is Find Match / Create Room / Join Room. The **LAN** tab is Create/Join Server and does not need Nakama.
 
 Two Godot instances on the same PC share one hardware id, so Nakama would treat them as one player. Give the second instance a different `--playerName` (this only affects the Nakama device account, not real users):
 
@@ -99,7 +99,7 @@ godot --path "./"
 godot --path "./" --playerName=Test
 ```
 
-Then **Create Room** on the first client and **Join Room** with that code on the second. The console should list two players, not one.
+Then **Create Room** on the first client (the lobby shows the code) and **Join Room** with that code on the second. The lobby should list two players, not one.
 
 Useful URLs while Compose is running:
 
