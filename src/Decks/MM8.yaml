@@ -251,8 +251,8 @@ cards:
     cost: 15
     pic: ../Sprites/Cards/focusedDesigns.png
     actions:
-      - self.Wall.Gain(4)
-      - self.Tower.Gain(4)
+      - self.Wall.Gain(8)
+      - self.Tower.Gain(5)
   
   - id: great_wall
     name: Great Wall
@@ -390,7 +390,7 @@ cards:
     name: Prism
     description: Draw 1 card, Discard 1 card, Play again
     type: gem
-    cost: 4
+    cost: 2
     pic: ../Sprites/Cards/prism.png
     features:
       - playAgain
@@ -551,7 +551,7 @@ cards:
     pic: ../Sprites/Cards/fire_ruby.png
     actions:
       - self.Tower.Gain(6)
-      - all.Tower.Lose(4)
+      - enemies.Tower.Lose(4)
   
   - id: quarrys_help
     name: Quarry's Help
@@ -918,7 +918,7 @@ cards:
   
   - id: elven_archers
     name: Elven Archers
-    description: If wall > enemy wall then 6 Damage to enemy Tower, Else 8 Damage
+    description: If wall > enemy wall then 6 Damage to enemy Tower, Else 6 Damage
     type: recruit
     cost: 10
     pic: ../Sprites/Cards/elven_archers.png
@@ -927,7 +927,7 @@ cards:
         then:
           - opponent.Tower.Lose(6)
         else:
-          - opponent.Damage(8)
+          - opponent.Damage(6)
   
   - id: succubus
     name: Succubus
