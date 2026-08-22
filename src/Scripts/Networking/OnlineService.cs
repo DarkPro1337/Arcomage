@@ -33,6 +33,8 @@ public partial class OnlineService : Node
    public NakamaMultiplayerPeer Peer { get; private set; }
    public IChannel TableChannel { get; private set; }
 
+   public const string ConsoleChatRoom = "arcomage";
+
    public bool HasSession => Session != null && Socket is { IsConnected: true };
    public bool IsInMatch => Match != null;
    public bool IsDedicated { get; private set; }
@@ -57,6 +59,7 @@ public partial class OnlineService : Node
    private readonly ConcurrentQueue<Action> _mainThread = new();
    private string _hostUserId = string.Empty;
    private IMatchmakerTicket _ticket;
+   private IChannel _consoleChannel;
    private bool _forceHost;
    private bool _socketBound;
 
@@ -258,10 +261,21 @@ public partial class OnlineService : Node
       Ranked = false;
       _forceHost = true;
       MatchCode = GenerateCode();
-      Match = await Socket.CreateMatchAsync(MatchCode);
-      await RunOnMainThreadAsync(InitializeAsHost);
-      SetStatus("ONLINE_ROOM");
-      return MatchCode;
+      try
+      {
+         Match = await JoinCreatedMatch("room", mode, MatchCode, false);
+         await RunOnMainThreadAsync(InitializeAsHost);
+         await JoinTableChat();
+         SetStatus("ONLINE_ROOM");
+         return MatchCode;
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Create room");
+         MatchCode = string.Empty;
+         SetStatus("ONLINE_UNAVAILABLE");
+         return string.Empty;
+      }
    }
 
    public async Task<bool> JoinRoom(string code, MatchMode mode)
@@ -274,10 +288,37 @@ public partial class OnlineService : Node
       Ranked = false;
       _forceHost = false;
       MatchCode = code.Trim().ToUpperInvariant();
-      Match = await Socket.CreateMatchAsync(MatchCode);
-      await RunOnMainThreadAsync(InitializeAsClient);
-      SetStatus("ONLINE_ROOM");
-      return true;
+      try
+      {
+         string matchId = null;
+         for (var attempt = 0; attempt < 5 && string.IsNullOrEmpty(matchId); attempt++)
+         {
+            try
+            {
+               matchId = await RpcMatchIdAsync("find_room", $"{{\"code\":\"{EscapeJson(MatchCode)}\"}}");
+            }
+            catch (Exception) when (attempt < 4)
+            {
+               await Task.Delay(250);
+            }
+         }
+
+         if (string.IsNullOrEmpty(matchId))
+            return false;
+
+         Match = await Socket.JoinMatchAsync(matchId);
+         await RunOnMainThreadAsync(InitializeAsClient);
+         await JoinTableChat();
+         SetStatus("ONLINE_ROOM");
+         return true;
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Join room");
+         MatchCode = string.Empty;
+         SetStatus("ONLINE_UNAVAILABLE");
+         return false;
+      }
    }
 
    public async Task StartDedicated(MatchMode mode)
@@ -289,10 +330,19 @@ public partial class OnlineService : Node
       Mode = mode;
       Ranked = true;
       _forceHost = true;
-      Match = await Socket.CreateMatchAsync($"dedicated-{Guid.NewGuid():N}");
-      await RunOnMainThreadAsync(InitializeAsHost);
-      await PublishDedicated();
-      SetStatus("ONLINE_DEDICATED");
+      try
+      {
+         Match = await JoinCreatedMatch("dedicated", mode, string.Empty, true);
+         await RunOnMainThreadAsync(InitializeAsHost);
+         await JoinTableChat();
+         await PublishDedicated();
+         SetStatus("ONLINE_DEDICATED");
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Start dedicated");
+         SetStatus("ONLINE_UNAVAILABLE");
+      }
    }
 
    public async Task LeaveMatch()
@@ -447,6 +497,9 @@ public partial class OnlineService : Node
       if (TableChannel != null)
       {
          await Socket.WriteChatMessageAsync(TableChannel.Id, $"{{\"text\":\"{EscapeJson(text)}\"}}");
+         await WriteConsoleChat(text);
+         if (Match != null)
+            await Socket.SendMatchStateAsync(Match.Id, OpChat, Encoding.UTF8.GetBytes($"{Config.Settings.Nickname}:{text}"));
          return;
       }
 
@@ -455,6 +508,7 @@ public partial class OnlineService : Node
          var payload = Encoding.UTF8.GetBytes($"{Config.Settings.Nickname}:{text}");
          await Socket.SendMatchStateAsync(Match.Id, OpChat, payload);
          ChatReceived?.Invoke(Config.Settings.Nickname, text);
+         await WriteConsoleChat(text);
       }
    }
 
@@ -465,29 +519,74 @@ public partial class OnlineService : Node
 
       try
       {
-         TableChannel = await Socket.JoinChatAsync($"match_{Match.Id}", ChannelType.Room);
+         if (TableChannel == null)
+            TableChannel = await Socket.JoinChatAsync(ChatRoomName(), ChannelType.Room, persistence: true);
       }
       catch (Exception ex)
       {
-         _logger.Debug(ex, "Join table chat");
+         _logger.Error(ex, "Join table chat");
+      }
+
+      try
+      {
+         if (_consoleChannel == null)
+            _consoleChannel = await Socket.JoinChatAsync(ConsoleChatRoom, ChannelType.Room, persistence: true, hidden: true);
+      }
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Join console chat room");
       }
    }
 
    public async Task LeaveTableChat()
    {
-      if (Socket == null || TableChannel == null)
+      await LeaveChannel(TableChannel);
+      TableChannel = null;
+      await LeaveChannel(_consoleChannel);
+      _consoleChannel = null;
+   }
+
+   private async Task LeaveChannel(IChannel channel)
+   {
+      if (Socket == null || channel == null)
          return;
 
       try
       {
-         await Socket.LeaveChatAsync(TableChannel);
+         await Socket.LeaveChatAsync(channel);
       }
       catch (Exception ex)
       {
-         _logger.Debug(ex, "Leave table chat");
+         _logger.Debug(ex, "Leave chat channel");
       }
+   }
 
-      TableChannel = null;
+   private async Task WriteConsoleChat(string text)
+   {
+      if (Socket == null || _consoleChannel == null)
+         return;
+
+      try
+      {
+         await Socket.WriteChatMessageAsync(_consoleChannel.Id, $"{{\"text\":\"{EscapeJson(text)}\"}}");
+      }
+      catch (Exception ex)
+      {
+         _logger.Debug(ex, "Write console chat");
+      }
+   }
+
+   private string ChatRoomName()
+   {
+      if (!string.IsNullOrEmpty(MatchCode))
+         return $"{ConsoleChatRoom}-{MatchCode}";
+
+      var id = Match?.Id ?? string.Empty;
+      var dot = id.IndexOf('.');
+      if (dot > 0)
+         id = id[..dot];
+
+      return string.IsNullOrEmpty(id) ? ConsoleChatRoom : $"{ConsoleChatRoom}-{id}";
    }
 
    public async Task SubmitRating(int rating)
@@ -554,6 +653,7 @@ public partial class OnlineService : Node
 
          _userNames[Session.UserId] = Config.Settings.Nickname;
          ElectHostFromUsers(matched.Users.Select(user => user.Presence.UserId).Append(Session.UserId));
+         await JoinTableChat();
          SetStatus("ONLINE_MATCHED");
          MatchReady?.Invoke();
       }
@@ -735,6 +835,8 @@ public partial class OnlineService : Node
             DeliverGodotPacket(state.State);
             break;
          case OpChat:
+            if (TableChannel != null)
+               break;
             var chat = Encoding.UTF8.GetString(state.State);
             var split = chat.Split(':', 2);
             if (split.Length == 2)
@@ -847,6 +949,12 @@ public partial class OnlineService : Node
 
    private void OnChannelMessage(IApiChannelMessage message)
    {
+      if (_consoleChannel != null && message.ChannelId == _consoleChannel.Id)
+      {
+         if (TableChannel == null || message.ChannelId != TableChannel.Id)
+            return;
+      }
+
       var username = message.Username ?? "Player";
       var text = message.Content ?? string.Empty;
       var marker = "\"text\":\"";
@@ -949,6 +1057,7 @@ public partial class OnlineService : Node
          Match = await Socket.JoinMatchAsync(matchId);
          _forceHost = false;
          InitializeAsClient();
+         await JoinTableChat();
          SetStatus("ONLINE_MATCHED");
          return true;
       }
@@ -992,6 +1101,24 @@ public partial class OnlineService : Node
          StatusMessage = key;
          StatusChanged?.Invoke();
       });
+   }
+
+   private async Task<IMatch> JoinCreatedMatch(string kind, MatchMode mode, string code, bool ranked)
+   {
+      var rankedJson = ranked ? "true" : "false";
+      var payload =
+         $"{{\"kind\":\"{EscapeJson(kind)}\",\"mode\":\"{mode}\",\"code\":\"{EscapeJson(code)}\",\"ranked\":{rankedJson}}}";
+      var matchId = await RpcMatchIdAsync("create_match", payload);
+      if (string.IsNullOrEmpty(matchId))
+         throw new InvalidOperationException("create_match returned an empty match id");
+
+      return await Socket.JoinMatchAsync(matchId);
+   }
+
+   private async Task<string> RpcMatchIdAsync(string rpcId, string payload)
+   {
+      var result = await Client.RpcAsync(Session, rpcId, payload);
+      return ExtractJsonString(result.Payload, "match_id");
    }
 
    private static string GenerateCode()
