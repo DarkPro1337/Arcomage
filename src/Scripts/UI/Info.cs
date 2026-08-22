@@ -1,5 +1,3 @@
-using Godot;
-
 namespace Arcomage.UI;
 
 public partial class Info : Control
@@ -16,22 +14,20 @@ public partial class Info : Control
    private VBoxContainer RemakeContainer => _remakeContainer ??= GetNode<VBoxContainer>("RemakeInfo");
    private VBoxContainer TranslationContainer => _translationContainer ??= GetNode<VBoxContainer>("TranslationInfo");
    private Label AuthorLabel => _authorLabel ??= GetNode<Label>("RemakeInfo/Text/Author");
+   private TextureButton EngineButton => _engineButton ??= GetNode<TextureButton>("RemakeInfo/Logos/Engine");
+   private TextureButton GithubButton => _githubButton ??= GetNode<TextureButton>("RemakeInfo/Logos/GitHub");
+   private Button NextButton => _nextButton ??= GetNode<Button>("Next");
 
    public override void _EnterTree()
    {
       base._EnterTree();
 
-      _authorLabel = GetNode<Label>("RemakeInfo/Text/Author");
-      _engineButton = GetNode<TextureButton>("RemakeInfo/Logos/Engine");
-      _githubButton = GetNode<TextureButton>("RemakeInfo/Logos/GitHub");
-      _nextButton = GetNode<Button>("Next");
-
-      _authorLabel.GuiInput += OnAuthorGuiInput;
-      _authorLabel.MouseEntered += OnAuthorMouseEntered;
-      _authorLabel.MouseExited += OnAuthorMouseExited;
-      _engineButton.Pressed += OnEnginePressed;
-      _githubButton.Pressed += OnGithubPressed;
-      _nextButton.Pressed += OnNextPressed;
+      AuthorLabel.GuiInput += OnAuthorGuiInput;
+      AuthorLabel.MouseEntered += OnAuthorMouseEntered;
+      AuthorLabel.MouseExited += OnAuthorMouseExited;
+      EngineButton.Pressed += OnEnginePressed;
+      GithubButton.Pressed += OnGithubPressed;
+      NextButton.Pressed += OnNextPressed;
    }
 
    public override void _ExitTree()

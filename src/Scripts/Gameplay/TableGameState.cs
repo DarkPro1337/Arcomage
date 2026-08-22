@@ -1,8 +1,3 @@
-using System;
-using System.Linq;
-using Arcomage.Data;
-using Godot;
-
 namespace Arcomage.Gameplay;
 
 public partial class Table
@@ -13,89 +8,11 @@ public partial class Table
       return player;
    }
 
-   public int GetValue(Player player, ResourceTypes resourceType)
-   {
-      return resourceType switch
-      {
-         ResourceTypes.Tower => player.TowerHp,
-         ResourceTypes.Wall => player.WallHp,
-         ResourceTypes.Quarry => player.Quarries,
-         ResourceTypes.Magic => player.Magic,
-         ResourceTypes.Dungeon => player.Dungeons,
-         ResourceTypes.Bricks => player.Bricks,
-         ResourceTypes.Gems => player.Gems,
-         ResourceTypes.Recruits => player.Recruits,
-         _ => throw new ArgumentOutOfRangeException(nameof(resourceType), resourceType, "Invalid resource type")
-      };
-   }
+   public int GetValue(Player player, ResourceTypes resourceType) => player.Get(resourceType);
 
-   public void GainValue(Player targetPlayer, ResourceTypes resource, int amount)
-   {
-      switch (resource)
-      {
-         case ResourceTypes.Tower:
-            targetPlayer.TowerHp = AddValue(targetPlayer.TowerHp, amount);
-            break;
-         case ResourceTypes.Wall:
-            targetPlayer.WallHp = AddValue(targetPlayer.WallHp, amount);
-            break;
-         case ResourceTypes.Quarry:
-            targetPlayer.Quarries = AddValue(targetPlayer.Quarries, amount);
-            break;
-         case ResourceTypes.Magic:
-            targetPlayer.Magic = AddValue(targetPlayer.Magic, amount);
-            break;
-         case ResourceTypes.Dungeon:
-            targetPlayer.Dungeons = AddValue(targetPlayer.Dungeons, amount);
-            break;
-         case ResourceTypes.Bricks:
-            targetPlayer.Bricks = AddValue(targetPlayer.Bricks, amount);
-            break;
-         case ResourceTypes.Gems:
-            targetPlayer.Gems = AddValue(targetPlayer.Gems, amount);
-            break;
-         case ResourceTypes.Recruits:
-            targetPlayer.Recruits = AddValue(targetPlayer.Recruits, amount);
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
-      }
-   }
+   public void GainValue(Player targetPlayer, ResourceTypes resource, int amount) => targetPlayer.Add(resource, amount);
 
-   private static int AddValue(int current, int amount) => Mathf.Max(0, current + amount);
-
-   public void SetValue(Player targetPlayer, ResourceTypes resource, int amount)
-   {
-      switch (resource)
-      {
-         case ResourceTypes.Tower:
-            targetPlayer.TowerHp = amount;
-            break;
-         case ResourceTypes.Wall:
-            targetPlayer.WallHp = amount;
-            break;
-         case ResourceTypes.Quarry:
-            targetPlayer.Quarries = amount;
-            break;
-         case ResourceTypes.Magic:
-            targetPlayer.Magic = amount;
-            break;
-         case ResourceTypes.Dungeon:
-            targetPlayer.Dungeons = amount;
-            break;
-         case ResourceTypes.Bricks:
-            targetPlayer.Bricks = amount;
-            break;
-         case ResourceTypes.Gems:
-            targetPlayer.Gems = amount;
-            break;
-         case ResourceTypes.Recruits:
-            targetPlayer.Recruits = amount;
-            break;
-         default:
-            throw new ArgumentOutOfRangeException(nameof(resource), resource, "Invalid resource type");
-      }
-   }
+   public void SetValue(Player targetPlayer, ResourceTypes resource, int amount) => targetPlayer.Set(resource, amount);
 
    public Player[] GetTargetPlayer(Player self, TargetType target)
    {

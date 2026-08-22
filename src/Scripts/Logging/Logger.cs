@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using Godot;
 
 namespace Arcomage.Logging;
 
@@ -81,13 +77,12 @@ public partial class Logger
       }
    }
 
-   [MessageTemplateFormatMethod("message")]
-   public void Error(Exception ex, string message, params object[] args)
+   private void Write(LogLevel level, string message, object[] args, Exception ex = null)
    {
-      if (!ShouldLog(LogLevel.Error))
+      if (!ShouldLog(level))
          return;
 
-      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Error, ex);
+      Log(FormatMessageWithNamedPlaceholders(message, args), level, ex);
    }
 
    private static string FormatMessageWithNamedPlaceholders(string message, params object[] args)
@@ -108,57 +103,33 @@ public partial class Logger
    }
 
    public void Error(string message) => Log(message, LogLevel.Error);
-
    public void Error(Exception ex, string message) => Log(message, LogLevel.Error, ex);
-
    [MessageTemplateFormatMethod("message")]
-   public void Error(string message, params object[] args)
-   {
-      if (!ShouldLog(LogLevel.Error))
-         return;
-
-      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Error);
-   }
+   public void Error(string message, params object[] args) => Write(LogLevel.Error, message, args);
+   [MessageTemplateFormatMethod("message")]
+   public void Error(Exception ex, string message, params object[] args) => Write(LogLevel.Error, message, args, ex);
 
    public void Debug(string message) => Log(message, LogLevel.Debug);
-
    public void Debug(Exception ex, string message) => Log(message, LogLevel.Debug, ex);
-
    [MessageTemplateFormatMethod("message")]
-   public void Debug(string message, params object[] args)
-   {
-      if (!ShouldLog(LogLevel.Debug))
-         return;
-
-      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Debug);
-   }
+   public void Debug(string message, params object[] args) => Write(LogLevel.Debug, message, args);
+   [MessageTemplateFormatMethod("message")]
+   public void Debug(Exception ex, string message, params object[] args) => Write(LogLevel.Debug, message, args, ex);
 
    public void Info(string message) => Log(message, LogLevel.Info);
-
    public void Info(Exception ex, string message) => Log(message, LogLevel.Info, ex);
-
    [MessageTemplateFormatMethod("message")]
-   public void Info(string message, params object[] args)
-   {
-      if (!ShouldLog(LogLevel.Info))
-         return;
-
-      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Info);
-   }
+   public void Info(string message, params object[] args) => Write(LogLevel.Info, message, args);
+   [MessageTemplateFormatMethod("message")]
+   public void Info(Exception ex, string message, params object[] args) => Write(LogLevel.Info, message, args, ex);
 
    public void Warn(string message) => Log(message, LogLevel.Warn);
-
    public void Warn(Exception ex, string message) => Log(message, LogLevel.Warn, ex);
-
    [MessageTemplateFormatMethod("message")]
-   public void Warn(string message, params object[] args)
-   {
-      if (!ShouldLog(LogLevel.Warn))
-         return;
+   public void Warn(string message, params object[] args) => Write(LogLevel.Warn, message, args);
+   [MessageTemplateFormatMethod("message")]
+   public void Warn(Exception ex, string message, params object[] args) => Write(LogLevel.Warn, message, args, ex);
 
-      Log(FormatMessageWithNamedPlaceholders(message, args), LogLevel.Warn);
-   }
-
-    [GeneratedRegex(@"\{(\w+)\}", RegexOptions.Compiled)]
-    private static partial Regex PlaceholderRegex();
+   [GeneratedRegex(@"\{(\w+)\}", RegexOptions.Compiled)]
+   private static partial Regex PlaceholderRegex();
 }

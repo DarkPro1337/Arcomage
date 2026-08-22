@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using YamlDotNet.Serialization;
-
 // ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable UnusedMember.Global
 

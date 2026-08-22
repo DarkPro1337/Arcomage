@@ -1,10 +1,3 @@
-using System;
-using System.Globalization;
-using System.Linq;
-using Arcomage.Core;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
-
 namespace Arcomage.UI;
 
 public enum BusType
@@ -69,63 +62,62 @@ public partial class Settings : Control
    private Button _playerSettingsButton;
    private LineEdit _nickname;
 
-   private AnimationPlayer Anim => _anim ??= GetNode<AnimationPlayer>("AnimationPlayer");
-   private Button Reset => _reset ??= GetNode<Button>("Reset");
-   private Button Close => _close ??= GetNode<Button>("Close");
-   private TabContainer Tab => _tab ??= GetNode<TabContainer>("Tab");
+   private AnimationPlayer Anim => _anim ??= GetNode<AnimationPlayer>("%AnimationPlayer");
+   private Button Reset => _reset ??= GetNode<Button>("%Reset");
+   private Button Close => _close ??= GetNode<Button>("%Close");
+   private TabContainer Tab => _tab ??= GetNode<TabContainer>("%Tab");
 
-   private Button WindowSettingsButton => _windowSettingsButton ??= GetNode<Button>("Options/Grid/WindowSettings");
-   private HBoxContainer Fullscreen => _fullscreen ??= GetNode<HBoxContainer>("Tab/Graphics/Container/Fullscreen");
-   private CheckButton FullscreenButton => _fullscreenButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Fullscreen/Toggle");
-   private CheckButton BorderlessButton => _borderlessButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Borderless/Toggle");
-   private HBoxContainer WindowResolution => _windowResolution ??= GetNode<HBoxContainer>("Tab/Graphics/Container/WindowResolution");
-   private LineEdit WindowWidthEdit => _windowWidthEdit ??= GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Width");
-   private LineEdit WindowHeightEdit => _windowHeightEdit ??= GetNode<LineEdit>("Tab/Graphics/Container/WindowResolution/Height");
-   private Button WindowResolutionApplyButton =>
-      _windowResolutionApplyButton ??= GetNode<Button>("Tab/Graphics/Container/WindowResolution/ApplyButton");
+   private Button WindowSettingsButton => _windowSettingsButton ??= GetNode<Button>("%WindowSettings");
+   private HBoxContainer Fullscreen => _fullscreen ??= GetNode<HBoxContainer>("%Fullscreen");
+   private CheckButton FullscreenButton => _fullscreenButton ??= GetNode<CheckButton>("%FullscreenToggle");
+   private CheckButton BorderlessButton => _borderlessButton ??= GetNode<CheckButton>("%BorderlessToggle");
+   private HBoxContainer WindowResolution => _windowResolution ??= GetNode<HBoxContainer>("%WindowResolution");
+   private LineEdit WindowWidthEdit => _windowWidthEdit ??= GetNode<LineEdit>("%WindowWidth");
+   private LineEdit WindowHeightEdit => _windowHeightEdit ??= GetNode<LineEdit>("%WindowHeight");
+   private Button WindowResolutionApplyButton => _windowResolutionApplyButton ??= GetNode<Button>("%WindowResolutionApply");
 
-   private CheckButton VsyncButton => _vsyncButton ??= GetNode<CheckButton>("Tab/Graphics/Container/Vsync/Toggle");
-   private HBoxContainer IntroSkip => _introSkip ??= GetNode<HBoxContainer>("Tab/Graphics/Container/IntroSkip");
-   private CheckButton IntroSkipButton => _introSkipButton ??= GetNode<CheckButton>("Tab/Graphics/Container/IntroSkip/Toggle");
+   private CheckButton VsyncButton => _vsyncButton ??= GetNode<CheckButton>("%VsyncToggle");
+   private HBoxContainer IntroSkip => _introSkip ??= GetNode<HBoxContainer>("%IntroSkip");
+   private CheckButton IntroSkipButton => _introSkipButton ??= GetNode<CheckButton>("%IntroSkipToggle");
 
-   private Button SoundSettingsButton => _soundSettingsButton ??= GetNode<Button>("Options/Grid/SoundSettings");
-   private HSlider MasterVolume => _masterVolume ??= GetNode<HSlider>("Tab/Sound/Container/Master/Slider");
-   private HSlider MusicVolume => _musicVolume ??= GetNode<HSlider>("Tab/Sound/Container/Music/Slider");
-   private HSlider SoundVolume => _soundVolume ??= GetNode<HSlider>("Tab/Sound/Container/Sounds/Slider");
-   private CheckBox MuteSound => _muteSound ??= GetNode<CheckBox>("Tab/Sound/Container/Mute/Toggle");
+   private Button SoundSettingsButton => _soundSettingsButton ??= GetNode<Button>("%SoundSettings");
+   private HSlider MasterVolume => _masterVolume ??= GetNode<HSlider>("%MasterVolume");
+   private HSlider MusicVolume => _musicVolume ??= GetNode<HSlider>("%MusicVolume");
+   private HSlider SoundVolume => _soundVolume ??= GetNode<HSlider>("%SoundVolume");
+   private CheckBox MuteSound => _muteSound ??= GetNode<CheckBox>("%MuteSound");
 
-   private Button StartingConditionsButton => _startingConditionsButton ??= GetNode<Button>("Options/Grid/StartingConditions");
+   private Button StartingConditionsButton => _startingConditionsButton ??= GetNode<Button>("%StartingConditions");
 
-   private CheckBox SingleClickButton => _singleClickButton ??= GetNode<CheckBox>("Tab/StartingConditions/Container/Main/Gameplay/SingleClick/Toggle");
-   private SpinBox TowerLevels => _towerLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels/Level");
-   private SpinBox WallLevels => _wallLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/Main/TowersWalls/WallLevels/Level");
-   private SpinBox QuarryLevels => _quarryLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry/Level");
-   private SpinBox BrickQuantity => _brickQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks/Level");
-   private SpinBox MagicLevels => _magicLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic/Level");
-   private SpinBox GemQuantity => _gemQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems/Level");
-   private SpinBox DungeonLevels => _dungeonLevels ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon/Level");
-   private SpinBox RecruitQuantity => _recruitQuantity ??= GetNode<SpinBox>("Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits/Level");
+   private CheckBox SingleClickButton => _singleClickButton ??= GetNode<CheckBox>("%SingleClick");
+   private SpinBox TowerLevels => _towerLevels ??= GetNode<SpinBox>("%TowerLevels");
+   private SpinBox WallLevels => _wallLevels ??= GetNode<SpinBox>("%WallLevels");
+   private SpinBox QuarryLevels => _quarryLevels ??= GetNode<SpinBox>("%QuarryLevels");
+   private SpinBox BrickQuantity => _brickQuantity ??= GetNode<SpinBox>("%BrickQuantity");
+   private SpinBox MagicLevels => _magicLevels ??= GetNode<SpinBox>("%MagicLevels");
+   private SpinBox GemQuantity => _gemQuantity ??= GetNode<SpinBox>("%GemQuantity");
+   private SpinBox DungeonLevels => _dungeonLevels ??= GetNode<SpinBox>("%DungeonLevels");
+   private SpinBox RecruitQuantity => _recruitQuantity ??= GetNode<SpinBox>("%RecruitQuantity");
 
-   private Button PlayConditionsButton => _playConditionsButton ??= GetNode<Button>("Options/Grid/PlayConditions");
-   private SpinBox AutoBricks => _autoBricks ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Bricks/Level");
-   private SpinBox AutoGems => _autoGems ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Gems/Level");
-   private SpinBox AutoRecruits => _autoRecruits ??= GetNode<SpinBox>("Tab/PlayConditions/Container/AutoGetter/Recruits/Level");
-   private SpinBox CardsInHand => _cardsInHand ??= GetNode<SpinBox>("Tab/PlayConditions/Container/Other/CardsInHand/Level");
-   private OptionButton AiMode => _aiMode ??= GetNode<OptionButton>("Tab/PlayConditions/Container/Other/Ai/Mode");
+   private Button PlayConditionsButton => _playConditionsButton ??= GetNode<Button>("%PlayConditions");
+   private SpinBox AutoBricks => _autoBricks ??= GetNode<SpinBox>("%AutoBricks");
+   private SpinBox AutoGems => _autoGems ??= GetNode<SpinBox>("%AutoGems");
+   private SpinBox AutoRecruits => _autoRecruits ??= GetNode<SpinBox>("%AutoRecruits");
+   private SpinBox CardsInHand => _cardsInHand ??= GetNode<SpinBox>("%CardsInHand");
+   private OptionButton AiMode => _aiMode ??= GetNode<OptionButton>("%AiMode");
 
-   private Button VictoryConditionsButton => _victoryConditionsButton ??= GetNode<Button>("Options/Grid/VictoryConditions");
-   private SpinBox TowerVictory => _towerVictory ??= GetNode<SpinBox>("Tab/VictoryConditions/Container/TowerVictory/Level");
-   private SpinBox ResourceVictory => _resourceVictory ??= GetNode<SpinBox>("Tab/VictoryConditions/Container/ResourceVictory/Level");
+   private Button VictoryConditionsButton => _victoryConditionsButton ??= GetNode<Button>("%VictoryConditions");
+   private SpinBox TowerVictory => _towerVictory ??= GetNode<SpinBox>("%TowerVictory");
+   private SpinBox ResourceVictory => _resourceVictory ??= GetNode<SpinBox>("%ResourceVictory");
 
-   private Button TavernPresetsButton => _tavernPresetsButton ??= GetNode<Button>("Options/Grid/TavernPresets");
-   private OptionButton TavernPreset => _tavernPreset ??= GetNode<OptionButton>("Tab/TavernPresets/Container/Preset/Option");
+   private Button TavernPresetsButton => _tavernPresetsButton ??= GetNode<Button>("%TavernPresets");
+   private OptionButton TavernPreset => _tavernPreset ??= GetNode<OptionButton>("%TavernPreset");
 
-   private Button LanguageSettingsButton => _languageSettingsButton ??= GetNode<Button>("Options/Grid/LanguageSettings");
-   private OptionButton Language => _language ??= GetNode<OptionButton>("Tab/LanguageSettings/Container/Language/Option");
-   private Label TranslationErrors => _translationErrors ??= GetNode<Label>("Tab/LanguageSettings/Container/TranslationErrors");
+   private Button LanguageSettingsButton => _languageSettingsButton ??= GetNode<Button>("%LanguageSettings");
+   private OptionButton Language => _language ??= GetNode<OptionButton>("%Language");
+   private Label TranslationErrors => _translationErrors ??= GetNode<Label>("%TranslationErrors");
 
-   private Button PlayerSettingsButton => _playerSettingsButton ??= GetNode<Button>("Options/Grid/PlayerSettings");
-   private LineEdit Nickname => _nickname ??= GetNode<LineEdit>("Tab/PlayerSettings/Container/Nickname/Edit");
+   private Button PlayerSettingsButton => _playerSettingsButton ??= GetNode<Button>("%PlayerSettings");
+   private LineEdit Nickname => _nickname ??= GetNode<LineEdit>("%Nickname");
 
    #endregion
 
@@ -136,14 +128,14 @@ public partial class Settings : Control
       Close.Pressed += OnClosePressed;
       Reset.Pressed += OnResetPressed;
 
-      WindowSettingsButton.Pressed += OnWindowSettingsPressed;
-      SoundSettingsButton.Pressed += OnSoundSettingsPressed;
-      StartingConditionsButton.Pressed += OnStartingConditionsPressed;
-      PlayConditionsButton.Pressed += OnPlayConditionsPressed;
-      VictoryConditionsButton.Pressed += OnVictoryConditionsPressed;
-      TavernPresetsButton.Pressed += OnTavernPresetsPressed;
-      LanguageSettingsButton.Pressed += OnLanguageSettingsPressed;
-      PlayerSettingsButton.Pressed += OnPlayerSettingsPressed;
+      WindowSettingsButton.Pressed += () => ShowTab(0);
+      SoundSettingsButton.Pressed += () => ShowTab(1);
+      StartingConditionsButton.Pressed += () => ShowTab(2);
+      PlayConditionsButton.Pressed += () => ShowTab(3);
+      VictoryConditionsButton.Pressed += () => ShowTab(4);
+      TavernPresetsButton.Pressed += () => ShowTab(5);
+      LanguageSettingsButton.Pressed += () => ShowTab(6);
+      PlayerSettingsButton.Pressed += () => ShowTab(7);
 
       FullscreenButton.Toggled += OnFullscreenButtonToggled;
       BorderlessButton.Toggled += OnBorderlessButtonToggled;
@@ -298,14 +290,7 @@ public partial class Settings : Control
       _logger.Debug("Loaded locale - {Locale}", Config.Settings.CurrentLocale);
    }
 
-   private void OnWindowSettingsPressed() => Tab.CurrentTab = 0;
-   private void OnSoundSettingsPressed() => Tab.CurrentTab = 1;
-   private void OnStartingConditionsPressed() => Tab.CurrentTab = 2;
-   private void OnPlayConditionsPressed() => Tab.CurrentTab = 3;
-   private void OnVictoryConditionsPressed() => Tab.CurrentTab = 4;
-   private void OnTavernPresetsPressed() => Tab.CurrentTab = 5;
-   private void OnLanguageSettingsPressed() => Tab.CurrentTab = 6;
-   private void OnPlayerSettingsPressed() => Tab.CurrentTab = 7;
+   private void ShowTab(int index) => Tab.CurrentTab = index;
 
    private void OnFullscreenButtonToggled(bool toggle)
    {

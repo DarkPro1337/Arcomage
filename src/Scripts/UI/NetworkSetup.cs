@@ -1,10 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using Arcomage.Core;
-using Arcomage.Gameplay;
 using Arcomage.Networking;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.UI;
 
@@ -410,11 +404,9 @@ public partial class NetworkSetup : Control
    private void RegisterPlayer(long id, string name)
    {
       _logger.Debug($"Registering player with id {id} and name {name}");
-      if (Players.ContainsKey(id))
+      if (!Player.TryRegister(Players, id, name))
          return;
 
-      var isHost = id == 1;
-      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       Rpc(nameof(AddRemotePlayer), id, name);
       UpdatePlayersList();
    }
@@ -423,11 +415,9 @@ public partial class NetworkSetup : Control
    public void AddRemotePlayer(long id, string name)
    {
       _logger.Debug($"Adding remote player with id {id} and name {name}");
-      if (Players.ContainsKey(id))
+      if (!Player.TryRegister(Players, id, name))
          return;
 
-      var isHost = id == 1;
-      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       UpdatePlayersList();
    }
 
@@ -441,13 +431,19 @@ public partial class NetworkSetup : Control
       UpdatePlayersList();
    }
 
+   private bool DeferIfOffMainThread(StringName method)
+   {
+      if (GodotThread.IsMainThread())
+         return false;
+
+      CallDeferred(method);
+      return true;
+   }
+
    private void UpdatePlayersList()
    {
-      if (!GodotThread.IsMainThread())
-      {
-         CallDeferred(MethodName.UpdatePlayersList);
+      if (DeferIfOffMainThread(MethodName.UpdatePlayersList))
          return;
-      }
 
       if (!IsInsideTree() || PlayersList == null || !IsInstanceValid(PlayersList))
          return;

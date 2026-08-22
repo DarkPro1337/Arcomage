@@ -1,15 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using Arcomage.Data;
-using Godot;
 using Wasmtime;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-using Global = Arcomage.Core.Global;
-using Logger = Arcomage.Logging.Logger;
 using Module = Wasmtime.Module;
 
 namespace Arcomage.Managers;
@@ -87,9 +78,7 @@ public partial class ModManager : Node
             }
 
             using var reader = new StreamReader(metadataEntry.Open());
-            var metadata = new DeserializerBuilder()
-               .WithNamingConvention(CamelCaseNamingConvention.Instance)
-               .Build()
+            var metadata = YamlLoader.Create(withActionConverter: false)
                .Deserialize<ModMetadata>(reader.ReadToEnd());
 
             _logger.Debug("Loading mod {ModName} v{ModVersion} by {ModAuthor} ({Path})", metadata.Name, metadata.Version, metadata.Author, modPath);
@@ -130,9 +119,7 @@ public partial class ModManager : Node
                      using var stream = resourceEntry.Open();
                      using var yamlReader = new StreamReader(stream);
                      var yamlText = yamlReader.ReadToEnd();
-                     var deserializer = new DeserializerBuilder()
-                        .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                        .Build();
+                     var deserializer = YamlLoader.Create(withActionConverter: false);
 
                      var doc = deserializer.Deserialize<Dictionary<string, object>>(yamlText);
                      if (doc is null)

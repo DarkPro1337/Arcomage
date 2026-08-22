@@ -1,9 +1,4 @@
-using System;
-using System.IO;
-using System.Text.Json;
-using Godot;
 using FileAccess = Godot.FileAccess;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Core;
 
@@ -68,7 +63,7 @@ public partial class Config : Node
 
    private const string ConfigPath = "user://settings.json";
 
-   public static GameSettings Settings = new();
+   public static GameSettings Settings { get; set; } = new();
 
    public override void _EnterTree()
    {
@@ -83,18 +78,12 @@ public partial class Config : Node
       try
       {
          if (!FileAccess.FileExists(ConfigPath))
-         {
-            var defaults = JsonSerializer.Serialize(Settings, _serializerOptions);
-            using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
-            file.StoreString(defaults);
-            file.Close();
-         }
+            WriteSettingsFile(JsonSerializer.Serialize(Settings, _serializerOptions));
 
-         using var resource = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Read);
-         var filePath = resource.GetPathAbsolute();
-         resource.Close();
-         using var stream = new StreamReader(filePath);
-         var content = stream.ReadToEnd();
+         using var settingsFile = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Read);
+         var content = settingsFile.GetAsText();
+         settingsFile.Close();
+
          return JsonSerializer.Deserialize<GameSettings>(content);
       }
       catch (Exception ex)
@@ -108,15 +97,19 @@ public partial class Config : Node
    {
       try
       {
-         var content = JsonSerializer.Serialize(Settings, _serializerOptions);
-         using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
-         file.StoreString(content);
-         file.Close();
+         WriteSettingsFile(JsonSerializer.Serialize(Settings, _serializerOptions));
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Failed to save settings.");
       }
+   }
+
+   private static void WriteSettingsFile(string content)
+   {
+      using var file = FileAccess.Open(ConfigPath, FileAccess.ModeFlags.Write);
+      file.StoreString(content);
+      file.Close();
    }
 
    /// <summary>

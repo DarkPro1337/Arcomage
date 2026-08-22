@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Arcomage.Data;
-using Godot;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using FileAccess = Godot.FileAccess;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Managers;
 
@@ -44,13 +36,12 @@ public class DeckManager
    /// Retrieves all cards from enabled decks.
    /// </summary>
    /// <returns>A read-only list of cards from enabled decks.</returns>
-   public IReadOnlyList<Card> GetAllCards()
-   {
-      return Decks
+   public IReadOnlyList<Card> GetAllCards() =>
+   [
+      .. Decks
          .Where(deck => deck.IsEnabled)
          .SelectMany(deck => deck.Cards)
-         .ToList();
-   }
+   ];
 
    /// <summary>
    /// Loads a deck from a specified YAML file.
@@ -67,22 +58,14 @@ public class DeckManager
     
       if (!FileAccess.FileExists(filePath))
       {
-         _logger.Warn("File {Path} does not exist.", filePath);
+         _logger.Warn("File {Path} does not exist", filePath);
          return null;
       }
     
       try
       {
-         var yamlFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-         var yaml = yamlFile.GetAsText();
-         yamlFile.Close();
-
-         var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithTypeConverter(new ActionTypeConverter())
-            .Build();
-
-         var deck = deserializer.Deserialize<Deck>(yaml);
+         var yaml = YamlLoader.ReadFile(filePath);
+         var deck = YamlLoader.Create().Deserialize<Deck>(yaml);
 
          if (deck.Cards == null)
          {
@@ -90,7 +73,7 @@ public class DeckManager
             return null;
          }
 
-         _logger.Debug("Loaded {Count} cards from {Path} ({Path})", deck.Cards.Count, deck.Name, filePath);
+         _logger.Debug("Loaded {Count} cards from {Name} ({Path})", deck.Cards.Count, deck.Name, filePath);
          deck.IsEnabled = true; // TODO: implement deck enabling/disabling in the UI
          return deck;
       }
@@ -110,11 +93,7 @@ public class DeckManager
    {
       try
       {
-         var deck = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithTypeConverter(new ActionTypeConverter())
-            .Build()
-            .Deserialize<Deck>(yaml);
+         var deck = YamlLoader.Create().Deserialize<Deck>(yaml);
 
          if (deck?.Cards is null)
          {

@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Reflection;
-using Arcomage.Gameplay;
 using Arcomage.Managers;
 using Arcomage.Networking;
 using Arcomage.UI;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Core;
 
@@ -27,26 +20,6 @@ public partial class Global : Node
    public static TavernManager TavernManager { get; } = new();
    public static TranslationManager TranslationManager { get; } = new();
 
-   public override void _EnterTree()
-   {
-      LoadOnlineTranslations();
-   }
-
-   private static void LoadOnlineTranslations()
-   {
-      const string path = "res://Locales/Online.csv";
-      if (!FileAccess.FileExists(path))
-         return;
-
-      using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-      var translations = TranslationManager.LoadTranslationsFromCsv(file.GetAsText());
-      if (translations == null)
-         return;
-
-      foreach (var translation in translations)
-         TranslationServer.AddTranslation(translation);
-   }
-
    public static Dictionary<string, string> GetCommandLineArgs()
    {
       return new Dictionary<string, string>(OS.GetCmdlineArgs()
@@ -55,8 +28,6 @@ public partial class Global : Node
          .Where(parts => parts.Length == 2)
          .ToDictionary(parts => parts[0], parts => parts[1]));
    }
-
-   private static string GetTime() => DateTime.Now.ToString("HH:mm:ss");
 
    private static string GetBuildTimestamp(string format = "ddMMyyyyHHmmss")
    {

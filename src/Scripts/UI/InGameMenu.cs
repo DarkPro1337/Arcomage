@@ -1,10 +1,9 @@
-using Arcomage.Core;
-using Godot;
-
 namespace Arcomage.UI;
 
 public partial class InGameMenu : Control
 {
+   private static readonly Logger _logger = Logger.GetOrCreateLogger("InGameMenu");
+
    private Settings _settings;
    private Button _resumeButton;
    private Button _settingsButton;
@@ -52,18 +51,27 @@ public partial class InGameMenu : Control
 
    private void SettingsButtonOnPressed() => Settings.Show();
 
-   private async void ExitButtonOnPressed()
+   private void ExitButtonOnPressed() => _ = ExitToMenuAsync();
+
+   private async Task ExitToMenuAsync()
    {
-      GetTree().Paused = false;
-      if (Global.Table != null)
+      try
       {
-         await Global.Table.ReturnToMenu();
-         return;
+         GetTree().Paused = false;
+         if (Global.Table != null)
+         {
+            await Global.Table.ReturnToMenu();
+            return;
+         }
+
+         if (Global.Online != null)
+            await Global.Online.LeaveMatch();
+
+         GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
       }
-
-      if (Global.Online != null)
-         await Global.Online.LeaveMatch();
-
-      GetTree().ChangeSceneToFile("res://Scenes/Main/MainMenu.tscn");
+      catch (Exception ex)
+      {
+         _logger.Error(ex, "Exit to menu");
+      }
    }
 }

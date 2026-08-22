@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Sprache;
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
-using YamlDotNet.Serialization;
 
 namespace Arcomage.Data;
 

@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Godot;
 
 namespace Arcomage.Networking;
 
@@ -11,7 +8,7 @@ namespace Arcomage.Networking;
 /// </summary>
 public partial class NakamaMultiplayerPeer : MultiplayerPeerExtension
 {
-   public const int HostPeerId = 1;
+   private const int HostPeerId = 1;
    private const int MaxPacketBytes = 1 << 24;
 
    private readonly ConcurrentQueue<IncomingPacket> _incoming = new();

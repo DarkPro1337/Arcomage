@@ -1,7 +1,3 @@
-using Arcomage.Core;
-using Arcomage.Gameplay;
-using Godot;
-
 namespace Arcomage.UI;
 
 public partial class CardsViewer : Control

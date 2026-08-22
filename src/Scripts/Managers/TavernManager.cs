@@ -1,12 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Arcomage.Data;
-using Godot;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
-using Logger = Arcomage.Logging.Logger;
-
 namespace Arcomage.Managers;
 
 public class TavernManager
@@ -58,16 +49,8 @@ public class TavernManager
 
       try
       {
-         var yamlFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-         var yaml = yamlFile.GetAsText();
-         yamlFile.Close();
-
-         var deserializer = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithTypeConverter(new ActionTypeConverter())
-            .Build();
-
-         var pack = deserializer.Deserialize<TavernPack>(yaml);
+         var yaml = YamlLoader.ReadFile(filePath);
+         var pack = YamlLoader.Create().Deserialize<TavernPack>(yaml);
 
          if (pack.Taverns == null)
          {
@@ -89,11 +72,7 @@ public class TavernManager
    {
       try
       {
-         var pack = new DeserializerBuilder()
-            .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithTypeConverter(new ActionTypeConverter())
-            .Build()
-            .Deserialize<TavernPack>(yaml);
+         var pack = YamlLoader.Create().Deserialize<TavernPack>(yaml);
 
          if (pack?.Taverns is null)
          {

@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Text.Json;
-
 namespace Arcomage.Networking;
 
 public sealed class GameSnapshot
@@ -51,15 +48,15 @@ public sealed class CardPlayCue
 
 public static class SnapshotJson
 {
-   public static readonly JsonSerializerOptions Options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+   private static readonly JsonSerializerOptions _options = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
    public static string Serialize<T>(T value)
    {
-      return JsonSerializer.Serialize(value, Options);
+      return JsonSerializer.Serialize(value, _options);
    }
 
    public static T Deserialize<T>(string json)
    {
-      return JsonSerializer.Deserialize<T>(json, Options);
+      return JsonSerializer.Deserialize<T>(json, _options);
    }
 }

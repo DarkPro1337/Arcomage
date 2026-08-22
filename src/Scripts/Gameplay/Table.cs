@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Arcomage.Core;
 using Arcomage.Networking;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Gameplay;
 
@@ -172,23 +165,32 @@ public partial class Table : Control
       return @event is InputEventKey { Pressed: true, Echo: false, Keycode: Key.Space };
    }
 
-   private async void LeaveMatch()
+   private void LeaveMatch() => _ = LeaveMatchAsync();
+
+   private async Task LeaveMatchAsync()
    {
       if (_leavingMatch)
          return;
 
       try
       {
-         var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
-         anim.Play("fade_out");
-         await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
+         try
+         {
+            var anim = MatchResult.GetNode<AnimationPlayer>("Anim");
+            anim.Play("fade_out");
+            await ToSignal(anim, AnimationMixer.SignalName.AnimationFinished);
+         }
+         catch (Exception ex)
+         {
+            _logger.Error(ex, "Leave match fade-out");
+         }
+
+         await ReturnToMenu();
       }
       catch (Exception ex)
       {
          _logger.Error(ex, "Leave match");
       }
-
-      await ReturnToMenu();
    }
 
    public async Task ReturnToMenu()
@@ -219,13 +221,6 @@ public partial class Table : Control
 
    public override void _Ready()
    {
-      var args = Global.GetCommandLineArgs();
-      if (args.TryGetValue("playerName", out var name))
-      {
-         _logger.Debug("Player name from command line: " + name);
-         Config.Settings.Nickname = name;
-      }
-
       _logger.Debug("Loaded");
       Global.Table = this;
       ConfigureMatchRules();
@@ -437,26 +432,7 @@ public partial class Table : Control
             continue;
 
          var display = player.Ai && IsOffline ? Tr(player.Name) : player.Name;
-         var named = new Player
-         {
-            Id = player.Id,
-            Name = display,
-            Host = player.Host,
-            Ai = player.Ai,
-            SeatIndex = player.SeatIndex,
-            TeamId = player.TeamId,
-            Eliminated = player.Eliminated,
-            TowerHp = player.TowerHp,
-            WallHp = player.WallHp,
-            Quarries = player.Quarries,
-            Bricks = player.Bricks,
-            Magic = player.Magic,
-            Gems = player.Gems,
-            Dungeons = player.Dungeons,
-            Recruits = player.Recruits
-         };
-
-         hud.Apply(named);
+         hud.Apply(player, display);
       }
 
       HighlightCurrentTurn();
@@ -645,8 +621,6 @@ public partial class Table : Control
       RightSeat.ShowPrimaryResourcePanels(showPrimary);
    }
 
-   private void UpdateStatPanelUi() => UpdateNamePanels();
-
    private static float GetStructureHeight(int hp)
    {
       var maxHp = Mathf.Max(1, Config.Settings.TowerVictory);
@@ -654,7 +628,7 @@ public partial class Table : Control
       return ratio * MaxStructureHeight;
    }
 
-   private static void SetStructureHeight(Control structure, int hp)
+   public static void SetStructureHeight(Control structure, int hp)
    {
       var size = structure.Size;
       size.Y = GetStructureHeight(hp);
@@ -679,11 +653,9 @@ public partial class Table : Control
    private void RegisterPlayer(long id, string name)
    {
       _logger.Debug("Registering player with id: " + id + " and name: " + name);
-      if (Players.ContainsKey(id))
+      if (!Player.TryRegister(Players, id, name))
          return;
 
-      var isHost = id == 1;
-      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       AssignSlots();
       UpdateNamePanels();
 
@@ -695,11 +667,9 @@ public partial class Table : Control
    public void AddRemotePlayer(long id, string name)
    {
       _logger.Debug("Adding remote player with id: " + id + " and name: " + name);
-      if (Players.ContainsKey(id))
+      if (!Player.TryRegister(Players, id, name))
          return;
 
-      var isHost = id == 1;
-      Players.Add(id, new Player { Id = id, Name = name, Host = isHost, Ai = false });
       AssignSlots();
       UpdateNamePanels();
    }

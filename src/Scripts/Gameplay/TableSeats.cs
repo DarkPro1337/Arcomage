@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Arcomage.Core;
 using Arcomage.Networking;
-using Godot;
 
 namespace Arcomage.Gameplay;
 
@@ -186,7 +181,7 @@ public partial class Table
 
    /// <summary>
    /// Shows the current player's cards on RedDeck (local) or BlueDeck (everyone else).
-   /// Extra seats store unused hands off-screen; without this swap those turns look empty.
+   /// Extra seats store unused hands off-screen; without this swap, those turns look empty.
    /// </summary>
    private void PresentTurnHand()
    {
@@ -463,9 +458,4 @@ public partial class Table
       return sanitized.Length > 0 &&
              string.Equals(sanitized, chatName, StringComparison.OrdinalIgnoreCase);
    }
-}
-
-public partial class Table
-{
-   public static void SetStructureHeightPublic(Control structure, int hp) => SetStructureHeight(structure, hp);
 }

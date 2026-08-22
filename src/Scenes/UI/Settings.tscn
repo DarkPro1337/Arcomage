@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ck57oh5lctgf0"]
+[gd_scene format=3 uid="uid://ck57oh5lctgf0"]
 
 [ext_resource type="Script" uid="uid://nwou577jfmoy" path="res://Scripts/UI/Settings.cs" id="1_8se8j"]
 [ext_resource type="Theme" uid="uid://vfnrm17ifja3" path="res://Themes/Theme.tres" id="1_l7kn1"]
@@ -25,7 +25,7 @@ _data = {
 &"hide": SubResource("4")
 }
 
-[node name="Settings" type="Control"]
+[node name="Settings" type="Control" unique_id=1845532833]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ grow_vertical = 2
 theme = ExtResource("1_l7kn1")
 script = ExtResource("1_8se8j")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1897626931]
 self_modulate = Color(0.498039, 0.498039, 0.498039, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -48,7 +48,8 @@ expand_mode = 1
 stretch_mode = 6
 metadata/_edit_lock_ = true
 
-[node name="Tab" type="TabContainer" parent="."]
+[node name="Tab" type="TabContainer" parent="." unique_id=210173369]
+unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -65,391 +66,419 @@ grow_vertical = 2
 current_tab = 0
 tabs_visible = false
 
-[node name="Graphics" type="CenterContainer" parent="Tab"]
+[node name="Graphics" type="CenterContainer" parent="Tab" unique_id=1386983599]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Container" type="VBoxContainer" parent="Tab/Graphics"]
+[node name="Container" type="VBoxContainer" parent="Tab/Graphics" unique_id=2089113382]
 layout_mode = 2
 
-[node name="Fullscreen" type="HBoxContainer" parent="Tab/Graphics/Container"]
+[node name="Fullscreen" type="HBoxContainer" parent="Tab/Graphics/Container" unique_id=981877124]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Tab/Graphics/Container/Fullscreen"]
+[node name="Label" type="Label" parent="Tab/Graphics/Container/Fullscreen" unique_id=1638997195]
 layout_mode = 2
 text = "FULLSCREEN"
 
-[node name="Toggle" type="CheckButton" parent="Tab/Graphics/Container/Fullscreen"]
+[node name="FullscreenToggle" type="CheckButton" parent="Tab/Graphics/Container/Fullscreen" unique_id=259306884]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Borderless" type="HBoxContainer" parent="Tab/Graphics/Container"]
+[node name="Borderless" type="HBoxContainer" parent="Tab/Graphics/Container" unique_id=1316454178]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Tab/Graphics/Container/Borderless"]
+[node name="Label" type="Label" parent="Tab/Graphics/Container/Borderless" unique_id=2120881118]
 layout_mode = 2
 text = "BORDERLESS"
 
-[node name="Toggle" type="CheckButton" parent="Tab/Graphics/Container/Borderless"]
+[node name="BorderlessToggle" type="CheckButton" parent="Tab/Graphics/Container/Borderless" unique_id=1768307671]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="WindowResolution" type="HBoxContainer" parent="Tab/Graphics/Container"]
+[node name="WindowResolution" type="HBoxContainer" parent="Tab/Graphics/Container" unique_id=215848494]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="WidthLabel" type="Label" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="WidthLabel" type="Label" parent="Tab/Graphics/Container/WindowResolution" unique_id=495804973]
 layout_mode = 2
 text = "WINDOW_WIDTH"
 
-[node name="Width" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="WindowWidth" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution" unique_id=1657911598]
+unique_name_in_owner = true
 layout_mode = 2
 text = "960"
 placeholder_text = "960"
 max_length = 4
 clear_button_enabled = true
 
-[node name="HeightLabel" type="Label" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="HeightLabel" type="Label" parent="Tab/Graphics/Container/WindowResolution" unique_id=901004237]
 layout_mode = 2
 text = "WINDOW_HEIGHT"
 
-[node name="Height" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="WindowHeight" type="LineEdit" parent="Tab/Graphics/Container/WindowResolution" unique_id=442093929]
+unique_name_in_owner = true
 layout_mode = 2
 text = "540"
 placeholder_text = "540"
 max_length = 4
 clear_button_enabled = true
 
-[node name="Splitter" type="HSplitContainer" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="Splitter" type="HSplitContainer" parent="Tab/Graphics/Container/WindowResolution" unique_id=522822229]
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="ApplyButton" type="Button" parent="Tab/Graphics/Container/WindowResolution"]
+[node name="WindowResolutionApply" type="Button" parent="Tab/Graphics/Container/WindowResolution" unique_id=2016316056]
+unique_name_in_owner = true
 layout_mode = 2
 text = "APPLY"
 flat = true
 
-[node name="Vsync" type="HBoxContainer" parent="Tab/Graphics/Container"]
+[node name="Vsync" type="HBoxContainer" parent="Tab/Graphics/Container" unique_id=389000984]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Tab/Graphics/Container/Vsync"]
+[node name="Label" type="Label" parent="Tab/Graphics/Container/Vsync" unique_id=1966060647]
 layout_mode = 2
 text = "VSYNC"
 
-[node name="Toggle" type="CheckButton" parent="Tab/Graphics/Container/Vsync"]
+[node name="VsyncToggle" type="CheckButton" parent="Tab/Graphics/Container/Vsync" unique_id=1026394712]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="IntroSkip" type="HBoxContainer" parent="Tab/Graphics/Container"]
+[node name="IntroSkip" type="HBoxContainer" parent="Tab/Graphics/Container" unique_id=363930741]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Tab/Graphics/Container/IntroSkip"]
+[node name="Label" type="Label" parent="Tab/Graphics/Container/IntroSkip" unique_id=1932364975]
 layout_mode = 2
 text = "INTRO_SKIP"
 
-[node name="Toggle" type="CheckButton" parent="Tab/Graphics/Container/IntroSkip"]
+[node name="IntroSkipToggle" type="CheckButton" parent="Tab/Graphics/Container/IntroSkip" unique_id=1471785510]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Sound" type="CenterContainer" parent="Tab"]
+[node name="Sound" type="CenterContainer" parent="Tab" unique_id=1594539801]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="Container" type="VBoxContainer" parent="Tab/Sound"]
+[node name="Container" type="VBoxContainer" parent="Tab/Sound" unique_id=783022518]
 layout_mode = 2
 
-[node name="Master" type="HBoxContainer" parent="Tab/Sound/Container"]
+[node name="Master" type="HBoxContainer" parent="Tab/Sound/Container" unique_id=1856249023]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/Sound/Container/Master"]
+[node name="Label" type="Label" parent="Tab/Sound/Container/Master" unique_id=61650171]
 layout_mode = 2
 text = "MASTER"
 
-[node name="Slider" type="HSlider" parent="Tab/Sound/Container/Master"]
+[node name="MasterVolume" type="HSlider" parent="Tab/Sound/Container/Master" unique_id=1165562476]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 37)
 layout_mode = 2
 max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="Music" type="HBoxContainer" parent="Tab/Sound/Container"]
+[node name="Music" type="HBoxContainer" parent="Tab/Sound/Container" unique_id=1603568286]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/Sound/Container/Music"]
+[node name="Label" type="Label" parent="Tab/Sound/Container/Music" unique_id=2120285123]
 layout_mode = 2
 text = "MUSIC"
 
-[node name="Slider" type="HSlider" parent="Tab/Sound/Container/Music"]
+[node name="MusicVolume" type="HSlider" parent="Tab/Sound/Container/Music" unique_id=643173726]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 37)
 layout_mode = 2
 max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="Sounds" type="HBoxContainer" parent="Tab/Sound/Container"]
+[node name="Sounds" type="HBoxContainer" parent="Tab/Sound/Container" unique_id=954374670]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/Sound/Container/Sounds"]
+[node name="Label" type="Label" parent="Tab/Sound/Container/Sounds" unique_id=1393864377]
 layout_mode = 2
 text = "SOUNDS"
 
-[node name="Slider" type="HSlider" parent="Tab/Sound/Container/Sounds"]
+[node name="SoundVolume" type="HSlider" parent="Tab/Sound/Container/Sounds" unique_id=2142816480]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 37)
 layout_mode = 2
 max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="Mute" type="HBoxContainer" parent="Tab/Sound/Container"]
+[node name="Mute" type="HBoxContainer" parent="Tab/Sound/Container" unique_id=1250609802]
 layout_mode = 2
 alignment = 1
 
-[node name="Toggle" type="CheckBox" parent="Tab/Sound/Container/Mute"]
+[node name="MuteSound" type="CheckBox" parent="Tab/Sound/Container/Mute" unique_id=1569869899]
+unique_name_in_owner = true
 layout_mode = 2
 text = "MUTE_SOUND"
 
-[node name="StartingConditions" type="CenterContainer" parent="Tab"]
+[node name="StartingConditions" type="CenterContainer" parent="Tab" unique_id=726386473]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="Container" type="VBoxContainer" parent="Tab/StartingConditions"]
+[node name="Container" type="VBoxContainer" parent="Tab/StartingConditions" unique_id=2016751284]
 layout_mode = 2
 
-[node name="Main" type="GridContainer" parent="Tab/StartingConditions/Container"]
+[node name="Main" type="GridContainer" parent="Tab/StartingConditions/Container" unique_id=1296448264]
 layout_mode = 2
 columns = 3
 
-[node name="Gameplay" type="VBoxContainer" parent="Tab/StartingConditions/Container/Main"]
+[node name="Gameplay" type="VBoxContainer" parent="Tab/StartingConditions/Container/Main" unique_id=2062971160]
 layout_mode = 2
 
-[node name="SingleClick" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/Gameplay"]
+[node name="SingleClick" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/Gameplay" unique_id=1906061234]
 layout_mode = 2
 
-[node name="Toggle" type="CheckBox" parent="Tab/StartingConditions/Container/Main/Gameplay/SingleClick"]
+[node name="SingleClick" type="CheckBox" parent="Tab/StartingConditions/Container/Main/Gameplay/SingleClick" unique_id=1459367824]
+unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "SINGLE_CLICK_MODE"
 
-[node name="Splitter" type="HSplitContainer" parent="Tab/StartingConditions/Container/Main"]
+[node name="Splitter" type="HSplitContainer" parent="Tab/StartingConditions/Container/Main" unique_id=1855253373]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 
-[node name="TowersWalls" type="VBoxContainer" parent="Tab/StartingConditions/Container/Main"]
+[node name="TowersWalls" type="VBoxContainer" parent="Tab/StartingConditions/Container/Main" unique_id=2014845839]
 layout_mode = 2
 alignment = 1
 
-[node name="TowerLevels" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/TowersWalls"]
+[node name="TowerLevels" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/TowersWalls" unique_id=1242120564]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels" unique_id=189277862]
 layout_mode = 2
 text = "TOWER_LEVELS"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels"]
+[node name="TowerLevels" type="SpinBox" parent="Tab/StartingConditions/Container/Main/TowersWalls/TowerLevels" unique_id=1393697815]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 50.0
 value = 50.0
 rounded = true
 
-[node name="WallLevels" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/TowersWalls"]
+[node name="WallLevels" type="HBoxContainer" parent="Tab/StartingConditions/Container/Main/TowersWalls" unique_id=608749335]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/Main/TowersWalls/WallLevels"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/Main/TowersWalls/WallLevels" unique_id=727694895]
 layout_mode = 2
 text = "WALL_LEVELS"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/Main/TowersWalls/WallLevels"]
+[node name="WallLevels" type="SpinBox" parent="Tab/StartingConditions/Container/Main/TowersWalls/WallLevels" unique_id=864553699]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 50.0
 value = 50.0
 rounded = true
 
-[node name="Splitter" type="VSplitContainer" parent="Tab/StartingConditions/Container"]
+[node name="Splitter" type="VSplitContainer" parent="Tab/StartingConditions/Container" unique_id=1320729994]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 
-[node name="ResourceGeneration" type="GridContainer" parent="Tab/StartingConditions/Container"]
+[node name="ResourceGeneration" type="GridContainer" parent="Tab/StartingConditions/Container" unique_id=569110506]
 layout_mode = 2
 columns = 3
 
-[node name="Generators" type="VBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration"]
+[node name="Generators" type="VBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration" unique_id=1409650407]
 layout_mode = 2
 
-[node name="Quarry" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators"]
+[node name="Quarry" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators" unique_id=503392074]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry" unique_id=1999583342]
 layout_mode = 2
 text = "QUARRY_LEVELS"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry"]
+[node name="QuarryLevels" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Quarry" unique_id=1355399416]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 value = 5.0
 rounded = true
 
-[node name="Magic" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators"]
+[node name="Magic" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators" unique_id=1222223031]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic" unique_id=1078607439]
 layout_mode = 2
 text = "MAGIC_LEVELS"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic"]
+[node name="MagicLevels" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Magic" unique_id=1233958163]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 value = 3.0
 rounded = true
 
-[node name="Dungeon" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators"]
+[node name="Dungeon" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators" unique_id=1928438072]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon" unique_id=1379679505]
 layout_mode = 2
 text = "DUNGEON_LEVELS"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon"]
+[node name="DungeonLevels" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Generators/Dungeon" unique_id=74185782]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 value = 5.0
 rounded = true
 
-[node name="Splitter" type="HSplitContainer" parent="Tab/StartingConditions/Container/ResourceGeneration"]
+[node name="Splitter" type="HSplitContainer" parent="Tab/StartingConditions/Container/ResourceGeneration" unique_id=1082408810]
 custom_minimum_size = Vector2(15, 0)
 layout_mode = 2
 
-[node name="Resources" type="VBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration"]
+[node name="Resources" type="VBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration" unique_id=475239902]
 layout_mode = 2
 
-[node name="Bricks" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources"]
+[node name="Bricks" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources" unique_id=1941516203]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks" unique_id=2036407023]
 layout_mode = 2
 text = "BRICK_QUANTITIES"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks"]
+[node name="BrickQuantity" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Bricks" unique_id=2128327083]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 50.0
 value = 20.0
 rounded = true
 
-[node name="Gems" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources"]
+[node name="Gems" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources" unique_id=1504759021]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems" unique_id=429215742]
 layout_mode = 2
 text = "GEM_QUANTITIES"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems"]
+[node name="GemQuantity" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Gems" unique_id=1224539137]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 50.0
 value = 10.0
 rounded = true
 
-[node name="Recruits" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources"]
+[node name="Recruits" type="HBoxContainer" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources" unique_id=1787175643]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits"]
+[node name="Label" type="Label" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits" unique_id=1457900407]
 layout_mode = 2
 text = "RECRUIT_QUANTITIES"
 
-[node name="Level" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits"]
+[node name="RecruitQuantity" type="SpinBox" parent="Tab/StartingConditions/Container/ResourceGeneration/Resources/Recruits" unique_id=403302723]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 50.0
 value = 20.0
 rounded = true
 
-[node name="PlayConditions" type="CenterContainer" parent="Tab"]
+[node name="PlayConditions" type="CenterContainer" parent="Tab" unique_id=1898707074]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 3
 
-[node name="Container" type="VBoxContainer" parent="Tab/PlayConditions"]
+[node name="Container" type="VBoxContainer" parent="Tab/PlayConditions" unique_id=560586806]
 layout_mode = 2
 
-[node name="AutoGetter" type="VBoxContainer" parent="Tab/PlayConditions/Container"]
+[node name="AutoGetter" type="VBoxContainer" parent="Tab/PlayConditions/Container" unique_id=139609963]
 layout_mode = 2
 alignment = 1
 
-[node name="Bricks" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter"]
+[node name="Bricks" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter" unique_id=1724088582]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Bricks"]
+[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Bricks" unique_id=1404055365]
 layout_mode = 2
 text = "AUTOGET_BRICKS"
 
-[node name="Level" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Bricks"]
+[node name="AutoBricks" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Bricks" unique_id=1474554849]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 rounded = true
 
-[node name="Gems" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter"]
+[node name="Gems" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter" unique_id=1032946595]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Gems"]
+[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Gems" unique_id=861818692]
 layout_mode = 2
 text = "AUTOGET_GEMS"
 
-[node name="Level" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Gems"]
+[node name="AutoGems" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Gems" unique_id=1375075761]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 rounded = true
 
-[node name="Recruits" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter"]
+[node name="Recruits" type="HBoxContainer" parent="Tab/PlayConditions/Container/AutoGetter" unique_id=854740298]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Recruits"]
+[node name="Label" type="Label" parent="Tab/PlayConditions/Container/AutoGetter/Recruits" unique_id=764797008]
 layout_mode = 2
 text = "AUTOGET_RECRUITS"
 
-[node name="Level" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Recruits"]
+[node name="AutoRecruits" type="SpinBox" parent="Tab/PlayConditions/Container/AutoGetter/Recruits" unique_id=1470368810]
+unique_name_in_owner = true
 layout_mode = 2
 max_value = 5.0
 rounded = true
 
-[node name="Split" type="VSplitContainer" parent="Tab/PlayConditions/Container"]
+[node name="Split" type="VSplitContainer" parent="Tab/PlayConditions/Container" unique_id=811322432]
 custom_minimum_size = Vector2(200, 15)
 layout_mode = 2
 
-[node name="Other" type="VBoxContainer" parent="Tab/PlayConditions/Container"]
+[node name="Other" type="VBoxContainer" parent="Tab/PlayConditions/Container" unique_id=1670007964]
 layout_mode = 2
 
-[node name="CardsInHand" type="HBoxContainer" parent="Tab/PlayConditions/Container/Other"]
+[node name="CardsInHand" type="HBoxContainer" parent="Tab/PlayConditions/Container/Other" unique_id=748846905]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayConditions/Container/Other/CardsInHand"]
+[node name="Label" type="Label" parent="Tab/PlayConditions/Container/Other/CardsInHand" unique_id=696179585]
 layout_mode = 2
 text = "CARDS_IN_HAND"
 
-[node name="Level" type="SpinBox" parent="Tab/PlayConditions/Container/Other/CardsInHand"]
+[node name="CardsInHand" type="SpinBox" parent="Tab/PlayConditions/Container/Other/CardsInHand" unique_id=1581891880]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 3.0
 max_value = 7.0
 value = 5.0
 rounded = true
 
-[node name="Ai" type="HBoxContainer" parent="Tab/PlayConditions/Container/Other"]
+[node name="Ai" type="HBoxContainer" parent="Tab/PlayConditions/Container/Other" unique_id=328782810]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayConditions/Container/Other/Ai"]
+[node name="Label" type="Label" parent="Tab/PlayConditions/Container/Other/Ai" unique_id=1756597481]
 layout_mode = 2
 text = "AI_LEVEL"
 
-[node name="Mode" type="OptionButton" parent="Tab/PlayConditions/Container/Other/Ai"]
+[node name="AiMode" type="OptionButton" parent="Tab/PlayConditions/Container/Other/Ai" unique_id=1463342625]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 selected = 0
@@ -463,115 +492,121 @@ popup/item_2/id = 2
 popup/item_3/text = "AI_RANDOM"
 popup/item_3/id = 3
 
-[node name="VictoryConditions" type="CenterContainer" parent="Tab"]
+[node name="VictoryConditions" type="CenterContainer" parent="Tab" unique_id=962868606]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
 
-[node name="Container" type="VBoxContainer" parent="Tab/VictoryConditions"]
+[node name="Container" type="VBoxContainer" parent="Tab/VictoryConditions" unique_id=969042603]
 layout_mode = 2
 
-[node name="TowerVictory" type="HBoxContainer" parent="Tab/VictoryConditions/Container"]
+[node name="TowerVictory" type="HBoxContainer" parent="Tab/VictoryConditions/Container" unique_id=129065405]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/VictoryConditions/Container/TowerVictory"]
+[node name="Label" type="Label" parent="Tab/VictoryConditions/Container/TowerVictory" unique_id=1057266970]
 layout_mode = 2
 text = "TOWER_VICTORY"
 
-[node name="Level" type="SpinBox" parent="Tab/VictoryConditions/Container/TowerVictory"]
+[node name="TowerVictory" type="SpinBox" parent="Tab/VictoryConditions/Container/TowerVictory" unique_id=541992053]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 25.0
 max_value = 200.0
 value = 100.0
 rounded = true
 
-[node name="ResourceVictory" type="HBoxContainer" parent="Tab/VictoryConditions/Container"]
+[node name="ResourceVictory" type="HBoxContainer" parent="Tab/VictoryConditions/Container" unique_id=123072396]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/VictoryConditions/Container/ResourceVictory"]
+[node name="Label" type="Label" parent="Tab/VictoryConditions/Container/ResourceVictory" unique_id=577843577]
 layout_mode = 2
 text = "RESOURCE_VICTORY"
 
-[node name="Level" type="SpinBox" parent="Tab/VictoryConditions/Container/ResourceVictory"]
+[node name="ResourceVictory" type="SpinBox" parent="Tab/VictoryConditions/Container/ResourceVictory" unique_id=1228762535]
+unique_name_in_owner = true
 layout_mode = 2
 min_value = 50.0
 max_value = 1000.0
 value = 300.0
 rounded = true
 
-[node name="TavernPresets" type="CenterContainer" parent="Tab"]
+[node name="TavernPresets" type="CenterContainer" parent="Tab" unique_id=1616857818]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 5
 
-[node name="Container" type="VBoxContainer" parent="Tab/TavernPresets"]
+[node name="Container" type="VBoxContainer" parent="Tab/TavernPresets" unique_id=2114863343]
 layout_mode = 2
 
-[node name="Preset" type="HBoxContainer" parent="Tab/TavernPresets/Container"]
+[node name="Preset" type="HBoxContainer" parent="Tab/TavernPresets/Container" unique_id=503243702]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/TavernPresets/Container/Preset"]
+[node name="Label" type="Label" parent="Tab/TavernPresets/Container/Preset" unique_id=1108098184]
 layout_mode = 2
 text = "TAVERN"
 
-[node name="Option" type="OptionButton" parent="Tab/TavernPresets/Container/Preset"]
+[node name="TavernPreset" type="OptionButton" parent="Tab/TavernPresets/Container/Preset" unique_id=842112897]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 
-[node name="LanguageSettings" type="CenterContainer" parent="Tab"]
+[node name="LanguageSettings" type="CenterContainer" parent="Tab" unique_id=1271833191]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 6
 
-[node name="Container" type="VBoxContainer" parent="Tab/LanguageSettings"]
+[node name="Container" type="VBoxContainer" parent="Tab/LanguageSettings" unique_id=1847174499]
 custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
 
-[node name="Language" type="HBoxContainer" parent="Tab/LanguageSettings/Container"]
+[node name="Language" type="HBoxContainer" parent="Tab/LanguageSettings/Container" unique_id=1734915664]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/LanguageSettings/Container/Language"]
+[node name="Label" type="Label" parent="Tab/LanguageSettings/Container/Language" unique_id=844592906]
 layout_mode = 2
 text = "LANGUAGE"
 
-[node name="Option" type="OptionButton" parent="Tab/LanguageSettings/Container/Language"]
+[node name="Language" type="OptionButton" parent="Tab/LanguageSettings/Container/Language" unique_id=182502645]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 theme_override_constants/icon_max_width = 16
 
-[node name="TranslationErrors" type="Label" parent="Tab/LanguageSettings/Container"]
+[node name="TranslationErrors" type="Label" parent="Tab/LanguageSettings/Container" unique_id=107103656]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "TRANSLATION_MAY_CONTAIN_ERRORS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PlayerSettings" type="CenterContainer" parent="Tab"]
+[node name="PlayerSettings" type="CenterContainer" parent="Tab" unique_id=608355648]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 7
 
-[node name="Container" type="VBoxContainer" parent="Tab/PlayerSettings"]
+[node name="Container" type="VBoxContainer" parent="Tab/PlayerSettings" unique_id=334743830]
 layout_mode = 2
 
-[node name="Nickname" type="HBoxContainer" parent="Tab/PlayerSettings/Container"]
+[node name="Nickname" type="HBoxContainer" parent="Tab/PlayerSettings/Container" unique_id=1952244801]
 layout_mode = 2
 alignment = 2
 
-[node name="Label" type="Label" parent="Tab/PlayerSettings/Container/Nickname"]
+[node name="Label" type="Label" parent="Tab/PlayerSettings/Container/Nickname" unique_id=2081888494]
 layout_mode = 2
 text = "NICKNAME"
 
-[node name="Edit" type="LineEdit" parent="Tab/PlayerSettings/Container/Nickname"]
+[node name="Nickname" type="LineEdit" parent="Tab/PlayerSettings/Container/Nickname" unique_id=1174234312]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(340, 0)
 layout_mode = 2
 text = "Player"
 
-[node name="Options" type="CenterContainer" parent="."]
+[node name="Options" type="CenterContainer" parent="." unique_id=453385348]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -585,42 +620,51 @@ offset_bottom = 177.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Grid" type="GridContainer" parent="Options"]
+[node name="Grid" type="GridContainer" parent="Options" unique_id=599143477]
 layout_mode = 2
 
-[node name="WindowSettings" type="Button" parent="Options/Grid"]
+[node name="WindowSettings" type="Button" parent="Options/Grid" unique_id=1321444573]
+unique_name_in_owner = true
 layout_mode = 2
 text = "WINDOW_SETTINGS"
 
-[node name="SoundSettings" type="Button" parent="Options/Grid"]
+[node name="SoundSettings" type="Button" parent="Options/Grid" unique_id=1073586067]
+unique_name_in_owner = true
 layout_mode = 2
 text = "SOUND_SETTINGS"
 
-[node name="StartingConditions" type="Button" parent="Options/Grid"]
+[node name="StartingConditions" type="Button" parent="Options/Grid" unique_id=1362840492]
+unique_name_in_owner = true
 layout_mode = 2
 text = "STARTING_CONDITIONS"
 
-[node name="PlayConditions" type="Button" parent="Options/Grid"]
+[node name="PlayConditions" type="Button" parent="Options/Grid" unique_id=831060352]
+unique_name_in_owner = true
 layout_mode = 2
 text = "PLAY_CONDITIONS"
 
-[node name="VictoryConditions" type="Button" parent="Options/Grid"]
+[node name="VictoryConditions" type="Button" parent="Options/Grid" unique_id=433508817]
+unique_name_in_owner = true
 layout_mode = 2
 text = "VICTORY_CONDITIONS"
 
-[node name="TavernPresets" type="Button" parent="Options/Grid"]
+[node name="TavernPresets" type="Button" parent="Options/Grid" unique_id=2019204635]
+unique_name_in_owner = true
 layout_mode = 2
 text = "TAVERN_PRESETS"
 
-[node name="LanguageSettings" type="Button" parent="Options/Grid"]
+[node name="LanguageSettings" type="Button" parent="Options/Grid" unique_id=86179657]
+unique_name_in_owner = true
 layout_mode = 2
 text = "LANGUAGE_SETTINGS"
 
-[node name="PlayerSettings" type="Button" parent="Options/Grid"]
+[node name="PlayerSettings" type="Button" parent="Options/Grid" unique_id=1746866805]
+unique_name_in_owner = true
 layout_mode = 2
 text = "PLAYER_SETTINGS"
 
-[node name="Reset" type="Button" parent="."]
+[node name="Reset" type="Button" parent="." unique_id=2063976667]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 48)
 layout_mode = 1
 anchors_preset = 2
@@ -633,7 +677,8 @@ offset_bottom = -20.0
 grow_vertical = 0
 text = "RESTORE_DEFAULTS"
 
-[node name="Close" type="Button" parent="."]
+[node name="Close" type="Button" parent="." unique_id=1705390823]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 48)
 layout_mode = 1
 anchors_preset = 3
@@ -649,12 +694,11 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "SAVE_AND_CLOSE"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_y8mj4")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=811335912]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_y8mj4")
 
-[node name="WorkInProgress" type="Label" parent="."]
+[node name="WorkInProgress" type="Label" parent="." unique_id=1333382280]
 visible = false
 modulate = Color(1, 1, 1, 0.247059)
 layout_mode = 1

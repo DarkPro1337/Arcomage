@@ -1,11 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Arcomage.Core;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
-
 namespace Arcomage.Managers;
 
 public record LocaleInfo(string Name, string DisplayName);

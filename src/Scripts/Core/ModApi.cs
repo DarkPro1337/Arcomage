@@ -1,7 +1,4 @@
-﻿using Arcomage.Data;
-using Arcomage.Logging;
-
-namespace Arcomage.Core;
+﻿namespace Arcomage.Core;
 
 public class ModApi
 {

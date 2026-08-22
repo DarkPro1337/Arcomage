@@ -1,6 +1,3 @@
-using Arcomage.Core;
-using Godot;
-
 namespace Arcomage.Gameplay;
 
 public partial class Table
@@ -47,6 +44,7 @@ public partial class MatchChat : Control
    {
       _log = GetNode<VBoxContainer>("Log/Messages");
       _input = GetNode<LineEdit>("Input");
+
       _input.TextSubmitted += OnTextSubmitted;
       _input.FocusExited += OnInputFocusExited;
    }

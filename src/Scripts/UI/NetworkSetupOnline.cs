@@ -1,9 +1,4 @@
-using System;
-using System.Threading.Tasks;
-using Arcomage.Core;
-using Arcomage.Gameplay;
 using Arcomage.Networking;
-using Godot;
 
 namespace Arcomage.UI;
 
@@ -45,7 +40,9 @@ public partial class NetworkSetup
       UpdateLobbyMeta();
    }
 
-   private async void OnFindMatchPressed()
+   private void OnFindMatchPressed() => _ = FindMatchAsync();
+
+   private async Task FindMatchAsync()
    {
       if (_onlineBusy || Global.Online == null)
          return;
@@ -78,7 +75,9 @@ public partial class NetworkSetup
       }
    }
 
-   private async void OnCreateRoomPressed()
+   private void OnCreateRoomPressed() => _ = CreateRoomAsync();
+
+   private async Task CreateRoomAsync()
    {
       if (_onlineBusy || Global.Online == null)
          return;
@@ -112,7 +111,9 @@ public partial class NetworkSetup
       }
    }
 
-   private async void OnJoinRoomPressed()
+   private void OnJoinRoomPressed() => _ = JoinRoomAsync();
+
+   private async Task JoinRoomAsync()
    {
       if (_onlineBusy || Global.Online == null)
          return;
@@ -152,12 +153,12 @@ public partial class NetworkSetup
       }
    }
 
-   private async void OnRetryOnlinePressed()
+   private void OnRetryOnlinePressed()
    {
       if (_onlineBusy || Global.Online == null)
          return;
 
-      await ConnectOnlineSession();
+      _ = ConnectOnlineSession();
    }
 
    private void OnCopyRoomCodePressed()
@@ -209,11 +210,8 @@ public partial class NetworkSetup
 
    private void OnNakamaPeersChanged()
    {
-      if (!GodotThread.IsMainThread())
-      {
-         CallDeferred(MethodName.OnNakamaPeersChanged);
+      if (DeferIfOffMainThread(MethodName.OnNakamaPeersChanged))
          return;
-      }
 
       AttachNakamaPeer();
       var previous = Players.Count;
@@ -225,11 +223,8 @@ public partial class NetworkSetup
 
    private void OnNakamaMatchReady()
    {
-      if (!GodotThread.IsMainThread())
-      {
-         CallDeferred(MethodName.OnNakamaMatchReady);
+      if (DeferIfOffMainThread(MethodName.OnNakamaMatchReady))
          return;
-      }
 
       AttachNakamaPeer();
       SyncNakamaPlayers();
@@ -242,11 +237,8 @@ public partial class NetworkSetup
 
    private void OnOnlineStatusChanged()
    {
-      if (!GodotThread.IsMainThread())
-      {
-         CallDeferred(MethodName.OnOnlineStatusChanged);
+      if (DeferIfOffMainThread(MethodName.OnOnlineStatusChanged))
          return;
-      }
 
       ApplyOnlineAvailability();
       RefreshLobbyStatus();
@@ -329,11 +321,8 @@ public partial class NetworkSetup
 
    private void OnNakamaMatchLeft()
    {
-      if (!GodotThread.IsMainThread())
-      {
-         CallDeferred(MethodName.OnNakamaMatchLeft);
+      if (DeferIfOffMainThread(MethodName.OnNakamaMatchLeft))
          return;
-      }
 
       if (!_usingNakama)
          return;

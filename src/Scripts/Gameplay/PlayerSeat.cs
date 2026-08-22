@@ -1,7 +1,3 @@
-using System;
-using Arcomage.Data;
-using Godot;
-
 namespace Arcomage.Gameplay;
 
 /// <summary>
@@ -10,7 +6,7 @@ namespace Arcomage.Gameplay;
 [GlobalClass]
 public partial class PlayerSeat : Node
 {
-   public static readonly Color[] SeatColors =
+   private static readonly Color[] _seatColors =
    [
       new(0.90f, 0.24f, 0.18f),
       new(0.42f, 0.48f, 0.98f),
@@ -59,10 +55,15 @@ public partial class PlayerSeat : Node
 
    private Control.GuiInputEventHandler _guiInputHandler;
    private bool _towerClickBound;
+   private bool _compactHud;
+   private ResourceHud _bricksHud;
+   private ResourceHud _gemsHud;
+   private ResourceHud _recruitsHud;
 
    public override void _Ready()
    {
       EnsureWired();
+      PackResourceHuds();
       BindTowerClick();
    }
 
@@ -98,6 +99,38 @@ public partial class PlayerSeat : Node
       RecruitsAltPanel = table.GetNodeOrNull<Panel>($"{prefix}RecruitsPanelAlt");
       RecruitsAltPerTurn = table.GetNodeOrNull<Label>($"{prefix}RecruitsPanelAlt/PerTurn");
       RecruitsAltTotal = table.GetNodeOrNull<Label>($"{prefix}RecruitsPanelAlt/Total");
+      PackResourceHuds();
+   }
+
+   private void PackResourceHuds()
+   {
+      _bricksHud = new ResourceHud
+      {
+         Panel = BricksPanel,
+         PerTurn = BricksPerTurn,
+         Total = BricksTotal,
+         AltPanel = BricksAltPanel,
+         AltPerTurn = BricksAltPerTurn,
+         AltTotal = BricksAltTotal
+      };
+      _gemsHud = new ResourceHud
+      {
+         Panel = GemsPanel,
+         PerTurn = GemsPerTurn,
+         Total = GemsTotal,
+         AltPanel = GemsAltPanel,
+         AltPerTurn = GemsAltPerTurn,
+         AltTotal = GemsAltTotal
+      };
+      _recruitsHud = new ResourceHud
+      {
+         Panel = RecruitsPanel,
+         PerTurn = RecruitsPerTurn,
+         Total = RecruitsTotal,
+         AltPanel = RecruitsAltPanel,
+         AltPerTurn = RecruitsAltPerTurn,
+         AltTotal = RecruitsAltTotal
+      };
    }
 
    public static Color ColorForSeat(int seatIndex)
@@ -105,7 +138,7 @@ public partial class PlayerSeat : Node
       if (seatIndex < 0)
          return Colors.White;
 
-      return SeatColors[seatIndex % SeatColors.Length];
+      return _seatColors[seatIndex % _seatColors.Length];
    }
 
    public void ApplyIdentity(int seatIndex)
@@ -125,9 +158,11 @@ public partial class PlayerSeat : Node
    public void ShowPrimaryResourcePanels(bool showPrimary)
    {
       EnsureWired();
-      SetPairVisible(BricksPanel, BricksAltPanel, showPrimary);
-      SetPairVisible(GemsPanel, GemsAltPanel, showPrimary);
-      SetPairVisible(RecruitsPanel, RecruitsAltPanel, showPrimary);
+      PackResourceHuds();
+
+      _bricksHud.ShowPrimary(showPrimary);
+      _gemsHud.ShowPrimary(showPrimary);
+      _recruitsHud.ShowPrimary(showPrimary);
    }
 
    public static PlayerSeat CreateExtra(Control parent, int extraIndex)
@@ -172,17 +207,18 @@ public partial class PlayerSeat : Node
          NameLabel?.Modulate = selected ? new Color(1f, 0.85f, 0.3f) : Colors.White;
    }
 
-   public void Apply(Player player)
+   public void Apply(Player player, string displayName = null)
    {
       if (player == null)
          return;
 
       EnsureWired();
 
-      NameLabel?.Text = player.Name + (player.Eliminated ? " ✕" : string.Empty) + (player.TeamId > 0 ? $"  [{player.TeamId}]" : string.Empty);
+      var name = displayName ?? player.Name;
+      NameLabel?.Text = name + (player.Eliminated ? " ✕" : string.Empty) + (player.TeamId > 0 ? $"  [{player.TeamId}]" : string.Empty);
       NameLabel?.AddThemeColorOverride("font_color", TowerColor);
 
-      if (TowerHp != null && WallHp != null && TowerHp == WallHp && Root != null)
+      if (_compactHud)
       {
          TowerHp.Text = $"T {player.TowerHp}   W {player.WallHp}";
          BricksTotal?.Text = $"{player.Bricks}/{player.Quarries}  {player.Gems}/{player.Magic}  {player.Recruits}/{player.Dungeons}";
@@ -190,21 +226,20 @@ public partial class PlayerSeat : Node
          return;
       }
 
+      PackResourceHuds();
+
       TowerHp?.Text = player.TowerHp.ToString();
       WallHp?.Text = player.WallHp.ToString();
 
-      SetPair(BricksPerTurn, BricksAltPerTurn, player.Quarries.ToString());
-      SetPair(BricksTotal, BricksAltTotal, player.Bricks.ToString());
-      SetPair(GemsPerTurn, GemsAltPerTurn, player.Magic.ToString());
-      SetPair(GemsTotal, GemsAltTotal, player.Gems.ToString());
-      SetPair(RecruitsPerTurn, RecruitsAltPerTurn, player.Dungeons.ToString());
-      SetPair(RecruitsTotal, RecruitsAltTotal, player.Recruits.ToString());
+      _bricksHud.Set(player.Quarries.ToString(), player.Bricks.ToString());
+      _gemsHud.Set(player.Magic.ToString(), player.Gems.ToString());
+      _recruitsHud.Set(player.Dungeons.ToString(), player.Recruits.ToString());
 
       if (Tower != null)
-         Table.SetStructureHeightPublic(Tower, player.TowerHp);
+         Table.SetStructureHeight(Tower, player.TowerHp);
 
       if (Wall != null)
-         Table.SetStructureHeightPublic(Wall, player.WallHp);
+         Table.SetStructureHeight(Wall, player.WallHp);
    }
 
    public Vector2 GetPlayOrigin()
@@ -220,16 +255,17 @@ public partial class PlayerSeat : Node
       if (Root != null && Tower == null)
          return Root;
 
+      PackResourceHuds();
       return resource switch
       {
          ResourceTypes.Tower => TowerHead ?? Tower,
          ResourceTypes.Wall => Wall,
-         ResourceTypes.Quarry => VisiblePanel(BricksPerTurn, BricksAltPerTurn),
-         ResourceTypes.Bricks => VisiblePanel(BricksTotal, BricksAltTotal),
-         ResourceTypes.Magic => VisiblePanel(GemsPerTurn, GemsAltPerTurn),
-         ResourceTypes.Gems => VisiblePanel(GemsTotal, GemsAltTotal),
-         ResourceTypes.Dungeon => VisiblePanel(RecruitsPerTurn, RecruitsAltPerTurn),
-         ResourceTypes.Recruits => VisiblePanel(RecruitsTotal, RecruitsAltTotal),
+         ResourceTypes.Quarry => _bricksHud?.VisiblePerTurn,
+         ResourceTypes.Bricks => _bricksHud?.VisibleTotal,
+         ResourceTypes.Magic => _gemsHud?.VisiblePerTurn,
+         ResourceTypes.Gems => _gemsHud?.VisibleTotal,
+         ResourceTypes.Dungeon => _recruitsHud?.VisiblePerTurn,
+         ResourceTypes.Recruits => _recruitsHud?.VisibleTotal,
          _ => null
       };
    }
@@ -283,6 +319,8 @@ public partial class PlayerSeat : Node
       BricksTotal = resources;
       GemsTotal = resources;
       RecruitsTotal = resources;
+      _compactHud = true;
+
       BindClick();
    }
 
@@ -296,36 +334,5 @@ public partial class PlayerSeat : Node
    {
       if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
          Clicked?.Invoke(PlayerId);
-   }
-
-   private static void SetPair(Label primary, Label alt, string text)
-   {
-      primary?.Text = text;
-      alt?.Text = text;
-   }
-
-   private static void SetPairVisible(CanvasItem primary, CanvasItem alt, bool showPrimary)
-   {
-      if (showPrimary)
-      {
-         primary?.Show();
-         alt?.Hide();
-      }
-      else
-      {
-         primary?.Hide();
-         alt?.Show();
-      }
-   }
-
-   private static Control VisiblePanel(Control primary, Control alt)
-   {
-      if (primary != null && primary.IsVisibleInTree())
-         return primary;
-
-      if (alt != null && alt.IsVisibleInTree())
-         return alt;
-
-      return primary ?? alt;
    }
 }

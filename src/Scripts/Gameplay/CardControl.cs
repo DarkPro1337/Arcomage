@@ -1,10 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Arcomage.Core;
-using Arcomage.Data;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
-
 namespace Arcomage.Gameplay;
 
 public partial class CardControl : Control
@@ -38,22 +31,22 @@ public partial class CardControl : Control
    private readonly RandomNumberGenerator _rng = new();
    private bool _faceDown;
 
-   public int CardIdx = -1;
-   public string CardId;
-   public string CardName;
-   public string CardDescription;
-   public int CardCost;
-   public CardType CardLayout;
-   public string CardArt;
-   public List<CardFeature> CardFeatures;
-   public List<ActionBase> CardActions;
+   public int CardIdx { get; set; } = -1;
+   public string CardId { get; set; }
+   public string CardName { get; set; }
+   public string CardDescription { get; set; }
+   public int CardCost { get; set; }
+   public CardType CardLayout { get; set; }
+   public string CardArt { get; set; }
+   public List<CardFeature> CardFeatures { get; set; }
+   public List<ActionBase> CardActions { get; set; }
 
-   public bool Preview;
-   public bool Discardable = true;
-   public bool Usable = true;
-   public bool BotUsable = true;
-   public bool Used;
-   public bool UiCardUppercaseText = false;
+   public bool Preview { get; set; }
+   public bool Discardable { get; set; } = true;
+   public bool Usable { get; set; } = true;
+   public bool BotUsable { get; set; } = true;
+   public bool Used { get; set; }
+   public bool UiCardUppercaseText { get; set; }
 
    public override void _Ready()
    {

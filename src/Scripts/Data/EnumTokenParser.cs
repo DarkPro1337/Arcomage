@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace Arcomage.Data;
@@ -9,8 +7,7 @@ public static class EnumTokenParser
    private static readonly Dictionary<Type, Dictionary<string, object>> _cache = new();
    private static readonly Lock _cacheLock = new();
 
-   public static bool TryParseToken<TEnum>(string token, out TEnum value)
-      where TEnum : struct, Enum
+   public static bool TryParseToken<TEnum>(string token, out TEnum value) where TEnum : struct, Enum
    {
       value = default;
       if (string.IsNullOrWhiteSpace(token))

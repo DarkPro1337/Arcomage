@@ -1,5 +1,4 @@
 using Arcomage.UI;
-using Godot;
 
 namespace Arcomage.Gameplay;
 

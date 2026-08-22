@@ -84,7 +84,7 @@ ui_chat={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Locales/Cards.da.translation", "res://Locales/Cards.de.translation", "res://Locales/Cards.en.translation", "res://Locales/Cards.fr.translation", "res://Locales/Cards.pl.translation", "res://Locales/Cards.ru.translation", "res://Locales/Cards.uk.translation", "res://Locales/Interface.da.translation", "res://Locales/Interface.de.translation", "res://Locales/Interface.en.translation", "res://Locales/Interface.fr.translation", "res://Locales/Interface.pl.translation", "res://Locales/Interface.ru.translation", "res://Locales/Interface.uk.translation")
+locale/translations=PackedStringArray("res://Locales/Cards.da.translation", "res://Locales/Cards.de.translation", "res://Locales/Cards.en.translation", "res://Locales/Cards.fr.translation", "res://Locales/Cards.pl.translation", "res://Locales/Cards.ru.translation", "res://Locales/Cards.uk.translation", "res://Locales/Interface.da.translation", "res://Locales/Interface.de.translation", "res://Locales/Interface.en.translation", "res://Locales/Interface.fr.translation", "res://Locales/Interface.pl.translation", "res://Locales/Interface.ru.translation", "res://Locales/Interface.uk.translation", "res://Locales/Online.da.translation", "res://Locales/Online.de.translation", "res://Locales/Online.en.translation", "res://Locales/Online.fr.translation", "res://Locales/Online.pl.translation", "res://Locales/Online.ru.translation", "res://Locales/Online.uk.translation")
 rendering/text_driver="ICU / HarfBuzz / Graphite (Built-in)"
 
 [rendering]

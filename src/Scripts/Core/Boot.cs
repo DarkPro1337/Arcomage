@@ -1,6 +1,4 @@
 using Arcomage.Networking;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
 
 namespace Arcomage.Core;
 

@@ -1,9 +1,3 @@
-using System;
-using System.Threading.Tasks;
-using Arcomage.Core;
-using Godot;
-using Logger = Arcomage.Logging.Logger;
-
 namespace Arcomage.UI;
 
 public partial class MainMenu : Control
@@ -101,11 +95,9 @@ public partial class MainMenu : Control
    private void ReadCommandLine()
    {
       var args = Global.GetCommandLineArgs();
-      if (!args.TryGetValue("playerName", out var name))
+      if (!args.TryGetValue("playerName", out var name) || string.IsNullOrWhiteSpace(name))
          return;
 
-      _logger.Debug("Player name from command line: " + name);
-      Config.Settings.Nickname = name;
       SettingsMenu.UpdateControls();
       DisplayServer.WindowSetTitle($"Arcomage - {name}");
    }

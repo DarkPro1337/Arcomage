@@ -8,13 +8,6 @@ public enum CardType
    None
 }
 
-public enum CardsUse
-{
-   Attack,
-   Defence,
-   Resource
-}
-
 public enum CardFeature
 {
    PlayAgain,
@@ -43,16 +36,6 @@ public enum TargetType
    HighestWall,
    LowestTower,
    HighestTower
-}
-
-public enum ConditionType
-{
-   LessThan,
-   GreaterThan,
-   Equals,
-   NotEquals,
-   GreaterThanOrEqual,
-   LessThanOrEqual
 }
 
 public enum ResourceTypes
@@ -89,11 +72,4 @@ public enum ResourceTypes
    LowestGems,
    LowestDungeon,
    LowestRecruits
-}
-
-public enum ActionType
-{
-   Default,
-   Conditional,
-   Swap,
 }
