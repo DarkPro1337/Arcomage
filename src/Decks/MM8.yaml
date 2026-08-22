@@ -800,12 +800,12 @@ cards:
   
   - id: troll_trainer
     name: Troll Trainer
-    description: +2 Damage
+    description: +2 Dungeon
     type: recruit
     cost: 7
     pic: ../Sprites/Cards/troll_trainer.png
     actions:
-      - self.Damage(2)
+      - self.Dungeon.Gain(2)
   
   - id: tower_gremlin
     name: Tower Gremlin
