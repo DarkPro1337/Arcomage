@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://pf60pwmtga7l"]
+[gd_scene format=3 uid="uid://pf60pwmtga7l"]
 
 [ext_resource type="Texture2D" uid="uid://dq2pgm0muw18t" path="res://Images/BackgroundDarkBlur.png" id="1_31tdg"]
 
-[node name="leaderboard" type="Control"]
+[node name="Leaders" type="Control" unique_id=521990944]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,10 +10,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="bg" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=164820608]
+modulate = Color(0.6255971, 0.6255971, 0.6255971, 1)
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource("1_31tdg")
 expand_mode = 1
-stretch_mode = 7

@@ -122,7 +122,7 @@ offset_right = 103.0
 offset_bottom = 32.0
 theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
 theme_override_font_sizes/font_size = 12
-text = "player_name"
+text = "RED"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
@@ -145,7 +145,7 @@ offset_right = 96.0
 offset_bottom = 32.0
 theme_override_colors/font_color = Color(0.678431, 0.682353, 0.129412, 1)
 theme_override_font_sizes/font_size = 12
-text = "enemy_name"
+text = "BLU"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
@@ -1100,6 +1100,7 @@ autostart = true
 
 [node name="MatchChat" parent="." unique_id=1847293847 instance=ExtResource("27_chatui")]
 layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="InGameMenu" parent="." unique_id=899424930 instance=ExtResource("25_ln0tp")]
 visible = false
