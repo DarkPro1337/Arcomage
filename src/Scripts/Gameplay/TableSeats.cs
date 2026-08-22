@@ -168,15 +168,94 @@ public partial class Table
             continue;
          }
 
-         var hidden = new HBoxContainer
-         {
-            Name = $"Hand_{playerId}",
-            Visible = false
-         };
-
-         _handsRoot.AddChild(hidden);
-         _handByPlayer[playerId] = hidden;
+         _handByPlayer[playerId] = CreateHiddenHand(playerId);
       }
+   }
+
+   private HBoxContainer CreateHiddenHand(long playerId)
+   {
+      var hidden = new HBoxContainer
+      {
+         Name = $"Hand_{playerId}",
+         Visible = false
+      };
+
+      _handsRoot.AddChild(hidden);
+      return hidden;
+   }
+
+   /// <summary>
+   /// Shows the current player's cards on RedDeck (local) or BlueDeck (everyone else).
+   /// Extra seats store unused hands off-screen; without this swap those turns look empty.
+   /// </summary>
+   private void PresentTurnHand()
+   {
+      if (_animating || _turnPlayerId == 0)
+         return;
+
+      EnsureHandContainers();
+      if (!_handByPlayer.TryGetValue(_turnPlayerId, out var turnDeck))
+         return;
+
+      if (turnDeck == RedDeck || turnDeck == BlueDeck)
+         return;
+
+      var blueOwner = GetBlueDeckOwner();
+      if (blueOwner == 0)
+      {
+         MoveHandChildren(turnDeck, BlueDeck);
+         _handByPlayer[_turnPlayerId] = BlueDeck;
+         return;
+      }
+
+      SwapHandChildren(turnDeck, BlueDeck);
+      _handByPlayer[_turnPlayerId] = BlueDeck;
+      _handByPlayer[blueOwner] = turnDeck;
+   }
+
+   private long GetBlueDeckOwner()
+   {
+      foreach (var (id, deck) in _handByPlayer)
+      {
+         if (deck == BlueDeck)
+            return id;
+      }
+
+      return 0;
+   }
+
+   private static void SwapHandChildren(HBoxContainer left, HBoxContainer right)
+   {
+      if (left == null || right == null || left == right)
+         return;
+
+      var fromLeft = DetachHandChildren(left);
+      var fromRight = DetachHandChildren(right);
+      AttachHandChildren(left, fromRight);
+      AttachHandChildren(right, fromLeft);
+   }
+
+   private static void MoveHandChildren(HBoxContainer from, HBoxContainer to)
+   {
+      if (from == null || to == null || from == to)
+         return;
+
+      AttachHandChildren(to, DetachHandChildren(from));
+   }
+
+   private static List<Node> DetachHandChildren(HBoxContainer deck)
+   {
+      var children = deck.GetChildren().ToList();
+      foreach (var child in children)
+         deck.RemoveChild(child);
+
+      return children;
+   }
+
+   private static void AttachHandChildren(HBoxContainer deck, List<Node> children)
+   {
+      foreach (var child in children)
+         deck.AddChild(child);
    }
 
    private void BindSeatHuds(bool apply = true)

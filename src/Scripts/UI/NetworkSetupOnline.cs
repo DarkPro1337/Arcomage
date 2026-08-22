@@ -10,6 +10,7 @@ namespace Arcomage.UI;
 public partial class NetworkSetup
 {
    private bool _usingNakama;
+   private bool _startingGame;
    private bool _onlineBusy;
    private int _maxPlayers = 2;
    private MatchMode _mode = MatchMode.OneVsOne;

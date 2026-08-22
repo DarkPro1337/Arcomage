@@ -359,6 +359,10 @@ public partial class NetworkSetup : Control
    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
    private void StartGame()
    {
+      if (_startingGame || Level.GetChildCount() > 0)
+         return;
+
+      _startingGame = true;
       SetupCenter.Hide();
       LobbyCenter.Hide();
 
@@ -368,6 +372,12 @@ public partial class NetworkSetup : Control
 
    private void ChangeLevel(PackedScene scene)
    {
+      if (scene == null || Level.GetChildCount() > 0)
+      {
+         _logger.Debug("ChangeLevel skipped");
+         return;
+      }
+
       _logger.Debug("Calling ChangeLevel");
       RemoveOldLevel();
       Level.AddChild(scene.Instantiate());
@@ -509,6 +519,7 @@ public partial class NetworkSetup : Control
       }
 
       _usingNakama = false;
+      _startingGame = false;
       if (Global.Online != null)
          _ = Global.Online.LeaveMatch();
 

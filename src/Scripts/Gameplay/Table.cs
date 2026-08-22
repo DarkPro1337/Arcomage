@@ -270,14 +270,6 @@ public partial class Table : Control
       UnbindOnlineSync();
       UnbindDisconnectSignals();
       UnbindPeerConnected();
-
-      if (!_leavingMatch && Global.Online is { IsInMatch: true })
-      {
-         if (Multiplayer.MultiplayerPeer is not OfflineMultiplayerPeer)
-            Multiplayer.MultiplayerPeer = new OfflineMultiplayerPeer();
-
-         _ = Global.Online.LeaveMatch();
-      }
    }
 
    private string[] BuildRandomHandIds(int count)
@@ -566,7 +558,7 @@ public partial class Table : Control
 
    private void TryEndMatchAfterDisconnect()
    {
-      if (_gameOver || _leavingMatch)
+      if (_gameOver || _leavingMatch || !_gameStarted)
          return;
 
       var humans = Players.Values.Count(player => !player.Ai);
@@ -595,14 +587,9 @@ public partial class Table : Control
       if (!Players.TryGetValue(playerId, out var player))
          return;
 
-      if (_turnPlayerId == playerId)
-      {
-         UpdateDeckVisibility();
-         HighlightCurrentTurn();
-         return;
-      }
+      if (_turnPlayerId != playerId)
+         _logger.Debug("Setting turn to {PlayerName}", player.Name);
 
-      _logger.Debug("Setting turn to {PlayerName}", player.Name);
       _turnPlayerId = playerId;
       RefreshVisibleSeats();
       UpdateDeckVisibility();
@@ -613,6 +600,8 @@ public partial class Table : Control
    {
       if (Players.Count == 0)
          return;
+
+      PresentTurnHand();
 
       foreach (var (playerId, deck) in _handByPlayer)
       {
